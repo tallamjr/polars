@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":[["CategoricalOrdering",""]],"struct":[["CategoricalNameSpace","Specialized expressions for Categorical dtypes."]]};

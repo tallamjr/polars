@@ -1,0 +1,6 @@
+﻿polars.internals.dataframe.pivot.PivotOps.sum
+=============================================
+
+.. currentmodule:: polars.internals.dataframe.pivot
+
+.. automethod:: PivotOps.sum

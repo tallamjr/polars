@@ -1,0 +1,6 @@
+﻿polars.Expr.dt.cast_time_zone
+=============================
+
+.. currentmodule:: polars
+
+.. autoaccessormethod:: Expr.dt.cast_time_zone

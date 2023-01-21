@@ -1,0 +1,6 @@
+﻿polars.internals.dataframe.groupby.GroupBy.mean
+===============================================
+
+.. currentmodule:: polars.internals.dataframe.groupby
+
+.. automethod:: GroupBy.mean

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":[["validate_utf8","Validation implementation for CPUs supporting the SIMD extension (see module)."]],"struct":[["ChunkedUtf8ValidatorImp","Low-level implementation of the [`basic::imp::ChunkedUtf8Validator`] trait."],["Utf8ValidatorImp","Low-level implementation of the [`basic::imp::Utf8Validator`] trait."]]};

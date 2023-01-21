@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["DumpGenerator","Simple dump Generator"],["PrettyGenerator","Pretty Generator"],["PrettyWriterGenerator","Pretty Writer Generator"],["WriterGenerator","Writer Generator"]],"trait":[["BaseGenerator","Base generator trait"]]};

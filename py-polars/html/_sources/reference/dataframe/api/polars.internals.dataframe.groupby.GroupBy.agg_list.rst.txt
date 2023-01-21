@@ -1,0 +1,6 @@
+﻿polars.internals.dataframe.groupby.GroupBy.agg\_list
+====================================================
+
+.. currentmodule:: polars.internals.dataframe.groupby
+
+.. automethod:: GroupBy.agg_list

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":[["avx2","Includes the validation implementation for AVX 2-compatible CPUs."],["sse42","Includes the validation implementation for SSE 4.2-compatible CPUs."]]};

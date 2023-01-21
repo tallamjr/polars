@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":[["NULL",""]],"enum":[["LiteralValue",""],["LogicalPlan",""]],"struct":[["AnonymousScanOptions",""],["Duration",""],["IpcWriterOptions",""],["Null","The literal Null"],["ParquetWriteOptions",""],["RollingOptions",""]],"trait":[["AnonymousScan",""],["Literal",""]]};

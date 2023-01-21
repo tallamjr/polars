@@ -1,0 +1,6 @@
+﻿polars.internals.batched.BatchedCsvReader.next\_batches
+=======================================================
+
+.. currentmodule:: polars.internals.batched
+
+.. automethod:: BatchedCsvReader.next_batches

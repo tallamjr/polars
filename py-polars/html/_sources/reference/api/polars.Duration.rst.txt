@@ -1,0 +1,29 @@
+﻿polars.Duration
+===============
+
+.. currentmodule:: polars
+
+.. autoclass:: Duration
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Duration.__init__
+      ~Duration.string_repr
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Duration.tu
+   
+   

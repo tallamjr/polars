@@ -1,0 +1,6 @@
+﻿polars.internals.dataframe.pivot.PivotOps.first
+===============================================
+
+.. currentmodule:: polars.internals.dataframe.pivot
+
+.. automethod:: PivotOps.first
