@@ -1,5 +1,3 @@
 (function() {var implementors = {
-"num":[],
-"num_integer":[],
-"polars":[]
+"num_integer":[]
 };if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/src/physical_plan/expressions/window.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>window.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_lazy/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/src/physical_plan/expressions/window.rs`."><title>window.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_lazy/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -812,6 +812,13 @@
 <a href="#812" id="812">812</a>
 <a href="#813" id="813">813</a>
 <a href="#814" id="814">814</a>
+<a href="#815" id="815">815</a>
+<a href="#816" id="816">816</a>
+<a href="#817" id="817">817</a>
+<a href="#818" id="818">818</a>
+<a href="#819" id="819">819</a>
+<a href="#820" id="820">820</a>
+<a href="#821" id="821">821</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::fmt::Write;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -826,12 +833,12 @@
 <span class="kw">use </span>polars_core::utils::_split_offsets;
 <span class="kw">use </span>polars_core::utils::arrow::bitmap::MutableBitmap;
 <span class="kw">use </span>polars_core::{downcast_as_macro_arg_physical, POOL};
+<span class="kw">use </span>polars_utils::format_smartstring;
 <span class="kw">use </span>polars_utils::sort::perfect_sort;
 <span class="kw">use </span>polars_utils::sync::SyncPtr;
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">crate</span>::physical_plan::expression_err;
 <span class="kw">use </span><span class="kw">crate</span>::physical_plan::state::ExecutionState;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
@@ -857,13 +864,13 @@
     </span>Explode,
     <span class="comment">// will be exploded by subsequent `.flatten()` call
     </span>ExplodeLater,
-    <span class="comment">// Use an argsort to map the values back
+    <span class="comment">// Use an arg_sort to map the values back
     </span>Map,
     Nothing,
 }
 
 <span class="kw">impl </span>WindowExpr {
-    <span class="kw">fn </span>map_list_agg_by_argsort(
+    <span class="kw">fn </span>map_list_agg_by_arg_sort(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         out_column: Series,
         flattened: Series,
@@ -879,7 +886,7 @@
         // that saves an allocation
         </span><span class="kw">let </span><span class="kw-2">mut </span>take_idx = <span class="macro">vec!</span>[];
 
-        <span class="comment">// groups are not changed, we can map by doing a standard argsort.
+        <span class="comment">// groups are not changed, we can map by doing a standard arg_sort.
         </span><span class="kw">if </span>std::ptr::eq(ac.groups().as_ref(), gb.get_groups()) {
             <span class="kw">let </span><span class="kw-2">mut </span>iter = <span class="number">0</span>..flattened.len() <span class="kw">as </span>IdxSize;
             <span class="kw">match </span>ac.groups().as_ref() {
@@ -895,7 +902,7 @@
                 }
             }
         }
-        <span class="comment">// groups are changed, we use the new group indexes as arguments of the argsort
+        <span class="comment">// groups are changed, we use the new group indexes as arguments of the arg_sort
         // and sort by the old indexes
         </span><span class="kw">else </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>original_idx = Vec::with_capacity(out_column.len());
@@ -941,7 +948,7 @@
     }
 
     <span class="attr">#[allow(clippy::too_many_arguments)]
-    </span><span class="kw">fn </span>map_by_argsort(
+    </span><span class="kw">fn </span>map_by_arg_sort(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         df: <span class="kw-2">&amp;</span>DataFrame,
         out_column: Series,
@@ -952,10 +959,10 @@
         state: <span class="kw-2">&amp;</span>ExecutionState,
         cache_key: <span class="kw-2">&amp;</span>str,
     ) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="comment">// we use an argsort to map the values back
+        <span class="comment">// we use an arg_sort to map the values back
 
         // This is a bit more complicated because the final group tuples may differ from the original
-        // so we use the original indices as idx values to argsort the original column
+        // so we use the original indices as idx values to arg_sort the original column
         //
         // The example below shows the naive version without group tuple mapping
 
@@ -970,11 +977,11 @@
         //
         // [0, 2, 3, 1]
         //
-        // argsort
+        // arg_sort
         //
         // [0, 3, 1, 2]
         //
-        // take by argsorted indexes and voila groups mapped
+        // take by arg_sorted indexes and voila groups mapped
         // [0, 1, 2, 3]
 
         </span><span class="kw">if </span>flattened.len() != df.height() {
@@ -990,30 +997,26 @@
                         </span>}
                     });
 
-            <span class="kw">return if let </span><span class="prelude-val">Some</span>((output, group)) = non_matching_group {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>((output, group)) = non_matching_group {
                 <span class="kw">let </span>first = group.first();
                 <span class="kw">let </span>group = groupby_columns
                     .iter()
-                    .map(|s| <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, s.get(first <span class="kw">as </span>usize).unwrap()))
+                    .map(|s| <span class="macro">format_smartstring!</span>(<span class="string">&quot;{}&quot;</span>, s.get(first <span class="kw">as </span>usize).unwrap()))
                     .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-                <span class="kw">let </span>err_msg = <span class="macro">format!</span>(
-                    <span class="string">&quot;{}\n&gt; Group: &quot;</span>,
-                    <span class="string">&quot;The length of the window expression did not match that of the group.&quot;
-                </span>);
-                <span class="kw">let </span>err_msg = column_delimited(err_msg, <span class="kw-2">&amp;</span>group);
-                <span class="kw">let </span>err_msg = <span class="macro">format!</span>(
-                    <span class="string">&quot;{}\n&gt; Group length: {}\n&gt; Output: &#39;{:?}&#39;&quot;</span>,
-                    err_msg,
-                    group.len(),
-                    output.unwrap()
+                <span class="macro">polars_bail!</span>(
+                    expr = <span class="self">self</span>.expr, ComputeError:
+                    <span class="string">&quot;the length of the window expression did not match that of the group\
+                    \n&gt; group: {}\n&gt; group length: {}\n&gt; output: &#39;{:?}&#39;&quot;</span>,
+                    comma_delimited(String::new(), <span class="kw-2">&amp;</span>group), group.len(), output.unwrap()
                 );
-                <span class="prelude-val">Err</span>(<span class="macro">expression_err!</span>(err_msg, <span class="self">self</span>.expr, ComputeError))
             } <span class="kw">else </span>{
-                <span class="kw">let </span>msg = <span class="string">&quot;The length of the window expression did not match that of the group.&quot;</span>;
-                <span class="prelude-val">Err</span>(<span class="macro">expression_err!</span>(msg, <span class="self">self</span>.expr, ComputeError))
+                <span class="macro">polars_bail!</span>(
+                    expr = <span class="self">self</span>.expr, ComputeError:
+                    <span class="string">&quot;the length of the window expression did not match that of the group&quot;
+                </span>);
             };
         }
-        <span class="self">self</span>.map_list_agg_by_argsort(out_column, flattened, ac, gb, state, cache_key)
+        <span class="self">self</span>.map_list_agg_by_arg_sort(out_column, flattened, ac, gb, state, cache_key)
     }
 
     <span class="kw">fn </span>run_aggregation&lt;<span class="lifetime">&#39;a</span>&gt;(
@@ -1055,6 +1058,7 @@
                 explicit_list = finishes_list;
             }
         }
+
         explicit_list
     }
 
@@ -1148,8 +1152,10 @@
             </span>(<span class="bool-val">true</span>, <span class="bool-val">true</span>, <span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(MapStrategy::ExplodeLater),
             <span class="comment">// Explode all the aggregated lists. Maybe add later?
             </span>(<span class="bool-val">true</span>, <span class="bool-val">false</span>, <span class="kw">_</span>) =&gt; {
-                <span class="kw">let </span>msg = <span class="string">&quot;This operation is likely not what you want (you may need &#39;.list()&#39;). Please open an issue if you really want to do this&quot;</span>;
-                <span class="prelude-val">Err</span>(<span class="macro">expression_err!</span>(msg, <span class="self">self</span>.expr, ComputeError))
+                <span class="macro">polars_bail!</span>(
+                    expr = <span class="self">self</span>.expr, ComputeError:
+                    <span class="string">&quot;this operation is likely not what you want (you may need `.list()`)&quot;
+                </span>);
             }
             <span class="comment">// explicit list
             // `(col(&quot;x&quot;).sum() * col(&quot;y&quot;)).list().over(&quot;groups&quot;)`
@@ -1237,6 +1243,16 @@
             )
         });
         <span class="kw">let </span>explicit_list_agg = <span class="self">self</span>.is_explicit_list_agg();
+
+        <span class="comment">// A `sort()` in a window function is one level flatter
+        // Assume we have column a : i32
+        // than a sort in a groupby. A groupby sorts the groups and returns array: list[i32]
+        // whereas a window function returns array: i32
+        // So a `sort().list()` in a groupby returns: list[list[i32]]
+        // whereas in a window function would return: list[i32]
+        </span><span class="kw">if </span>explicit_list_agg {
+            state.set_finalize_window_as_list();
+        }
 
         <span class="comment">// if we flatten this column we need to make sure the groups are sorted.
         </span><span class="kw">let </span><span class="kw-2">mut </span>sort_groups = <span class="self">self</span>.options.explode ||
@@ -1339,7 +1355,7 @@
                 </span><span class="kw">let </span>ac = <span class="kw">unsafe </span>{
                     std::mem::transmute::&lt;AggregationContext&lt;<span class="lifetime">&#39;_</span>&gt;, AggregationContext&lt;<span class="lifetime">&#39;static</span>&gt;&gt;(ac)
                 };
-                <span class="self">self</span>.map_by_argsort(
+                <span class="self">self</span>.map_by_arg_sort(
                     df,
                     out_column,
                     flattened,
@@ -1354,7 +1370,7 @@
                 <span class="kw">let </span>out_column = ac.aggregated();
                 <span class="comment">// we try to flatten/extend the array by repeating the aggregated value n times
                 // where n is the number of members in that group. That way we can try to reuse
-                // the same map by argsort logic as done for listed aggregations
+                // the same map by arg_sort logic as done for listed aggregations
                 </span><span class="kw">match </span>(
                     <span class="kw-2">&amp;</span>ac.update_groups,
                     set_by_groups(<span class="kw-2">&amp;</span>out_column, <span class="kw-2">&amp;</span>ac.groups, df.height()),
@@ -1425,9 +1441,7 @@
         _groups: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>GroupsProxy,
         _state: <span class="kw-2">&amp;</span>ExecutionState,
     ) -&gt; PolarsResult&lt;AggregationContext&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
-        <span class="prelude-val">Err</span>(PolarsError::InvalidOperation(
-            <span class="string">&quot;window expression not allowed in aggregation&quot;</span>.into(),
-        ))
+        <span class="macro">polars_bail!</span>(InvalidOperation: <span class="string">&quot;window expression not allowed in aggregation&quot;</span>);
     }
 
     <span class="kw">fn </span>as_expression(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Expr&gt; {
@@ -1627,4 +1641,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_lazy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_lazy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":[["PlTzAware","Utility struct to format a timezone aware datetime."]]};
+window.SIDEBAR_ITEMS = {"enum":["FloatFmt"],"fn":["fmt_decimal","set_float_fmt"],"struct":["PlTzAware"]};

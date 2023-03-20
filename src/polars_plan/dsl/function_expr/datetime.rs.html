@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/polars-plan/src/dsl/function_expr/datetime.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>datetime.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_plan/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/polars-plan/src/dsl/function_expr/datetime.rs`."><title>datetime.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_plan/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -277,7 +277,67 @@
 <a href="#277" id="277">277</a>
 <a href="#278" id="278">278</a>
 <a href="#279" id="279">279</a>
-</pre><pre class="rust"><code><span class="kw">use </span>polars_core::utils::arrow::temporal_conversions::SECONDS_IN_DAY;
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
+<a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+</pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+</span><span class="kw">use </span>chrono_tz::Tz;
+<span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+</span><span class="kw">use </span>polars_core::utils::arrow::temporal_conversions::parse_offset;
+<span class="kw">use </span>polars_core::utils::arrow::temporal_conversions::SECONDS_IN_DAY;
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
 
@@ -287,6 +347,7 @@
 #[derive(Clone, PartialEq, Debug, Eq, Hash)]
 </span><span class="kw">pub enum </span>TemporalFunction {
     Year,
+    IsLeapYear,
     IsoYear,
     Quarter,
     Month,
@@ -304,7 +365,7 @@
     Truncate(String, String),
     Round(String, String),
     <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-    </span>CastTimezone(TimeZone),
+    </span>CastTimezone(<span class="prelude-ty">Option</span>&lt;TimeZone&gt;),
     <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
     </span>TzLocalize(TimeZone),
     DateRange {
@@ -321,6 +382,7 @@
         <span class="kw">use </span>TemporalFunction::<span class="kw-2">*</span>;
         <span class="kw">let </span>s = <span class="kw">match </span><span class="self">self </span>{
             Year =&gt; <span class="string">&quot;year&quot;</span>,
+            IsLeapYear =&gt; <span class="string">&quot;is_leap_year&quot;</span>,
             IsoYear =&gt; <span class="string">&quot;iso_year&quot;</span>,
             Quarter =&gt; <span class="string">&quot;quarter&quot;</span>,
             Month =&gt; <span class="string">&quot;month&quot;</span>,
@@ -338,7 +400,7 @@
             Truncate(..) =&gt; <span class="string">&quot;truncate&quot;</span>,
             Round(..) =&gt; <span class="string">&quot;round&quot;</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-            </span>CastTimezone(<span class="kw">_</span>) =&gt; <span class="string">&quot;cast_timezone&quot;</span>,
+            </span>CastTimezone(<span class="kw">_</span>) =&gt; <span class="string">&quot;replace_timezone&quot;</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
             </span>TzLocalize(<span class="kw">_</span>) =&gt; <span class="string">&quot;tz_localize&quot;</span>,
             DateRange { .. } =&gt; <span class="kw">return </span><span class="macro">write!</span>(f, <span class="string">&quot;date_range&quot;</span>),
@@ -350,6 +412,9 @@
 
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>year(s: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
     s.year().map(|ca| ca.into_series())
+}
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>is_leap_year(s: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+    s.is_leap_year().map(|ca| ca.into_series())
 }
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>iso_year(s: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
     s.iso_year().map(|ca| ca.into_series())
@@ -393,48 +458,96 @@
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>timestamp(s: <span class="kw-2">&amp;</span>Series, tu: TimeUnit) -&gt; PolarsResult&lt;Series&gt; {
     s.timestamp(tu).map(|ca| ca.into_series())
 }
+
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>truncate(s: <span class="kw-2">&amp;</span>Series, every: <span class="kw-2">&amp;</span>str, offset: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Series&gt; {
     <span class="kw">let </span>every = Duration::parse(every);
     <span class="kw">let </span>offset = Duration::parse(offset);
-    <span class="kw">match </span>s.dtype() {
-        DataType::Datetime(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(s.datetime().unwrap().truncate(every, offset).into_series()),
-        DataType::Date =&gt; <span class="prelude-val">Ok</span>(s.date().unwrap().truncate(every, offset).into_series()),
-        dt =&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-            <span class="macro">format!</span>(<span class="string">&quot;expected date/datetime got {dt:?}&quot;</span>).into(),
-        )),
-    }
+    <span class="prelude-val">Ok</span>(<span class="kw">match </span>s.dtype() {
+        DataType::Datetime(<span class="kw">_</span>, tz) =&gt; <span class="kw">match </span>tz {
+            <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+            </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="kw">match </span>tz.parse::&lt;Tz&gt;() {
+                <span class="prelude-val">Ok</span>(tz) =&gt; s
+                    .datetime()
+                    .unwrap()
+                    .truncate(every, offset, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>tz))<span class="question-mark">?
+                    </span>.into_series(),
+                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(tz) {
+                    <span class="prelude-val">Ok</span>(tz) =&gt; s
+                        .datetime()
+                        .unwrap()
+                        .truncate(every, offset, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>tz))<span class="question-mark">?
+                        </span>.into_series(),
+                    <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(),
+                },
+            },
+            <span class="kw">_ </span>=&gt; s
+                .datetime()
+                .unwrap()
+                .truncate(every, offset, NO_TIMEZONE)<span class="question-mark">?
+                </span>.into_series(),
+        },
+        DataType::Date =&gt; s
+            .date()
+            .unwrap()
+            .truncate(every, offset, NO_TIMEZONE)<span class="question-mark">?
+            </span>.into_series(),
+        dt =&gt; <span class="macro">polars_bail!</span>(opq = round, got = dt, expected = <span class="string">&quot;date/datetime&quot;</span>),
+    })
 }
+
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>round(s: <span class="kw-2">&amp;</span>Series, every: <span class="kw-2">&amp;</span>str, offset: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Series&gt; {
     <span class="kw">let </span>every = Duration::parse(every);
     <span class="kw">let </span>offset = Duration::parse(offset);
-    <span class="kw">match </span>s.dtype() {
-        DataType::Datetime(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(s.datetime().unwrap().round(every, offset).into_series()),
-        DataType::Date =&gt; <span class="prelude-val">Ok</span>(s.date().unwrap().round(every, offset).into_series()),
-        dt =&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-            <span class="macro">format!</span>(<span class="string">&quot;expected date/datetime got {dt:?}&quot;</span>).into(),
-        )),
-    }
-}
-<span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>cast_timezone(s: <span class="kw-2">&amp;</span>Series, tz: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Series&gt; {
-    <span class="kw">let </span>ca = s.datetime()<span class="question-mark">?</span>;
-    ca.cast_time_zone(tz).map(|ca| ca.into_series())
+    <span class="prelude-val">Ok</span>(<span class="kw">match </span>s.dtype() {
+        DataType::Datetime(<span class="kw">_</span>, tz) =&gt; <span class="kw">match </span>tz {
+            <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+            </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="kw">match </span>tz.parse::&lt;Tz&gt;() {
+                <span class="prelude-val">Ok</span>(tz) =&gt; s
+                    .datetime()
+                    .unwrap()
+                    .round(every, offset, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>tz))<span class="question-mark">?
+                    </span>.into_series(),
+                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(tz) {
+                    <span class="prelude-val">Ok</span>(tz) =&gt; s
+                        .datetime()
+                        .unwrap()
+                        .round(every, offset, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>tz))<span class="question-mark">?
+                        </span>.into_series(),
+                    <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(),
+                },
+            },
+            <span class="kw">_ </span>=&gt; s
+                .datetime()
+                .unwrap()
+                .round(every, offset, NO_TIMEZONE)<span class="question-mark">?
+                </span>.into_series(),
+        },
+        DataType::Date =&gt; s
+            .date()
+            .unwrap()
+            .round(every, offset, NO_TIMEZONE)<span class="question-mark">?
+            </span>.into_series(),
+        dt =&gt; <span class="macro">polars_bail!</span>(opq = round, got = dt, expected = <span class="string">&quot;date/datetime&quot;</span>),
+    })
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>replace_timezone(s: <span class="kw-2">&amp;</span>Series, time_zone: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">let </span>ca = s.datetime()<span class="question-mark">?</span>;
+    ca.replace_time_zone(time_zone).map(|ca| ca.into_series())
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+#[deprecated(note = <span class="string">&quot;use replace_time_zone&quot;</span>)]
 </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>tz_localize(s: <span class="kw-2">&amp;</span>Series, tz: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Series&gt; {
     <span class="kw">let </span>ca = s.datetime()<span class="question-mark">?</span>.clone();
-    <span class="kw">match </span>ca.time_zone() {
-        <span class="prelude-val">Some</span>(tz) <span class="kw">if </span>tz == <span class="string">&quot;UTC&quot; </span>=&gt; {
-           <span class="prelude-val">Ok</span>(ca.with_time_zone(<span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>.into())).into_series())
-        }
-        <span class="prelude-val">Some</span>(tz) <span class="kw">if </span>!tz.is_empty() =&gt; {
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="string">&quot;Cannot localize a tz-aware datetime. Consider using &#39;dt.with_time_zone&#39; or &#39;dt.cast_time_zone&#39;&quot;</span>.into()))
-        },
-        <span class="kw">_ </span>=&gt; {
-            <span class="prelude-val">Ok</span>(ca.with_time_zone(<span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>.to_string())).cast_time_zone(tz)<span class="question-mark">?</span>.into_series())
-        }
-    }
+    <span class="macro">polars_ensure!</span>(
+        ca.time_zone().as_ref().map_or(<span class="bool-val">true</span>, |tz| tz.is_empty()),
+        ComputeError:
+        <span class="string">&quot;cannot localize a tz-aware datetime \
+        (consider using &#39;dt.convert_time_zone&#39; or &#39;dt.replace_time_zone&#39;)&quot;
+    </span>);
+    <span class="prelude-val">Ok</span>(ca.replace_time_zone(<span class="prelude-val">Some</span>(tz))<span class="question-mark">?</span>.into_series())
 }
 
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>date_range_dispatch(
@@ -447,11 +560,10 @@
     <span class="kw">let </span>start = <span class="kw-2">&amp;</span>s[<span class="number">0</span>];
     <span class="kw">let </span>stop = <span class="kw-2">&amp;</span>s[<span class="number">1</span>];
 
-    <span class="kw">if </span>start.len() != stop.len() {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-            <span class="string">&quot;&#39;start&#39; and &#39;stop&#39; should have the same length.&quot;</span>.into(),
-        ));
-    }
+    <span class="macro">polars_ensure!</span>(
+        start.len() == stop.len(),
+        ComputeError: <span class="string">&quot;&#39;start&#39; and &#39;stop&#39; should have the same length&quot;</span>,
+    );
     <span class="kw">const </span>TO_MS: i64 = SECONDS_IN_DAY * <span class="number">1000</span>;
 
     <span class="kw">if </span>start.len() == <span class="number">1 </span>&amp;&amp; stop.len() == <span class="number">1 </span>{
@@ -471,8 +583,8 @@
                     closed,
                     TimeUnit::Milliseconds,
                     tz.as_ref(),
-                )
-                .cast(<span class="kw-2">&amp;</span>DataType::Date)
+                )<span class="question-mark">?
+                </span>.cast(<span class="kw-2">&amp;</span>DataType::Date)
             }
             DataType::Datetime(tu, <span class="kw">_</span>) =&gt; {
                 <span class="kw">let </span>start = start.to_physical_repr();
@@ -481,8 +593,8 @@
                 <span class="kw">let </span>stop = stop.get(<span class="number">0</span>).unwrap().extract::&lt;i64&gt;().unwrap();
 
                 <span class="prelude-val">Ok</span>(
-                    date_range_impl(name, start, stop, every, closed, <span class="kw-2">*</span>tu, tz.as_ref())
-                        .into_series(),
+                    date_range_impl(name, start, stop, every, closed, <span class="kw-2">*</span>tu, tz.as_ref())<span class="question-mark">?
+                        </span>.into_series(),
                 )
             }
             <span class="kw">_ </span>=&gt; <span class="macro">unimplemented!</span>(),
@@ -518,7 +630,7 @@
                     <span class="kw">match </span>(start, stop) {
                         (<span class="prelude-val">Some</span>(start), <span class="prelude-val">Some</span>(stop)) =&gt; {
                             <span class="kw">let </span>date_range =
-                                date_range_impl(<span class="string">&quot;&quot;</span>, start, stop, every, closed, tu, tz);
+                                date_range_impl(<span class="string">&quot;&quot;</span>, start, stop, every, closed, tu, tz)<span class="question-mark">?</span>;
                             <span class="kw">let </span>date_range = date_range.cast(<span class="kw-2">&amp;</span>DataType::Date).unwrap();
                             <span class="kw">let </span>date_range = date_range.to_physical_repr();
                             <span class="kw">let </span>date_range = date_range.i32().unwrap();
@@ -541,7 +653,7 @@
                     <span class="kw">match </span>(start, stop) {
                         (<span class="prelude-val">Some</span>(start), <span class="prelude-val">Some</span>(stop)) =&gt; {
                             <span class="kw">let </span>date_range =
-                                date_range_impl(<span class="string">&quot;&quot;</span>, start, stop, every, closed, tu, tz);
+                                date_range_impl(<span class="string">&quot;&quot;</span>, start, stop, every, closed, tu, tz)<span class="question-mark">?</span>;
                             builder.append_slice(date_range.cont_slice().unwrap())
                         }
                         <span class="kw">_ </span>=&gt; builder.append_null(),
@@ -557,4 +669,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_plan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_plan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

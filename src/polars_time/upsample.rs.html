@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-time/src/upsample.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>upsample.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../polars_time/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-time/src/upsample.rs`."><title>upsample.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../polars_time/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -181,10 +181,34 @@
 <a href="#181" id="181">181</a>
 <a href="#182" id="182">182</a>
 <a href="#183" id="183">183</a>
-</pre><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
+<a href="#184" id="184">184</a>
+<a href="#185" id="185">185</a>
+<a href="#186" id="186">186</a>
+<a href="#187" id="187">187</a>
+<a href="#188" id="188">188</a>
+<a href="#189" id="189">189</a>
+<a href="#190" id="190">190</a>
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
+<a href="#193" id="193">193</a>
+<a href="#194" id="194">194</a>
+<a href="#195" id="195">195</a>
+<a href="#196" id="196">196</a>
+<a href="#197" id="197">197</a>
+<a href="#198" id="198">198</a>
+<a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
+</pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+</span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
+<span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_ops::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
+<span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::utils::unlocalize_timestamp;
 
 <span class="kw">pub trait </span>PolarsUpsample {
     <span class="doccomment">/// Upsample a DataFrame at a regular frequency.
@@ -323,16 +347,33 @@
     <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
     <span class="kw">match </span>index_column.dtype() {
         Datetime(tu, tz) =&gt; {
-            <span class="kw">let </span>s = index_column.cast(<span class="kw-2">&amp;</span>DataType::Int64).unwrap();
+            <span class="kw">let </span>s = index_column.cast(<span class="kw-2">&amp;</span>Int64).unwrap();
             <span class="kw">let </span>ca = s.i64().unwrap();
             <span class="kw">let </span>first = ca.into_iter().flatten().next();
             <span class="kw">let </span>last = ca.into_iter().flatten().next_back();
             <span class="kw">match </span>(first, last) {
                 (<span class="prelude-val">Some</span>(first), <span class="prelude-val">Some</span>(last)) =&gt; {
+                    <span class="kw">let </span>(first, last) = <span class="kw">match </span>tz {
+                        <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+                        </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="kw">match </span>tz.parse::&lt;chrono_tz::Tz&gt;() {
+                            <span class="prelude-val">Ok</span>(tz) =&gt; (
+                                unlocalize_timestamp(first, <span class="kw-2">*</span>tu, tz),
+                                unlocalize_timestamp(last, <span class="kw-2">*</span>tu, tz),
+                            ),
+                            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(tz) {
+                                <span class="prelude-val">Ok</span>(tz) =&gt; (
+                                    unlocalize_timestamp(first, <span class="kw-2">*</span>tu, tz),
+                                    unlocalize_timestamp(last, <span class="kw-2">*</span>tu, tz),
+                                ),
+                                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(),
+                            },
+                        },
+                        <span class="kw">_ </span>=&gt; (first, last),
+                    };
                     <span class="kw">let </span>first = <span class="kw">match </span>tu {
-                        TimeUnit::Nanoseconds =&gt; offset.add_ns(first),
-                        TimeUnit::Microseconds =&gt; offset.add_us(first),
-                        TimeUnit::Milliseconds =&gt; offset.add_ms(first),
+                        TimeUnit::Nanoseconds =&gt; offset.add_ns(first, NO_TIMEZONE)<span class="question-mark">?</span>,
+                        TimeUnit::Microseconds =&gt; offset.add_us(first, NO_TIMEZONE)<span class="question-mark">?</span>,
+                        TimeUnit::Milliseconds =&gt; offset.add_ms(first, NO_TIMEZONE)<span class="question-mark">?</span>,
                     };
                     <span class="kw">let </span>range = date_range_impl(
                         index_col_name,
@@ -341,10 +382,9 @@
                         every,
                         ClosedWindow::Both,
                         <span class="kw-2">*</span>tu,
-                        <span class="prelude-val">None</span>,
-                    )
-                    .with_time_zone(tz.clone())
-                    .into_series()
+                        tz.as_ref(),
+                    )<span class="question-mark">?
+                    </span>.into_series()
                     .into_frame();
                     range.join(
                         source,
@@ -354,15 +394,15 @@
                         <span class="prelude-val">None</span>,
                     )
                 }
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                    <span class="string">&quot;Cannot determine upsample boundaries. All elements are null.&quot;</span>.into(),
-                )),
+                <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(
+                    ComputeError: <span class="string">&quot;cannot determine upsample boundaries: all elements are null&quot;
+                </span>),
             }
         }
-        dt =&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-            <span class="macro">format!</span>(<span class="string">&quot;upsample not allowed for index_column of dtype {dt:?}&quot;</span>).into(),
-        )),
+        dt =&gt; <span class="macro">polars_bail!</span>(
+            ComputeError: <span class="string">&quot;upsample not allowed for index column of dtype {}&quot;</span>, dt,
+        ),
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

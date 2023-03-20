@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":[["xxh3","XXH3 implementation"]]};
+window.SIDEBAR_ITEMS = {"mod":["xxh3"]};

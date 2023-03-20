@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/polars-plan/src/dsl/function_expr/strings.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>strings.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_plan/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/polars-plan/src/dsl/function_expr/strings.rs`."><title>strings.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_plan/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -433,25 +433,161 @@
 <a href="#433" id="433">433</a>
 <a href="#434" id="434">434</a>
 <a href="#435" id="435">435</a>
+<a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
+<a href="#445" id="445">445</a>
+<a href="#446" id="446">446</a>
+<a href="#447" id="447">447</a>
+<a href="#448" id="448">448</a>
+<a href="#449" id="449">449</a>
+<a href="#450" id="450">450</a>
+<a href="#451" id="451">451</a>
+<a href="#452" id="452">452</a>
+<a href="#453" id="453">453</a>
+<a href="#454" id="454">454</a>
+<a href="#455" id="455">455</a>
+<a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
+<a href="#459" id="459">459</a>
+<a href="#460" id="460">460</a>
+<a href="#461" id="461">461</a>
+<a href="#462" id="462">462</a>
+<a href="#463" id="463">463</a>
+<a href="#464" id="464">464</a>
+<a href="#465" id="465">465</a>
+<a href="#466" id="466">466</a>
+<a href="#467" id="467">467</a>
+<a href="#468" id="468">468</a>
+<a href="#469" id="469">469</a>
+<a href="#470" id="470">470</a>
+<a href="#471" id="471">471</a>
+<a href="#472" id="472">472</a>
+<a href="#473" id="473">473</a>
+<a href="#474" id="474">474</a>
+<a href="#475" id="475">475</a>
+<a href="#476" id="476">476</a>
+<a href="#477" id="477">477</a>
+<a href="#478" id="478">478</a>
+<a href="#479" id="479">479</a>
+<a href="#480" id="480">480</a>
+<a href="#481" id="481">481</a>
+<a href="#482" id="482">482</a>
+<a href="#483" id="483">483</a>
+<a href="#484" id="484">484</a>
+<a href="#485" id="485">485</a>
+<a href="#486" id="486">486</a>
+<a href="#487" id="487">487</a>
+<a href="#488" id="488">488</a>
+<a href="#489" id="489">489</a>
+<a href="#490" id="490">490</a>
+<a href="#491" id="491">491</a>
+<a href="#492" id="492">492</a>
+<a href="#493" id="493">493</a>
+<a href="#494" id="494">494</a>
+<a href="#495" id="495">495</a>
+<a href="#496" id="496">496</a>
+<a href="#497" id="497">497</a>
+<a href="#498" id="498">498</a>
+<a href="#499" id="499">499</a>
+<a href="#500" id="500">500</a>
+<a href="#501" id="501">501</a>
+<a href="#502" id="502">502</a>
+<a href="#503" id="503">503</a>
+<a href="#504" id="504">504</a>
+<a href="#505" id="505">505</a>
+<a href="#506" id="506">506</a>
+<a href="#507" id="507">507</a>
+<a href="#508" id="508">508</a>
+<a href="#509" id="509">509</a>
+<a href="#510" id="510">510</a>
+<a href="#511" id="511">511</a>
+<a href="#512" id="512">512</a>
+<a href="#513" id="513">513</a>
+<a href="#514" id="514">514</a>
+<a href="#515" id="515">515</a>
+<a href="#516" id="516">516</a>
+<a href="#517" id="517">517</a>
+<a href="#518" id="518">518</a>
+<a href="#519" id="519">519</a>
+<a href="#520" id="520">520</a>
+<a href="#521" id="521">521</a>
+<a href="#522" id="522">522</a>
+<a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
+<span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+</span><span class="kw">use </span>once_cell::sync::Lazy;
 <span class="kw">use </span>polars_arrow::utils::CustomIterTools;
 <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
 </span><span class="kw">use </span>regex::{escape, Regex};
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
 
+<span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+</span><span class="kw">static </span>TZ_AWARE_RE: Lazy&lt;Regex&gt; = Lazy::new(|| Regex::new(<span class="string">r&quot;(%z)|(%:z)|(%#z)|(^%\+$)&quot;</span>).unwrap());
+
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="attr">#[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 #[derive(Clone, PartialEq, Debug, Eq, Hash)]
 </span><span class="kw">pub enum </span>StringFunction {
-    Contains {
-        pat: String,
+    <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
+    </span>Contains {
         literal: bool,
+        strict: bool,
     },
     StartsWith,
-    EndsWith(String),
+    EndsWith,
     Extract {
         pat: String,
         group_index: usize,
@@ -478,8 +614,9 @@
     </span>ConcatHorizontal(String),
     <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
     </span>Replace {
-        <span class="comment">// replace_single or replace_all
-        </span>all: bool,
+        <span class="comment">// negative is replace all
+        // how many matches to replace
+        </span>n: i64,
         literal: bool,
     },
     Uppercase,
@@ -487,15 +624,18 @@
     Strip(<span class="prelude-ty">Option</span>&lt;String&gt;),
     RStrip(<span class="prelude-ty">Option</span>&lt;String&gt;),
     LStrip(<span class="prelude-ty">Option</span>&lt;String&gt;),
+    <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
+    </span>FromRadix(u32, bool),
 }
 
 <span class="kw">impl </span>Display <span class="kw">for </span>StringFunction {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
         <span class="kw">use </span><span class="self">self</span>::<span class="kw-2">*</span>;
         <span class="kw">let </span>s = <span class="kw">match </span><span class="self">self </span>{
-            StringFunction::Contains { .. } =&gt; <span class="string">&quot;contains&quot;</span>,
+            <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
+            </span>StringFunction::Contains { .. } =&gt; <span class="string">&quot;contains&quot;</span>,
             StringFunction::StartsWith { .. } =&gt; <span class="string">&quot;starts_with&quot;</span>,
-            StringFunction::EndsWith(<span class="kw">_</span>) =&gt; <span class="string">&quot;ends_with&quot;</span>,
+            StringFunction::EndsWith { .. } =&gt; <span class="string">&quot;ends_with&quot;</span>,
             StringFunction::Extract { .. } =&gt; <span class="string">&quot;extract&quot;</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;string_justify&quot;</span>)]
             </span>StringFunction::Zfill(<span class="kw">_</span>) =&gt; <span class="string">&quot;zfill&quot;</span>,
@@ -518,6 +658,8 @@
             StringFunction::Strip(<span class="kw">_</span>) =&gt; <span class="string">&quot;strip&quot;</span>,
             StringFunction::LStrip(<span class="kw">_</span>) =&gt; <span class="string">&quot;lstrip&quot;</span>,
             StringFunction::RStrip(<span class="kw">_</span>) =&gt; <span class="string">&quot;rstrip&quot;</span>,
+            <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
+            </span>StringFunction::FromRadix { .. } =&gt; <span class="string">&quot;from_radix&quot;</span>,
         };
 
         <span class="macro">write!</span>(f, <span class="string">&quot;str.{s}&quot;</span>)
@@ -534,19 +676,81 @@
     <span class="prelude-val">Ok</span>(ca.to_lowercase().into_series())
 }
 
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>contains(s: <span class="kw-2">&amp;</span>Series, pat: <span class="kw-2">&amp;</span>str, literal: bool) -&gt; PolarsResult&lt;Series&gt; {
-    <span class="kw">let </span>ca = s.utf8()<span class="question-mark">?</span>;
-    <span class="kw">if </span>literal {
-        ca.contains_literal(pat).map(|ca| ca.into_series())
-    } <span class="kw">else </span>{
-        ca.contains(pat).map(|ca| ca.into_series())
-    }
+<span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>contains(s: <span class="kw-2">&amp;</span>[Series], literal: bool, strict: bool) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">let </span>ca = <span class="kw-2">&amp;</span>s[<span class="number">0</span>].utf8()<span class="question-mark">?</span>;
+    <span class="kw">let </span>pat = <span class="kw-2">&amp;</span>s[<span class="number">1</span>].utf8()<span class="question-mark">?</span>;
+
+    <span class="kw">let </span><span class="kw-2">mut </span>out: BooleanChunked = <span class="kw">match </span>pat.len() {
+        <span class="number">1 </span>=&gt; <span class="kw">match </span>pat.get(<span class="number">0</span>) {
+            <span class="prelude-val">Some</span>(pat) =&gt; {
+                <span class="kw">if </span>literal {
+                    ca.contains_literal(pat)<span class="question-mark">?
+                </span>} <span class="kw">else </span>{
+                    ca.contains(pat, strict)<span class="question-mark">?
+                </span>}
+            }
+            <span class="prelude-val">None </span>=&gt; BooleanChunked::full(ca.name(), <span class="bool-val">false</span>, ca.len()),
+        },
+        <span class="kw">_ </span>=&gt; {
+            <span class="kw">if </span>literal {
+                ca.into_iter()
+                    .zip(pat.into_iter())
+                    .map(|(opt_src, opt_val)| <span class="kw">match </span>(opt_src, opt_val) {
+                        (<span class="prelude-val">Some</span>(src), <span class="prelude-val">Some</span>(pat)) =&gt; src.contains(pat),
+                        <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
+                    })
+                    .collect_trusted()
+            } <span class="kw">else if </span>strict {
+                ca.into_iter()
+                    .zip(pat.into_iter())
+                    .map(|(opt_src, opt_val)| <span class="kw">match </span>(opt_src, opt_val) {
+                        (<span class="prelude-val">Some</span>(src), <span class="prelude-val">Some</span>(pat)) =&gt; {
+                            <span class="kw">let </span>re = Regex::new(pat)<span class="question-mark">?</span>;
+                            <span class="prelude-val">Ok</span>(re.is_match(src))
+                        }
+                        <span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>),
+                    })
+                    .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?
+            </span>} <span class="kw">else </span>{
+                ca.into_iter()
+                    .zip(pat.into_iter())
+                    .map(|(opt_src, opt_val)| <span class="kw">match </span>(opt_src, opt_val) {
+                        (<span class="prelude-val">Some</span>(src), <span class="prelude-val">Some</span>(pat)) =&gt; Regex::new(pat).ok().map(|re| re.is_match(src)),
+                        <span class="kw">_ </span>=&gt; <span class="prelude-val">Some</span>(<span class="bool-val">false</span>),
+                    })
+                    .collect_trusted()
+            }
+        }
+    };
+
+    out.rename(ca.name());
+    <span class="prelude-val">Ok</span>(out.into_series())
 }
 
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>ends_with(s: <span class="kw-2">&amp;</span>Series, sub: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Series&gt; {
-    <span class="kw">let </span>ca = s.utf8()<span class="question-mark">?</span>;
-    <span class="prelude-val">Ok</span>(ca.ends_with(sub).into_series())
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>ends_with(s: <span class="kw-2">&amp;</span>[Series]) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">let </span>ca = <span class="kw-2">&amp;</span>s[<span class="number">0</span>].utf8()<span class="question-mark">?</span>;
+    <span class="kw">let </span>sub = <span class="kw-2">&amp;</span>s[<span class="number">1</span>].utf8()<span class="question-mark">?</span>;
+
+    <span class="kw">let </span><span class="kw-2">mut </span>out: BooleanChunked = <span class="kw">match </span>sub.len() {
+        <span class="number">1 </span>=&gt; <span class="kw">match </span>sub.get(<span class="number">0</span>) {
+            <span class="prelude-val">Some</span>(s) =&gt; ca.ends_with(s),
+            <span class="prelude-val">None </span>=&gt; BooleanChunked::full(ca.name(), <span class="bool-val">false</span>, ca.len()),
+        },
+        <span class="kw">_ </span>=&gt; ca
+            .into_iter()
+            .zip(sub.into_iter())
+            .map(|(opt_src, opt_val)| <span class="kw">match </span>(opt_src, opt_val) {
+                (<span class="prelude-val">Some</span>(src), <span class="prelude-val">Some</span>(val)) =&gt; src.ends_with(val),
+                <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
+            })
+            .collect_trusted(),
+    };
+
+    out.rename(ca.name());
+    <span class="prelude-val">Ok</span>(out.into_series())
 }
+
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>starts_with(s: <span class="kw-2">&amp;</span>[Series]) -&gt; PolarsResult&lt;Series&gt; {
     <span class="kw">let </span>ca = <span class="kw-2">&amp;</span>s[<span class="number">0</span>].utf8()<span class="question-mark">?</span>;
     <span class="kw">let </span>sub = <span class="kw-2">&amp;</span>s[<span class="number">1</span>].utf8()<span class="question-mark">?</span>;
@@ -660,7 +864,7 @@
     <span class="kw">if </span>pat.len() == <span class="number">1 </span>{
         <span class="kw">let </span>pat = pat
             .get(<span class="number">0</span>)
-            .ok_or_else(|| PolarsError::ComputeError(<span class="string">&quot;Expected a pattern got null&quot;</span>.into()))<span class="question-mark">?</span>;
+            .ok_or_else(|| <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;expected a pattern, got null&quot;</span>))<span class="question-mark">?</span>;
         ca.extract_all(pat).map(|ca| ca.into_series())
     } <span class="kw">else </span>{
         ca.extract_all_many(pat).map(|ca| ca.into_series())
@@ -676,6 +880,16 @@
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
 </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>strptime(s: <span class="kw-2">&amp;</span>Series, options: <span class="kw-2">&amp;</span>StrpTimeOptions) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">let </span>tz_aware = <span class="kw">match </span>(options.tz_aware, <span class="kw-2">&amp;</span>options.fmt) {
+        (<span class="bool-val">true</span>, <span class="prelude-val">Some</span>(<span class="kw">_</span>)) =&gt; <span class="bool-val">true</span>,
+        (<span class="bool-val">true</span>, <span class="prelude-val">None</span>) =&gt; <span class="macro">polars_bail!</span>(
+            ComputeError:
+            <span class="string">&quot;passing &#39;tz_aware=True&#39; without &#39;fmt&#39; is not yet supported, please specify &#39;fmt&#39;&quot;
+        </span>),
+        <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+        </span>(<span class="bool-val">false</span>, <span class="prelude-val">Some</span>(fmt)) =&gt; TZ_AWARE_RE.is_match(fmt),
+        (<span class="bool-val">false</span>, <span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
+    };
     <span class="kw">let </span>ca = s.utf8()<span class="question-mark">?</span>;
 
     <span class="kw">let </span>out = <span class="kw">match </span><span class="kw-2">&amp;</span>options.date_dtype {
@@ -687,42 +901,53 @@
                 ca.as_date_not_exact(options.fmt.as_deref())<span class="question-mark">?</span>.into_series()
             }
         }
-        DataType::Datetime(tu, <span class="kw">_</span>) =&gt; {
+        DataType::Datetime(tu, tz) =&gt; {
+            <span class="kw">let </span>tz = <span class="kw">match </span>(tz, tz_aware, options.utc) {
+                (<span class="prelude-val">Some</span>(tz), <span class="bool-val">false</span>, <span class="bool-val">false</span>) =&gt; <span class="prelude-val">Some</span>(tz.clone()),
+                (<span class="prelude-val">Some</span>(<span class="kw">_</span>), <span class="bool-val">true</span>, <span class="kw">_</span>) =&gt; <span class="macro">polars_bail!</span>(
+                    ComputeError:
+                    <span class="string">&quot;cannot use strptime with both &#39;tz_aware=True&#39; and tz-aware datetime, \
+                    please drop time zone from the dtype&quot;
+                </span>),
+                (<span class="prelude-val">Some</span>(<span class="kw">_</span>), <span class="kw">_</span>, <span class="bool-val">true</span>) =&gt; <span class="macro">polars_bail!</span>(
+                    ComputeError:
+                    <span class="string">&quot;cannot use strptime with both &#39;utc=True&#39; and tz-aware datetime, \
+                    please drop time zone from the dtype&quot;
+                </span>),
+                (<span class="prelude-val">None</span>, <span class="kw">_</span>, <span class="bool-val">true</span>) =&gt; <span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>.to_string()),
+                (<span class="prelude-val">None</span>, <span class="kw">_</span>, <span class="bool-val">false</span>) =&gt; <span class="prelude-val">None</span>,
+            };
             <span class="kw">if </span>options.exact {
-                ca.as_datetime(options.fmt.as_deref(), <span class="kw-2">*</span>tu, options.cache, options.tz_aware)<span class="question-mark">?
-                    </span>.into_series()
+                ca.as_datetime(
+                    options.fmt.as_deref(),
+                    <span class="kw-2">*</span>tu,
+                    options.cache,
+                    tz_aware,
+                    options.utc,
+                    tz.as_ref(),
+                )<span class="question-mark">?
+                </span>.into_series()
             } <span class="kw">else </span>{
-                ca.as_datetime_not_exact(options.fmt.as_deref(), <span class="kw-2">*</span>tu)<span class="question-mark">?
+                ca.as_datetime_not_exact(options.fmt.as_deref(), <span class="kw-2">*</span>tu, tz.as_ref())<span class="question-mark">?
                     </span>.into_series()
             }
         }
-        DataType::Time =&gt; {
-            <span class="kw">if </span>options.exact {
-                ca.as_time(options.fmt.as_deref(), options.cache)<span class="question-mark">?
-                    </span>.into_series()
-            } <span class="kw">else </span>{
-                <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                    <span class="macro">format!</span>(<span class="string">&quot;non-exact not implemented for dtype {:?}&quot;</span>, DataType::Time).into(),
-                ));
-            }
+        dt @ DataType::Time =&gt; {
+            <span class="macro">polars_ensure!</span>(
+                options.exact, ComputeError: <span class="string">&quot;non-exact not implemented for datatype {}&quot;</span>, dt,
+            );
+            ca.as_time(options.fmt.as_deref(), options.cache)<span class="question-mark">?
+                </span>.into_series()
         }
-        dt =&gt; {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="macro">format!</span>(<span class="string">&quot;not implemented for dtype {dt:?}&quot;</span>).into(),
-            ))
-        }
+        dt =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;not implemented for dtype {}&quot;</span>, dt),
     };
     <span class="kw">if </span>options.strict {
-        <span class="kw">if </span>out.null_count() != ca.null_count() {
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="string">&quot;strict conversion to dates failed, maybe set strict=False&quot;</span>.into(),
-            ))
-        } <span class="kw">else </span>{
-            <span class="prelude-val">Ok</span>(out.into_series())
-        }
-    } <span class="kw">else </span>{
-        <span class="prelude-val">Ok</span>(out.into_series())
+        <span class="macro">polars_ensure!</span>(
+            out.null_count() == ca.null_count(),
+            ComputeError: <span class="string">&quot;strict conversion to dates failed, try setting strict=False&quot;</span>,
+        );
     }
+    <span class="prelude-val">Ok</span>(out.into_series())
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;concat_str&quot;</span>)]
@@ -743,9 +968,9 @@
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
 </span><span class="kw">fn </span>get_pat(pat: <span class="kw-2">&amp;</span>Utf8Chunked) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>str&gt; {
-    pat.get(<span class="number">0</span>).ok_or_else(|| {
-        PolarsError::ComputeError(<span class="string">&quot;pattern may not be &#39;null&#39; in &#39;replace&#39; expression&quot;</span>.into())
-    })
+    pat.get(<span class="number">0</span>).ok_or_else(
+        || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;pattern may not be &#39;null&#39; in &#39;replace&#39; expression&quot;</span>),
+    )
 }
 
 <span class="comment">// used only if feature=&quot;regex&quot;
@@ -768,33 +993,52 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
-</span><span class="kw">fn </span>replace_single&lt;<span class="lifetime">&#39;a</span>&gt;(
+</span><span class="kw">fn </span>is_literal_pat(pat: <span class="kw-2">&amp;</span>str) -&gt; bool {
+    pat.chars().all(|c| !c.is_ascii_punctuation())
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
+</span><span class="kw">fn </span>replace_n&lt;<span class="lifetime">&#39;a</span>&gt;(
     ca: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Utf8Chunked,
     pat: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Utf8Chunked,
     val: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Utf8Chunked,
     literal: bool,
+    n: usize,
 ) -&gt; PolarsResult&lt;Utf8Chunked&gt; {
     <span class="kw">match </span>(pat.len(), val.len()) {
         (<span class="number">1</span>, <span class="number">1</span>) =&gt; {
             <span class="kw">let </span>pat = get_pat(pat)<span class="question-mark">?</span>;
-            <span class="kw">let </span>val = val.get(<span class="number">0</span>).ok_or_else(|| PolarsError::ComputeError(<span class="string">&quot;value may not be &#39;null&#39; in &#39;replace&#39; expression&quot;</span>.into()))<span class="question-mark">?</span>;
+            <span class="kw">let </span>val = val.get(<span class="number">0</span>).ok_or_else(
+                || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;value may not be &#39;null&#39; in &#39;replace&#39; expression&quot;</span>),
+            )<span class="question-mark">?</span>;
+            <span class="kw">let </span>literal = literal || is_literal_pat(pat);
 
             <span class="kw">match </span>literal {
-                <span class="bool-val">true </span>=&gt; ca.replace_literal(pat, val),
-                <span class="bool-val">false </span>=&gt; ca.replace(pat, val),
+                <span class="bool-val">true </span>=&gt; ca.replace_literal(pat, val, n),
+                <span class="bool-val">false </span>=&gt; {
+                    <span class="kw">if </span>n &gt; <span class="number">1 </span>{
+                        <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;regex replacement with &#39;n &gt; 1&#39; not yet supported&quot;</span>)
+                    }
+                    ca.replace(pat, val)
+                }
             }
         }
         (<span class="number">1</span>, len_val) =&gt; {
-            <span class="kw">let </span><span class="kw-2">mut </span>pat = get_pat(pat)<span class="question-mark">?</span>.to_string();
-            <span class="kw">if </span>len_val != ca.len() {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="macro">format!</span>(<span class="string">&quot;The replacement value expression in &#39;str.replace&#39; should be equal to the length of the string column.\
-                Got column length: {} and replacement value length: {}&quot;</span>, ca.len(), len_val).into()))
+            <span class="kw">if </span>n &gt; <span class="number">1 </span>{
+                <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;multivalue replacement with &#39;n &gt; 1&#39; not yet supported&quot;</span>)
             }
+            <span class="kw">let </span><span class="kw-2">mut </span>pat = get_pat(pat)<span class="question-mark">?</span>.to_string();
+            <span class="macro">polars_ensure!</span>(
+                len_val == ca.len(),
+                ComputeError:
+                <span class="string">&quot;replacement value length ({}) does not match string column length ({})&quot;</span>,
+                len_val, ca.len(),
+            );
+            <span class="kw">let </span>literal = literal || is_literal_pat(<span class="kw-2">&amp;</span>pat);
 
             <span class="kw">if </span>literal {
                 pat = escape(<span class="kw-2">&amp;</span>pat)
             }
-
 
             <span class="kw">let </span>reg = Regex::new(<span class="kw-2">&amp;</span>pat)<span class="question-mark">?</span>;
             <span class="kw">let </span>lit = pat.chars().all(|c| !c.is_ascii_punctuation());
@@ -808,7 +1052,9 @@
             };
             <span class="prelude-val">Ok</span>(iter_and_replace(ca, val, f))
         }
-        <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="string">&quot;A dynamic pattern length in the &#39;str.replace&#39; expressions are not yet supported. Consider open a feature request for this.&quot;</span>.into()))
+        <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(
+            ComputeError: <span class="string">&quot;dynamic pattern length in &#39;str.replace&#39; expressions is not supported yet&quot;
+        </span>),
     }
 }
 
@@ -822,7 +1068,10 @@
     <span class="kw">match </span>(pat.len(), val.len()) {
         (<span class="number">1</span>, <span class="number">1</span>) =&gt; {
             <span class="kw">let </span>pat = get_pat(pat)<span class="question-mark">?</span>;
-            <span class="kw">let </span>val = val.get(<span class="number">0</span>).ok_or_else(|| PolarsError::ComputeError(<span class="string">&quot;value may not be &#39;null&#39; in &#39;replace&#39; expression&quot;</span>.into()))<span class="question-mark">?</span>;
+            <span class="kw">let </span>val = val.get(<span class="number">0</span>).ok_or_else(
+                || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;value may not be &#39;null&#39; in &#39;replace&#39; expression&quot;</span>),
+            )<span class="question-mark">?</span>;
+            <span class="kw">let </span>literal = literal || is_literal_pat(pat);
 
             <span class="kw">match </span>literal {
                 <span class="bool-val">true </span>=&gt; ca.replace_literal_all(pat, val),
@@ -831,10 +1080,13 @@
         }
         (<span class="number">1</span>, len_val) =&gt; {
             <span class="kw">let </span><span class="kw-2">mut </span>pat = get_pat(pat)<span class="question-mark">?</span>.to_string();
-            <span class="kw">if </span>len_val != ca.len() {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="macro">format!</span>(<span class="string">&quot;The replacement value expression in &#39;str.replace&#39; should be equal to the length of the string column.\
-                Got column length: {} and replacement value length: {}&quot;</span>, ca.len(), len_val).into()))
-            }
+            <span class="macro">polars_ensure!</span>(
+                len_val == ca.len(),
+                ComputeError:
+                <span class="string">&quot;replacement value length ({}) does not match string column length ({})&quot;</span>,
+                len_val, ca.len(),
+            );
+            <span class="kw">let </span>literal = literal || is_literal_pat(<span class="kw-2">&amp;</span>pat);
 
             <span class="kw">if </span>literal {
                 pat = escape(<span class="kw-2">&amp;</span>pat)
@@ -842,20 +1094,22 @@
 
             <span class="kw">let </span>reg = Regex::new(<span class="kw-2">&amp;</span>pat)<span class="question-mark">?</span>;
 
-            <span class="kw">let </span>f = |s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, val: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str| {
-                reg.replace_all(s, val)
-            };
+            <span class="kw">let </span>f = |s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, val: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str| reg.replace_all(s, val);
             <span class="prelude-val">Ok</span>(iter_and_replace(ca, val, f))
         }
-        <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="string">&quot;A dynamic pattern length in the &#39;str.replace&#39; expressions are not yet supported. Consider open a feature request for this.&quot;</span>.into()))
+        <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(
+            ComputeError: <span class="string">&quot;dynamic pattern length in &#39;str.replace&#39; expressions is not supported yet&quot;
+        </span>),
     }
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>replace(s: <span class="kw-2">&amp;</span>[Series], literal: bool, all: bool) -&gt; PolarsResult&lt;Series&gt; {
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>replace(s: <span class="kw-2">&amp;</span>[Series], literal: bool, n: i64) -&gt; PolarsResult&lt;Series&gt; {
     <span class="kw">let </span>column = <span class="kw-2">&amp;</span>s[<span class="number">0</span>];
     <span class="kw">let </span>pat = <span class="kw-2">&amp;</span>s[<span class="number">1</span>];
     <span class="kw">let </span>val = <span class="kw-2">&amp;</span>s[<span class="number">2</span>];
+
+    <span class="kw">let </span>all = n &lt; <span class="number">0</span>;
 
     <span class="kw">let </span>column = column.utf8()<span class="question-mark">?</span>;
     <span class="kw">let </span>pat = pat.utf8()<span class="question-mark">?</span>;
@@ -864,9 +1118,15 @@
     <span class="kw">if </span>all {
         replace_all(column, pat, val, literal)
     } <span class="kw">else </span>{
-        replace_single(column, pat, val, literal)
+        replace_n(column, pat, val, literal, n <span class="kw">as </span>usize)
     }
     .map(|ca| ca.into_series())
 }
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>from_radix(s: <span class="kw-2">&amp;</span>Series, radix: u32, strict: bool) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">let </span>ca = s.utf8()<span class="question-mark">?</span>;
+    ca.parse_int(radix, strict).map(|ok| ok.into_series())
+}
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_plan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_plan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

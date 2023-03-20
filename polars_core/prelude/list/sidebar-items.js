@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":[["AnonymousBuilder",""]]};
+window.SIDEBAR_ITEMS = {"struct":["AnonymousBuilder"]};

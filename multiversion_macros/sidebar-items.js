@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"attr":[["multiversion",""],["target",""]]};
+window.SIDEBAR_ITEMS = {"attr":["multiversion","target"]};

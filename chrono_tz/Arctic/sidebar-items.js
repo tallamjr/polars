@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":[["Longyearbyen",""]]};
+window.SIDEBAR_ITEMS = {"constant":["Longyearbyen"]};

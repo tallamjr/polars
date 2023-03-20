@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":[["unix_time",""]],"mod":[["conversion",""]]};
+window.SIDEBAR_ITEMS = {"fn":["unix_time"],"mod":["conversion"]};

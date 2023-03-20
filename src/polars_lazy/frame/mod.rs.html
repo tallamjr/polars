@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/src/frame/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_lazy/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/src/frame/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_lazy/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1408,56 +1408,6 @@
 <a href="#1408" id="1408">1408</a>
 <a href="#1409" id="1409">1409</a>
 <a href="#1410" id="1410">1410</a>
-<a href="#1411" id="1411">1411</a>
-<a href="#1412" id="1412">1412</a>
-<a href="#1413" id="1413">1413</a>
-<a href="#1414" id="1414">1414</a>
-<a href="#1415" id="1415">1415</a>
-<a href="#1416" id="1416">1416</a>
-<a href="#1417" id="1417">1417</a>
-<a href="#1418" id="1418">1418</a>
-<a href="#1419" id="1419">1419</a>
-<a href="#1420" id="1420">1420</a>
-<a href="#1421" id="1421">1421</a>
-<a href="#1422" id="1422">1422</a>
-<a href="#1423" id="1423">1423</a>
-<a href="#1424" id="1424">1424</a>
-<a href="#1425" id="1425">1425</a>
-<a href="#1426" id="1426">1426</a>
-<a href="#1427" id="1427">1427</a>
-<a href="#1428" id="1428">1428</a>
-<a href="#1429" id="1429">1429</a>
-<a href="#1430" id="1430">1430</a>
-<a href="#1431" id="1431">1431</a>
-<a href="#1432" id="1432">1432</a>
-<a href="#1433" id="1433">1433</a>
-<a href="#1434" id="1434">1434</a>
-<a href="#1435" id="1435">1435</a>
-<a href="#1436" id="1436">1436</a>
-<a href="#1437" id="1437">1437</a>
-<a href="#1438" id="1438">1438</a>
-<a href="#1439" id="1439">1439</a>
-<a href="#1440" id="1440">1440</a>
-<a href="#1441" id="1441">1441</a>
-<a href="#1442" id="1442">1442</a>
-<a href="#1443" id="1443">1443</a>
-<a href="#1444" id="1444">1444</a>
-<a href="#1445" id="1445">1445</a>
-<a href="#1446" id="1446">1446</a>
-<a href="#1447" id="1447">1447</a>
-<a href="#1448" id="1448">1448</a>
-<a href="#1449" id="1449">1449</a>
-<a href="#1450" id="1450">1450</a>
-<a href="#1451" id="1451">1451</a>
-<a href="#1452" id="1452">1452</a>
-<a href="#1453" id="1453">1453</a>
-<a href="#1454" id="1454">1454</a>
-<a href="#1455" id="1455">1455</a>
-<a href="#1456" id="1456">1456</a>
-<a href="#1457" id="1457">1457</a>
-<a href="#1458" id="1458">1458</a>
-<a href="#1459" id="1459">1459</a>
-<a href="#1460" id="1460">1460</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Lazy variant of a [DataFrame](polars_core::frame::DataFrame).
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
 </span><span class="kw">mod </span>csv;
@@ -1471,6 +1421,7 @@
 </span><span class="kw">mod </span>python;
 
 <span class="kw">mod </span>anonymous_scan;
+<span class="kw">mod </span>file_list_reader;
 <span class="attr">#[cfg(feature = <span class="string">&quot;pivot&quot;</span>)]
 </span><span class="kw">pub mod </span>pivot;
 
@@ -1482,6 +1433,7 @@
 <span class="kw">pub use </span>anonymous_scan::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
 </span><span class="kw">pub use </span>csv::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>file_list_reader::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;ipc&quot;</span>)]
 </span><span class="kw">pub use </span>ipc::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;json&quot;</span>)]
@@ -1498,7 +1450,8 @@
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>, feature = <span class="string">&quot;csv-file&quot;</span>))]
 </span><span class="kw">use </span>polars_plan::logical_plan::collect_fingerprints;
 <span class="kw">use </span>polars_plan::logical_plan::optimize;
-<span class="kw">use </span>polars_plan::utils::{combine_predicates_expr, expr_to_leaf_column_names};
+<span class="kw">use </span>polars_plan::utils::expr_to_leaf_column_names;
+<span class="kw">use </span>smartstring::alias::String <span class="kw">as </span>SmartString;
 
 <span class="kw">use </span><span class="kw">crate</span>::physical_plan::executors::Executor;
 <span class="kw">use </span><span class="kw">crate</span>::physical_plan::planner::create_physical_plan;
@@ -1547,8 +1500,7 @@
 <span class="kw">impl </span>LazyFrame {
     <span class="doccomment">/// Get a hold on the schema of the current LazyFrame computation.
     </span><span class="kw">pub fn </span>schema(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;SchemaRef&gt; {
-        <span class="kw">let </span>logical_plan = <span class="self">self</span>.clone().get_plan_builder().build();
-        logical_plan.schema().map(|schema| schema.into_owned())
+        <span class="self">self</span>.logical_plan.schema().map(|schema| schema.into_owned())
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>get_plan_builder(<span class="self">self</span>) -&gt; LogicalPlanBuilder {
@@ -1665,13 +1617,13 @@
     /// }
     /// ```
     </span><span class="kw">pub fn </span>sort(<span class="self">self</span>, by_column: <span class="kw-2">&amp;</span>str, options: SortOptions) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span>reverse = options.descending;
+        <span class="kw">let </span>descending = options.descending;
         <span class="kw">let </span>nulls_last = options.nulls_last;
 
         <span class="kw">let </span>opt_state = <span class="self">self</span>.get_opt_state();
         <span class="kw">let </span>lp = <span class="self">self
             </span>.get_plan_builder()
-            .sort(<span class="macro">vec!</span>[col(by_column)], <span class="macro">vec!</span>[reverse], nulls_last)
+            .sort(<span class="macro">vec!</span>[col(by_column)], <span class="macro">vec!</span>[descending], nulls_last)
             .build();
         <span class="self">Self</span>::from_logical_plan(lp, opt_state)
     }
@@ -1693,18 +1645,18 @@
     </span><span class="kw">pub fn </span>sort_by_exprs&lt;E: AsRef&lt;[Expr]&gt;, B: AsRef&lt;[bool]&gt;&gt;(
         <span class="self">self</span>,
         by_exprs: E,
-        reverse: B,
+        descending: B,
         nulls_last: bool,
     ) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>by_exprs = by_exprs.as_ref().to_vec();
-        <span class="kw">let </span>reverse = reverse.as_ref().to_vec();
+        <span class="kw">let </span>descending = descending.as_ref().to_vec();
         <span class="kw">if </span>by_exprs.is_empty() {
             <span class="self">self
         </span>} <span class="kw">else </span>{
             <span class="kw">let </span>opt_state = <span class="self">self</span>.get_opt_state();
             <span class="kw">let </span>lp = <span class="self">self
                 </span>.get_plan_builder()
-                .sort(by_exprs, reverse, nulls_last)
+                .sort(by_exprs, descending, nulls_last)
                 .build();
             <span class="self">Self</span>::from_logical_plan(lp, opt_state)
         }
@@ -1727,93 +1679,32 @@
         <span class="self">self</span>.select_local(<span class="macro">vec!</span>[col(<span class="string">&quot;*&quot;</span>).reverse()])
     }
 
-    <span class="kw">fn </span>rename_impl_swapping(<span class="self">self</span>, existing: Vec&lt;String&gt;, new: Vec&lt;String&gt;) -&gt; <span class="self">Self </span>{
-        <span class="macro">assert_eq!</span>(new.len(), existing.len());
+    <span class="doccomment">/// Check the if the `names` are available in the `schema`, if not
+    /// return a `LogicalPlan` that raises an `Error`.
+    </span><span class="kw">fn </span>check_names(<span class="kw-2">&amp;</span><span class="self">self</span>, names: <span class="kw-2">&amp;</span>[SmartString], schema: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>SchemaRef&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span>schema = schema
+            .map(Cow::Borrowed)
+            .unwrap_or_else(|| Cow::Owned(<span class="self">self</span>.schema().unwrap()));
 
-        <span class="kw">let </span>existing2 = existing.clone();
-        <span class="kw">let </span>new2 = new.clone();
-        <span class="kw">let </span>udf_schema = <span class="kw">move </span>|old_schema: <span class="kw-2">&amp;</span>Schema| {
-            <span class="kw">let </span><span class="kw-2">mut </span>new_schema = old_schema.clone();
+        <span class="kw">let </span><span class="kw-2">mut </span>opt_not_found = <span class="prelude-val">None</span>;
+        names.iter().for_each(|name| {
+            <span class="kw">let </span>invalid = schema.get(name).is_none();
 
-            <span class="comment">// schema after renaming
-            </span><span class="kw">for </span>(old, new) <span class="kw">in </span>existing2.iter().zip(new2.iter()) {
-                <span class="kw">let </span>dtype = old_schema.try_get(old)<span class="question-mark">?</span>;
-                <span class="kw">if </span>new_schema.with_column(new.clone(), dtype.clone()).is_none() {
-                    new_schema.remove(old);
-                }
+            <span class="kw">if </span>invalid &amp;&amp; opt_not_found.is_none() {
+                opt_not_found = <span class="prelude-val">Some</span>(name)
             }
-            <span class="prelude-val">Ok</span>(Arc::new(new_schema))
-        };
+        });
 
-        <span class="self">self</span>.map(
-            <span class="kw">move </span>|<span class="kw-2">mut </span>df: DataFrame| {
-                <span class="kw">let </span>positions = existing
-                    .iter()
-                    .map(|old| df.try_find_idx_by_name(old))
-                    .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
-
-                <span class="kw">for </span>(pos, name) <span class="kw">in </span>positions.iter().zip(new.iter()) {
-                    df.get_columns_mut()[<span class="kw-2">*</span>pos].rename(name);
-                }
-                <span class="comment">// recreate dataframe so we check duplicates
-                </span><span class="kw">let </span>columns = std::mem::take(df.get_columns_mut());
-                DataFrame::new(columns)
-            },
-            <span class="comment">// Don&#39;t allow optimizations. Swapping names are opaque to the optimizer
-            </span>AllowedOptimizations {
-                projection_pushdown: <span class="bool-val">false</span>,
-                predicate_pushdown: <span class="bool-val">false</span>,
-                ..Default::default()
-            },
-            <span class="prelude-val">Some</span>(Arc::new(udf_schema)),
-            <span class="prelude-val">Some</span>(<span class="string">&quot;RENAME_SWAPPING&quot;</span>),
-        )
-    }
-
-    <span class="kw">fn </span>rename_impl(<span class="self">self</span>, existing: Vec&lt;String&gt;, new: Vec&lt;String&gt;) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span>existing2 = existing.clone();
-        <span class="kw">let </span>new2 = new.clone();
-        <span class="kw">let </span>udf_schema = <span class="kw">move </span>|s: <span class="kw-2">&amp;</span>Schema| {
-            <span class="kw">let </span><span class="kw-2">mut </span>new_schema = s.clone();
-            <span class="kw">for </span>(old, new) <span class="kw">in </span>existing2.iter().zip(<span class="kw-2">&amp;</span>new2) {
-                <span class="kw">let _ </span>= new_schema.rename(old, new.clone());
-            }
-            <span class="prelude-val">Ok</span>(Arc::new(new_schema))
-        };
-
-        <span class="self">self</span>.with_columns(
-            existing
-                .iter()
-                .zip(<span class="kw-2">&amp;</span>new)
-                .map(|(old, new)| col(old).alias(new.as_ref()))
-                .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;(),
-        )
-        .map(
-            <span class="kw">move </span>|<span class="kw-2">mut </span>df: DataFrame| {
-                <span class="kw">let </span>cols = df.get_columns_mut();
-                <span class="kw">let </span><span class="kw-2">mut </span>removed_count = <span class="number">0</span>;
-                <span class="kw">for </span>(existing, new) <span class="kw">in </span>existing.iter().zip(new.iter()) {
-                    <span class="kw">let </span>idx_a = cols.iter().position(|s| s.name() == existing.as_str());
-                    <span class="kw">let </span>idx_b = cols.iter().position(|s| s.name() == new.as_str());
-
-                    <span class="kw">match </span>(idx_a, idx_b) {
-                        (<span class="prelude-val">Some</span>(idx_a), <span class="prelude-val">Some</span>(idx_b)) =&gt; {
-                            cols.swap(idx_a, idx_b);
-                        }
-                        <span class="comment">// renamed columns are removed by predicate pushdown
-                        </span><span class="kw">_ </span>=&gt; {
-                            removed_count += <span class="number">1</span>;
-                            <span class="kw">continue</span>;
-                        }
-                    }
-                }
-                cols.truncate(cols.len() - (existing.len() - removed_count));
-                <span class="prelude-val">Ok</span>(df)
-            },
-            Default::default(),
-            <span class="prelude-val">Some</span>(Arc::new(udf_schema)),
-            <span class="prelude-val">Some</span>(<span class="string">&quot;RENAME&quot;</span>),
-        )
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(name) = opt_not_found {
+            <span class="kw">let </span>lp = <span class="self">self
+                </span>.clone()
+                .get_plan_builder()
+                .add_err(<span class="macro">polars_err!</span>(SchemaFieldNotFound: <span class="string">&quot;{}&quot;</span>, name))
+                .build();
+            <span class="prelude-val">Some</span>(<span class="self">Self</span>::from_logical_plan(lp, <span class="self">self</span>.opt_state))
+        } <span class="kw">else </span>{
+            <span class="prelude-val">None
+        </span>}
     }
 
     <span class="doccomment">/// Rename columns in the DataFrame.
@@ -1824,38 +1715,34 @@
         T: AsRef&lt;str&gt;,
         S: AsRef&lt;str&gt;,
     {
-        <span class="comment">// We dispatch to 2 implementations.
-        // 1 is swapping eg. rename a -&gt; b and b -&gt; a
-        // 2 is non-swapping eg. rename a -&gt; new_name
-        // the latter allows predicate pushdown.
-        </span><span class="kw">let </span>existing = existing
-            .into_iter()
-            .map(|a| a.as_ref().to_string())
-            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-        <span class="kw">let </span>new = new
-            .into_iter()
-            .map(|a| a.as_ref().to_string())
-            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        <span class="kw">let </span>iter = existing.into_iter();
+        <span class="kw">let </span>cap = iter.size_hint().<span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>existing_vec: Vec&lt;SmartString&gt; = Vec::with_capacity(cap);
+        <span class="kw">let </span><span class="kw-2">mut </span>new_vec: Vec&lt;SmartString&gt; = Vec::with_capacity(cap);
 
-        <span class="kw">fn </span>inner(lf: LazyFrame, existing: Vec&lt;String&gt;, new: Vec&lt;String&gt;) -&gt; LazyFrame {
-            <span class="comment">// remove mappings that map to themselves.
-            </span><span class="kw">let </span>(existing, new): (Vec&lt;<span class="kw">_</span>&gt;, Vec&lt;<span class="kw">_</span>&gt;) = existing
-                .into_iter()
-                .zip(new)
-                .flat_map(|(a, b)| <span class="kw">if </span>a == b { <span class="prelude-val">None </span>} <span class="kw">else </span>{ <span class="prelude-val">Some</span>((a, b)) })
-                .unzip();
+        <span class="kw">for </span>(existing, new) <span class="kw">in </span>iter.zip(new.into_iter()) {
+            <span class="kw">let </span>existing = existing.as_ref();
+            <span class="kw">let </span>new = new.as_ref();
 
-            <span class="comment">// todo! make delayed
-            </span><span class="kw">let </span>schema = <span class="kw-2">&amp;*</span>lf.schema().unwrap();
-            <span class="comment">// a column gets swapped
-            </span><span class="kw">if </span>new.iter().any(|name| schema.get(name).is_some()) {
-                lf.rename_impl_swapping(existing, new)
-            } <span class="kw">else </span>{
-                lf.rename_impl(existing, new)
+            <span class="kw">if </span>new != existing {
+                existing_vec.push(existing.into());
+                new_vec.push(new.into());
             }
         }
 
-        inner(<span class="self">self</span>, existing, new)
+        <span class="comment">// a column gets swapped
+        </span><span class="kw">let </span>schema = <span class="kw-2">&amp;</span><span class="self">self</span>.schema().unwrap();
+        <span class="kw">let </span>swapping = new_vec.iter().any(|name| schema.get(name).is_some());
+
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(lp) = <span class="self">self</span>.check_names(<span class="kw-2">&amp;</span>existing_vec, <span class="prelude-val">Some</span>(schema)) {
+            lp
+        } <span class="kw">else </span>{
+            <span class="self">self</span>.map_private(FunctionNode::Rename {
+                existing: existing_vec.into(),
+                new: new_vec.into(),
+                swapping,
+            })
+        }
     }
 
     <span class="doccomment">/// Removes columns from the DataFrame.
@@ -1866,16 +1753,22 @@
         </span>I: IntoIterator&lt;Item = T&gt;,
         T: AsRef&lt;str&gt;,
     {
-        <span class="kw">let </span>columns: Vec&lt;String&gt; = columns
+        <span class="kw">let </span>columns: Vec&lt;SmartString&gt; = columns
             .into_iter()
-            .map(|name| name.as_ref().to_string())
+            .map(|name| name.as_ref().into())
             .collect();
-        <span class="self">self</span>.drop_columns_impl(<span class="kw-2">&amp;</span>columns)
+        <span class="self">self</span>.drop_columns_impl(columns)
     }
 
     <span class="attr">#[allow(clippy::ptr_arg)]
-    </span><span class="kw">fn </span>drop_columns_impl(<span class="self">self</span>, columns: <span class="kw-2">&amp;</span>Vec&lt;String&gt;) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.select_local(<span class="macro">vec!</span>[col(<span class="string">&quot;*&quot;</span>).exclude(columns)])
+    </span><span class="kw">fn </span>drop_columns_impl(<span class="self">self</span>, columns: Vec&lt;SmartString&gt;) -&gt; <span class="self">Self </span>{
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(lp) = <span class="self">self</span>.check_names(<span class="kw-2">&amp;</span>columns, <span class="prelude-val">None</span>) {
+            lp
+        } <span class="kw">else </span>{
+            <span class="self">self</span>.map_private(FunctionNode::Drop {
+                names: columns.into(),
+            })
+        }
     }
 
     <span class="doccomment">/// Shift the values by a given period and fill the parts that will be empty due to this operation
@@ -2062,13 +1955,13 @@
             },
         };
         <span class="kw">let </span>(<span class="kw-2">mut </span>state, <span class="kw-2">mut </span>physical_plan, is_streaming) = <span class="self">self</span>.prepare_collect(<span class="bool-val">true</span>)<span class="question-mark">?</span>;
-
-        <span class="kw">if </span>is_streaming {
-            <span class="kw">let _ </span>= physical_plan.execute(<span class="kw-2">&amp;mut </span>state)<span class="question-mark">?</span>;
-            <span class="prelude-val">Ok</span>(())
-        } <span class="kw">else </span>{
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="string">&quot;Cannot run whole the query in a streaming order. Use `collect().write_parquet()` instead.&quot;</span>.into()))
-        }
+        <span class="macro">polars_ensure!</span>(
+            is_streaming,
+            ComputeError: <span class="string">&quot;cannot run the whole query in a streaming order; \
+            use `collect().write_parquet()` instead&quot;
+        </span>);
+        <span class="kw">let _ </span>= physical_plan.execute(<span class="kw-2">&amp;mut </span>state)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="comment">//// Stream a query result into an ipc/arrow file. This is useful if the final result doesn&#39;t fit
@@ -2085,13 +1978,13 @@
             },
         };
         <span class="kw">let </span>(<span class="kw-2">mut </span>state, <span class="kw-2">mut </span>physical_plan, is_streaming) = <span class="self">self</span>.prepare_collect(<span class="bool-val">true</span>)<span class="question-mark">?</span>;
-
-        <span class="kw">if </span>is_streaming {
-            <span class="kw">let _ </span>= physical_plan.execute(<span class="kw-2">&amp;mut </span>state)<span class="question-mark">?</span>;
-            <span class="prelude-val">Ok</span>(())
-        } <span class="kw">else </span>{
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="string">&quot;Cannot run whole the query in a streaming order. Use `collect().write_parquet()` instead.&quot;</span>.into()))
-        }
+        <span class="macro">polars_ensure!</span>(
+            is_streaming,
+            ComputeError: <span class="string">&quot;cannot run the whole query in a streaming order; \
+            use `collect().write_ipc()` instead&quot;
+        </span>);
+        <span class="kw">let _ </span>= physical_plan.execute(<span class="kw-2">&amp;mut </span>state)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// Filter by some predicate expression.
@@ -2504,6 +2397,7 @@
             subset: subset.map(Arc::new),
             maintain_order: <span class="bool-val">true</span>,
             keep_strategy,
+            ..Default::default()
         };
         <span class="kw">let </span>lp = <span class="self">self</span>.get_plan_builder().distinct(options).build();
         <span class="self">Self</span>::from_logical_plan(lp, opt_state)
@@ -2520,6 +2414,7 @@
             subset: subset.map(Arc::new),
             maintain_order: <span class="bool-val">false</span>,
             keep_strategy,
+            ..Default::default()
         };
         <span class="kw">let </span>lp = <span class="self">self</span>.get_plan_builder().distinct(options).build();
         <span class="self">Self</span>::from_logical_plan(lp, opt_state)
@@ -2530,10 +2425,14 @@
     /// Equal to `LazyFrame::filter(col(&quot;*&quot;).is_not_null())`
     </span><span class="kw">pub fn </span>drop_nulls(<span class="self">self</span>, subset: <span class="prelude-ty">Option</span>&lt;Vec&lt;Expr&gt;&gt;) -&gt; LazyFrame {
         <span class="kw">match </span>subset {
-            <span class="prelude-val">None </span>=&gt; <span class="self">self</span>.filter(col(<span class="string">&quot;*&quot;</span>).is_not_null()),
+            <span class="prelude-val">None </span>=&gt; <span class="self">self</span>.filter(all_exprs([col(<span class="string">&quot;*&quot;</span>).is_not_null()])),
             <span class="prelude-val">Some</span>(subset) =&gt; {
-                <span class="kw">let </span>it = subset.into_iter().map(|e| e.is_not_null());
-                <span class="kw">let </span>predicate = combine_predicates_expr(it);
+                <span class="kw">let </span>predicate = all_exprs(
+                    subset
+                        .into_iter()
+                        .map(|e| e.is_not_null())
+                        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;(),
+                );
                 <span class="self">self</span>.filter(predicate)
             }
         }
@@ -2617,8 +2516,7 @@
     /// This can have a negative effect on query performance.
     /// This may for instance block predicate pushdown optimization.
     </span><span class="kw">pub fn </span>with_row_count(<span class="kw-2">mut </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str, offset: <span class="prelude-ty">Option</span>&lt;IdxSize&gt;) -&gt; LazyFrame {
-        <span class="kw">let </span><span class="kw-2">mut </span>add_row_count_in_map = <span class="bool-val">false</span>;
-        <span class="kw">match </span><span class="kw-2">&amp;mut </span><span class="self">self</span>.logical_plan {
+        <span class="kw">let </span>add_row_count_in_map = <span class="kw">match </span><span class="kw-2">&amp;mut </span><span class="self">self</span>.logical_plan {
             <span class="comment">// Do the row count at scan
             </span><span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
             </span>LogicalPlan::CsvScan { options, .. } =&gt; {
@@ -2626,27 +2524,28 @@
                     name: name.to_string(),
                     offset: offset.unwrap_or(<span class="number">0</span>),
                 });
-            }
+                <span class="bool-val">false
+            </span>}
             <span class="attr">#[cfg(feature = <span class="string">&quot;ipc&quot;</span>)]
             </span>LogicalPlan::IpcScan { options, .. } =&gt; {
                 options.row_count = <span class="prelude-val">Some</span>(RowCount {
                     name: name.to_string(),
                     offset: offset.unwrap_or(<span class="number">0</span>),
                 });
-            }
+                <span class="bool-val">false
+            </span>}
             <span class="attr">#[cfg(feature = <span class="string">&quot;parquet&quot;</span>)]
             </span>LogicalPlan::ParquetScan { options, .. } =&gt; {
                 options.row_count = <span class="prelude-val">Some</span>(RowCount {
                     name: name.to_string(),
                     offset: offset.unwrap_or(<span class="number">0</span>),
                 });
-            }
-            <span class="kw">_ </span>=&gt; {
-                add_row_count_in_map = <span class="bool-val">true</span>;
-            }
-        }
+                <span class="bool-val">false
+            </span>}
+            <span class="kw">_ </span>=&gt; <span class="bool-val">true</span>,
+        };
 
-        <span class="kw">let </span>name2 = name.to_string();
+        <span class="kw">let </span>name2: SmartString = name.into();
         <span class="kw">let </span>udf_schema = <span class="kw">move </span>|s: <span class="kw-2">&amp;</span>Schema| {
             <span class="kw">let </span>new = s.insert_index(<span class="number">0</span>, name2.clone(), IDX_DTYPE).unwrap();
             <span class="prelude-val">Ok</span>(Arc::new(new))
@@ -2659,6 +2558,7 @@
             AllowedOptimizations {
                 slice_pushdown: <span class="bool-val">false</span>,
                 predicate_pushdown: <span class="bool-val">false</span>,
+                streaming: <span class="bool-val">false</span>,
                 ..Default::default()
             }
         } <span class="kw">else </span>{
@@ -2684,7 +2584,7 @@
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
     </span><span class="kw">pub fn </span>unnest&lt;I: IntoIterator&lt;Item = S&gt;, S: AsRef&lt;str&gt;&gt;(<span class="self">self</span>, cols: I) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.map_private(FunctionNode::Unnest {
-            columns: Arc::new(cols.into_iter().map(|s| Arc::from(s.as_ref())).collect()),
+            columns: cols.into_iter().map(|s| Arc::from(s.as_ref())).collect(),
         })
     }
 
@@ -2766,7 +2666,7 @@
             .flat_map(|k| expr_to_leaf_column_names(k).into_iter())
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
-        <span class="self">self</span>.agg([col(<span class="string">&quot;*&quot;</span>).exclude(<span class="kw-2">&amp;</span>keys).head(n).list().keep_name()])
+        <span class="self">self</span>.agg([col(<span class="string">&quot;*&quot;</span>).exclude(<span class="kw-2">&amp;</span>keys).head(n).keep_name()])
             .explode([col(<span class="string">&quot;*&quot;</span>).exclude(<span class="kw-2">&amp;</span>keys)])
     }
 
@@ -2919,4 +2819,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_lazy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_lazy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

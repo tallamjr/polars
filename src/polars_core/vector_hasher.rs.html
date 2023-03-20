@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/vector_hasher.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>vector_hasher.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../polars_core/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/vector_hasher.rs`."><title>vector_hasher.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../polars_core/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -747,6 +747,42 @@
 <a href="#747" id="747">747</a>
 <a href="#748" id="748">748</a>
 <a href="#749" id="749">749</a>
+<a href="#750" id="750">750</a>
+<a href="#751" id="751">751</a>
+<a href="#752" id="752">752</a>
+<a href="#753" id="753">753</a>
+<a href="#754" id="754">754</a>
+<a href="#755" id="755">755</a>
+<a href="#756" id="756">756</a>
+<a href="#757" id="757">757</a>
+<a href="#758" id="758">758</a>
+<a href="#759" id="759">759</a>
+<a href="#760" id="760">760</a>
+<a href="#761" id="761">761</a>
+<a href="#762" id="762">762</a>
+<a href="#763" id="763">763</a>
+<a href="#764" id="764">764</a>
+<a href="#765" id="765">765</a>
+<a href="#766" id="766">766</a>
+<a href="#767" id="767">767</a>
+<a href="#768" id="768">768</a>
+<a href="#769" id="769">769</a>
+<a href="#770" id="770">770</a>
+<a href="#771" id="771">771</a>
+<a href="#772" id="772">772</a>
+<a href="#773" id="773">773</a>
+<a href="#774" id="774">774</a>
+<a href="#775" id="775">775</a>
+<a href="#776" id="776">776</a>
+<a href="#777" id="777">777</a>
+<a href="#778" id="778">778</a>
+<a href="#779" id="779">779</a>
+<a href="#780" id="780">780</a>
+<a href="#781" id="781">781</a>
+<a href="#782" id="782">782</a>
+<a href="#783" id="783">783</a>
+<a href="#784" id="784">784</a>
+<a href="#785" id="785">785</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::convert::TryInto;
 <span class="kw">use </span>std::hash::{BuildHasher, BuildHasherDefault, Hash, Hasher};
 
@@ -817,16 +853,78 @@
 }
 <span class="kw">const </span>FXHASH_K: u64 = <span class="number">0x517cc1b727220a95</span>;
 
-<span class="kw">fn </span>finish_vec_hash&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;)
-<span class="kw">where
-    </span>T: PolarsIntegerType,
-    T::Native: Hash,
-{
+<span class="doccomment">/// Ensure that the same hash is used as with `VecHash`.
+</span><span class="kw">pub trait </span>FxHash {
+    <span class="kw">fn </span>get_k(random_state: RandomState) -&gt; u64 {
+        random_state.hash_one(FXHASH_K)
+    }
+    <span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64;
+}
+<span class="kw">impl </span>FxHash <span class="kw">for </span>i8 {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
+        <span class="kw">unsafe </span>{ <span class="macro">fx_hash_8_bit!</span>(<span class="self">self</span>, k) }
+    }
+}
+<span class="kw">impl </span>FxHash <span class="kw">for </span>u8 {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
+        <span class="attr">#[allow(clippy::useless_transmute)]
+        </span><span class="kw">unsafe </span>{
+            <span class="macro">fx_hash_8_bit!</span>(<span class="self">self</span>, k)
+        }
+    }
+}
+<span class="kw">impl </span>FxHash <span class="kw">for </span>i16 {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
+        <span class="kw">unsafe </span>{ <span class="macro">fx_hash_16_bit!</span>(<span class="self">self</span>, k) }
+    }
+}
+<span class="kw">impl </span>FxHash <span class="kw">for </span>u16 {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
+        <span class="attr">#[allow(clippy::useless_transmute)]
+        </span><span class="kw">unsafe </span>{
+            <span class="macro">fx_hash_16_bit!</span>(<span class="self">self</span>, k)
+        }
+    }
+}
+
+<span class="kw">impl </span>FxHash <span class="kw">for </span>i32 {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
+        <span class="kw">unsafe </span>{ <span class="macro">fx_hash_32_bit!</span>(<span class="self">self</span>, k) }
+    }
+}
+<span class="kw">impl </span>FxHash <span class="kw">for </span>u32 {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
+        <span class="attr">#[allow(clippy::useless_transmute)]
+        </span><span class="kw">unsafe </span>{
+            <span class="macro">fx_hash_32_bit!</span>(<span class="self">self</span>, k)
+        }
+    }
+}
+
+<span class="kw">impl </span>FxHash <span class="kw">for </span>i64 {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
+        <span class="macro">fx_hash_64_bit!</span>(<span class="self">self</span>, k)
+    }
+}
+<span class="kw">impl </span>FxHash <span class="kw">for </span>u64 {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>_fx_hash(<span class="self">self</span>, k: u64) -&gt; u64 {
+        <span class="macro">fx_hash_64_bit!</span>(<span class="self">self</span>, k)
+    }
+}
+<span class="kw">fn </span>insert_null_hash(chunks: <span class="kw-2">&amp;</span>[ArrayRef], random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;) {
     <span class="kw">let </span>null_h = get_null_hash_value(random_state);
     <span class="kw">let </span>hashes = buf.as_mut_slice();
 
     <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="number">0</span>;
-    ca.downcast_iter().for_each(|arr| {
+    chunks.iter().for_each(|arr| {
         <span class="kw">if </span>arr.null_count() &gt; <span class="number">0 </span>{
             <span class="kw">let </span>validity = arr.validity().unwrap();
             <span class="kw">let </span>(slice, byte_offset, <span class="kw">_</span>) = validity.as_slice();
@@ -841,12 +939,43 @@
     });
 }
 
+<span class="kw">fn </span>integer_vec_hash&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;)
+<span class="kw">where
+    </span>T: PolarsIntegerType,
+    T::Native: Hash + FxHash,
+{
+    <span class="comment">// Note that we don&#39;t use the no null branch! This can break in unexpected ways.
+    // for instance with threading we split an array in n_threads, this may lead to
+    // splits that have no nulls and splits that have nulls. Then one array is hashed with
+    // Option&lt;T&gt; and the other array with T.
+    // Meaning that they cannot be compared. By always hashing on Option&lt;T&gt; the random_state is
+    // the only deterministic seed.
+    </span>buf.clear();
+    buf.reserve(ca.len());
+
+    <span class="kw">let </span>k = random_state.hash_one(FXHASH_K);
+
+    <span class="attr">#[allow(unused_unsafe)]
+    #[allow(clippy::useless_transmute)]
+    </span>ca.downcast_iter().for_each(|arr| {
+        buf.extend(
+            arr.values()
+                .as_slice()
+                .iter()
+                .copied()
+                .map(|v| <span class="kw">unsafe </span>{ v._fx_hash(k) }),
+        );
+    });
+    insert_null_hash(<span class="kw-2">&amp;</span>ca.chunks, random_state, buf)
+}
+
 <span class="kw">fn </span>integer_vec_hash_combine&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;, random_state: RandomState, hashes: <span class="kw-2">&amp;mut </span>[u64])
 <span class="kw">where
     </span>T: PolarsIntegerType,
-    T::Native: Hash,
+    T::Native: Hash + FxHash,
 {
     <span class="kw">let </span>null_h = get_null_hash_value(random_state.clone());
+    <span class="kw">let </span>k = random_state.hash_one(FXHASH_K);
 
     <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="number">0</span>;
     ca.downcast_iter().for_each(|arr| {
@@ -857,7 +986,7 @@
                 .iter()
                 .zip(<span class="kw-2">&amp;mut </span>hashes[offset..])
                 .for_each(|(v, h)| {
-                    <span class="kw">let </span>l = random_state.hash_single(v);
+                    <span class="kw">let </span>l = v._fx_hash(k);
                     <span class="kw-2">*</span>h = _boost_hash_combine(l, <span class="kw-2">*</span>h)
                 }),
             <span class="kw">_ </span>=&gt; {
@@ -868,10 +997,8 @@
                     .zip(<span class="kw-2">&amp;mut </span>hashes[offset..])
                     .zip(arr.values().as_slice())
                     .for_each(|((valid, h), l)| {
-                        <span class="kw-2">*</span>h = _boost_hash_combine(
-                            [null_h, random_state.hash_single(l)][valid <span class="kw">as </span>usize],
-                            <span class="kw-2">*</span>h,
-                        )
+                        <span class="kw">let </span>l = l._fx_hash(k);
+                        <span class="kw-2">*</span>h = _boost_hash_combine([null_h, l][valid <span class="kw">as </span>usize], <span class="kw-2">*</span>h)
                     });
             }
         }
@@ -883,29 +1010,7 @@
     (<span class="macro-nonterminal">$ca</span>:ident, <span class="macro-nonterminal">$fx_hash</span>:ident) =&gt; {
         <span class="kw">impl </span>VecHash <span class="kw">for </span><span class="macro-nonterminal">$ca </span>{
             <span class="kw">fn </span>vec_hash(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;) {
-                <span class="comment">// Note that we don&#39;t use the no null branch! This can break in unexpected ways.
-                // for instance with threading we split an array in n_threads, this may lead to
-                // splits that have no nulls and splits that have nulls. Then one array is hashed with
-                // Option&lt;T&gt; and the other array with T.
-                // Meaning that they cannot be compared. By always hashing on Option&lt;T&gt; the random_state is
-                // the only deterministic seed.
-                </span>buf.clear();
-                buf.reserve(<span class="self">self</span>.len());
-
-                <span class="kw">let </span>k = random_state.hash_one(FXHASH_K);
-
-                <span class="attr">#[allow(unused_unsafe)]
-                #[allow(clippy::useless_transmute)]
-                </span><span class="self">self</span>.downcast_iter().for_each(|arr| {
-                    buf.extend(
-                        arr.values()
-                            .as_slice()
-                            .iter()
-                            .copied()
-                            .map(|v| <span class="kw">unsafe </span>{ <span class="macro-nonterminal">$</span><span class="macro">fx_hash!</span>(<span class="macro-nonterminal">v</span>, k) }),
-                    );
-                });
-                finish_vec_hash(<span class="self">self</span>, random_state, buf)
+                integer_vec_hash(<span class="self">self</span>, random_state, buf)
             }
 
             <span class="kw">fn </span>vec_hash_combine(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, hashes: <span class="kw-2">&amp;mut </span>[u64]) {
@@ -924,73 +1029,17 @@
 <span class="macro">vec_hash_int!</span>(UInt16Chunked, fx_hash_16_bit);
 <span class="macro">vec_hash_int!</span>(UInt8Chunked, fx_hash_8_bit);
 
-<span class="doccomment">/// Ensure that the same hash is used as with `VecHash`.
-</span><span class="kw">pub trait </span>VecHashSingle {
-    <span class="kw">fn </span>get_k(random_state: RandomState) -&gt; u64 {
-        random_state.hash_one(FXHASH_K)
-    }
-    <span class="kw">fn </span>_vec_hash_single(<span class="self">self</span>, k: u64) -&gt; u64;
-}
-<span class="kw">impl </span>VecHashSingle <span class="kw">for </span>i8 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_vec_hash_single(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="kw">unsafe </span>{ <span class="macro">fx_hash_8_bit!</span>(<span class="self">self</span>, k) }
-    }
-}
-<span class="kw">impl </span>VecHashSingle <span class="kw">for </span>u8 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_vec_hash_single(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="attr">#[allow(clippy::useless_transmute)]
-        </span><span class="kw">unsafe </span>{
-            <span class="macro">fx_hash_8_bit!</span>(<span class="self">self</span>, k)
-        }
-    }
-}
-<span class="kw">impl </span>VecHashSingle <span class="kw">for </span>i16 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_vec_hash_single(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="kw">unsafe </span>{ <span class="macro">fx_hash_16_bit!</span>(<span class="self">self</span>, k) }
-    }
-}
-<span class="kw">impl </span>VecHashSingle <span class="kw">for </span>u16 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_vec_hash_single(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="attr">#[allow(clippy::useless_transmute)]
-        </span><span class="kw">unsafe </span>{
-            <span class="macro">fx_hash_16_bit!</span>(<span class="self">self</span>, k)
-        }
-    }
-}
-
-<span class="kw">impl </span>VecHashSingle <span class="kw">for </span>i32 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_vec_hash_single(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="kw">unsafe </span>{ <span class="macro">fx_hash_32_bit!</span>(<span class="self">self</span>, k) }
-    }
-}
-<span class="kw">impl </span>VecHashSingle <span class="kw">for </span>u32 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_vec_hash_single(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="attr">#[allow(clippy::useless_transmute)]
-        </span><span class="kw">unsafe </span>{
-            <span class="macro">fx_hash_32_bit!</span>(<span class="self">self</span>, k)
-        }
-    }
-}
-<span class="kw">impl </span>VecHashSingle <span class="kw">for </span>i64 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_vec_hash_single(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="macro">fx_hash_64_bit!</span>(<span class="self">self</span>, k)
-    }
-}
-<span class="kw">impl </span>VecHashSingle <span class="kw">for </span>u64 {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>_vec_hash_single(<span class="self">self</span>, k: u64) -&gt; u64 {
-        <span class="macro">fx_hash_64_bit!</span>(<span class="self">self</span>, k)
-    }
-}
-
 <span class="kw">impl </span>VecHash <span class="kw">for </span>Utf8Chunked {
+    <span class="kw">fn </span>vec_hash(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;) {
+        <span class="self">self</span>.as_binary().vec_hash(random_state, buf)
+    }
+
+    <span class="kw">fn </span>vec_hash_combine(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, hashes: <span class="kw-2">&amp;mut </span>[u64]) {
+        <span class="self">self</span>.as_binary().vec_hash_combine(random_state, hashes)
+    }
+}
+
+<span class="kw">impl </span>VecHash <span class="kw">for </span>BinaryChunked {
     <span class="kw">fn </span>vec_hash(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;) {
         buf.clear();
         buf.reserve(<span class="self">self</span>.len());
@@ -999,13 +1048,10 @@
         <span class="self">self</span>.downcast_iter().for_each(|arr| {
             <span class="kw">if </span>arr.null_count() == <span class="number">0 </span>{
                 <span class="comment">// simply use the null_hash as seed to get a hash determined by `random_state` that is passed
-                </span>buf.extend(
-                    arr.values_iter()
-                        .map(|v| xxh3_64_with_seed(v.as_bytes(), null_h)),
-                )
+                </span>buf.extend(arr.values_iter().map(|v| xxh3_64_with_seed(v, null_h)))
             } <span class="kw">else </span>{
                 buf.extend(arr.into_iter().map(|opt_v| <span class="kw">match </span>opt_v {
-                    <span class="prelude-val">Some</span>(v) =&gt; xxh3_64_with_seed(v.as_bytes(), null_h),
+                    <span class="prelude-val">Some</span>(v) =&gt; xxh3_64_with_seed(v, null_h),
                     <span class="prelude-val">None </span>=&gt; null_h,
                 }))
             }
@@ -1014,45 +1060,36 @@
 
     <span class="kw">fn </span>vec_hash_combine(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, hashes: <span class="kw-2">&amp;mut </span>[u64]) {
         <span class="kw">let </span>null_h = get_null_hash_value(random_state);
-        <span class="self">self</span>.apply_to_slice(
-            |opt_v, h| {
-                <span class="kw">let </span>l = <span class="kw">match </span>opt_v {
-                    <span class="prelude-val">Some</span>(v) =&gt; xxh3_64_with_seed(v.as_bytes(), null_h),
-                    <span class="prelude-val">None </span>=&gt; null_h,
-                };
-                _boost_hash_combine(l, <span class="kw-2">*</span>h)
-            },
-            hashes,
-        )
-    }
-}
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
-</span><span class="kw">impl </span>VecHash <span class="kw">for </span>BinaryChunked {
-    <span class="kw">fn </span>vec_hash(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;) {
-        buf.clear();
-        buf.reserve(<span class="self">self</span>.len());
-        <span class="kw">let </span>null_h = get_null_hash_value(random_state);
+        <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="number">0</span>;
         <span class="self">self</span>.downcast_iter().for_each(|arr| {
-            buf.extend(arr.into_iter().map(|opt_v| <span class="kw">match </span>opt_v {
-                <span class="prelude-val">Some</span>(v) =&gt; xxh3_64_with_seed(v, null_h),
-                <span class="prelude-val">None </span>=&gt; null_h,
-            }))
+            <span class="kw">match </span>arr.null_count() {
+                <span class="number">0 </span>=&gt; arr
+                    .values_iter()
+                    .zip(<span class="kw-2">&amp;mut </span>hashes[offset..])
+                    .for_each(|(v, h)| {
+                        <span class="kw">let </span>l = xxh3_64_with_seed(v, null_h);
+                        <span class="kw-2">*</span>h = _boost_hash_combine(l, <span class="kw-2">*</span>h)
+                    }),
+                <span class="kw">_ </span>=&gt; {
+                    <span class="kw">let </span>validity = arr.validity().unwrap();
+                    <span class="kw">let </span>(slice, byte_offset, <span class="kw">_</span>) = validity.as_slice();
+                    (<span class="number">0</span>..validity.len())
+                        .map(|i| <span class="kw">unsafe </span>{ get_bit_unchecked(slice, i + byte_offset) })
+                        .zip(<span class="kw-2">&amp;mut </span>hashes[offset..])
+                        .zip(arr.values_iter())
+                        .for_each(|((valid, h), l)| {
+                            <span class="kw">let </span>l = <span class="kw">if </span>valid {
+                                xxh3_64_with_seed(l, null_h)
+                            } <span class="kw">else </span>{
+                                null_h
+                            };
+                            <span class="kw-2">*</span>h = _boost_hash_combine(l, <span class="kw-2">*</span>h)
+                        });
+                }
+            }
+            offset += arr.len();
         });
-    }
-
-    <span class="kw">fn </span>vec_hash_combine(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, hashes: <span class="kw-2">&amp;mut </span>[u64]) {
-        <span class="kw">let </span>null_h = get_null_hash_value(random_state);
-        <span class="self">self</span>.apply_to_slice(
-            |opt_v, h| {
-                <span class="kw">let </span>l = <span class="kw">match </span>opt_v {
-                    <span class="prelude-val">Some</span>(v) =&gt; xxh3_64_with_seed(v, null_h),
-                    <span class="prelude-val">None </span>=&gt; null_h,
-                };
-                _boost_hash_combine(l, <span class="kw-2">*</span>h)
-            },
-            hashes,
-        )
     }
 }
 
@@ -1060,20 +1097,60 @@
     <span class="kw">fn </span>vec_hash(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;) {
         buf.clear();
         buf.reserve(<span class="self">self</span>.len());
+        <span class="kw">let </span>true_h = random_state.hash_single(<span class="bool-val">true</span>);
+        <span class="kw">let </span>false_h = random_state.hash_single(<span class="bool-val">false</span>);
+        <span class="kw">let </span>null_h = get_null_hash_value(random_state);
         <span class="self">self</span>.downcast_iter().for_each(|arr| {
-            buf.extend(arr.into_iter().map(|opt_v| random_state.hash_single(opt_v)))
+            <span class="kw">if </span>arr.null_count() == <span class="number">0 </span>{
+                buf.extend(arr.values_iter().map(|v| <span class="kw">if </span>v { true_h } <span class="kw">else </span>{ false_h }))
+            } <span class="kw">else </span>{
+                buf.extend(arr.into_iter().map(|opt_v| <span class="kw">match </span>opt_v {
+                    <span class="prelude-val">Some</span>(<span class="bool-val">true</span>) =&gt; true_h,
+                    <span class="prelude-val">Some</span>(<span class="bool-val">false</span>) =&gt; false_h,
+                    <span class="prelude-val">None </span>=&gt; null_h,
+                }))
+            }
         });
     }
 
     <span class="kw">fn </span>vec_hash_combine(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, hashes: <span class="kw-2">&amp;mut </span>[u64]) {
-        <span class="self">self</span>.apply_to_slice(
-            |opt_v, h| {
-                <span class="kw">let </span><span class="kw-2">mut </span>hasher = random_state.build_hasher();
-                opt_v.hash(<span class="kw-2">&amp;mut </span>hasher);
-                _boost_hash_combine(hasher.finish(), <span class="kw-2">*</span>h)
-            },
-            hashes,
-        )
+        <span class="kw">let </span>true_h = random_state.hash_single(<span class="bool-val">true</span>);
+        <span class="kw">let </span>false_h = random_state.hash_single(<span class="bool-val">false</span>);
+        <span class="kw">let </span>null_h = get_null_hash_value(random_state);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="number">0</span>;
+        <span class="self">self</span>.downcast_iter().for_each(|arr| {
+            <span class="kw">match </span>arr.null_count() {
+                <span class="number">0 </span>=&gt; arr
+                    .values_iter()
+                    .zip(<span class="kw-2">&amp;mut </span>hashes[offset..])
+                    .for_each(|(v, h)| {
+                        <span class="kw">let </span>l = <span class="kw">if </span>v { true_h } <span class="kw">else </span>{ false_h };
+                        <span class="kw-2">*</span>h = _boost_hash_combine(l, <span class="kw-2">*</span>h)
+                    }),
+                <span class="kw">_ </span>=&gt; {
+                    <span class="kw">let </span>validity = arr.validity().unwrap();
+                    <span class="kw">let </span>(slice, byte_offset, <span class="kw">_</span>) = validity.as_slice();
+                    (<span class="number">0</span>..validity.len())
+                        .map(|i| <span class="kw">unsafe </span>{ get_bit_unchecked(slice, i + byte_offset) })
+                        .zip(<span class="kw-2">&amp;mut </span>hashes[offset..])
+                        .zip(arr.values())
+                        .for_each(|((valid, h), l)| {
+                            <span class="kw">let </span>l = <span class="kw">if </span>valid {
+                                <span class="kw">if </span>l {
+                                    true_h
+                                } <span class="kw">else </span>{
+                                    false_h
+                                }
+                            } <span class="kw">else </span>{
+                                null_h
+                            };
+                            <span class="kw-2">*</span>h = _boost_hash_combine(l, <span class="kw-2">*</span>h)
+                        });
+                }
+            }
+            offset += arr.len();
+        });
     }
 }
 
@@ -1330,13 +1407,6 @@
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(s: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;, hash: u64) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{ payload: s, hash }
     }
-    <span class="attr">#[inline]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_from_str(s: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;, hash: u64) -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{
-            payload: s.map(|s| s.as_bytes()),
-            hash,
-        }
-    }
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; PartialEq <span class="kw">for </span>BytesHash&lt;<span class="lifetime">&#39;a</span>&gt; {
@@ -1376,49 +1446,51 @@
     // We use the hash to partition the keys to the matching hashtable.
     // Every thread traverses all keys/hashes and ignores the ones that doesn&#39;t fall in that partition.
     </span>POOL.install(|| {
-        (<span class="number">0</span>..n_partitions).into_par_iter().map(|partition_no| {
-            <span class="kw">let </span>build_hasher = build_hasher.clone();
-            <span class="kw">let </span>hashes_and_keys = <span class="kw-2">&amp;</span>hashes_and_keys;
-            <span class="kw">let </span>partition_no = partition_no <span class="kw">as </span>u64;
-            <span class="kw">let </span><span class="kw-2">mut </span>hash_tbl: HashMap&lt;T, (bool, Vec&lt;IdxSize&gt;), RandomState&gt; =
-                HashMap::with_hasher(build_hasher);
+        (<span class="number">0</span>..n_partitions)
+            .into_par_iter()
+            .map(|partition_no| {
+                <span class="kw">let </span>build_hasher = build_hasher.clone();
+                <span class="kw">let </span>hashes_and_keys = <span class="kw-2">&amp;</span>hashes_and_keys;
+                <span class="kw">let </span>partition_no = partition_no <span class="kw">as </span>u64;
+                <span class="kw">let </span><span class="kw-2">mut </span>hash_tbl: HashMap&lt;T, (bool, Vec&lt;IdxSize&gt;), RandomState&gt; =
+                    HashMap::with_hasher(build_hasher);
 
-            <span class="kw">let </span>n_threads = n_partitions <span class="kw">as </span>u64;
-            <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="number">0</span>;
-            <span class="kw">for </span>hashes_and_keys <span class="kw">in </span>hashes_and_keys {
-                <span class="kw">let </span>len = hashes_and_keys.len();
-                hashes_and_keys
-                    .iter()
-                    .enumerate()
-                    .for_each(|(idx, (h, k))| {
-                        <span class="kw">let </span>idx = idx <span class="kw">as </span>IdxSize;
-                        <span class="comment">// partition hashes by thread no.
-                        // So only a part of the hashes go to this hashmap
-                        </span><span class="kw">if </span>this_partition(<span class="kw-2">*</span>h, partition_no, n_threads) {
-                            <span class="kw">let </span>idx = idx + offset;
-                            <span class="kw">let </span>entry = hash_tbl
-                                .raw_entry_mut()
-                                <span class="comment">// uses the key to check equality to find and entry
-                                </span>.from_key_hashed_nocheck(<span class="kw-2">*</span>h, k);
+                <span class="kw">let </span>n_threads = n_partitions <span class="kw">as </span>u64;
+                <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="number">0</span>;
+                <span class="kw">for </span>hashes_and_keys <span class="kw">in </span>hashes_and_keys {
+                    <span class="kw">let </span>len = hashes_and_keys.len();
+                    hashes_and_keys
+                        .iter()
+                        .enumerate()
+                        .for_each(|(idx, (h, k))| {
+                            <span class="kw">let </span>idx = idx <span class="kw">as </span>IdxSize;
+                            <span class="comment">// partition hashes by thread no.
+                            // So only a part of the hashes go to this hashmap
+                            </span><span class="kw">if </span>this_partition(<span class="kw-2">*</span>h, partition_no, n_threads) {
+                                <span class="kw">let </span>idx = idx + offset;
+                                <span class="kw">let </span>entry = hash_tbl
+                                    .raw_entry_mut()
+                                    <span class="comment">// uses the key to check equality to find and entry
+                                    </span>.from_key_hashed_nocheck(<span class="kw-2">*</span>h, k);
 
-                            <span class="kw">match </span>entry {
-                                RawEntryMut::Vacant(entry) =&gt; {
-                                    entry.insert_hashed_nocheck(<span class="kw-2">*</span>h, <span class="kw-2">*</span>k, (<span class="bool-val">false</span>, <span class="macro">vec!</span>[idx]));
-                                }
-                                RawEntryMut::Occupied(<span class="kw-2">mut </span>entry) =&gt; {
-                                    <span class="kw">let </span>(_k, v) = entry.get_key_value_mut();
-                                    v.<span class="number">1</span>.push(idx);
+                                <span class="kw">match </span>entry {
+                                    RawEntryMut::Vacant(entry) =&gt; {
+                                        entry.insert_hashed_nocheck(<span class="kw-2">*</span>h, <span class="kw-2">*</span>k, (<span class="bool-val">false</span>, <span class="macro">vec!</span>[idx]));
+                                    }
+                                    RawEntryMut::Occupied(<span class="kw-2">mut </span>entry) =&gt; {
+                                        <span class="kw">let </span>(_k, v) = entry.get_key_value_mut();
+                                        v.<span class="number">1</span>.push(idx);
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
 
-                offset += len <span class="kw">as </span>IdxSize;
-            }
-            hash_tbl
-        })
+                    offset += len <span class="kw">as </span>IdxSize;
+                }
+                hash_tbl
+            })
+            .collect()
     })
-    .collect()
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>create_hash_and_keys_threaded_vectorized&lt;I, T&gt;(
@@ -1497,4 +1569,4 @@
     <span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>((UInt64Chunked::from_chunks(<span class="string">&quot;&quot;</span>, chunks), build_hasher)) }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

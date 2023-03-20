@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":[["group_agg_nan_max_s","Safety"],["group_agg_nan_min_s","Safety"],["nan_max_s",""],["nan_min_s",""]]};

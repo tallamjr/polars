@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/series/arithmetic/borrowed.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>borrowed.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_core/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/series/arithmetic/borrowed.rs`."><title>borrowed.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_core/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -865,135 +865,190 @@
 <a href="#865" id="865">865</a>
 <a href="#866" id="866">866</a>
 <a href="#867" id="867">867</a>
+<a href="#868" id="868">868</a>
+<a href="#869" id="869">869</a>
+<a href="#870" id="870">870</a>
+<a href="#871" id="871">871</a>
+<a href="#872" id="872">872</a>
+<a href="#873" id="873">873</a>
+<a href="#874" id="874">874</a>
+<a href="#875" id="875">875</a>
+<a href="#876" id="876">876</a>
+<a href="#877" id="877">877</a>
+<a href="#878" id="878">878</a>
+<a href="#879" id="879">879</a>
+<a href="#880" id="880">880</a>
+<a href="#881" id="881">881</a>
+<a href="#882" id="882">882</a>
+<a href="#883" id="883">883</a>
+<a href="#884" id="884">884</a>
+<a href="#885" id="885">885</a>
+<a href="#886" id="886">886</a>
+<a href="#887" id="887">887</a>
+<a href="#888" id="888">888</a>
+<a href="#889" id="889">889</a>
+<a href="#890" id="890">890</a>
+<a href="#891" id="891">891</a>
+<a href="#892" id="892">892</a>
+<a href="#893" id="893">893</a>
+<a href="#894" id="894">894</a>
+<a href="#895" id="895">895</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-<span class="kw">pub trait </span>NumOpsDispatch: Debug {
-    <span class="kw">fn </span>subtract(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="prelude-val">Err</span>(PolarsError::InvalidOperation(
-            <span class="macro">format!</span>(<span class="string">&quot;subtraction operation not supported for {self:?} and {rhs:?}&quot;</span>,).into(),
-        ))
+<span class="kw">pub trait </span>NumOpsDispatchInner: PolarsDataType + Sized {
+    <span class="kw">fn </span>subtract(lhs: <span class="kw-2">&amp;</span>ChunkedArray&lt;<span class="self">Self</span>&gt;, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+        <span class="macro">polars_bail!</span>(opq = sub, lhs.dtype(), rhs.dtype());
     }
-    <span class="kw">fn </span>add_to(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="prelude-val">Err</span>(PolarsError::InvalidOperation(
-            <span class="macro">format!</span>(<span class="string">&quot;addition operation not supported for {self:?} and {rhs:?}&quot;</span>,).into(),
-        ))
+    <span class="kw">fn </span>add_to(lhs: <span class="kw-2">&amp;</span>ChunkedArray&lt;<span class="self">Self</span>&gt;, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+        <span class="macro">polars_bail!</span>(opq = add, lhs.dtype(), rhs.dtype());
     }
-    <span class="kw">fn </span>multiply(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="prelude-val">Err</span>(PolarsError::InvalidOperation(
-            <span class="macro">format!</span>(<span class="string">&quot;multiplication operation not supported for {self:?} and {rhs:?}&quot;</span>,).into(),
-        ))
+    <span class="kw">fn </span>multiply(lhs: <span class="kw-2">&amp;</span>ChunkedArray&lt;<span class="self">Self</span>&gt;, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+        <span class="macro">polars_bail!</span>(opq = mul, lhs.dtype(), rhs.dtype());
     }
-    <span class="kw">fn </span>divide(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="prelude-val">Err</span>(PolarsError::InvalidOperation(
-            <span class="macro">format!</span>(<span class="string">&quot;division operation not supported for {self:?} and {rhs:?}&quot;</span>,).into(),
-        ))
+    <span class="kw">fn </span>divide(lhs: <span class="kw-2">&amp;</span>ChunkedArray&lt;<span class="self">Self</span>&gt;, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+        <span class="macro">polars_bail!</span>(opq = div, lhs.dtype(), rhs.dtype());
     }
-    <span class="kw">fn </span>remainder(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="prelude-val">Err</span>(PolarsError::InvalidOperation(
-            <span class="macro">format!</span>(<span class="string">&quot;remainder operation not supported for {self:?} and {rhs:?}&quot;</span>,).into(),
-        ))
+    <span class="kw">fn </span>remainder(lhs: <span class="kw-2">&amp;</span>ChunkedArray&lt;<span class="self">Self</span>&gt;, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+        <span class="macro">polars_bail!</span>(opq = rem, lhs.dtype(), rhs.dtype());
     }
 }
 
-<span class="kw">impl</span>&lt;T&gt; NumOpsDispatch <span class="kw">for </span>ChunkedArray&lt;T&gt;
+<span class="kw">pub trait </span>NumOpsDispatch {
+    <span class="kw">fn </span>subtract(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt;;
+    <span class="kw">fn </span>add_to(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt;;
+    <span class="kw">fn </span>multiply(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt;;
+    <span class="kw">fn </span>divide(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt;;
+    <span class="kw">fn </span>remainder(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt;;
+}
+
+<span class="kw">impl</span>&lt;T: NumOpsDispatchInner&gt; NumOpsDispatch <span class="kw">for </span>ChunkedArray&lt;T&gt; {
+    <span class="kw">fn </span>subtract(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+        T::subtract(<span class="self">self</span>, rhs)
+    }
+    <span class="kw">fn </span>add_to(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+        T::add_to(<span class="self">self</span>, rhs)
+    }
+    <span class="kw">fn </span>multiply(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+        T::multiply(<span class="self">self</span>, rhs)
+    }
+    <span class="kw">fn </span>divide(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+        T::divide(<span class="self">self</span>, rhs)
+    }
+    <span class="kw">fn </span>remainder(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+        T::remainder(<span class="self">self</span>, rhs)
+    }
+}
+
+<span class="kw">impl</span>&lt;T&gt; NumOpsDispatchInner <span class="kw">for </span>T
 <span class="kw">where
     </span>T: PolarsNumericType,
     ChunkedArray&lt;T&gt;: IntoSeries,
 {
-    <span class="kw">fn </span>subtract(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">fn </span>subtract(lhs: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
         <span class="comment">// Safety:
         // There will be UB if a ChunkedArray is alive with the wrong datatype.
         // we now only create the potentially wrong dtype for a short time.
         // Note that the physical type correctness is checked!
         // The ChunkedArray with the wrong dtype is dropped after this operation
-        </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ <span class="self">self</span>.unpack_series_matching_physical_type(rhs) };
-        <span class="kw">let </span>out = <span class="self">self </span>- rhs;
+        </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ lhs.unpack_series_matching_physical_type(rhs) };
+        <span class="kw">let </span>out = lhs - rhs;
         <span class="prelude-val">Ok</span>(out.into_series())
     }
-    <span class="kw">fn </span>add_to(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">fn </span>add_to(lhs: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
         <span class="comment">// Safety:
         // see subtract
-        </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ <span class="self">self</span>.unpack_series_matching_physical_type(rhs) };
-        <span class="kw">let </span>out = <span class="self">self </span>+ rhs;
+        </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ lhs.unpack_series_matching_physical_type(rhs) };
+        <span class="kw">let </span>out = lhs + rhs;
         <span class="prelude-val">Ok</span>(out.into_series())
     }
-    <span class="kw">fn </span>multiply(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">fn </span>multiply(lhs: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
         <span class="comment">// Safety:
         // see subtract
-        </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ <span class="self">self</span>.unpack_series_matching_physical_type(rhs) };
-        <span class="kw">let </span>out = <span class="self">self </span>* rhs;
+        </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ lhs.unpack_series_matching_physical_type(rhs) };
+        <span class="kw">let </span>out = lhs * rhs;
         <span class="prelude-val">Ok</span>(out.into_series())
     }
-    <span class="kw">fn </span>divide(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">fn </span>divide(lhs: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
         <span class="comment">// Safety:
         // see subtract
-        </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ <span class="self">self</span>.unpack_series_matching_physical_type(rhs) };
-        <span class="kw">let </span>out = <span class="self">self </span>/ rhs;
+        </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ lhs.unpack_series_matching_physical_type(rhs) };
+        <span class="kw">let </span>out = lhs / rhs;
         <span class="prelude-val">Ok</span>(out.into_series())
     }
-    <span class="kw">fn </span>remainder(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">fn </span>remainder(lhs: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
         <span class="comment">// Safety:
         // see subtract
-        </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ <span class="self">self</span>.unpack_series_matching_physical_type(rhs) };
-        <span class="kw">let </span>out = <span class="self">self </span>% rhs;
+        </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ lhs.unpack_series_matching_physical_type(rhs) };
+        <span class="kw">let </span>out = lhs % rhs;
         <span class="prelude-val">Ok</span>(out.into_series())
     }
 }
 
-<span class="kw">impl </span>NumOpsDispatch <span class="kw">for </span>Utf8Chunked {
-    <span class="kw">fn </span>add_to(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="kw">let </span>rhs = <span class="self">self</span>.unpack_series_matching_type(rhs)<span class="question-mark">?</span>;
-        <span class="kw">let </span>out = <span class="self">self </span>+ rhs;
+<span class="kw">impl </span>NumOpsDispatchInner <span class="kw">for </span>Utf8Type {
+    <span class="kw">fn </span>add_to(lhs: <span class="kw-2">&amp;</span>Utf8Chunked, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+        <span class="kw">let </span>rhs = lhs.unpack_series_matching_type(rhs)<span class="question-mark">?</span>;
+        <span class="kw">let </span>out = lhs + rhs;
         <span class="prelude-val">Ok</span>(out.into_series())
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
-</span><span class="kw">impl </span>NumOpsDispatch <span class="kw">for </span>BinaryChunked {
-    <span class="kw">fn </span>add_to(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="kw">let </span>rhs = <span class="self">self</span>.unpack_series_matching_type(rhs)<span class="question-mark">?</span>;
-        <span class="kw">let </span>out = <span class="self">self </span>+ rhs;
+<span class="kw">impl </span>NumOpsDispatchInner <span class="kw">for </span>BinaryType {
+    <span class="kw">fn </span>add_to(lhs: <span class="kw-2">&amp;</span>BinaryChunked, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+        <span class="kw">let </span>rhs = lhs.unpack_series_matching_type(rhs)<span class="question-mark">?</span>;
+        <span class="kw">let </span>out = lhs + rhs;
         <span class="prelude-val">Ok</span>(out.into_series())
     }
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;checked_arithmetic&quot;</span>)]
 </span><span class="kw">pub mod </span>checked {
-    <span class="kw">use </span>num::{CheckedDiv, ToPrimitive, Zero};
+    <span class="kw">use </span>num_traits::{CheckedDiv, One, ToPrimitive, Zero};
 
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::utils::align_chunks_binary;
 
-    <span class="kw">pub trait </span>NumOpsDispatchChecked: Debug {
+    <span class="kw">pub trait </span>NumOpsDispatchCheckedInner: PolarsDataType + Sized {
         <span class="doccomment">/// Checked integer division. Computes self / rhs, returning None if rhs == 0 or the division results in overflow.
-        </span><span class="kw">fn </span>checked_div(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
-            <span class="prelude-val">Err</span>(PolarsError::InvalidOperation(
-                <span class="macro">format!</span>(<span class="string">&quot;checked division operation not supported for {self:?} and {rhs:?}&quot;</span>,)
-                    .into(),
-            ))
+        </span><span class="kw">fn </span>checked_div(lhs: <span class="kw-2">&amp;</span>ChunkedArray&lt;<span class="self">Self</span>&gt;, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+            <span class="macro">polars_bail!</span>(opq = checked_div, lhs.dtype(), rhs.dtype());
         }
-        <span class="kw">fn </span>checked_div_num&lt;T: ToPrimitive&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, _rhs: T) -&gt; PolarsResult&lt;Series&gt; {
-            <span class="prelude-val">Err</span>(PolarsError::InvalidOperation(
-                <span class="macro">format!</span>(<span class="string">&quot;checked division by number operation not supported for {self:?}&quot;</span>,).into(),
-            ))
+        <span class="kw">fn </span>checked_div_num&lt;T: ToPrimitive&gt;(
+            lhs: <span class="kw-2">&amp;</span>ChunkedArray&lt;<span class="self">Self</span>&gt;,
+            _rhs: T,
+        ) -&gt; PolarsResult&lt;Series&gt; {
+            <span class="macro">polars_bail!</span>(opq = checked_div_num, lhs.dtype(), <span class="self">Self</span>::get_dtype());
         }
     }
 
-    <span class="kw">impl</span>&lt;T&gt; NumOpsDispatchChecked <span class="kw">for </span>ChunkedArray&lt;T&gt;
+    <span class="kw">pub trait </span>NumOpsDispatchChecked {
+        <span class="doccomment">/// Checked integer division. Computes self / rhs, returning None if rhs == 0 or the division results in overflow.
+        </span><span class="kw">fn </span>checked_div(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt;;
+        <span class="kw">fn </span>checked_div_num&lt;T: ToPrimitive&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, _rhs: T) -&gt; PolarsResult&lt;Series&gt;;
+    }
+
+    <span class="kw">impl</span>&lt;S: NumOpsDispatchCheckedInner&gt; NumOpsDispatchChecked <span class="kw">for </span>ChunkedArray&lt;S&gt; {
+        <span class="kw">fn </span>checked_div(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+            S::checked_div(<span class="self">self</span>, rhs)
+        }
+        <span class="kw">fn </span>checked_div_num&lt;T: ToPrimitive&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: T) -&gt; PolarsResult&lt;Series&gt; {
+            S::checked_div_num(<span class="self">self</span>, rhs)
+        }
+    }
+
+    <span class="kw">impl</span>&lt;T&gt; NumOpsDispatchCheckedInner <span class="kw">for </span>T
     <span class="kw">where
         </span>T: PolarsIntegerType,
-        T::Native:
-            CheckedDiv&lt;Output = T::Native&gt; + CheckedDiv&lt;Output = T::Native&gt; + num::Zero + num::One,
+        T::Native: CheckedDiv&lt;Output = T::Native&gt; + CheckedDiv&lt;Output = T::Native&gt; + Zero + One,
         ChunkedArray&lt;T&gt;: IntoSeries,
     {
-        <span class="kw">fn </span>checked_div(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+        <span class="kw">fn </span>checked_div(lhs: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
             <span class="comment">// Safety:
             // There will be UB if a ChunkedArray is alive with the wrong datatype.
             // we now only create the potentially wrong dtype for a short time.
             // Note that the physical type correctness is checked!
             // The ChunkedArray with the wrong dtype is dropped after this operation
-            </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ <span class="self">self</span>.unpack_series_matching_physical_type(rhs) };
-            <span class="kw">let </span>(l, r) = align_chunks_binary(<span class="self">self</span>, rhs);
+            </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ lhs.unpack_series_matching_physical_type(rhs) };
+            <span class="kw">let </span>(l, r) = align_chunks_binary(lhs, rhs);
 
             <span class="prelude-val">Ok</span>((l)
                 .downcast_iter()
@@ -1014,12 +1069,12 @@
         }
     }
 
-    <span class="kw">impl </span>NumOpsDispatchChecked <span class="kw">for </span>Float32Chunked {
-        <span class="kw">fn </span>checked_div(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">impl </span>NumOpsDispatchCheckedInner <span class="kw">for </span>Float32Type {
+        <span class="kw">fn </span>checked_div(lhs: <span class="kw-2">&amp;</span>Float32Chunked, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
             <span class="comment">// Safety:
             // see check_div for chunkedarray&lt;T&gt;
-            </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ <span class="self">self</span>.unpack_series_matching_physical_type(rhs) };
-            <span class="kw">let </span>(l, r) = align_chunks_binary(<span class="self">self</span>, rhs);
+            </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ lhs.unpack_series_matching_physical_type(rhs) };
+            <span class="kw">let </span>(l, r) = align_chunks_binary(lhs, rhs);
 
             <span class="prelude-val">Ok</span>((l)
                 .downcast_iter()
@@ -1046,12 +1101,12 @@
         }
     }
 
-    <span class="kw">impl </span>NumOpsDispatchChecked <span class="kw">for </span>Float64Chunked {
-        <span class="kw">fn </span>checked_div(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">impl </span>NumOpsDispatchCheckedInner <span class="kw">for </span>Float64Type {
+        <span class="kw">fn </span>checked_div(lhs: <span class="kw-2">&amp;</span>Float64Chunked, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
             <span class="comment">// Safety:
             // see check_div
-            </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ <span class="self">self</span>.unpack_series_matching_physical_type(rhs) };
-            <span class="kw">let </span>(l, r) = align_chunks_binary(<span class="self">self</span>, rhs);
+            </span><span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ lhs.unpack_series_matching_physical_type(rhs) };
+            <span class="kw">let </span>(l, r) = align_chunks_binary(lhs, rhs);
 
             <span class="prelude-val">Ok</span>((l)
                 .downcast_iter()
@@ -1246,7 +1301,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
-</span><span class="kw">fn </span>struct_arithmetic&lt;F: FnMut(<span class="kw-2">&amp;</span>Series, <span class="kw-2">&amp;</span>Series) -&gt; Series&gt;(
+</span><span class="kw">pub fn </span>_struct_arithmetic&lt;F: FnMut(<span class="kw-2">&amp;</span>Series, <span class="kw-2">&amp;</span>Series) -&gt; Series&gt;(
     s: <span class="kw-2">&amp;</span>Series,
     rhs: <span class="kw-2">&amp;</span>Series,
     <span class="kw-2">mut </span>func: F,
@@ -1255,6 +1310,7 @@
     <span class="kw">let </span>rhs = rhs.struct_().unwrap();
     <span class="kw">let </span>s_fields = s.fields();
     <span class="kw">let </span>rhs_fields = rhs.fields();
+
     <span class="kw">match </span>(s_fields.len(), rhs_fields.len()) {
         (<span class="kw">_</span>, <span class="number">1</span>) =&gt; {
             <span class="kw">let </span>rhs = <span class="kw-2">&amp;</span>rhs.fields()[<span class="number">0</span>];
@@ -1276,14 +1332,14 @@
     }
 }
 
-<span class="kw">impl </span>ops::Sub <span class="kw">for </span><span class="kw-2">&amp;</span>Series {
+<span class="kw">impl </span>Sub <span class="kw">for </span><span class="kw-2">&amp;</span>Series {
     <span class="kw">type </span>Output = Series;
 
     <span class="kw">fn </span>sub(<span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>::Output {
         <span class="kw">match </span>(<span class="self">self</span>.dtype(), rhs.dtype()) {
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
             </span>(DataType::Struct(<span class="kw">_</span>), DataType::Struct(<span class="kw">_</span>)) =&gt; {
-                struct_arithmetic(<span class="self">self</span>, rhs, |a, b| a.sub(b))
+                _struct_arithmetic(<span class="self">self</span>, rhs, |a, b| a.sub(b))
             }
             <span class="kw">_ </span>=&gt; {
                 <span class="kw">let </span>(lhs, rhs) = coerce_lhs_rhs(<span class="self">self</span>, rhs).expect(<span class="string">&quot;cannot coerce datatypes&quot;</span>);
@@ -1298,7 +1354,7 @@
         <span class="kw">match </span>(<span class="self">self</span>.dtype(), rhs.dtype()) {
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
             </span>(DataType::Struct(<span class="kw">_</span>), DataType::Struct(<span class="kw">_</span>)) =&gt; {
-                <span class="prelude-val">Ok</span>(struct_arithmetic(<span class="self">self</span>, rhs, |a, b| a.add(b)))
+                <span class="prelude-val">Ok</span>(_struct_arithmetic(<span class="self">self</span>, rhs, |a, b| a.add(b)))
             }
             <span class="kw">_ </span>=&gt; {
                 <span class="kw">let </span>(lhs, rhs) = coerce_lhs_rhs(<span class="self">self</span>, rhs)<span class="question-mark">?</span>;
@@ -1307,7 +1363,7 @@
         }
     }
 }
-<span class="kw">impl </span>ops::Add <span class="kw">for </span><span class="kw-2">&amp;</span>Series {
+<span class="kw">impl </span>Add <span class="kw">for </span><span class="kw-2">&amp;</span>Series {
     <span class="kw">type </span>Output = Series;
 
     <span class="kw">fn </span>add(<span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>::Output {
@@ -1315,7 +1371,7 @@
     }
 }
 
-<span class="kw">impl </span>ops::Mul <span class="kw">for </span><span class="kw-2">&amp;</span>Series {
+<span class="kw">impl </span>Mul <span class="kw">for </span><span class="kw-2">&amp;</span>Series {
     <span class="kw">type </span>Output = Series;
 
     <span class="doccomment">/// ```
@@ -1327,7 +1383,7 @@
         <span class="kw">match </span>(<span class="self">self</span>.dtype(), rhs.dtype()) {
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
             </span>(DataType::Struct(<span class="kw">_</span>), DataType::Struct(<span class="kw">_</span>)) =&gt; {
-                struct_arithmetic(<span class="self">self</span>, rhs, |a, b| a.mul(b))
+                _struct_arithmetic(<span class="self">self</span>, rhs, |a, b| a.mul(b))
             }
             <span class="kw">_ </span>=&gt; {
                 <span class="kw">let </span>(lhs, rhs) = coerce_lhs_rhs(<span class="self">self</span>, rhs).expect(<span class="string">&quot;cannot coerce datatypes&quot;</span>);
@@ -1337,7 +1393,7 @@
     }
 }
 
-<span class="kw">impl </span>ops::Div <span class="kw">for </span><span class="kw-2">&amp;</span>Series {
+<span class="kw">impl </span>Div <span class="kw">for </span><span class="kw-2">&amp;</span>Series {
     <span class="kw">type </span>Output = Series;
 
     <span class="doccomment">/// ```
@@ -1349,7 +1405,7 @@
         <span class="kw">match </span>(<span class="self">self</span>.dtype(), rhs.dtype()) {
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
             </span>(DataType::Struct(<span class="kw">_</span>), DataType::Struct(<span class="kw">_</span>)) =&gt; {
-                struct_arithmetic(<span class="self">self</span>, rhs, |a, b| a.div(b))
+                _struct_arithmetic(<span class="self">self</span>, rhs, |a, b| a.div(b))
             }
             <span class="kw">_ </span>=&gt; {
                 <span class="kw">let </span>(lhs, rhs) = coerce_lhs_rhs(<span class="self">self</span>, rhs).expect(<span class="string">&quot;cannot coerce datatypes&quot;</span>);
@@ -1359,7 +1415,7 @@
     }
 }
 
-<span class="kw">impl </span>ops::Rem <span class="kw">for </span><span class="kw-2">&amp;</span>Series {
+<span class="kw">impl </span>Rem <span class="kw">for </span><span class="kw-2">&amp;</span>Series {
     <span class="kw">type </span>Output = Series;
 
     <span class="doccomment">/// ```
@@ -1371,7 +1427,7 @@
         <span class="kw">match </span>(<span class="self">self</span>.dtype(), rhs.dtype()) {
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
             </span>(DataType::Struct(<span class="kw">_</span>), DataType::Struct(<span class="kw">_</span>)) =&gt; {
-                struct_arithmetic(<span class="self">self</span>, rhs, |a, b| a.rem(b))
+                _struct_arithmetic(<span class="self">self</span>, rhs, |a, b| a.rem(b))
             }
             <span class="kw">_ </span>=&gt; {
                 <span class="kw">let </span>(lhs, rhs) = coerce_lhs_rhs(<span class="self">self</span>, rhs).expect(<span class="string">&quot;cannot coerce datatypes&quot;</span>);
@@ -1397,7 +1453,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T&gt; ops::Sub&lt;T&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>Series
+<span class="kw">impl</span>&lt;T&gt; Sub&lt;T&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>Series
 <span class="kw">where
     </span>T: Num + NumCast,
 {
@@ -1416,7 +1472,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T&gt; ops::Sub&lt;T&gt; <span class="kw">for </span>Series
+<span class="kw">impl</span>&lt;T&gt; Sub&lt;T&gt; <span class="kw">for </span>Series
 <span class="kw">where
     </span>T: Num + NumCast,
 {
@@ -1427,7 +1483,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T&gt; ops::Add&lt;T&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>Series
+<span class="kw">impl</span>&lt;T&gt; Add&lt;T&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>Series
 <span class="kw">where
     </span>T: Num + NumCast,
 {
@@ -1445,7 +1501,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T&gt; ops::Add&lt;T&gt; <span class="kw">for </span>Series
+<span class="kw">impl</span>&lt;T&gt; Add&lt;T&gt; <span class="kw">for </span>Series
 <span class="kw">where
     </span>T: Num + NumCast,
 {
@@ -1456,7 +1512,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T&gt; ops::Div&lt;T&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>Series
+<span class="kw">impl</span>&lt;T&gt; Div&lt;T&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>Series
 <span class="kw">where
     </span>T: Num + NumCast,
 {
@@ -1475,7 +1531,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T&gt; ops::Div&lt;T&gt; <span class="kw">for </span>Series
+<span class="kw">impl</span>&lt;T&gt; Div&lt;T&gt; <span class="kw">for </span>Series
 <span class="kw">where
     </span>T: Num + NumCast,
 {
@@ -1486,7 +1542,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T&gt; ops::Mul&lt;T&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>Series
+<span class="kw">impl</span>&lt;T&gt; Mul&lt;T&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>Series
 <span class="kw">where
     </span>T: Num + NumCast,
 {
@@ -1504,7 +1560,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T&gt; ops::Mul&lt;T&gt; <span class="kw">for </span>Series
+<span class="kw">impl</span>&lt;T&gt; Mul&lt;T&gt; <span class="kw">for </span>Series
 <span class="kw">where
     </span>T: Num + NumCast,
 {
@@ -1515,7 +1571,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T&gt; ops::Rem&lt;T&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>Series
+<span class="kw">impl</span>&lt;T&gt; Rem&lt;T&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>Series
 <span class="kw">where
     </span>T: Num + NumCast,
 {
@@ -1533,7 +1589,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T&gt; ops::Rem&lt;T&gt; <span class="kw">for </span>Series
+<span class="kw">impl</span>&lt;T&gt; Rem&lt;T&gt; <span class="kw">for </span>Series
 <span class="kw">where
     </span>T: Num + NumCast,
 {
@@ -1733,4 +1789,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

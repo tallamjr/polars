@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/polars-plan/src/dsl/functions.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>functions.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_plan/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/polars-plan/src/dsl/functions.rs`."><title>functions.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_plan/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1121,16 +1121,54 @@
 <a href="#1121" id="1121">1121</a>
 <a href="#1122" id="1122">1122</a>
 <a href="#1123" id="1123">1123</a>
+<a href="#1124" id="1124">1124</a>
+<a href="#1125" id="1125">1125</a>
+<a href="#1126" id="1126">1126</a>
+<a href="#1127" id="1127">1127</a>
+<a href="#1128" id="1128">1128</a>
+<a href="#1129" id="1129">1129</a>
+<a href="#1130" id="1130">1130</a>
+<a href="#1131" id="1131">1131</a>
+<a href="#1132" id="1132">1132</a>
+<a href="#1133" id="1133">1133</a>
+<a href="#1134" id="1134">1134</a>
+<a href="#1135" id="1135">1135</a>
+<a href="#1136" id="1136">1136</a>
+<a href="#1137" id="1137">1137</a>
+<a href="#1138" id="1138">1138</a>
+<a href="#1139" id="1139">1139</a>
+<a href="#1140" id="1140">1140</a>
+<a href="#1141" id="1141">1141</a>
+<a href="#1142" id="1142">1142</a>
+<a href="#1143" id="1143">1143</a>
+<a href="#1144" id="1144">1144</a>
+<a href="#1145" id="1145">1145</a>
+<a href="#1146" id="1146">1146</a>
+<a href="#1147" id="1147">1147</a>
+<a href="#1148" id="1148">1148</a>
+<a href="#1149" id="1149">1149</a>
+<a href="#1150" id="1150">1150</a>
+<a href="#1151" id="1151">1151</a>
+<a href="#1152" id="1152">1152</a>
+<a href="#1153" id="1153">1153</a>
+<a href="#1154" id="1154">1154</a>
+<a href="#1155" id="1155">1155</a>
+<a href="#1156" id="1156">1156</a>
+<a href="#1157" id="1157">1157</a>
+<a href="#1158" id="1158">1158</a>
+<a href="#1159" id="1159">1159</a>
+<a href="#1160" id="1160">1160</a>
+<a href="#1161" id="1161">1161</a>
 </pre><pre class="rust"><code><span class="doccomment">//! # Functions
 //!
 //! Functions on expressions that might be useful.
 //!
 </span><span class="kw">use </span>std::ops::{BitAnd, BitOr};
 
-<span class="kw">use </span>polars_core::export::arrow::temporal_conversions::NANOSECONDS;
-<span class="kw">use </span>polars_core::utils::arrow::temporal_conversions::SECONDS_IN_DAY;
-<span class="attr">#[cfg(feature = <span class="string">&quot;rank&quot;</span>)]
-</span><span class="kw">use </span>polars_core::utils::coalesce_nulls_series;
+<span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
+</span><span class="kw">use </span>polars_core::export::arrow::temporal_conversions::NANOSECONDS;
+<span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
+</span><span class="kw">use </span>polars_core::utils::arrow::temporal_conversions::SECONDS_IN_DAY;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">use </span>polars_core::utils::get_supertype;
 
@@ -1185,7 +1223,7 @@
                 Series::new(name, <span class="kw-2">&amp;</span>[polars_core::functions::cov_f(ca_a, ca_b)])
             }
         };
-        <span class="prelude-val">Ok</span>(s)
+        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s))
     };
     apply_binary(
         a,
@@ -1270,7 +1308,7 @@
                 )
             }
         };
-        <span class="prelude-val">Ok</span>(s)
+        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s))
     };
     apply_binary(
         a,
@@ -1302,6 +1340,7 @@
 ///     and thus lead to the highest rank.
 </span><span class="attr">#[cfg(all(feature = <span class="string">&quot;rank&quot;</span>, feature = <span class="string">&quot;propagate_nans&quot;</span>))]
 </span><span class="kw">pub fn </span>spearman_rank_corr(a: Expr, b: Expr, ddof: u8, propagate_nans: bool) -&gt; Expr {
+    <span class="kw">use </span>polars_core::utils::coalesce_nulls_series;
     <span class="kw">use </span>polars_ops::prelude::nan_propagating_aggregate::nan_max_s;
 
     <span class="kw">let </span>function = <span class="kw">move </span>|a: Series, b: Series| {
@@ -1317,7 +1356,7 @@
                     .unwrap()
                     .is_nan()
                 {
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(Series::new(name, <span class="kw-2">&amp;</span>[f64::NAN]));
+                    <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Series::new(name, <span class="kw-2">&amp;</span>[f64::NAN])));
                 }
             }
         }
@@ -1337,10 +1376,10 @@
         <span class="kw">let </span>a_idx = a_idx.idx().unwrap();
         <span class="kw">let </span>b_idx = b_idx.idx().unwrap();
 
-        <span class="prelude-val">Ok</span>(Series::new(
+        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Series::new(
             name,
             <span class="kw-2">&amp;</span>[polars_core::functions::pearson_corr_i(a_idx, b_idx, ddof)],
-        ))
+        )))
     };
 
     apply_binary(a, b, function, GetOutput::from_type(DataType::Float64)).with_function_options(
@@ -1356,10 +1395,10 @@
 /// That means that the first `Series` will be used to determine the ordering
 /// until duplicates are found. Once duplicates are found, the next `Series` will
 /// be used and so on.
-</span><span class="kw">pub fn </span>argsort_by&lt;E: AsRef&lt;[Expr]&gt;&gt;(by: E, reverse: <span class="kw-2">&amp;</span>[bool]) -&gt; Expr {
-    <span class="kw">let </span>reverse = reverse.to_vec();
+</span><span class="kw">pub fn </span>arg_sort_by&lt;E: AsRef&lt;[Expr]&gt;&gt;(by: E, descending: <span class="kw-2">&amp;</span>[bool]) -&gt; Expr {
+    <span class="kw">let </span>descending = descending.to_vec();
     <span class="kw">let </span>function = SpecialEq::new(Arc::new(<span class="kw">move </span>|by: <span class="kw-2">&amp;mut </span>[Series]| {
-        polars_core::functions::argsort_by(by, <span class="kw-2">&amp;</span>reverse).map(|ca| ca.into_series())
+        polars_core::functions::arg_sort_by(by, <span class="kw-2">&amp;</span>descending).map(|ca| <span class="prelude-val">Some</span>(ca.into_series()))
     }) <span class="kw">as </span>Arc&lt;<span class="kw">dyn </span>SeriesUdf&gt;);
 
     Expr::AnonymousFunction {
@@ -1369,7 +1408,7 @@
         options: FunctionOptions {
             collect_groups: ApplyOptions::ApplyGroups,
             input_wildcard_expansion: <span class="bool-val">true</span>,
-            fmt_str: <span class="string">&quot;argsort_by&quot;</span>,
+            fmt_str: <span class="string">&quot;arg_sort_by&quot;</span>,
             ..Default::default()
         },
     }
@@ -1377,15 +1416,15 @@
 
 <span class="attr">#[cfg(all(feature = <span class="string">&quot;concat_str&quot;</span>, feature = <span class="string">&quot;strings&quot;</span>))]
 </span><span class="doccomment">/// Horizontally concat string columns in linear time
-</span><span class="kw">pub fn </span>concat_str&lt;E: AsRef&lt;[Expr]&gt;&gt;(s: E, sep: <span class="kw-2">&amp;</span>str) -&gt; Expr {
+</span><span class="kw">pub fn </span>concat_str&lt;E: AsRef&lt;[Expr]&gt;&gt;(s: E, separator: <span class="kw-2">&amp;</span>str) -&gt; Expr {
     <span class="kw">let </span>input = s.as_ref().to_vec();
-    <span class="kw">let </span>sep = sep.to_string();
+    <span class="kw">let </span>separator = separator.to_string();
 
     Expr::Function {
         input,
-        function: StringFunction::ConcatHorizontal(sep).into(),
+        function: StringFunction::ConcatHorizontal(separator).into(),
         options: FunctionOptions {
-            collect_groups: ApplyOptions::ApplyGroups,
+            collect_groups: ApplyOptions::ApplyFlat,
             input_wildcard_expansion: <span class="bool-val">true</span>,
             auto_explode: <span class="bool-val">true</span>,
             ..Default::default()
@@ -1401,11 +1440,10 @@
     <span class="comment">// Parse the format string, and separate substrings between placeholders
     </span><span class="kw">let </span>segments: Vec&lt;<span class="kw-2">&amp;</span>str&gt; = format.split(<span class="string">&quot;{}&quot;</span>).collect();
 
-    <span class="kw">if </span>segments.len() - <span class="number">1 </span>!= args.len() {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ShapeMisMatch(
-            <span class="string">&quot;number of placeholders should equal the number of arguments&quot;</span>.into(),
-        ));
-    }
+    <span class="macro">polars_ensure!</span>(
+        segments.len() - <span class="number">1 </span>== args.len(),
+        ShapeMismatch: <span class="string">&quot;number of placeholders should equal the number of arguments&quot;
+    </span>);
 
     <span class="kw">let </span><span class="kw-2">mut </span>exprs: Vec&lt;Expr&gt; = Vec::new();
 
@@ -1425,19 +1463,21 @@
 }
 
 <span class="doccomment">/// Concat lists entries.
-</span><span class="kw">pub fn </span>concat_lst&lt;E: AsRef&lt;[IE]&gt;, IE: Into&lt;Expr&gt; + Clone&gt;(s: E) -&gt; Expr {
-    <span class="kw">let </span>s = s.as_ref().iter().map(|e| e.clone().into()).collect();
+</span><span class="kw">pub fn </span>concat_lst&lt;E: AsRef&lt;[IE]&gt;, IE: Into&lt;Expr&gt; + Clone&gt;(s: E) -&gt; PolarsResult&lt;Expr&gt; {
+    <span class="kw">let </span>s: Vec&lt;<span class="kw">_</span>&gt; = s.as_ref().iter().map(|e| e.clone().into()).collect();
 
-    Expr::Function {
+    <span class="macro">polars_ensure!</span>(!s.is_empty(), ComputeError: <span class="string">&quot;`concat_list` needs one or more expressions&quot;</span>);
+
+    <span class="prelude-val">Ok</span>(Expr::Function {
         input: s,
         function: FunctionExpr::ListExpr(ListFunction::Concat),
         options: FunctionOptions {
-            collect_groups: ApplyOptions::ApplyFlat,
+            collect_groups: ApplyOptions::ApplyGroups,
             input_wildcard_expansion: <span class="bool-val">true</span>,
             fmt_str: <span class="string">&quot;concat_list&quot;</span>,
             ..Default::default()
         },
-    }
+    })
 }
 
 <span class="doccomment">/// Create list entries that are range arrays
@@ -1486,31 +1526,24 @@
             <span class="kw">let </span>low = sa
                 .i64()<span class="question-mark">?
                 </span>.get(<span class="number">0</span>)
-                .ok_or_else(|| PolarsError::NoData(<span class="string">&quot;no data in `low` evaluation&quot;</span>.into()))<span class="question-mark">?</span>;
+                .ok_or_else(|| <span class="macro">polars_err!</span>(NoData: <span class="string">&quot;no data in `low` evaluation&quot;</span>))<span class="question-mark">?</span>;
             <span class="kw">let </span>high = sb
                 .i64()<span class="question-mark">?
                 </span>.get(<span class="number">0</span>)
-                .ok_or_else(|| PolarsError::NoData(<span class="string">&quot;no data in `high` evaluation&quot;</span>.into()))<span class="question-mark">?</span>;
+                .ok_or_else(|| <span class="macro">polars_err!</span>(NoData: <span class="string">&quot;no data in `high` evaluation&quot;</span>))<span class="question-mark">?</span>;
 
-            <span class="kw">if </span>step &gt; <span class="number">1 </span>{
-                <span class="kw">let </span><span class="kw-2">mut </span>ca = Int64Chunked::from_iter_values(<span class="string">&quot;arange&quot;</span>, (low..high).step_by(step));
-                <span class="kw">let </span>s = <span class="kw">if </span>high &lt; low {
-                    IsSorted::Descending
-                } <span class="kw">else </span>{
-                    IsSorted::Ascending
-                };
-                ca.set_sorted_flag(s);
-                <span class="prelude-val">Ok</span>(ca.into_series())
+            <span class="kw">let </span><span class="kw-2">mut </span>ca = <span class="kw">if </span>step &gt; <span class="number">1 </span>{
+                Int64Chunked::from_iter_values(<span class="string">&quot;arange&quot;</span>, (low..high).step_by(step))
             } <span class="kw">else </span>{
-                <span class="kw">let </span><span class="kw-2">mut </span>ca = Int64Chunked::from_iter_values(<span class="string">&quot;arange&quot;</span>, low..high);
-                <span class="kw">let </span>s = <span class="kw">if </span>high &lt; low {
-                    IsSorted::Descending
-                } <span class="kw">else </span>{
-                    IsSorted::Ascending
-                };
-                ca.set_sorted_flag(s);
-                <span class="prelude-val">Ok</span>(ca.into_series())
-            }
+                Int64Chunked::from_iter_values(<span class="string">&quot;arange&quot;</span>, low..high)
+            };
+            <span class="kw">let </span>is_sorted = <span class="kw">if </span>high &lt; low {
+                IsSorted::Descending
+            } <span class="kw">else </span>{
+                IsSorted::Ascending
+            };
+            ca.set_sorted_flag(is_sorted);
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(ca.into_series()))
         };
         apply_binary(
             low,
@@ -1529,9 +1562,12 @@
                 } <span class="kw">else if </span>sb.len() == <span class="number">1 </span>{
                     sb = sb.new_from_index(<span class="number">0</span>, sa.len())
                 } <span class="kw">else </span>{
-                    <span class="kw">let </span>msg = <span class="macro">format!</span>(<span class="string">&quot;The length of the &#39;low&#39; and &#39;high&#39; arguments cannot be matched in the &#39;arange&#39; expression.. \
-                    Length of &#39;low&#39;: {}, length of &#39;high&#39;: {}&quot;</span>, sa.len(), sb.len());
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(msg.into()));
+                    <span class="macro">polars_bail!</span>(
+                        ComputeError:
+                        <span class="string">&quot;lengths of `low`: {} and `high`: {} arguments `\
+                        cannot be matched in the `arange` expression&quot;</span>,
+                        sa.len(), sb.len()
+                    );
                 }
             }
 
@@ -1557,7 +1593,7 @@
                     <span class="kw">_ </span>=&gt; builder.append_null(),
                 });
 
-            <span class="prelude-val">Ok</span>(builder.finish().into_series())
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(builder.finish().into_series()))
         };
         apply_binary(
             low,
@@ -1579,7 +1615,8 @@
     <span class="kw">pub </span>microsecond: <span class="prelude-ty">Option</span>&lt;Expr&gt;,
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
+<span class="doccomment">/// Construct a column of `Datetime` from the provided args.
+</span><span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
 </span><span class="kw">pub fn </span>datetime(args: DatetimeArgs) -&gt; Expr {
     <span class="kw">use </span>polars_core::export::chrono::NaiveDate;
     <span class="kw">use </span>polars_core::utils::CustomIterTools;
@@ -1655,7 +1692,9 @@
             })
             .collect_trusted();
 
-        <span class="prelude-val">Ok</span>(ca.into_datetime(TimeUnit::Microseconds, <span class="prelude-val">None</span>).into_series())
+        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(
+            ca.into_datetime(TimeUnit::Microseconds, <span class="prelude-val">None</span>).into_series(),
+        ))
     }) <span class="kw">as </span>Arc&lt;<span class="kw">dyn </span>SeriesUdf&gt;);
 
     Expr::AnonymousFunction {
@@ -1692,7 +1731,8 @@
     <span class="kw">pub </span>weeks: <span class="prelude-ty">Option</span>&lt;Expr&gt;,
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
+<span class="doccomment">/// Construct a column of `Duration` from the provided args.
+</span><span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
 </span><span class="kw">pub fn </span>duration(args: DurationArgs) -&gt; Expr {
     <span class="kw">let </span>function = SpecialEq::new(Arc::new(<span class="kw">move </span>|s: <span class="kw-2">&amp;mut </span>[Series]| {
         <span class="macro">assert_eq!</span>(s.len(), <span class="number">8</span>);
@@ -1737,7 +1777,9 @@
             nanoseconds = nanoseconds + weeks * NANOSECONDS * SECONDS_IN_DAY * <span class="number">7</span>;
         }
 
-        nanoseconds.cast(<span class="kw-2">&amp;</span>DataType::Duration(TimeUnit::Nanoseconds))
+        nanoseconds
+            .cast(<span class="kw-2">&amp;</span>DataType::Duration(TimeUnit::Nanoseconds))
+            .map(<span class="prelude-val">Some</span>)
     }) <span class="kw">as </span>Arc&lt;<span class="kw">dyn </span>SeriesUdf&gt;);
 
     Expr::AnonymousFunction {
@@ -1767,7 +1809,8 @@
 ///
 /// # Arguments
 ///
-/// * `name` - A string slice that holds the name of the column
+/// * `name` - A string slice that holds the name of the column. If a column with this name does not exist when the
+///   LazyFrame is collected, an error is returned.
 ///
 /// # Examples
 ///
@@ -1793,12 +1836,12 @@
     }
 }
 
-<span class="doccomment">/// Selects all columns
+<span class="doccomment">/// Selects all columns. Shorthand for `col(&quot;*&quot;)`.
 </span><span class="kw">pub fn </span>all() -&gt; Expr {
     Expr::Wildcard
 }
 
-<span class="doccomment">/// Select multiple columns by name
+<span class="doccomment">/// Select multiple columns by name.
 </span><span class="kw">pub fn </span>cols&lt;I: IntoVec&lt;String&gt;&gt;(names: I) -&gt; Expr {
     <span class="kw">let </span>names = names.into_vec();
     Expr::Columns(names)
@@ -1815,37 +1858,37 @@
     Expr::DtypeColumn(dtypes)
 }
 
-<span class="doccomment">/// Sum all the values in this Expression.
+<span class="doccomment">/// Sum all the values in the column named `name`. Shorthand for `col(name).sum()`.
 </span><span class="kw">pub fn </span>sum(name: <span class="kw-2">&amp;</span>str) -&gt; Expr {
     col(name).sum()
 }
 
-<span class="doccomment">/// Find the minimum of all the values in this Expression.
+<span class="doccomment">/// Find the minimum of all the values in the column named `name`. Shorthand for `col(name).min()`.
 </span><span class="kw">pub fn </span>min(name: <span class="kw-2">&amp;</span>str) -&gt; Expr {
     col(name).min()
 }
 
-<span class="doccomment">/// Find the maximum of all the values in this Expression.
+<span class="doccomment">/// Find the maximum of all the values in the column named `name`. Shorthand for `col(name).max()`.
 </span><span class="kw">pub fn </span>max(name: <span class="kw-2">&amp;</span>str) -&gt; Expr {
     col(name).max()
 }
 
-<span class="doccomment">/// Find the mean of all the values in this Expression.
+<span class="doccomment">/// Find the mean of all the values in the column named `name`. Shorthand for `col(name).mean()`.
 </span><span class="kw">pub fn </span>mean(name: <span class="kw-2">&amp;</span>str) -&gt; Expr {
     col(name).mean()
 }
 
-<span class="doccomment">/// Find the mean of all the values in this Expression.
+<span class="doccomment">/// Find the mean of all the values in the column named `name`. Alias for [`mean`].
 </span><span class="kw">pub fn </span>avg(name: <span class="kw-2">&amp;</span>str) -&gt; Expr {
     col(name).mean()
 }
 
-<span class="doccomment">/// Find the median of all the values in this Expression.
+<span class="doccomment">/// Find the median of all the values in the column named `name`. Shorthand for `col(name).median()`.
 </span><span class="kw">pub fn </span>median(name: <span class="kw-2">&amp;</span>str) -&gt; Expr {
     col(name).median()
 }
 
-<span class="doccomment">/// Find a specific quantile of all the values in this Expression.
+<span class="doccomment">/// Find a specific quantile of all the values in the column named `name`.
 </span><span class="kw">pub fn </span>quantile(name: <span class="kw-2">&amp;</span>str, quantile: Expr, interpol: QuantileInterpolOptions) -&gt; Expr {
     col(name).quantile(quantile, interpol)
 }
@@ -1862,17 +1905,22 @@
 }
 
 <span class="doccomment">/// Apply a closure on the two columns that are evaluated from `Expr` a and `Expr` b.
+///
+/// The closure takes two arguments, each a `Series`. `output_type` must be the output dtype of the resulting `Series`.
 </span><span class="kw">pub fn </span>map_binary&lt;F: <span class="lifetime">&#39;static</span>&gt;(a: Expr, b: Expr, f: F, output_type: GetOutput) -&gt; Expr
 <span class="kw">where
-    </span>F: Fn(Series, Series) -&gt; PolarsResult&lt;Series&gt; + Send + Sync,
+    </span>F: Fn(Series, Series) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + Send + Sync,
 {
     <span class="kw">let </span>function = <span class="macro">prepare_binary_function!</span>(f);
     a.map_many(function, <span class="kw-2">&amp;</span>[b], output_type)
 }
 
-<span class="kw">pub fn </span>apply_binary&lt;F: <span class="lifetime">&#39;static</span>&gt;(a: Expr, b: Expr, f: F, output_type: GetOutput) -&gt; Expr
+<span class="doccomment">/// Like [`map_binary`], but used in a groupby-aggregation context.
+///
+/// See [`Expr::apply`] for the difference between [`map`](Expr::map) and [`apply`](Expr::apply).
+</span><span class="kw">pub fn </span>apply_binary&lt;F: <span class="lifetime">&#39;static</span>&gt;(a: Expr, b: Expr, f: F, output_type: GetOutput) -&gt; Expr
 <span class="kw">where
-    </span>F: Fn(Series, Series) -&gt; PolarsResult&lt;Series&gt; + Send + Sync,
+    </span>F: Fn(Series, Series) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + Send + Sync,
 {
     <span class="kw">let </span>function = <span class="macro">prepare_binary_function!</span>(f);
     a.apply_many(function, <span class="kw-2">&amp;</span>[b], output_type)
@@ -1900,7 +1948,7 @@
 <span class="doccomment">/// Accumulate over multiple columns horizontally / row wise.
 </span><span class="kw">pub fn </span>fold_exprs&lt;F: <span class="lifetime">&#39;static</span>, E: AsRef&lt;[Expr]&gt;&gt;(acc: Expr, f: F, exprs: E) -&gt; Expr
 <span class="kw">where
-    </span>F: Fn(Series, Series) -&gt; PolarsResult&lt;Series&gt; + Send + Sync + Clone,
+    </span>F: Fn(Series, Series) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + Send + Sync + Clone,
 {
     <span class="kw">let </span><span class="kw-2">mut </span>exprs = exprs.as_ref().to_vec();
     exprs.push(acc);
@@ -1910,9 +1958,11 @@
         <span class="kw">let </span><span class="kw-2">mut </span>acc = series.pop().unwrap();
 
         <span class="kw">for </span>s <span class="kw">in </span>series {
-            acc = f(acc, s)<span class="question-mark">?</span>;
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(a) = f(acc.clone(), s)<span class="question-mark">? </span>{
+                acc = a
+            }
         }
-        <span class="prelude-val">Ok</span>(acc)
+        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(acc))
     }) <span class="kw">as </span>Arc&lt;<span class="kw">dyn </span>SeriesUdf&gt;);
 
     Expr::AnonymousFunction {
@@ -1929,9 +1979,14 @@
     }
 }
 
-<span class="kw">pub fn </span>reduce_exprs&lt;F: <span class="lifetime">&#39;static</span>, E: AsRef&lt;[Expr]&gt;&gt;(f: F, exprs: E) -&gt; Expr
+<span class="doccomment">/// Analogous to [`Iterator::reduce`](std::iter::Iterator::reduce).
+///
+/// An accumulator is initialized to the series given by the first expression in `exprs`, and then each subsequent value
+/// of the accumulator is computed from `f(acc, next_expr_series)`. If `exprs` is empty, an error is returned when
+/// `collect` is called.
+</span><span class="kw">pub fn </span>reduce_exprs&lt;F: <span class="lifetime">&#39;static</span>, E: AsRef&lt;[Expr]&gt;&gt;(f: F, exprs: E) -&gt; Expr
 <span class="kw">where
-    </span>F: Fn(Series, Series) -&gt; PolarsResult&lt;Series&gt; + Send + Sync + Clone,
+    </span>F: Fn(Series, Series) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + Send + Sync + Clone,
 {
     <span class="kw">let </span>exprs = exprs.as_ref().to_vec();
 
@@ -1943,13 +1998,13 @@
                 <span class="kw">let </span><span class="kw-2">mut </span>acc = acc.clone();
 
                 <span class="kw">for </span>s <span class="kw">in </span>s_iter {
-                    acc = f(acc, s.clone())<span class="question-mark">?</span>;
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(a) = f(acc.clone(), s.clone())<span class="question-mark">? </span>{
+                        acc = a
+                    }
                 }
-                <span class="prelude-val">Ok</span>(acc)
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(acc))
             }
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="string">&quot;Reduce did not have any expressions to fold&quot;</span>.into(),
-            )),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;`reduce` did not have any expressions to fold&quot;</span>)),
         }
     }) <span class="kw">as </span>Arc&lt;<span class="kw">dyn </span>SeriesUdf&gt;);
 
@@ -1971,7 +2026,7 @@
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">pub fn </span>cumreduce_exprs&lt;F: <span class="lifetime">&#39;static</span>, E: AsRef&lt;[Expr]&gt;&gt;(f: F, exprs: E) -&gt; Expr
 <span class="kw">where
-    </span>F: Fn(Series, Series) -&gt; PolarsResult&lt;Series&gt; + Send + Sync + Clone,
+    </span>F: Fn(Series, Series) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + Send + Sync + Clone,
 {
     <span class="kw">let </span>exprs = exprs.as_ref().to_vec();
 
@@ -1985,16 +2040,16 @@
 
                 <span class="kw">for </span>s <span class="kw">in </span>s_iter {
                     <span class="kw">let </span>name = s.name().to_string();
-                    acc = f(acc, s.clone())<span class="question-mark">?</span>;
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(a) = f(acc.clone(), s.clone())<span class="question-mark">? </span>{
+                        acc = a;
+                    }
                     acc.rename(<span class="kw-2">&amp;</span>name);
                     result.push(acc.clone());
                 }
 
-                StructChunked::new(acc.name(), <span class="kw-2">&amp;</span>result).map(|ca| ca.into_series())
+                StructChunked::new(acc.name(), <span class="kw-2">&amp;</span>result).map(|ca| <span class="prelude-val">Some</span>(ca.into_series()))
             }
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="string">&quot;Reduce did not have any expressions to fold&quot;</span>.into(),
-            )),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;`reduce` did not have any expressions to fold&quot;</span>)),
         }
     }) <span class="kw">as </span>Arc&lt;<span class="kw">dyn </span>SeriesUdf&gt;);
 
@@ -2021,7 +2076,7 @@
     include_init: bool,
 ) -&gt; Expr
 <span class="kw">where
-    </span>F: Fn(Series, Series) -&gt; PolarsResult&lt;Series&gt; + Send + Sync + Clone,
+    </span>F: Fn(Series, Series) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + Send + Sync + Clone,
 {
     <span class="kw">let </span><span class="kw-2">mut </span>exprs = exprs.as_ref().to_vec();
     exprs.push(acc);
@@ -2037,12 +2092,14 @@
 
         <span class="kw">for </span>s <span class="kw">in </span>series {
             <span class="kw">let </span>name = s.name().to_string();
-            acc = f(acc, s)<span class="question-mark">?</span>;
-            acc.rename(<span class="kw-2">&amp;</span>name);
-            result.push(acc.clone());
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(a) = f(acc.clone(), s)<span class="question-mark">? </span>{
+                acc = a;
+                acc.rename(<span class="kw-2">&amp;</span>name);
+                result.push(acc.clone());
+            }
         }
 
-        StructChunked::new(acc.name(), <span class="kw-2">&amp;</span>result).map(|ca| ca.into_series())
+        StructChunked::new(acc.name(), <span class="kw-2">&amp;</span>result).map(|ca| <span class="prelude-val">Some</span>(ca.into_series()))
     }) <span class="kw">as </span>Arc&lt;<span class="kw">dyn </span>SeriesUdf&gt;);
 
     Expr::AnonymousFunction {
@@ -2059,10 +2116,12 @@
     }
 }
 
-<span class="doccomment">/// Get the the sum of the values per row
+<span class="doccomment">/// Create a new column with the the sum of the values in each row.
+///
+/// The name of the resulting column will be `&quot;sum&quot;`; use [`alias`](Expr::alias) to choose a different name.
 </span><span class="kw">pub fn </span>sum_exprs&lt;E: AsRef&lt;[Expr]&gt;&gt;(exprs: E) -&gt; Expr {
     <span class="kw">let </span><span class="kw-2">mut </span>exprs = exprs.as_ref().to_vec();
-    <span class="kw">let </span>func = |s1, s2| <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>s1 + <span class="kw-2">&amp;</span>s2);
+    <span class="kw">let </span>func = |s1, s2| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>s1 + <span class="kw-2">&amp;</span>s2));
     <span class="kw">let </span>init = <span class="kw">match </span>exprs.pop() {
         <span class="prelude-val">Some</span>(e) =&gt; e,
         <span class="comment">// use u32 as that is not cast to float as eagerly
@@ -2071,7 +2130,9 @@
     fold_exprs(init, func, exprs).alias(<span class="string">&quot;sum&quot;</span>)
 }
 
-<span class="doccomment">/// Get the the maximum value per row
+<span class="doccomment">/// Create a new column with the the maximum value per row.
+///
+/// The name of the resulting column will be `&quot;max&quot;`; use [`alias`](Expr::alias) to choose a different name.
 </span><span class="kw">pub fn </span>max_exprs&lt;E: AsRef&lt;[Expr]&gt;&gt;(exprs: E) -&gt; Expr {
     <span class="kw">let </span>exprs = exprs.as_ref().to_vec();
     <span class="kw">if </span>exprs.is_empty() {
@@ -2079,53 +2140,64 @@
     }
     <span class="kw">let </span>func = |s1, s2| {
         <span class="kw">let </span>df = DataFrame::new_no_checks(<span class="macro">vec!</span>[s1, s2]);
-        df.hmax().map(|s| s.unwrap())
+        df.hmax()
     };
     reduce_exprs(func, exprs).alias(<span class="string">&quot;max&quot;</span>)
 }
 
-<span class="kw">pub fn </span>min_exprs&lt;E: AsRef&lt;[Expr]&gt;&gt;(exprs: E) -&gt; Expr {
+<span class="doccomment">/// Create a new column with the the minimum value per row.
+///
+/// The name of the resulting column will be `&quot;min&quot;`; use [`alias`](Expr::alias) to choose a different name.
+</span><span class="kw">pub fn </span>min_exprs&lt;E: AsRef&lt;[Expr]&gt;&gt;(exprs: E) -&gt; Expr {
     <span class="kw">let </span>exprs = exprs.as_ref().to_vec();
     <span class="kw">if </span>exprs.is_empty() {
         <span class="kw">return </span>Expr::Columns(Vec::new());
     }
     <span class="kw">let </span>func = |s1, s2| {
         <span class="kw">let </span>df = DataFrame::new_no_checks(<span class="macro">vec!</span>[s1, s2]);
-        df.hmin().map(|s| s.unwrap())
+        df.hmin()
     };
     reduce_exprs(func, exprs).alias(<span class="string">&quot;min&quot;</span>)
 }
 
-<span class="doccomment">/// Evaluate all the expressions with a bitwise or
+<span class="doccomment">/// Create a new column with the the bitwise-or of the elements in each row.
+///
+/// The name of the resulting column is arbitrary; use [`alias`](Expr::alias) to choose a different name.
 </span><span class="kw">pub fn </span>any_exprs&lt;E: AsRef&lt;[Expr]&gt;&gt;(exprs: E) -&gt; Expr {
     <span class="kw">let </span>exprs = exprs.as_ref().to_vec();
-    <span class="kw">let </span>func = |s1: Series, s2: Series| <span class="prelude-val">Ok</span>(s1.bool()<span class="question-mark">?</span>.bitor(s2.bool()<span class="question-mark">?</span>).into_series());
+    <span class="kw">let </span>func = |s1: Series, s2: Series| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s1.bool()<span class="question-mark">?</span>.bitor(s2.bool()<span class="question-mark">?</span>).into_series()));
     fold_exprs(lit(<span class="bool-val">false</span>), func, exprs)
 }
 
-<span class="doccomment">/// Evaluate all the expressions with a bitwise and
+<span class="doccomment">/// Create a new column with the the bitwise-and of the elements in each row.
+///
+/// The name of the resulting column is arbitrary; use [`alias`](Expr::alias) to choose a different name.
 </span><span class="kw">pub fn </span>all_exprs&lt;E: AsRef&lt;[Expr]&gt;&gt;(exprs: E) -&gt; Expr {
     <span class="kw">let </span>exprs = exprs.as_ref().to_vec();
-    <span class="kw">let </span>func = |s1: Series, s2: Series| <span class="prelude-val">Ok</span>(s1.bool()<span class="question-mark">?</span>.bitand(s2.bool()<span class="question-mark">?</span>).into_series());
+    <span class="kw">let </span>func = |s1: Series, s2: Series| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s1.bool()<span class="question-mark">?</span>.bitand(s2.bool()<span class="question-mark">?</span>).into_series()));
     fold_exprs(lit(<span class="bool-val">true</span>), func, exprs)
 }
 
-<span class="doccomment">/// [Not](Expr::Not) expression.
+<span class="doccomment">/// Negates a boolean column.
 </span><span class="kw">pub fn </span>not(expr: Expr) -&gt; Expr {
     expr.not()
 }
 
-<span class="doccomment">/// [IsNull](Expr::IsNotNull) expression
+<span class="doccomment">/// A column which is `true` wherever `expr` is null, `false` elsewhere.
 </span><span class="kw">pub fn </span>is_null(expr: Expr) -&gt; Expr {
     expr.is_null()
 }
 
-<span class="doccomment">/// [IsNotNull](Expr::IsNotNull) expression.
+<span class="doccomment">/// A column which is `false` wherever `expr` is null, `true` elsewhere.
 </span><span class="kw">pub fn </span>is_not_null(expr: Expr) -&gt; Expr {
     expr.is_not_null()
 }
 
-<span class="doccomment">/// [Cast](Expr::Cast) expression.
+<span class="doccomment">/// Casts the column given by `Expr` to a different type.
+///
+/// Follows the rules of Rust casting, with the exception that integers and floats can be cast to `DataType::Date` and
+/// `DataType::DateTime(_, _)`. A column consisting entirely of of `Null` can be cast to any type, regardless of the
+/// nominal type of the column.
 </span><span class="kw">pub fn </span>cast(expr: Expr, data_type: DataType) -&gt; Expr {
     Expr::Cast {
         expr: Box::new(expr),
@@ -2165,7 +2237,7 @@
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">pub fn </span>as_struct(exprs: <span class="kw-2">&amp;</span>[Expr]) -&gt; Expr {
     map_multiple(
-        |s| StructChunked::new(<span class="string">&quot;&quot;</span>, s).map(|ca| ca.into_series()),
+        |s| StructChunked::new(s[<span class="number">0</span>].name(), s).map(|ca| <span class="prelude-val">Some</span>(ca.into_series())),
         exprs,
         GetOutput::map_fields(|fld| Field::new(fld[<span class="number">0</span>].name(), DataType::Struct(fld.to_vec()))),
     )
@@ -2176,13 +2248,16 @@
     })
 }
 
-<span class="doccomment">/// Repeat a literal `value` `n` times.
+<span class="doccomment">/// Create a column of length `n` containing `n` copies of the literal `value`. Generally you won&#39;t need this function,
+/// as `lit(value)` already represents a column containing only `value` whose length is automatically set to the correct
+/// number of rows.
 </span><span class="kw">pub fn </span>repeat&lt;L: Literal&gt;(value: L, n_times: Expr) -&gt; Expr {
     <span class="kw">let </span>function = |s: Series, n: Series| {
-        <span class="kw">let </span>n = n.get(<span class="number">0</span>).unwrap().extract::&lt;usize&gt;().ok_or_else(|| {
-            PolarsError::ComputeError(<span class="macro">format!</span>(<span class="string">&quot;could not extract a size from {n:?}&quot;</span>).into())
-        })<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(s.new_from_index(<span class="number">0</span>, n))
+        <span class="kw">let </span>n =
+            n.get(<span class="number">0</span>).unwrap().extract::&lt;usize&gt;().ok_or_else(
+                || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;could not extract a size from {:?}&quot;</span>, n),
+            )<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.new_from_index(<span class="number">0</span>, n)))
     };
     apply_binary(lit(value), n_times, function, GetOutput::same_type())
 }
@@ -2196,13 +2271,14 @@
         function: FunctionExpr::ArgWhere,
         options: FunctionOptions {
             collect_groups: ApplyOptions::ApplyGroups,
-            fmt_str: <span class="string">&quot;arg_where&quot;</span>,
             ..Default::default()
         },
     }
 }
 
-<span class="doccomment">/// Folds the expressions from left to right keeping the first no null values.
+<span class="doccomment">/// Folds the expressions from left to right keeping the first non-null values.
+///
+/// It is an error to provide an empty `exprs`.
 </span><span class="kw">pub fn </span>coalesce(exprs: <span class="kw-2">&amp;</span>[Expr]) -&gt; Expr {
     <span class="kw">let </span>input = exprs.to_vec();
     Expr::Function {
@@ -2217,7 +2293,7 @@
     }
 }
 
-<span class="doccomment">///  Create a date range from a `start` and `stop` expression.
+<span class="doccomment">/// Create a date range, named `name`, from a `start` and `stop` expression.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
 </span><span class="kw">pub fn </span>date_range(
     name: String,
@@ -2245,4 +2321,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_plan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_plan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

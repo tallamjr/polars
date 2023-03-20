@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/series/comparison.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>comparison.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_core/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/series/comparison.rs`."><title>comparison.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_core/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -359,48 +359,6 @@
 <a href="#359" id="359">359</a>
 <a href="#360" id="360">360</a>
 <a href="#361" id="361">361</a>
-<a href="#362" id="362">362</a>
-<a href="#363" id="363">363</a>
-<a href="#364" id="364">364</a>
-<a href="#365" id="365">365</a>
-<a href="#366" id="366">366</a>
-<a href="#367" id="367">367</a>
-<a href="#368" id="368">368</a>
-<a href="#369" id="369">369</a>
-<a href="#370" id="370">370</a>
-<a href="#371" id="371">371</a>
-<a href="#372" id="372">372</a>
-<a href="#373" id="373">373</a>
-<a href="#374" id="374">374</a>
-<a href="#375" id="375">375</a>
-<a href="#376" id="376">376</a>
-<a href="#377" id="377">377</a>
-<a href="#378" id="378">378</a>
-<a href="#379" id="379">379</a>
-<a href="#380" id="380">380</a>
-<a href="#381" id="381">381</a>
-<a href="#382" id="382">382</a>
-<a href="#383" id="383">383</a>
-<a href="#384" id="384">384</a>
-<a href="#385" id="385">385</a>
-<a href="#386" id="386">386</a>
-<a href="#387" id="387">387</a>
-<a href="#388" id="388">388</a>
-<a href="#389" id="389">389</a>
-<a href="#390" id="390">390</a>
-<a href="#391" id="391">391</a>
-<a href="#392" id="392">392</a>
-<a href="#393" id="393">393</a>
-<a href="#394" id="394">394</a>
-<a href="#395" id="395">395</a>
-<a href="#396" id="396">396</a>
-<a href="#397" id="397">397</a>
-<a href="#398" id="398">398</a>
-<a href="#399" id="399">399</a>
-<a href="#400" id="400">400</a>
-<a href="#401" id="401">401</a>
-<a href="#402" id="402">402</a>
-<a href="#403" id="403">403</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Comparison operations on Series.
 
 </span><span class="attr">#[cfg(any(
@@ -420,13 +378,12 @@
 <span class="macro">macro_rules! </span>impl_compare {
     (<span class="macro-nonterminal">$self</span>:expr, <span class="macro-nonterminal">$rhs</span>:expr, <span class="macro-nonterminal">$method</span>:ident) =&gt; {{
         <span class="kw">let </span>(lhs, rhs) = coerce_lhs_rhs(<span class="macro-nonterminal">$self</span>, <span class="macro-nonterminal">$rhs</span>).expect(<span class="string">&quot;cannot coerce datatypes&quot;</span>);
-        <span class="kw">let </span>lhs = lhs.as_ref();
-        <span class="kw">let </span>rhs = rhs.as_ref();
+        <span class="kw">let </span>lhs = lhs.to_physical_repr();
+        <span class="kw">let </span>rhs = rhs.to_physical_repr();
         <span class="kw">match </span>lhs.dtype() {
             DataType::Boolean =&gt; lhs.bool().unwrap().<span class="macro-nonterminal">$method</span>(rhs.bool().unwrap()),
             DataType::Utf8 =&gt; lhs.utf8().unwrap().<span class="macro-nonterminal">$method</span>(rhs.utf8().unwrap()),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
-            </span>DataType::Binary =&gt; lhs.binary().unwrap().<span class="macro-nonterminal">$method</span>(rhs.binary().unwrap()),
+            DataType::Binary =&gt; lhs.binary().unwrap().<span class="macro-nonterminal">$method</span>(rhs.binary().unwrap()),
             DataType::UInt8 =&gt; lhs.u8().unwrap().<span class="macro-nonterminal">$method</span>(rhs.u8().unwrap()),
             DataType::UInt16 =&gt; lhs.u16().unwrap().<span class="macro-nonterminal">$method</span>(rhs.u16().unwrap()),
             DataType::UInt32 =&gt; lhs.u32().unwrap().<span class="macro-nonterminal">$method</span>(rhs.u32().unwrap()),
@@ -437,15 +394,6 @@
             DataType::Int64 =&gt; lhs.i64().unwrap().<span class="macro-nonterminal">$method</span>(rhs.i64().unwrap()),
             DataType::Float32 =&gt; lhs.f32().unwrap().<span class="macro-nonterminal">$method</span>(rhs.f32().unwrap()),
             DataType::Float64 =&gt; lhs.f64().unwrap().<span class="macro-nonterminal">$method</span>(rhs.f64().unwrap()),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
-            </span>DataType::Date =&gt; lhs.date().unwrap().<span class="macro-nonterminal">$method</span>(rhs.date().unwrap().deref()),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-time&quot;</span>)]
-            </span>DataType::Time =&gt; lhs.time().unwrap().<span class="macro-nonterminal">$method</span>(rhs.time().unwrap().deref()),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
-            </span>DataType::Datetime(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; lhs
-                .datetime()
-                .unwrap()
-                .<span class="macro-nonterminal">$method</span>(rhs.datetime().unwrap().deref()),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-duration&quot;</span>)]
             </span>DataType::Duration(<span class="kw">_</span>) =&gt; lhs
                 .duration()
@@ -506,27 +454,17 @@
     <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
     </span>{
-        <span class="kw">if </span><span class="macro">matches!</span>(left, Utf8 | Categorical(<span class="kw">_</span>)) &amp;&amp; right.is_numeric()
-            || left.is_numeric() &amp;&amp; <span class="macro">matches!</span>(right, Utf8 | Categorical(<span class="kw">_</span>))
-        {
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="string">&quot;cannot compare Utf8 with numeric data&quot;</span>.into(),
-            ))
-        } <span class="kw">else </span>{
-            <span class="prelude-val">Ok</span>(())
-        }
+        <span class="kw">let </span>mismatch = <span class="macro">matches!</span>(left, Utf8 | Categorical(<span class="kw">_</span>)) &amp;&amp; right.is_numeric()
+            || left.is_numeric() &amp;&amp; <span class="macro">matches!</span>(right, Utf8 | Categorical(<span class="kw">_</span>));
+        <span class="macro">polars_ensure!</span>(!mismatch, ComputeError: <span class="string">&quot;cannot compare utf-8 with numeric data&quot;</span>);
     }
     <span class="attr">#[cfg(not(feature = <span class="string">&quot;dtype-categorical&quot;</span>))]
     </span>{
-        <span class="kw">if </span><span class="macro">matches!</span>(left, Utf8) &amp;&amp; right.is_numeric() || left.is_numeric() &amp;&amp; <span class="macro">matches!</span>(right, Utf8)
-        {
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="string">&quot;cannot compare Utf8 with numeric data&quot;</span>.into(),
-            ))
-        } <span class="kw">else </span>{
-            <span class="prelude-val">Ok</span>(())
-        }
+        <span class="kw">let </span>mismatch = <span class="macro">matches!</span>(left, Utf8) &amp;&amp; right.is_numeric()
+            || left.is_numeric() &amp;&amp; <span class="macro">matches!</span>(right, Utf8);
+        <span class="macro">polars_ensure!</span>(!mismatch, ComputeError: <span class="string">&quot;cannot compare utf-8 with numeric data&quot;</span>);
     }
+    <span class="prelude-val">Ok</span>(())
 }
 
 <span class="kw">impl </span>ChunkCompare&lt;<span class="kw-2">&amp;</span>Series&gt; <span class="kw">for </span>Series {
@@ -535,8 +473,7 @@
     <span class="doccomment">/// Create a boolean mask by checking for equality.
     </span><span class="kw">fn </span>equal(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;BooleanChunked&gt; {
         validate_types(<span class="self">self</span>.dtype(), rhs.dtype())<span class="question-mark">?</span>;
-        <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
-        </span><span class="kw">use </span>DataType::<span class="kw-2">*</span>;
+        <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="kw">match </span>(<span class="self">self</span>.dtype(), rhs.dtype(), <span class="self">self</span>.len(), rhs.len()) {
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
             </span>(Categorical(<span class="kw">_</span>), Utf8, <span class="kw">_</span>, <span class="number">1</span>) =&gt; {
@@ -573,9 +510,14 @@
 
                     <span class="self">self</span>.categorical().unwrap().logical().equal(rhs)
                 } <span class="kw">else </span>{
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="string">&quot;Cannot compare categoricals originating from different sources. Consider setting a global string cache.&quot;</span>.into()));
+                    <span class="macro">polars_bail!</span>(
+                        ComputeError:
+                        <span class="string">&quot;cannot compare categoricals originating from different sources; \
+                        consider setting a global string cache&quot;
+                    </span>);
                 }
             }
+            (Null, Null, <span class="kw">_</span>, <span class="kw">_</span>) =&gt; BooleanChunked::full(<span class="self">self</span>.name(), <span class="bool-val">true</span>, <span class="self">self</span>.len()),
             <span class="kw">_ </span>=&gt; {
                 <span class="macro">impl_compare!</span>(<span class="self">self</span>, rhs, equal)
             }
@@ -587,8 +529,7 @@
     <span class="doccomment">/// Create a boolean mask by checking for inequality.
     </span><span class="kw">fn </span>not_equal(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;BooleanChunked&gt; {
         validate_types(<span class="self">self</span>.dtype(), rhs.dtype())<span class="question-mark">?</span>;
-        <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
-        </span><span class="kw">use </span>DataType::<span class="kw-2">*</span>;
+        <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="kw">match </span>(<span class="self">self</span>.dtype(), rhs.dtype(), <span class="self">self</span>.len(), rhs.len()) {
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
             </span>(Categorical(<span class="kw">_</span>), Utf8, <span class="kw">_</span>, <span class="number">1</span>) =&gt; {
@@ -625,9 +566,14 @@
 
                     <span class="self">self</span>.categorical().unwrap().logical().not_equal(rhs)
                 } <span class="kw">else </span>{
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="string">&quot;Cannot compare categoricals originating from different sources. Consider setting a global string cache.&quot;</span>.into()));
+                    <span class="macro">polars_bail!</span>(
+                        ComputeError:
+                        <span class="string">&quot;cannot compare categoricals originating from different sources; \
+                        consider setting a global string cache&quot;
+                    </span>);
                 }
             }
+            (Null, Null, <span class="kw">_</span>, <span class="kw">_</span>) =&gt; BooleanChunked::full(<span class="self">self</span>.name(), <span class="bool-val">false</span>, <span class="self">self</span>.len()),
             <span class="kw">_ </span>=&gt; {
                 <span class="macro">impl_compare!</span>(<span class="self">self</span>, rhs, not_equal)
             }
@@ -712,8 +658,22 @@
     }
 }
 
+<span class="kw">fn </span>compare_series_str(
+    lhs: <span class="kw-2">&amp;</span>Series,
+    rhs: <span class="kw-2">&amp;</span>str,
+    op: <span class="kw">impl </span>Fn(<span class="kw-2">&amp;</span>Utf8Chunked, <span class="kw-2">&amp;</span>str) -&gt; BooleanChunked,
+) -&gt; PolarsResult&lt;BooleanChunked&gt; {
+    validate_types(lhs.dtype(), <span class="kw-2">&amp;</span>DataType::Utf8)<span class="question-mark">?</span>;
+    lhs.utf8().map(|ca| op(ca, rhs)).map_err(|<span class="kw">_</span>| {
+        <span class="macro">polars_err!</span>(
+            ComputeError: <span class="string">&quot;cannot compare str value to series of type {}&quot;</span>, lhs.dtype(),
+        )
+    })
+}
+
 <span class="kw">impl </span>ChunkCompare&lt;<span class="kw-2">&amp;</span>str&gt; <span class="kw">for </span>Series {
     <span class="kw">type </span>Item = PolarsResult&lt;BooleanChunked&gt;;
+
     <span class="kw">fn </span>equal(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;BooleanChunked&gt; {
         validate_types(<span class="self">self</span>.dtype(), <span class="kw-2">&amp;</span>DataType::Utf8)<span class="question-mark">?</span>;
         <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
@@ -745,64 +705,20 @@
     }
 
     <span class="kw">fn </span>gt(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;BooleanChunked&gt; {
-        validate_types(<span class="self">self</span>.dtype(), <span class="kw-2">&amp;</span>DataType::Utf8)<span class="question-mark">?</span>;
-        <span class="kw">if let </span><span class="prelude-val">Ok</span>(a) = <span class="self">self</span>.utf8() {
-            <span class="prelude-val">Ok</span>(a.gt(rhs))
-        } <span class="kw">else </span>{
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="macro">format!</span>(
-                    <span class="string">&quot;cannot compare str value to series of type: {:?}&quot;</span>,
-                    <span class="self">self</span>.dtype()
-                )
-                .into(),
-            ))
-        }
+        compare_series_str(<span class="self">self</span>, rhs, |lhs, rhs| lhs.gt(rhs))
     }
 
     <span class="kw">fn </span>gt_eq(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;BooleanChunked&gt; {
-        validate_types(<span class="self">self</span>.dtype(), <span class="kw-2">&amp;</span>DataType::Utf8)<span class="question-mark">?</span>;
-        <span class="kw">if let </span><span class="prelude-val">Ok</span>(a) = <span class="self">self</span>.utf8() {
-            <span class="prelude-val">Ok</span>(a.gt_eq(rhs))
-        } <span class="kw">else </span>{
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="macro">format!</span>(
-                    <span class="string">&quot;cannot compare str value to series of type: {:?}&quot;</span>,
-                    <span class="self">self</span>.dtype()
-                )
-                .into(),
-            ))
-        }
+        compare_series_str(<span class="self">self</span>, rhs, |lhs, rhs| lhs.gt_eq(rhs))
     }
 
     <span class="kw">fn </span>lt(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;BooleanChunked&gt; {
-        validate_types(<span class="self">self</span>.dtype(), <span class="kw-2">&amp;</span>DataType::Utf8)<span class="question-mark">?</span>;
-        <span class="kw">if let </span><span class="prelude-val">Ok</span>(a) = <span class="self">self</span>.utf8() {
-            <span class="prelude-val">Ok</span>(a.lt(rhs))
-        } <span class="kw">else </span>{
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="macro">format!</span>(
-                    <span class="string">&quot;cannot compare str value to series of type: {:?}&quot;</span>,
-                    <span class="self">self</span>.dtype()
-                )
-                .into(),
-            ))
-        }
+        compare_series_str(<span class="self">self</span>, rhs, |lhs, rhs| lhs.lt(rhs))
     }
 
     <span class="kw">fn </span>lt_eq(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;BooleanChunked&gt; {
-        validate_types(<span class="self">self</span>.dtype(), <span class="kw-2">&amp;</span>DataType::Utf8)<span class="question-mark">?</span>;
-        <span class="kw">if let </span><span class="prelude-val">Ok</span>(a) = <span class="self">self</span>.utf8() {
-            <span class="prelude-val">Ok</span>(a.lt_eq(rhs))
-        } <span class="kw">else </span>{
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="macro">format!</span>(
-                    <span class="string">&quot;cannot compare str value to series of type: {:?}&quot;</span>,
-                    <span class="self">self</span>.dtype()
-                )
-                .into(),
-            ))
-        }
+        compare_series_str(<span class="self">self</span>, rhs, |lhs, rhs| lhs.lt_eq(rhs))
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

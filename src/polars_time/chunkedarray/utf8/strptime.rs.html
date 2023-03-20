@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-time/src/chunkedarray/utf8/strptime.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>strptime.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_time/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-time/src/chunkedarray/utf8/strptime.rs`."><title>strptime.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_time/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -242,21 +242,83 @@
 <a href="#242" id="242">242</a>
 <a href="#243" id="243">243</a>
 <a href="#244" id="244">244</a>
+<a href="#245" id="245">245</a>
+<a href="#246" id="246">246</a>
+<a href="#247" id="247">247</a>
+<a href="#248" id="248">248</a>
+<a href="#249" id="249">249</a>
+<a href="#250" id="250">250</a>
+<a href="#251" id="251">251</a>
+<a href="#252" id="252">252</a>
+<a href="#253" id="253">253</a>
+<a href="#254" id="254">254</a>
+<a href="#255" id="255">255</a>
+<a href="#256" id="256">256</a>
+<a href="#257" id="257">257</a>
+<a href="#258" id="258">258</a>
+<a href="#259" id="259">259</a>
+<a href="#260" id="260">260</a>
+<a href="#261" id="261">261</a>
+<a href="#262" id="262">262</a>
+<a href="#263" id="263">263</a>
+<a href="#264" id="264">264</a>
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Much more opinionated, but also much faster strptrime than the one given in Chrono.
 //!
-</span><span class="kw">use </span>chrono::{NaiveDate, NaiveDateTime};
+</span><span class="kw">use </span>atoi::FromRadix10;
+<span class="kw">use </span>chrono::{NaiveDate, NaiveDateTime};
+<span class="kw">use </span>polars_utils::slice::GetSaferUnchecked;
 
 <span class="attr">#[inline]
-</span><span class="kw">fn </span>update_and_parse&lt;T: lexical::FromLexical&gt;(
+</span><span class="kw">fn </span>update_and_parse&lt;T: atoi::FromRadix10&gt;(
     incr: usize,
     offset: usize,
     vals: <span class="kw-2">&amp;</span>[u8],
 ) -&gt; <span class="prelude-ty">Option</span>&lt;(T, usize)&gt; {
     <span class="comment">// this maybe oob because we cannot entirely sure about fmt lengths
     </span><span class="kw">let </span>new_offset = offset + incr;
-    lexical::parse(vals.get(offset..new_offset)<span class="question-mark">?</span>)
-        .ok()
-        .map(|v| (v, new_offset))
+    <span class="kw">let </span>bytes = vals.get(offset..new_offset)<span class="question-mark">?</span>;
+    <span class="kw">let </span>(val, parsed) = T::from_radix_10(bytes);
+    <span class="kw">if </span>parsed == <span class="number">0 </span>{
+        <span class="prelude-val">None
+    </span>} <span class="kw">else </span>{
+        <span class="prelude-val">Some</span>((val, new_offset))
+    }
 }
 
 <span class="attr">#[inline]
@@ -290,108 +352,124 @@
         .replace(<span class="string">&quot;%F&quot;</span>, <span class="string">&quot;%Y-%m-%d&quot;</span>)
 }
 
-<span class="attr">#[inline]
-</span><span class="comment">// # Safety
-// Caller must ensure that fmt adheres to the fmt rules of chrono and `fmt_len` is correct.
-</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">unsafe fn </span>parse(val: <span class="kw-2">&amp;</span>[u8], fmt: <span class="kw-2">&amp;</span>[u8], fmt_len: u16) -&gt; <span class="prelude-ty">Option</span>&lt;NaiveDateTime&gt; {
-    <span class="kw">const </span>ESCAPE: u8 = <span class="string">b&#39;%&#39;</span>;
-    <span class="kw">if </span>val.len() &lt; fmt_len <span class="kw">as </span>usize {
-        <span class="kw">return </span><span class="prelude-val">None</span>;
-    }
-    <span class="kw">let </span><span class="kw-2">mut </span>year: i32 = <span class="number">1</span>;
-    <span class="comment">// minimal day/month is always 1
-    // otherwise chrono may panic.
-    </span><span class="kw">let </span><span class="kw-2">mut </span>month: u32 = <span class="number">1</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>day: u32 = <span class="number">1</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>hour: u32 = <span class="number">0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>min: u32 = <span class="number">0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>sec: u32 = <span class="number">0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>nano: u32 = <span class="number">0</span>;
+<span class="attr">#[derive(Default, Clone)]
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>StrpTimeState {}
 
-    <span class="kw">let </span><span class="kw-2">mut </span>fmt_iter = fmt.iter();
-
-    <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="number">0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>negative = <span class="bool-val">false</span>;
-
-    <span class="kw">if </span>val.starts_with(<span class="string">b&quot;-&quot;</span>) &amp;&amp; fmt.starts_with(<span class="string">b&quot;%Y&quot;</span>) {
-        offset = <span class="number">1</span>;
-        negative = <span class="bool-val">true</span>;
-    }
-
-    <span class="kw">while let </span><span class="prelude-val">Some</span>(fmt_b) = fmt_iter.next() {
-        <span class="macro">debug_assert!</span>(offset &lt; val.len());
-        <span class="kw">let </span>b = <span class="kw-2">*</span>val.get_unchecked(offset);
-        <span class="kw">if </span><span class="kw-2">*</span>fmt_b == ESCAPE {
-            <span class="kw">match </span>fmt_iter.next().expect(<span class="string">&quot;invalid fmt&quot;</span>) {
-                <span class="string">b&#39;Y&#39; </span>=&gt; {
-                    (year, offset) = update_and_parse(<span class="number">4</span>, offset, val)<span class="question-mark">?</span>;
-                    <span class="kw">if </span>negative {
-                        year <span class="kw-2">*</span>= -<span class="number">1
-                    </span>}
-                }
-                <span class="string">b&#39;m&#39; </span>=&gt; {
-                    (month, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
-                }
-                <span class="string">b&#39;b&#39; </span>=&gt; {
-                    (month, offset) = parse_month_abbrev(val, offset)<span class="question-mark">?</span>;
-                }
-                <span class="string">b&#39;d&#39; </span>=&gt; {
-                    (day, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
-                }
-                <span class="string">b&#39;H&#39; </span>=&gt; {
-                    (hour, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
-                }
-                <span class="string">b&#39;M&#39; </span>=&gt; {
-                    (min, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
-                }
-                <span class="string">b&#39;S&#39; </span>=&gt; {
-                    (sec, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
-                }
-                <span class="string">b&#39;y&#39; </span>=&gt; {
-                    <span class="kw">let </span>new_offset = offset + <span class="number">2</span>;
-                    <span class="kw">let </span>decade = lexical::parse::&lt;i32, <span class="kw">_</span>&gt;(<span class="kw-2">&amp;</span>val[offset..new_offset]).ok()<span class="question-mark">?</span>;
-                    <span class="kw">if </span>decade &lt; <span class="number">50 </span>{
-                        year = <span class="number">2000 </span>+ decade;
-                    } <span class="kw">else </span>{
-                        year = <span class="number">1900 </span>+ decade;
-                    }
-                    offset = new_offset;
-                }
-                <span class="string">b&#39;9&#39; </span>=&gt; {
-                    (nano, offset) = update_and_parse(<span class="number">9</span>, offset, val)<span class="question-mark">?</span>;
-                    <span class="kw">break</span>;
-                }
-                <span class="string">b&#39;6&#39; </span>=&gt; {
-                    (nano, offset) = update_and_parse(<span class="number">6</span>, offset, val)<span class="question-mark">?</span>;
-                    nano <span class="kw-2">*</span>= <span class="number">1000</span>;
-                    <span class="kw">break</span>;
-                }
-                <span class="string">b&#39;3&#39; </span>=&gt; {
-                    (nano, offset) = update_and_parse(<span class="number">3</span>, offset, val)<span class="question-mark">?</span>;
-                    nano <span class="kw-2">*</span>= <span class="number">1_000_000</span>;
-                    <span class="kw">break</span>;
-                }
-                <span class="comment">// utc can be ignored
-                </span><span class="string">b&#39;Z&#39; </span>=&gt; {}
-                <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
-            }
+<span class="kw">impl </span>StrpTimeState {
+    <span class="attr">#[inline]
+    </span><span class="comment">// # Safety
+    // Caller must ensure that fmt adheres to the fmt rules of chrono and `fmt_len` is correct.
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">unsafe fn </span>parse(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        val: <span class="kw-2">&amp;</span>[u8],
+        fmt: <span class="kw-2">&amp;</span>[u8],
+        fmt_len: u16,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;NaiveDateTime&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>negative = <span class="bool-val">false</span>;
+        <span class="kw">if </span>val.starts_with(<span class="string">b&quot;-&quot;</span>) &amp;&amp; fmt.starts_with(<span class="string">b&quot;%Y&quot;</span>) {
+            offset = <span class="number">1</span>;
+            negative = <span class="bool-val">true</span>;
         }
-        <span class="comment">// consume
-        </span><span class="kw">else if </span>b == <span class="kw-2">*</span>fmt_b {
-            offset += <span class="number">1</span>;
-        } <span class="kw">else </span>{
+        <span class="kw">if </span>val.len() - offset != (fmt_len <span class="kw">as </span>usize) {
             <span class="kw">return </span><span class="prelude-val">None</span>;
         }
+
+        <span class="kw">const </span>ESCAPE: u8 = <span class="string">b&#39;%&#39;</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>year: i32 = <span class="number">1</span>;
+        <span class="comment">// minimal day/month is always 1
+        // otherwise chrono may panic.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>month: u32 = <span class="number">1</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>day: u32 = <span class="number">1</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>hour: u32 = <span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>min: u32 = <span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>sec: u32 = <span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>nano: u32 = <span class="number">0</span>;
+
+        <span class="kw">let </span><span class="kw-2">mut </span>fmt_iter = fmt.iter();
+
+        <span class="kw">while let </span><span class="prelude-val">Some</span>(fmt_b) = fmt_iter.next() {
+            <span class="macro">debug_assert!</span>(offset &lt; val.len());
+            <span class="kw">let </span>b = <span class="kw-2">*</span>val.get_unchecked(offset);
+            <span class="kw">if </span><span class="kw-2">*</span>fmt_b == ESCAPE {
+                <span class="comment">// Safety: we must ensure we provide valid patterns
+                </span><span class="kw">let </span>next = fmt_iter.next();
+                <span class="macro">debug_assert!</span>(next.is_some());
+                <span class="kw">match </span>next.unwrap_unchecked() {
+                    <span class="string">b&#39;Y&#39; </span>=&gt; {
+                        (year, offset) = update_and_parse(<span class="number">4</span>, offset, val)<span class="question-mark">?</span>;
+                        <span class="kw">if </span>negative {
+                            year <span class="kw-2">*</span>= -<span class="number">1
+                        </span>}
+                    }
+                    <span class="string">b&#39;m&#39; </span>=&gt; {
+                        (month, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
+                    }
+                    <span class="string">b&#39;b&#39; </span>=&gt; {
+                        (month, offset) = parse_month_abbrev(val, offset)<span class="question-mark">?</span>;
+                    }
+                    <span class="string">b&#39;d&#39; </span>=&gt; {
+                        (day, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
+                    }
+                    <span class="string">b&#39;H&#39; </span>=&gt; {
+                        (hour, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
+                    }
+                    <span class="string">b&#39;M&#39; </span>=&gt; {
+                        (min, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
+                    }
+                    <span class="string">b&#39;S&#39; </span>=&gt; {
+                        (sec, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
+                    }
+                    <span class="string">b&#39;y&#39; </span>=&gt; {
+                        <span class="kw">let </span>new_offset = offset + <span class="number">2</span>;
+                        <span class="kw">let </span>bytes = val.get_unchecked_release(offset..new_offset);
+
+                        <span class="kw">let </span>(decade, parsed) = i32::from_radix_10(bytes);
+                        <span class="kw">if </span>parsed == <span class="number">0 </span>{
+                            <span class="kw">return </span><span class="prelude-val">None</span>;
+                        }
+
+                        <span class="kw">if </span>decade &lt; <span class="number">50 </span>{
+                            year = <span class="number">2000 </span>+ decade;
+                        } <span class="kw">else </span>{
+                            year = <span class="number">1900 </span>+ decade;
+                        }
+                        offset = new_offset;
+                    }
+                    <span class="string">b&#39;9&#39; </span>=&gt; {
+                        (nano, offset) = update_and_parse(<span class="number">9</span>, offset, val)<span class="question-mark">?</span>;
+                        <span class="kw">break</span>;
+                    }
+                    <span class="string">b&#39;6&#39; </span>=&gt; {
+                        (nano, offset) = update_and_parse(<span class="number">6</span>, offset, val)<span class="question-mark">?</span>;
+                        nano <span class="kw-2">*</span>= <span class="number">1000</span>;
+                        <span class="kw">break</span>;
+                    }
+                    <span class="string">b&#39;3&#39; </span>=&gt; {
+                        (nano, offset) = update_and_parse(<span class="number">3</span>, offset, val)<span class="question-mark">?</span>;
+                        nano <span class="kw-2">*</span>= <span class="number">1_000_000</span>;
+                        <span class="kw">break</span>;
+                    }
+                    <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+                }
+            }
+            <span class="comment">// consume
+            </span><span class="kw">else if </span>b == <span class="kw-2">*</span>fmt_b {
+                offset += <span class="number">1</span>;
+            } <span class="kw">else </span>{
+                <span class="kw">return </span><span class="prelude-val">None</span>;
+            }
+        }
+        <span class="comment">// all values processed
+        </span><span class="kw">if </span>offset == val.len() {
+            NaiveDate::from_ymd_opt(year, month, day)
+                .and_then(|nd| nd.and_hms_nano_opt(hour, min, sec, nano))
+        }
+        <span class="comment">// remaining values did not match pattern
+        </span><span class="kw">else </span>{
+            <span class="prelude-val">None
+        </span>}
     }
-    <span class="comment">// all values processed
-    </span><span class="kw">if </span>offset == val.len() {
-        NaiveDate::from_ymd_opt(year, month, day)
-            .and_then(|nd| nd.and_hms_nano_opt(hour, min, sec, nano))
-    }
-    <span class="comment">// remaining values did not match pattern
-    </span><span class="kw">else </span>{
-        <span class="prelude-val">None
-    </span>}
 }
 
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>fmt_len(fmt: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Option</span>&lt;u16&gt; {
@@ -409,7 +487,6 @@
                 <span class="string">b&#39;H&#39; </span>=&gt; cnt += <span class="number">2</span>,
                 <span class="string">b&#39;M&#39; </span>=&gt; cnt += <span class="number">2</span>,
                 <span class="string">b&#39;S&#39; </span>=&gt; cnt += <span class="number">2</span>,
-                <span class="string">b&#39;Z&#39; </span>=&gt; cnt += <span class="number">1</span>,
                 <span class="string">b&#39;9&#39; </span>=&gt; {
                     cnt += <span class="number">9</span>;
                     <span class="macro">debug_assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">b&#39;f&#39;</span>));
@@ -446,45 +523,80 @@
                 <span class="string">&quot;2021-01-01&quot;</span>,
                 <span class="string">&quot;%Y-%m-%d&quot;</span>,
                 <span class="number">10</span>,
-                <span class="prelude-val">Some</span>(NaiveDate::from_ymd(<span class="number">2021</span>, <span class="number">1</span>, <span class="number">1</span>).and_hms_nano(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)),
+                <span class="prelude-val">Some</span>(
+                    NaiveDate::from_ymd_opt(<span class="number">2021</span>, <span class="number">1</span>, <span class="number">1</span>)
+                        .unwrap()
+                        .and_hms_nano_opt(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)
+                        .unwrap(),
+                ),
             ),
             (
                 <span class="string">&quot;2021-01-01 07:45:12&quot;</span>,
                 <span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>,
                 <span class="number">19</span>,
-                <span class="prelude-val">Some</span>(NaiveDate::from_ymd(<span class="number">2021</span>, <span class="number">1</span>, <span class="number">1</span>).and_hms_nano(<span class="number">7</span>, <span class="number">45</span>, <span class="number">12</span>, <span class="number">0</span>)),
+                <span class="prelude-val">Some</span>(
+                    NaiveDate::from_ymd_opt(<span class="number">2021</span>, <span class="number">1</span>, <span class="number">1</span>)
+                        .unwrap()
+                        .and_hms_nano_opt(<span class="number">7</span>, <span class="number">45</span>, <span class="number">12</span>, <span class="number">0</span>)
+                        .unwrap(),
+                ),
             ),
             (
                 <span class="string">&quot;2021-01-01 07:45:12&quot;</span>,
                 <span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>,
                 <span class="number">19</span>,
-                <span class="prelude-val">Some</span>(NaiveDate::from_ymd(<span class="number">2021</span>, <span class="number">1</span>, <span class="number">1</span>).and_hms_nano(<span class="number">7</span>, <span class="number">45</span>, <span class="number">12</span>, <span class="number">0</span>)),
+                <span class="prelude-val">Some</span>(
+                    NaiveDate::from_ymd_opt(<span class="number">2021</span>, <span class="number">1</span>, <span class="number">1</span>)
+                        .unwrap()
+                        .and_hms_nano_opt(<span class="number">7</span>, <span class="number">45</span>, <span class="number">12</span>, <span class="number">0</span>)
+                        .unwrap(),
+                ),
             ),
             (
                 <span class="string">&quot;2019-04-18T02:45:55.555000000&quot;</span>,
                 <span class="string">&quot;%Y-%m-%dT%H:%M:%S.%9f&quot;</span>,
                 <span class="number">29</span>,
-                <span class="prelude-val">Some</span>(NaiveDate::from_ymd(<span class="number">2019</span>, <span class="number">4</span>, <span class="number">18</span>).and_hms_nano(<span class="number">2</span>, <span class="number">45</span>, <span class="number">55</span>, <span class="number">555000000</span>)),
+                <span class="prelude-val">Some</span>(
+                    NaiveDate::from_ymd_opt(<span class="number">2019</span>, <span class="number">4</span>, <span class="number">18</span>)
+                        .unwrap()
+                        .and_hms_nano_opt(<span class="number">2</span>, <span class="number">45</span>, <span class="number">55</span>, <span class="number">555000000</span>)
+                        .unwrap(),
+                ),
             ),
             (
                 <span class="string">&quot;2019-04-18T02:45:55.555000&quot;</span>,
                 <span class="string">&quot;%Y-%m-%dT%H:%M:%S.%6f&quot;</span>,
                 <span class="number">26</span>,
-                <span class="prelude-val">Some</span>(NaiveDate::from_ymd(<span class="number">2019</span>, <span class="number">4</span>, <span class="number">18</span>).and_hms_nano(<span class="number">2</span>, <span class="number">45</span>, <span class="number">55</span>, <span class="number">555000000</span>)),
+                <span class="prelude-val">Some</span>(
+                    NaiveDate::from_ymd_opt(<span class="number">2019</span>, <span class="number">4</span>, <span class="number">18</span>)
+                        .unwrap()
+                        .and_hms_nano_opt(<span class="number">2</span>, <span class="number">45</span>, <span class="number">55</span>, <span class="number">555000000</span>)
+                        .unwrap(),
+                ),
             ),
             (
                 <span class="string">&quot;2019-04-18T02:45:55.555&quot;</span>,
                 <span class="string">&quot;%Y-%m-%dT%H:%M:%S.%3f&quot;</span>,
                 <span class="number">23</span>,
-                <span class="prelude-val">Some</span>(NaiveDate::from_ymd(<span class="number">2019</span>, <span class="number">4</span>, <span class="number">18</span>).and_hms_nano(<span class="number">2</span>, <span class="number">45</span>, <span class="number">55</span>, <span class="number">555000000</span>)),
+                <span class="prelude-val">Some</span>(
+                    NaiveDate::from_ymd_opt(<span class="number">2019</span>, <span class="number">4</span>, <span class="number">18</span>)
+                        .unwrap()
+                        .and_hms_nano_opt(<span class="number">2</span>, <span class="number">45</span>, <span class="number">55</span>, <span class="number">555000000</span>)
+                        .unwrap(),
+                ),
             ),
         ];
 
         <span class="kw">for </span>(val, fmt, len, expected) <span class="kw">in </span>patterns {
             <span class="macro">assert_eq!</span>(fmt_len(fmt.as_bytes()).unwrap(), len);
-            <span class="kw">unsafe </span>{ <span class="macro">assert_eq!</span>(parse(val.as_bytes(), fmt.as_bytes(), len), expected) };
+            <span class="kw">unsafe </span>{
+                <span class="macro">assert_eq!</span>(
+                    StrpTimeState::default().parse(val.as_bytes(), fmt.as_bytes(), len),
+                    expected
+                )
+            };
         }
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

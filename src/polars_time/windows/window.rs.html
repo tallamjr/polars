@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-time/src/windows/window.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>window.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_time/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-time/src/windows/window.rs`."><title>window.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_time/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -266,8 +266,58 @@
 <a href="#266" id="266">266</a>
 <a href="#267" id="267">267</a>
 <a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>chrono::NaiveDateTime;
+<span class="kw">use </span>chrono::TimeZone <span class="kw">as </span>TimeZoneTrait;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>now::DateTimeNow;
 <span class="kw">use </span>polars_arrow::export::arrow::temporal_conversions::<span class="kw-2">*</span>;
@@ -297,53 +347,65 @@
     }
 
     <span class="doccomment">/// Truncate the given ns timestamp by the window boundary.
-    </span><span class="kw">pub fn </span>truncate_ns(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64) -&gt; i64 {
-        <span class="kw">let </span>t = <span class="self">self</span>.every.truncate_ns(t);
-        <span class="self">self</span>.offset.add_ns(t)
+    </span><span class="kw">pub fn </span>truncate_ns(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;) -&gt; PolarsResult&lt;i64&gt; {
+        <span class="kw">let </span>t = <span class="self">self</span>.every.truncate_ns(t, tz)<span class="question-mark">?</span>;
+        <span class="self">self</span>.offset.add_ns(t, tz)
     }
 
-    <span class="kw">pub fn </span>truncate_no_offset_ns(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64) -&gt; i64 {
-        <span class="self">self</span>.every.truncate_ns(t)
+    <span class="kw">pub fn </span>truncate_no_offset_ns(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        t: i64,
+        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;,
+    ) -&gt; PolarsResult&lt;i64&gt; {
+        <span class="self">self</span>.every.truncate_ns(t, tz)
     }
 
-    <span class="doccomment">/// Truncate the given ns timestamp by the window boundary.
-    </span><span class="kw">pub fn </span>truncate_us(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64) -&gt; i64 {
-        <span class="kw">let </span>t = <span class="self">self</span>.every.truncate_us(t);
-        <span class="self">self</span>.offset.add_us(t)
+    <span class="doccomment">/// Truncate the given us timestamp by the window boundary.
+    </span><span class="kw">pub fn </span>truncate_us(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;) -&gt; PolarsResult&lt;i64&gt; {
+        <span class="kw">let </span>t = <span class="self">self</span>.every.truncate_us(t, tz)<span class="question-mark">?</span>;
+        <span class="self">self</span>.offset.add_us(t, tz)
     }
 
-    <span class="kw">pub fn </span>truncate_no_offset_us(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64) -&gt; i64 {
-        <span class="self">self</span>.every.truncate_us(t)
+    <span class="kw">pub fn </span>truncate_no_offset_us(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        t: i64,
+        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;,
+    ) -&gt; PolarsResult&lt;i64&gt; {
+        <span class="self">self</span>.every.truncate_us(t, tz)
     }
 
-    <span class="kw">pub fn </span>truncate_ms(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64) -&gt; i64 {
-        <span class="kw">let </span>t = <span class="self">self</span>.every.truncate_ms(t);
-        <span class="self">self</span>.offset.add_ms(t)
+    <span class="kw">pub fn </span>truncate_ms(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;) -&gt; PolarsResult&lt;i64&gt; {
+        <span class="kw">let </span>t = <span class="self">self</span>.every.truncate_ms(t, tz)<span class="question-mark">?</span>;
+        <span class="self">self</span>.offset.add_ms(t, tz)
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>truncate_no_offset_ms(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64) -&gt; i64 {
-        <span class="self">self</span>.every.truncate_ms(t)
+    </span><span class="kw">pub fn </span>truncate_no_offset_ms(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        t: i64,
+        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;,
+    ) -&gt; PolarsResult&lt;i64&gt; {
+        <span class="self">self</span>.every.truncate_ms(t, tz)
     }
 
     <span class="doccomment">/// Round the given ns timestamp by the window boundary.
-    </span><span class="kw">pub fn </span>round_ns(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64) -&gt; i64 {
+    </span><span class="kw">pub fn </span>round_ns(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;) -&gt; PolarsResult&lt;i64&gt; {
         <span class="kw">let </span>t = t + <span class="self">self</span>.every.duration_ns() / <span class="number">2_i64</span>;
-        <span class="self">self</span>.truncate_ns(t)
+        <span class="self">self</span>.truncate_ns(t, tz)
     }
 
     <span class="doccomment">/// Round the given us timestamp by the window boundary.
-    </span><span class="kw">pub fn </span>round_us(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64) -&gt; i64 {
+    </span><span class="kw">pub fn </span>round_us(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;) -&gt; PolarsResult&lt;i64&gt; {
         <span class="kw">let </span>t = t + <span class="self">self</span>.every.duration_ns()
             / (<span class="number">2 </span>* timeunit_scale(ArrowTimeUnit::Nanosecond, ArrowTimeUnit::Microsecond) <span class="kw">as </span>i64);
-        <span class="self">self</span>.truncate_us(t)
+        <span class="self">self</span>.truncate_us(t, tz)
     }
 
     <span class="doccomment">/// Round the given ms timestamp by the window boundary.
-    </span><span class="kw">pub fn </span>round_ms(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64) -&gt; i64 {
+    </span><span class="kw">pub fn </span>round_ms(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;) -&gt; PolarsResult&lt;i64&gt; {
         <span class="kw">let </span>t = t + <span class="self">self</span>.every.duration_ns()
             / (<span class="number">2 </span>* timeunit_scale(ArrowTimeUnit::Nanosecond, ArrowTimeUnit::Millisecond) <span class="kw">as </span>i64);
-        <span class="self">self</span>.truncate_ms(t)
+        <span class="self">self</span>.truncate_ms(t, tz)
     }
 
     <span class="doccomment">/// returns the bounds for the earliest window bounds
@@ -359,46 +421,57 @@
     /// - etc.
     ///
     /// But for 2w3d, it does not make sense to start it on a different lower bound, so we start at `t`
-    </span><span class="kw">pub fn </span>get_earliest_bounds_ns(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64) -&gt; Bounds {
+    </span><span class="kw">pub fn </span>get_earliest_bounds_ns(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        t: i64,
+        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;,
+    ) -&gt; PolarsResult&lt;Bounds&gt; {
         <span class="kw">let </span>start = <span class="kw">if </span>!<span class="self">self</span>.every.months_only()
             &amp;&amp; <span class="self">self</span>.every.duration_ns() &gt; NANOSECONDS * SECONDS_IN_DAY
         {
-            <span class="self">self</span>.offset.add_ns(t)
-        } <span class="kw">else </span>{
+            <span class="self">self</span>.offset.add_ns(t, tz)<span class="question-mark">?
+        </span>} <span class="kw">else </span>{
             <span class="comment">// offset is translated in the truncate
-            </span><span class="self">self</span>.truncate_ns(t)
-        };
+            </span><span class="self">self</span>.truncate_ns(t, tz)<span class="question-mark">?
+        </span>};
 
-        <span class="kw">let </span>stop = <span class="self">self</span>.period.add_ns(start);
+        <span class="kw">let </span>stop = <span class="self">self</span>.period.add_ns(start, tz)<span class="question-mark">?</span>;
 
-        Bounds::new_checked(start, stop)
+        <span class="prelude-val">Ok</span>(Bounds::new_checked(start, stop))
     }
 
-    <span class="kw">pub fn </span>get_earliest_bounds_us(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64) -&gt; Bounds {
+    <span class="kw">pub fn </span>get_earliest_bounds_us(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        t: i64,
+        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;,
+    ) -&gt; PolarsResult&lt;Bounds&gt; {
         <span class="kw">let </span>start = <span class="kw">if </span>!<span class="self">self</span>.every.months_only()
             &amp;&amp; <span class="self">self</span>.every.duration_us() &gt; MICROSECONDS * SECONDS_IN_DAY
         {
-            <span class="self">self</span>.offset.add_us(t)
-        } <span class="kw">else </span>{
-            <span class="self">self</span>.truncate_us(t)
-        };
-        <span class="kw">let </span>stop = <span class="self">self</span>.period.add_us(start);
-
-        Bounds::new_checked(start, stop)
+            <span class="self">self</span>.offset.add_us(t, tz)<span class="question-mark">?
+        </span>} <span class="kw">else </span>{
+            <span class="self">self</span>.truncate_us(t, tz)<span class="question-mark">?
+        </span>};
+        <span class="kw">let </span>stop = <span class="self">self</span>.period.add_us(start, tz)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(Bounds::new_checked(start, stop))
     }
 
-    <span class="kw">pub fn </span>get_earliest_bounds_ms(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64) -&gt; Bounds {
+    <span class="kw">pub fn </span>get_earliest_bounds_ms(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        t: i64,
+        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;,
+    ) -&gt; PolarsResult&lt;Bounds&gt; {
         <span class="kw">let </span>start = <span class="kw">if </span>!<span class="self">self</span>.every.months_only()
             &amp;&amp; <span class="self">self</span>.every.duration_ms() &gt; MILLISECONDS * SECONDS_IN_DAY
         {
-            <span class="self">self</span>.offset.add_ms(t)
-        } <span class="kw">else </span>{
-            <span class="self">self</span>.truncate_ms(t)
-        };
+            <span class="self">self</span>.offset.add_ms(t, tz)<span class="question-mark">?
+        </span>} <span class="kw">else </span>{
+            <span class="self">self</span>.truncate_ms(t, tz)<span class="question-mark">?
+        </span>};
 
-        <span class="kw">let </span>stop = <span class="self">self</span>.period.add_ms(start);
+        <span class="kw">let </span>stop = <span class="self">self</span>.period.add_ms(start, tz)<span class="question-mark">?</span>;
 
-        Bounds::new_checked(start, stop)
+        <span class="prelude-val">Ok</span>(Bounds::new_checked(start, stop))
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>estimate_overlapping_bounds_ns(<span class="kw-2">&amp;</span><span class="self">self</span>, boundary: Bounds) -&gt; usize {
@@ -416,26 +489,34 @@
             + <span class="self">self</span>.period.duration_ms() / <span class="self">self</span>.every.duration_ms()) <span class="kw">as </span>usize
     }
 
-    <span class="kw">pub fn </span>get_overlapping_bounds_iter(
+    <span class="kw">pub fn </span>get_overlapping_bounds_iter&lt;<span class="lifetime">&#39;a</span>, T: TimeZoneTrait&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         boundary: Bounds,
         tu: TimeUnit,
+        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T&gt;,
         start_by: StartBy,
-    ) -&gt; BoundsIter {
-        BoundsIter::new(<span class="kw-2">*</span><span class="self">self</span>, boundary, tu, start_by)
+    ) -&gt; PolarsResult&lt;BoundsIter&lt;<span class="lifetime">&#39;a</span>, T&gt;&gt; {
+        BoundsIter::new(<span class="kw-2">*</span><span class="self">self</span>, boundary, tu, tz, start_by)
     }
 }
 
-<span class="kw">pub struct </span>BoundsIter {
+<span class="kw">pub struct </span>BoundsIter&lt;<span class="lifetime">&#39;a</span>, T: TimeZoneTrait&gt; {
     window: Window,
     <span class="comment">// wrapping boundary
     </span>boundary: Bounds,
     <span class="comment">// boundary per window iterator
     </span>bi: Bounds,
     tu: TimeUnit,
+    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T&gt;,
 }
-<span class="kw">impl </span>BoundsIter {
-    <span class="kw">fn </span>new(window: Window, boundary: Bounds, tu: TimeUnit, start_by: StartBy) -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: TimeZoneTrait&gt; BoundsIter&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+    <span class="kw">fn </span>new(
+        window: Window,
+        boundary: Bounds,
+        tu: TimeUnit,
+        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T&gt;,
+        start_by: StartBy,
+    ) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
         <span class="kw">let </span>bi = <span class="kw">match </span>start_by {
             StartBy::DataPoint =&gt; {
                 <span class="kw">let </span><span class="kw-2">mut </span>boundary = boundary;
@@ -444,13 +525,13 @@
                     TimeUnit::Microseconds =&gt; Duration::add_us,
                     TimeUnit::Milliseconds =&gt; Duration::add_ms,
                 };
-                boundary.stop = offset_fn(<span class="kw-2">&amp;</span>window.period, boundary.start);
+                boundary.stop = offset_fn(<span class="kw-2">&amp;</span>window.period, boundary.start, tz)<span class="question-mark">?</span>;
                 boundary
             }
             StartBy::WindowBound =&gt; <span class="kw">match </span>tu {
-                TimeUnit::Nanoseconds =&gt; window.get_earliest_bounds_ns(boundary.start),
-                TimeUnit::Microseconds =&gt; window.get_earliest_bounds_us(boundary.start),
-                TimeUnit::Milliseconds =&gt; window.get_earliest_bounds_ms(boundary.start),
+                TimeUnit::Nanoseconds =&gt; window.get_earliest_bounds_ns(boundary.start, tz)<span class="question-mark">?</span>,
+                TimeUnit::Microseconds =&gt; window.get_earliest_bounds_us(boundary.start, tz)<span class="question-mark">?</span>,
+                TimeUnit::Milliseconds =&gt; window.get_earliest_bounds_ms(boundary.start, tz)<span class="question-mark">?</span>,
             },
             StartBy::Monday =&gt; {
                 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -459,7 +540,7 @@
                     </span><span class="kw">let </span>(from, to, offset): (
                         <span class="kw">fn</span>(i64) -&gt; NaiveDateTime,
                         <span class="kw">fn</span>(NaiveDateTime) -&gt; i64,
-                        <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64) -&gt; i64,
+                        <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T&gt;) -&gt; PolarsResult&lt;i64&gt;,
                     ) = <span class="kw">match </span>tu {
                         TimeUnit::Nanoseconds =&gt; (
                             timestamp_ns_to_datetime,
@@ -480,17 +561,31 @@
                     <span class="comment">// find beginning of the week.
                     </span><span class="kw">let </span><span class="kw-2">mut </span>boundary = boundary;
                     <span class="kw">let </span>dt = from(boundary.start);
-                    <span class="kw">let </span>tz = chrono_tz::UTC;
-                    <span class="kw">let </span>dt = dt.and_local_timezone(tz).unwrap();
-                    <span class="kw">let </span>dt = dt.beginning_of_week();
-                    <span class="kw">let </span>dt = dt.naive_utc();
-                    <span class="kw">let </span>start = to(dt);
-                    <span class="comment">// apply the &#39;offset&#39;
-                    </span><span class="kw">let </span>start = offset(<span class="kw-2">&amp;</span>window.offset, start);
-                    <span class="comment">// and compute the end of the window defined by the &#39;period&#39;
-                    </span><span class="kw">let </span>stop = offset(<span class="kw-2">&amp;</span>window.period, start);
-                    boundary.start = start;
-                    boundary.stop = stop;
+                    (boundary.start, boundary.stop) = <span class="kw">match </span>tz {
+                        <span class="prelude-val">Some</span>(tz) =&gt; {
+                            <span class="kw">let </span>dt = dt.and_local_timezone(tz.clone()).unwrap();
+                            <span class="kw">let </span>dt = dt.beginning_of_week();
+                            <span class="kw">let </span>dt = dt.naive_utc();
+                            <span class="kw">let </span>start = to(dt);
+                            <span class="comment">// apply the &#39;offset&#39;
+                            </span><span class="kw">let </span>start = offset(<span class="kw-2">&amp;</span>window.offset, start, <span class="prelude-val">Some</span>(tz))<span class="question-mark">?</span>;
+                            <span class="comment">// and compute the end of the window defined by the &#39;period&#39;
+                            </span><span class="kw">let </span>stop = offset(<span class="kw-2">&amp;</span>window.period, start, <span class="prelude-val">Some</span>(tz))<span class="question-mark">?</span>;
+                            (start, stop)
+                        }
+                        <span class="prelude-val">None </span>=&gt; {
+                            <span class="kw">let </span>tz = chrono::Utc;
+                            <span class="kw">let </span>dt = dt.and_local_timezone(tz).unwrap();
+                            <span class="kw">let </span>dt = dt.beginning_of_week();
+                            <span class="kw">let </span>dt = dt.naive_utc();
+                            <span class="kw">let </span>start = to(dt);
+                            <span class="comment">// apply the &#39;offset&#39;
+                            </span><span class="kw">let </span>start = offset(<span class="kw-2">&amp;</span>window.offset, start, <span class="prelude-val">None</span>::&lt;<span class="kw-2">&amp;</span>T&gt;).unwrap();
+                            <span class="comment">// and compute the end of the window defined by the &#39;period&#39;
+                            </span><span class="kw">let </span>stop = offset(<span class="kw-2">&amp;</span>window.period, start, <span class="prelude-val">None</span>::&lt;<span class="kw-2">&amp;</span>T&gt;).unwrap();
+                            (start, stop)
+                        }
+                    };
                     boundary
                 }
                 <span class="attr">#[cfg(not(feature = <span class="string">&quot;timezones&quot;</span>))]
@@ -499,33 +594,36 @@
                 }
             }
         };
-        <span class="self">Self </span>{
+        <span class="prelude-val">Ok</span>(<span class="self">Self </span>{
             window,
             boundary,
             bi,
             tu,
-        }
+            tz,
+        })
     }
 }
 
-<span class="kw">impl </span>Iterator <span class="kw">for </span>BoundsIter {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: TimeZoneTrait&gt; Iterator <span class="kw">for </span>BoundsIter&lt;<span class="lifetime">&#39;a</span>, T&gt; {
     <span class="kw">type </span>Item = Bounds;
 
     <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
         <span class="kw">if </span><span class="self">self</span>.bi.start &lt; <span class="self">self</span>.boundary.stop {
             <span class="kw">let </span>out = <span class="self">self</span>.bi;
             <span class="kw">match </span><span class="self">self</span>.tu {
-                TimeUnit::Nanoseconds =&gt; {
-                    <span class="self">self</span>.bi.start = <span class="self">self</span>.window.every.add_ns(<span class="self">self</span>.bi.start);
-                    <span class="self">self</span>.bi.stop = <span class="self">self</span>.window.every.add_ns(<span class="self">self</span>.bi.stop);
+                <span class="comment">// TODO: find some way to propagate error instead of unwrapping?
+                // Issue is that `next` needs to return `Option`.
+                </span>TimeUnit::Nanoseconds =&gt; {
+                    <span class="self">self</span>.bi.start = <span class="self">self</span>.window.every.add_ns(<span class="self">self</span>.bi.start, <span class="self">self</span>.tz).unwrap();
+                    <span class="self">self</span>.bi.stop = <span class="self">self</span>.window.every.add_ns(<span class="self">self</span>.bi.stop, <span class="self">self</span>.tz).unwrap();
                 }
                 TimeUnit::Microseconds =&gt; {
-                    <span class="self">self</span>.bi.start = <span class="self">self</span>.window.every.add_us(<span class="self">self</span>.bi.start);
-                    <span class="self">self</span>.bi.stop = <span class="self">self</span>.window.every.add_us(<span class="self">self</span>.bi.stop);
+                    <span class="self">self</span>.bi.start = <span class="self">self</span>.window.every.add_us(<span class="self">self</span>.bi.start, <span class="self">self</span>.tz).unwrap();
+                    <span class="self">self</span>.bi.stop = <span class="self">self</span>.window.every.add_us(<span class="self">self</span>.bi.stop, <span class="self">self</span>.tz).unwrap();
                 }
                 TimeUnit::Milliseconds =&gt; {
-                    <span class="self">self</span>.bi.start = <span class="self">self</span>.window.every.add_ms(<span class="self">self</span>.bi.start);
-                    <span class="self">self</span>.bi.stop = <span class="self">self</span>.window.every.add_ms(<span class="self">self</span>.bi.stop);
+                    <span class="self">self</span>.bi.start = <span class="self">self</span>.window.every.add_ms(<span class="self">self</span>.bi.start, <span class="self">self</span>.tz).unwrap();
+                    <span class="self">self</span>.bi.stop = <span class="self">self</span>.window.every.add_ms(<span class="self">self</span>.bi.stop, <span class="self">self</span>.tz).unwrap();
                 }
             }
             <span class="prelude-val">Some</span>(out)
@@ -535,4 +633,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

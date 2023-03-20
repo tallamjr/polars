@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/polars-plan/src/logical_plan/optimizer/projection_pushdown/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../../source-files.js"></script><script defer src="../../../../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../../polars_plan/index.html"><img class="rust-logo" src="../../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/polars-plan/src/logical_plan/optimizer/projection_pushdown/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../../source-files.js"></script><script defer src="../../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../../polars_plan/index.html"><img class="rust-logo" src="../../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -792,69 +792,20 @@
 <a href="#792" id="792">792</a>
 <a href="#793" id="793">793</a>
 <a href="#794" id="794">794</a>
-<a href="#795" id="795">795</a>
-<a href="#796" id="796">796</a>
-<a href="#797" id="797">797</a>
-<a href="#798" id="798">798</a>
-<a href="#799" id="799">799</a>
-<a href="#800" id="800">800</a>
-<a href="#801" id="801">801</a>
-<a href="#802" id="802">802</a>
-<a href="#803" id="803">803</a>
-<a href="#804" id="804">804</a>
-<a href="#805" id="805">805</a>
-<a href="#806" id="806">806</a>
-<a href="#807" id="807">807</a>
-<a href="#808" id="808">808</a>
-<a href="#809" id="809">809</a>
-<a href="#810" id="810">810</a>
-<a href="#811" id="811">811</a>
-<a href="#812" id="812">812</a>
-<a href="#813" id="813">813</a>
-<a href="#814" id="814">814</a>
-<a href="#815" id="815">815</a>
-<a href="#816" id="816">816</a>
-<a href="#817" id="817">817</a>
-<a href="#818" id="818">818</a>
-<a href="#819" id="819">819</a>
-<a href="#820" id="820">820</a>
-<a href="#821" id="821">821</a>
-<a href="#822" id="822">822</a>
-<a href="#823" id="823">823</a>
-<a href="#824" id="824">824</a>
-<a href="#825" id="825">825</a>
-<a href="#826" id="826">826</a>
-<a href="#827" id="827">827</a>
-<a href="#828" id="828">828</a>
-<a href="#829" id="829">829</a>
-<a href="#830" id="830">830</a>
-<a href="#831" id="831">831</a>
-<a href="#832" id="832">832</a>
-<a href="#833" id="833">833</a>
-<a href="#834" id="834">834</a>
-<a href="#835" id="835">835</a>
-<a href="#836" id="836">836</a>
-<a href="#837" id="837">837</a>
-<a href="#838" id="838">838</a>
-<a href="#839" id="839">839</a>
-<a href="#840" id="840">840</a>
-<a href="#841" id="841">841</a>
-<a href="#842" id="842">842</a>
-<a href="#843" id="843">843</a>
-<a href="#844" id="844">844</a>
-<a href="#845" id="845">845</a>
-<a href="#846" id="846">846</a>
-<a href="#847" id="847">847</a>
-<a href="#848" id="848">848</a>
-</pre><pre class="rust"><code><span class="kw">mod </span>generic;
+</pre><pre class="rust"><code><span class="kw">mod </span>functions;
+<span class="kw">mod </span>generic;
 <span class="kw">mod </span>groupby;
 <span class="kw">mod </span>hstack;
 <span class="kw">mod </span>joins;
-<span class="kw">mod </span>melt;
 <span class="kw">mod </span>projection;
+<span class="kw">mod </span>rename;
+<span class="attr">#[cfg(feature = <span class="string">&quot;semi_anti_join&quot;</span>)]
+</span><span class="kw">mod </span>semi_anti_join;
 
 <span class="kw">use </span>polars_core::datatypes::PlHashSet;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
+<span class="attr">#[cfg(feature = <span class="string">&quot;semi_anti_join&quot;</span>)]
+</span><span class="kw">use </span>semi_anti_join::process_semi_anti_join;
 
 <span class="kw">use </span><span class="kw">crate</span>::logical_plan::Context;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::iterator::ArenaExprIter;
@@ -862,11 +813,11 @@
 <span class="kw">use </span><span class="kw">crate</span>::prelude::optimizer::projection_pushdown::groupby::process_groupby;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::optimizer::projection_pushdown::hstack::process_hstack;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::optimizer::projection_pushdown::joins::process_join;
-<span class="kw">use </span><span class="kw">crate</span>::prelude::optimizer::projection_pushdown::melt::process_melt;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::optimizer::projection_pushdown::projection::process_projection;
+<span class="kw">use </span><span class="kw">crate</span>::prelude::optimizer::projection_pushdown::rename::process_rename;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::utils::{
-    aexpr_assign_renamed_root, aexpr_to_leaf_names, aexpr_to_leaf_nodes, check_input_node,
+    aexpr_assign_renamed_leaf, aexpr_to_leaf_names, aexpr_to_leaf_nodes, check_input_node,
     expr_is_projected_upstream,
 };
 
@@ -949,7 +900,7 @@
     expr_arena: <span class="kw-2">&amp;mut </span>Arena&lt;AExpr&gt;,
 ) {
     <span class="comment">// if empty: all columns are already projected.
-    </span><span class="kw">if </span>!acc_projections.is_empty() {
+    </span><span class="kw">if </span>!acc_projections.is_empty() &amp;&amp; !projected_names.contains(name) {
         <span class="kw">let </span>node = expr_arena.add(AExpr::Column(Arc::from(name)));
         add_expr_to_accumulated(node, acc_projections, projected_names, expr_arena);
     }
@@ -970,9 +921,7 @@
     <span class="kw">for </span>node <span class="kw">in </span>acc_projections.iter() {
         <span class="kw">for </span>name <span class="kw">in </span>aexpr_to_leaf_names(<span class="kw-2">*</span>node, expr_arena) {
             <span class="kw">let </span>item = schema.get_full(<span class="kw-2">&amp;</span>name).ok_or_else(|| {
-                PolarsError::ComputeError(
-                    <span class="macro">format!</span>(<span class="string">&quot;column &#39;{name}&#39; not available in schema {schema:?}&quot;</span>).into(),
-                )
+                <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;column &#39;{}&#39; not available in schema {:?}&quot;</span>, name, schema)
             })<span class="question-mark">?</span>;
             new_cols.push(item);
         }
@@ -1404,44 +1353,30 @@
                     args,
                 })
             }
-            Explode {
-                input,
-                columns,
-                schema,
-            } =&gt; {
-                columns.iter().for_each(|name| {
-                    add_str_to_accumulated(
-                        name,
-                        <span class="kw-2">&amp;mut </span>acc_projections,
-                        <span class="kw-2">&amp;mut </span>projected_names,
-                        expr_arena,
-                    )
-                });
-                <span class="self">self</span>.pushdown_and_assign(
-                    input,
-                    acc_projections,
-                    projected_names,
-                    projections_seen,
-                    lp_arena,
-                    expr_arena,
-                )<span class="question-mark">?</span>;
-                <span class="prelude-val">Ok</span>(Explode {
-                    input,
-                    columns,
-                    schema,
-                })
-            }
             Distinct { input, options } =&gt; {
                 <span class="comment">// make sure that the set of unique columns is projected
-                </span><span class="kw">if let </span><span class="prelude-val">Some</span>(subset) = options.subset.as_ref() {
-                    subset.iter().for_each(|name| {
-                        add_str_to_accumulated(
-                            name,
-                            <span class="kw-2">&amp;mut </span>acc_projections,
-                            <span class="kw-2">&amp;mut </span>projected_names,
-                            expr_arena,
-                        )
-                    })
+                </span><span class="kw">if </span>!acc_projections.is_empty() {
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(subset) = options.subset.as_ref() {
+                        subset.iter().for_each(|name| {
+                            add_str_to_accumulated(
+                                name,
+                                <span class="kw-2">&amp;mut </span>acc_projections,
+                                <span class="kw-2">&amp;mut </span>projected_names,
+                                expr_arena,
+                            )
+                        })
+                    } <span class="kw">else </span>{
+                        <span class="comment">// the distint needs all columns
+                        </span><span class="kw">let </span>input_schema = lp_arena.get(input).schema(lp_arena);
+                        <span class="kw">for </span>name <span class="kw">in </span>input_schema.iter_names() {
+                            add_str_to_accumulated(
+                                name.as_str(),
+                                <span class="kw-2">&amp;mut </span>acc_projections,
+                                <span class="kw-2">&amp;mut </span>projected_names,
+                                expr_arena,
+                            )
+                        }
+                    }
                 }
 
                 <span class="self">self</span>.pushdown_and_assign(
@@ -1474,21 +1409,6 @@
                 )<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(Selection { predicate, input })
             }
-            Melt {
-                input,
-                args,
-                schema,
-            } =&gt; process_melt(
-                <span class="self">self</span>,
-                input,
-                args,
-                schema,
-                acc_projections,
-                projected_names,
-                projections_seen,
-                lp_arena,
-                expr_arena,
-            ),
             Aggregate {
                 input,
                 keys,
@@ -1519,19 +1439,35 @@
                 right_on,
                 options,
                 ..
-            } =&gt; process_join(
-                <span class="self">self</span>,
-                input_left,
-                input_right,
-                left_on,
-                right_on,
-                options,
-                acc_projections,
-                projected_names,
-                projections_seen,
-                lp_arena,
-                expr_arena,
-            ),
+            } =&gt; <span class="kw">match </span>options.how {
+                <span class="attr">#[cfg(feature = <span class="string">&quot;semi_anti_join&quot;</span>)]
+                </span>JoinType::Semi | JoinType::Anti =&gt; process_semi_anti_join(
+                    <span class="self">self</span>,
+                    input_left,
+                    input_right,
+                    left_on,
+                    right_on,
+                    options,
+                    acc_projections,
+                    projected_names,
+                    projections_seen,
+                    lp_arena,
+                    expr_arena,
+                ),
+                <span class="kw">_ </span>=&gt; process_join(
+                    <span class="self">self</span>,
+                    input_left,
+                    input_right,
+                    left_on,
+                    right_on,
+                    options,
+                    acc_projections,
+                    projected_names,
+                    projections_seen,
+                    lp_arena,
+                    expr_arena,
+                ),
+            },
             HStack { input, exprs, .. } =&gt; process_hstack(
                 <span class="self">self</span>,
                 input,
@@ -1581,60 +1517,16 @@
             MapFunction {
                 input,
                 <span class="kw-2">ref </span>function,
-            } =&gt; {
-                <span class="kw">let </span>lp = MapFunction {
-                    input,
-                    function: function.clone(),
-                };
-                <span class="kw">if </span>function.allow_projection_pd() &amp;&amp; !acc_projections.is_empty() {
-                    <span class="kw">let </span>original_acc_projection_len = acc_projections.len();
-
-                    <span class="comment">// add columns needed for the function.
-                    </span><span class="kw">for </span>name <span class="kw">in </span>function.additional_projection_pd_columns() {
-                        <span class="kw">let </span>node = expr_arena.add(AExpr::Column(name.clone()));
-                        add_expr_to_accumulated(
-                            node,
-                            <span class="kw-2">&amp;mut </span>acc_projections,
-                            <span class="kw-2">&amp;mut </span>projected_names,
-                            expr_arena,
-                        )
-                    }
-                    <span class="kw">let </span>expands_schema = <span class="macro">matches!</span>(function, FunctionNode::Unnest { .. });
-
-                    <span class="kw">let </span>local_projections = <span class="self">self</span>.pushdown_and_assign_check_schema(
-                        input,
-                        acc_projections,
-                        projections_seen,
-                        lp_arena,
-                        expr_arena,
-                        expands_schema,
-                    )<span class="question-mark">?</span>;
-                    <span class="kw">if </span>local_projections.is_empty() {
-                        <span class="prelude-val">Ok</span>(lp)
-                    } <span class="kw">else </span>{
-                        <span class="comment">// if we would project, we would remove pushed down predicates
-                        </span><span class="kw">if </span>local_projections.len() &lt; original_acc_projection_len {
-                            <span class="prelude-val">Ok</span>(ALogicalPlanBuilder::from_lp(lp, expr_arena, lp_arena)
-                                .with_columns(local_projections)
-                                .build())
-                            <span class="comment">// all projections are local
-                        </span>} <span class="kw">else </span>{
-                            <span class="prelude-val">Ok</span>(ALogicalPlanBuilder::from_lp(lp, expr_arena, lp_arena)
-                                .project(local_projections)
-                                .build())
-                        }
-                    }
-                } <span class="kw">else </span>{
-                    <span class="comment">// restart projection pushdown
-                    </span><span class="self">self</span>.no_pushdown_restart_opt(
-                        lp,
-                        acc_projections,
-                        projections_seen,
-                        lp_arena,
-                        expr_arena,
-                    )
-                }
-            }
+            } =&gt; functions::process_functions(
+                <span class="self">self</span>,
+                input,
+                function,
+                acc_projections,
+                projected_names,
+                projections_seen,
+                lp_arena,
+                expr_arena,
+            ),
             lp @ Union { .. } =&gt; {
                 <span class="self">self</span>.has_joins_or_unions = <span class="bool-val">true</span>;
                 process_generic(
@@ -1695,4 +1587,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="polars_plan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="polars_plan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

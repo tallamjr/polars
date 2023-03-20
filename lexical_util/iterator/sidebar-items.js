@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":[["Bytes","Slice iterator that skips characters matching a given value."]],"trait":[["AsBytes","Trait to simplify creation of a `Bytes` object."],["BytesIter","Iterator over a contiguous block of bytes."]]};
+window.SIDEBAR_ITEMS = {"struct":["Bytes"],"trait":["AsBytes","BytesIter"]};

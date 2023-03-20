@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-io/src/ndjson_core/buffer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>buffer.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_io/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-io/src/ndjson_core/buffer.rs`."><title>buffer.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_io/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -208,21 +208,16 @@
 <a href="#208" id="208">208</a>
 <a href="#209" id="209">209</a>
 <a href="#210" id="210">210</a>
-<a href="#211" id="211">211</a>
-<a href="#212" id="212">212</a>
-<a href="#213" id="213">213</a>
-<a href="#214" id="214">214</a>
-<a href="#215" id="215">215</a>
-<a href="#216" id="216">216</a>
-<a href="#217" id="217">217</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::hash::{Hash, Hasher};
 
 <span class="kw">use </span>arrow::types::NativeType;
-<span class="kw">use </span>num::traits::NumCast;
+<span class="kw">use </span>num_traits::NumCast;
 <span class="kw">use </span>polars_core::frame::row::AnyValueBuffer;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span>polars_time::prelude::utf8::infer::{infer_pattern_single, DatetimeInfer};
-<span class="kw">use </span>polars_time::prelude::utf8::Pattern;
+<span class="attr">#[cfg(any(feature = <span class="string">&quot;dtype-datetime&quot;</span>, feature = <span class="string">&quot;dtype-date&quot;</span>))]
+</span><span class="kw">use </span>polars_time::prelude::utf8::infer::{infer_pattern_single, DatetimeInfer};
+<span class="attr">#[cfg(any(feature = <span class="string">&quot;dtype-datetime&quot;</span>, feature = <span class="string">&quot;dtype-date&quot;</span>))]
+</span><span class="kw">use </span>polars_time::prelude::utf8::Pattern;
 <span class="kw">use </span>simd_json::{BorrowedValue <span class="kw">as </span>Value, KnownKey, StaticNode};
 
 <span class="attr">#[derive(Debug, Clone, PartialEq)]
@@ -323,8 +318,8 @@
                 buf.append_option(v);
                 <span class="prelude-val">Ok</span>(())
             }
-            All(<span class="kw">_</span>, buf) =&gt; {
-                <span class="kw">let </span>av = deserialize_all(value);
+            All(dtype, buf) =&gt; {
+                <span class="kw">let </span>av = deserialize_all(value, dtype)<span class="question-mark">?</span>;
                 buf.push(av);
                 <span class="prelude-val">Ok</span>(())
             }
@@ -343,7 +338,7 @@
         .iter()
         .map(|(name, dtype)| {
             <span class="kw">let </span>av_buf = (dtype, capacity).into();
-            <span class="kw">let </span>key = KnownKey::from(name);
+            <span class="kw">let </span>key = KnownKey::from(name.as_str());
             <span class="prelude-val">Ok</span>((BufferKey(key), Buffer(name, av_buf)))
         })
         .collect()
@@ -351,15 +346,16 @@
 
 <span class="kw">fn </span>deserialize_number&lt;T: NativeType + NumCast&gt;(value: <span class="kw-2">&amp;</span>Value) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt; {
     <span class="kw">match </span>value {
-        Value::Static(StaticNode::F64(f)) =&gt; num::traits::cast::&lt;f64, T&gt;(<span class="kw-2">*</span>f),
-        Value::Static(StaticNode::I64(i)) =&gt; num::traits::cast::&lt;i64, T&gt;(<span class="kw-2">*</span>i),
-        Value::Static(StaticNode::U64(u)) =&gt; num::traits::cast::&lt;u64, T&gt;(<span class="kw-2">*</span>u),
-        Value::Static(StaticNode::Bool(b)) =&gt; num::traits::cast::&lt;i32, T&gt;(<span class="kw-2">*</span>b <span class="kw">as </span>i32),
+        Value::Static(StaticNode::F64(f)) =&gt; num_traits::cast(<span class="kw-2">*</span>f),
+        Value::Static(StaticNode::I64(i)) =&gt; num_traits::cast(<span class="kw-2">*</span>i),
+        Value::Static(StaticNode::U64(u)) =&gt; num_traits::cast(<span class="kw-2">*</span>u),
+        Value::Static(StaticNode::Bool(b)) =&gt; num_traits::cast(<span class="kw-2">*</span>b <span class="kw">as </span>i32),
         <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
     }
 }
 
-<span class="kw">fn </span>deserialize_datetime&lt;T&gt;(value: <span class="kw-2">&amp;</span>Value) -&gt; <span class="prelude-ty">Option</span>&lt;T::Native&gt;
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
+</span><span class="kw">fn </span>deserialize_datetime&lt;T&gt;(value: <span class="kw-2">&amp;</span>Value) -&gt; <span class="prelude-ty">Option</span>&lt;T::Native&gt;
 <span class="kw">where
     </span>T: PolarsNumericType,
     DatetimeInfer&lt;T::Native&gt;: TryFrom&lt;Pattern&gt;,
@@ -376,33 +372,8 @@
     })
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
-</span><span class="kw">fn </span>value_to_dtype(val: <span class="kw-2">&amp;</span>Value) -&gt; DataType {
-    <span class="kw">match </span>val {
-        Value::Static(StaticNode::Bool(<span class="kw">_</span>)) =&gt; DataType::Boolean,
-        Value::Static(StaticNode::I64(<span class="kw">_</span>)) =&gt; DataType::Int64,
-        Value::Static(StaticNode::U64(<span class="kw">_</span>)) =&gt; DataType::UInt64,
-        Value::Static(StaticNode::F64(<span class="kw">_</span>)) =&gt; DataType::Float64,
-        Value::Static(StaticNode::Null) =&gt; DataType::Null,
-        Value::Array(arr) =&gt; {
-            <span class="kw">let </span>dtype = value_to_dtype(<span class="kw-2">&amp;</span>arr[<span class="number">0</span>]);
-
-            DataType::List(Box::new(dtype))
-        }
-        <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
-        </span>Value::Object(doc) =&gt; {
-            <span class="kw">let </span>fields = doc.iter().map(|(key, value)| {
-                <span class="kw">let </span>dtype = value_to_dtype(value);
-                Field::new(key, dtype)
-            });
-            DataType::Struct(fields.collect())
-        }
-        <span class="kw">_ </span>=&gt; DataType::Utf8,
-    }
-}
-
-<span class="kw">fn </span>deserialize_all&lt;<span class="lifetime">&#39;a</span>&gt;(json: <span class="kw-2">&amp;</span>Value) -&gt; AnyValue&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">match </span>json {
+<span class="kw">fn </span>deserialize_all&lt;<span class="lifetime">&#39;a</span>&gt;(json: <span class="kw-2">&amp;</span>Value, dtype: <span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;AnyValue&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+    <span class="kw">let </span>out = <span class="kw">match </span>json {
         Value::Static(StaticNode::Bool(b)) =&gt; AnyValue::Boolean(<span class="kw-2">*</span>b),
         Value::Static(StaticNode::I64(i)) =&gt; AnyValue::Int64(<span class="kw-2">*</span>i),
         Value::Static(StaticNode::U64(u)) =&gt; AnyValue::UInt64(<span class="kw-2">*</span>u),
@@ -410,27 +381,42 @@
         Value::Static(StaticNode::Null) =&gt; AnyValue::Null,
         Value::String(s) =&gt; AnyValue::Utf8Owned(s.as_ref().into()),
         Value::Array(arr) =&gt; {
-            <span class="kw">let </span>vals: Vec&lt;AnyValue&gt; = arr.iter().map(deserialize_all).collect();
-
-            <span class="kw">let </span>s = Series::new(<span class="string">&quot;&quot;</span>, vals);
+            <span class="kw">let </span><span class="prelude-val">Some</span>(inner_dtype) = dtype.inner_dtype() <span class="kw">else </span>{
+                <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;expected list/array in json value, got {}&quot;</span>, dtype);
+            };
+            <span class="kw">let </span>vals: Vec&lt;AnyValue&gt; = arr
+                .iter()
+                .map(|val| deserialize_all(val, inner_dtype))
+                .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>;
+            <span class="kw">let </span>s = Series::from_any_values_and_dtype(<span class="string">&quot;&quot;</span>, <span class="kw-2">&amp;</span>vals, inner_dtype, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
             AnyValue::List(s)
         }
         <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
         </span>Value::Object(doc) =&gt; {
-            <span class="kw">let </span>vals: (Vec&lt;AnyValue&gt;, Vec&lt;Field&gt;) = doc
-                .iter()
-                .map(|(key, value)| {
-                    <span class="kw">let </span>dt = value_to_dtype(value);
-                    <span class="kw">let </span>fld = Field::new(key, dt);
-                    <span class="kw">let </span>av: AnyValue&lt;<span class="lifetime">&#39;a</span>&gt; = deserialize_all(value);
-                    (av, fld)
-                })
-                .unzip();
-            AnyValue::StructOwned(Box::new(vals))
+            <span class="kw">if let </span>DataType::Struct(fields) = dtype {
+                <span class="kw">let </span>document = <span class="kw-2">&amp;**</span>doc;
+
+                <span class="kw">let </span>vals = fields
+                    .iter()
+                    .map(|field| {
+                        <span class="kw">if let </span><span class="prelude-val">Some</span>(value) = document.get(field.name.as_str()) {
+                            deserialize_all(value, <span class="kw-2">&amp;</span>field.dtype)
+                        } <span class="kw">else </span>{
+                            <span class="prelude-val">Ok</span>(AnyValue::Null)
+                        }
+                    })
+                    .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
+                AnyValue::StructOwned(Box::new((vals, fields.clone())))
+            } <span class="kw">else </span>{
+                <span class="macro">polars_bail!</span>(
+                    ComputeError: <span class="string">&quot;expected {dtype} in json value, got object&quot;</span>,
+                );
+            }
         }
         <span class="attr">#[cfg(not(feature = <span class="string">&quot;dtype-struct&quot;</span>))]
         </span>val =&gt; AnyValue::Utf8Owned(<span class="macro">format!</span>(<span class="string">&quot;{:#?}&quot;</span>, val).into()),
-    }
+    };
+    <span class="prelude-val">Ok</span>(out)
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_io" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_io" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

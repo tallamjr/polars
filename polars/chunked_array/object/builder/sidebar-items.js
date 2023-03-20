@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":[["ObjectChunkedBuilder",""]]};
+window.SIDEBAR_ITEMS = {"struct":["ObjectChunkedBuilder"]};

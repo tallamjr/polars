@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":[["NullBehavior",""]],"mod":[["diff",""]]};
+window.SIDEBAR_ITEMS = {"enum":["NullBehavior"],"mod":["diff"]};

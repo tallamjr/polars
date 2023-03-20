@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":[["BajaNorte",""],["BajaSur",""],["General",""]]};
+window.SIDEBAR_ITEMS = {"constant":["BajaNorte","BajaSur","General"]};

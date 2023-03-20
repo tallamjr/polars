@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/polars-plan/src/dsl/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_plan/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/polars-plan/src/dsl/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_plan/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2170,218 +2170,15 @@
 <a href="#2170" id="2170">2170</a>
 <a href="#2171" id="2171">2171</a>
 <a href="#2172" id="2172">2172</a>
-<a href="#2173" id="2173">2173</a>
-<a href="#2174" id="2174">2174</a>
-<a href="#2175" id="2175">2175</a>
-<a href="#2176" id="2176">2176</a>
-<a href="#2177" id="2177">2177</a>
-<a href="#2178" id="2178">2178</a>
-<a href="#2179" id="2179">2179</a>
-<a href="#2180" id="2180">2180</a>
-<a href="#2181" id="2181">2181</a>
-<a href="#2182" id="2182">2182</a>
-<a href="#2183" id="2183">2183</a>
-<a href="#2184" id="2184">2184</a>
-<a href="#2185" id="2185">2185</a>
-<a href="#2186" id="2186">2186</a>
-<a href="#2187" id="2187">2187</a>
-<a href="#2188" id="2188">2188</a>
-<a href="#2189" id="2189">2189</a>
-<a href="#2190" id="2190">2190</a>
-<a href="#2191" id="2191">2191</a>
-<a href="#2192" id="2192">2192</a>
-<a href="#2193" id="2193">2193</a>
-<a href="#2194" id="2194">2194</a>
-<a href="#2195" id="2195">2195</a>
-<a href="#2196" id="2196">2196</a>
-<a href="#2197" id="2197">2197</a>
-<a href="#2198" id="2198">2198</a>
-<a href="#2199" id="2199">2199</a>
-<a href="#2200" id="2200">2200</a>
-<a href="#2201" id="2201">2201</a>
-<a href="#2202" id="2202">2202</a>
-<a href="#2203" id="2203">2203</a>
-<a href="#2204" id="2204">2204</a>
-<a href="#2205" id="2205">2205</a>
-<a href="#2206" id="2206">2206</a>
-<a href="#2207" id="2207">2207</a>
-<a href="#2208" id="2208">2208</a>
-<a href="#2209" id="2209">2209</a>
-<a href="#2210" id="2210">2210</a>
-<a href="#2211" id="2211">2211</a>
-<a href="#2212" id="2212">2212</a>
-<a href="#2213" id="2213">2213</a>
-<a href="#2214" id="2214">2214</a>
-<a href="#2215" id="2215">2215</a>
-<a href="#2216" id="2216">2216</a>
-<a href="#2217" id="2217">2217</a>
-<a href="#2218" id="2218">2218</a>
-<a href="#2219" id="2219">2219</a>
-<a href="#2220" id="2220">2220</a>
-<a href="#2221" id="2221">2221</a>
-<a href="#2222" id="2222">2222</a>
-<a href="#2223" id="2223">2223</a>
-<a href="#2224" id="2224">2224</a>
-<a href="#2225" id="2225">2225</a>
-<a href="#2226" id="2226">2226</a>
-<a href="#2227" id="2227">2227</a>
-<a href="#2228" id="2228">2228</a>
-<a href="#2229" id="2229">2229</a>
-<a href="#2230" id="2230">2230</a>
-<a href="#2231" id="2231">2231</a>
-<a href="#2232" id="2232">2232</a>
-<a href="#2233" id="2233">2233</a>
-<a href="#2234" id="2234">2234</a>
-<a href="#2235" id="2235">2235</a>
-<a href="#2236" id="2236">2236</a>
-<a href="#2237" id="2237">2237</a>
-<a href="#2238" id="2238">2238</a>
-<a href="#2239" id="2239">2239</a>
-<a href="#2240" id="2240">2240</a>
-<a href="#2241" id="2241">2241</a>
-<a href="#2242" id="2242">2242</a>
-<a href="#2243" id="2243">2243</a>
-<a href="#2244" id="2244">2244</a>
-<a href="#2245" id="2245">2245</a>
-<a href="#2246" id="2246">2246</a>
-<a href="#2247" id="2247">2247</a>
-<a href="#2248" id="2248">2248</a>
-<a href="#2249" id="2249">2249</a>
-<a href="#2250" id="2250">2250</a>
-<a href="#2251" id="2251">2251</a>
-<a href="#2252" id="2252">2252</a>
-<a href="#2253" id="2253">2253</a>
-<a href="#2254" id="2254">2254</a>
-<a href="#2255" id="2255">2255</a>
-<a href="#2256" id="2256">2256</a>
-<a href="#2257" id="2257">2257</a>
-<a href="#2258" id="2258">2258</a>
-<a href="#2259" id="2259">2259</a>
-<a href="#2260" id="2260">2260</a>
-<a href="#2261" id="2261">2261</a>
-<a href="#2262" id="2262">2262</a>
-<a href="#2263" id="2263">2263</a>
-<a href="#2264" id="2264">2264</a>
-<a href="#2265" id="2265">2265</a>
-<a href="#2266" id="2266">2266</a>
-<a href="#2267" id="2267">2267</a>
-<a href="#2268" id="2268">2268</a>
-<a href="#2269" id="2269">2269</a>
-<a href="#2270" id="2270">2270</a>
-<a href="#2271" id="2271">2271</a>
-<a href="#2272" id="2272">2272</a>
-<a href="#2273" id="2273">2273</a>
-<a href="#2274" id="2274">2274</a>
-<a href="#2275" id="2275">2275</a>
-<a href="#2276" id="2276">2276</a>
-<a href="#2277" id="2277">2277</a>
-<a href="#2278" id="2278">2278</a>
-<a href="#2279" id="2279">2279</a>
-<a href="#2280" id="2280">2280</a>
-<a href="#2281" id="2281">2281</a>
-<a href="#2282" id="2282">2282</a>
-<a href="#2283" id="2283">2283</a>
-<a href="#2284" id="2284">2284</a>
-<a href="#2285" id="2285">2285</a>
-<a href="#2286" id="2286">2286</a>
-<a href="#2287" id="2287">2287</a>
-<a href="#2288" id="2288">2288</a>
-<a href="#2289" id="2289">2289</a>
-<a href="#2290" id="2290">2290</a>
-<a href="#2291" id="2291">2291</a>
-<a href="#2292" id="2292">2292</a>
-<a href="#2293" id="2293">2293</a>
-<a href="#2294" id="2294">2294</a>
-<a href="#2295" id="2295">2295</a>
-<a href="#2296" id="2296">2296</a>
-<a href="#2297" id="2297">2297</a>
-<a href="#2298" id="2298">2298</a>
-<a href="#2299" id="2299">2299</a>
-<a href="#2300" id="2300">2300</a>
-<a href="#2301" id="2301">2301</a>
-<a href="#2302" id="2302">2302</a>
-<a href="#2303" id="2303">2303</a>
-<a href="#2304" id="2304">2304</a>
-<a href="#2305" id="2305">2305</a>
-<a href="#2306" id="2306">2306</a>
-<a href="#2307" id="2307">2307</a>
-<a href="#2308" id="2308">2308</a>
-<a href="#2309" id="2309">2309</a>
-<a href="#2310" id="2310">2310</a>
-<a href="#2311" id="2311">2311</a>
-<a href="#2312" id="2312">2312</a>
-<a href="#2313" id="2313">2313</a>
-<a href="#2314" id="2314">2314</a>
-<a href="#2315" id="2315">2315</a>
-<a href="#2316" id="2316">2316</a>
-<a href="#2317" id="2317">2317</a>
-<a href="#2318" id="2318">2318</a>
-<a href="#2319" id="2319">2319</a>
-<a href="#2320" id="2320">2320</a>
-<a href="#2321" id="2321">2321</a>
-<a href="#2322" id="2322">2322</a>
-<a href="#2323" id="2323">2323</a>
-<a href="#2324" id="2324">2324</a>
-<a href="#2325" id="2325">2325</a>
-<a href="#2326" id="2326">2326</a>
-<a href="#2327" id="2327">2327</a>
-<a href="#2328" id="2328">2328</a>
-<a href="#2329" id="2329">2329</a>
-<a href="#2330" id="2330">2330</a>
-<a href="#2331" id="2331">2331</a>
-<a href="#2332" id="2332">2332</a>
-<a href="#2333" id="2333">2333</a>
-<a href="#2334" id="2334">2334</a>
-<a href="#2335" id="2335">2335</a>
-<a href="#2336" id="2336">2336</a>
-<a href="#2337" id="2337">2337</a>
-<a href="#2338" id="2338">2338</a>
-<a href="#2339" id="2339">2339</a>
-<a href="#2340" id="2340">2340</a>
-<a href="#2341" id="2341">2341</a>
-<a href="#2342" id="2342">2342</a>
-<a href="#2343" id="2343">2343</a>
-<a href="#2344" id="2344">2344</a>
-<a href="#2345" id="2345">2345</a>
-<a href="#2346" id="2346">2346</a>
-<a href="#2347" id="2347">2347</a>
-<a href="#2348" id="2348">2348</a>
-<a href="#2349" id="2349">2349</a>
-<a href="#2350" id="2350">2350</a>
-<a href="#2351" id="2351">2351</a>
-<a href="#2352" id="2352">2352</a>
-<a href="#2353" id="2353">2353</a>
-<a href="#2354" id="2354">2354</a>
-<a href="#2355" id="2355">2355</a>
-<a href="#2356" id="2356">2356</a>
-<a href="#2357" id="2357">2357</a>
-<a href="#2358" id="2358">2358</a>
-<a href="#2359" id="2359">2359</a>
-<a href="#2360" id="2360">2360</a>
-<a href="#2361" id="2361">2361</a>
-<a href="#2362" id="2362">2362</a>
-<a href="#2363" id="2363">2363</a>
-<a href="#2364" id="2364">2364</a>
-<a href="#2365" id="2365">2365</a>
-<a href="#2366" id="2366">2366</a>
-<a href="#2367" id="2367">2367</a>
-<a href="#2368" id="2368">2368</a>
-<a href="#2369" id="2369">2369</a>
-<a href="#2370" id="2370">2370</a>
-<a href="#2371" id="2371">2371</a>
-<a href="#2372" id="2372">2372</a>
-<a href="#2373" id="2373">2373</a>
-<a href="#2374" id="2374">2374</a>
-<a href="#2375" id="2375">2375</a>
-</pre><pre class="rust"><code><span class="doccomment">//! Domain specific language for the Lazy api.
+</pre><pre class="rust"><code><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
 </span><span class="kw">pub mod </span>cat;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
 </span><span class="kw">pub use </span>cat::<span class="kw-2">*</span>;
-<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
-</span><span class="kw">pub mod </span>binary;
+<span class="kw">mod </span>arithmetic;
+<span class="kw">pub mod </span>binary;
 <span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
-</span><span class="kw">mod </span>dt;
+</span><span class="kw">pub mod </span>dt;
 <span class="kw">mod </span>expr;
 <span class="kw">mod </span>from;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>function_expr;
@@ -2398,7 +2195,6 @@
 </span><span class="kw">mod </span>struct_;
 
 <span class="kw">use </span>std::fmt::Debug;
-<span class="kw">use </span>std::ops::{Add, Div, Mul, Rem, Sub};
 <span class="kw">use </span>std::sync::Arc;
 
 <span class="kw">pub use </span>expr::<span class="kw-2">*</span>;
@@ -2412,7 +2208,6 @@
 </span><span class="kw">use </span>polars_core::series::ops::NullBehavior;
 <span class="kw">use </span>polars_core::series::IsSorted;
 <span class="kw">use </span>polars_core::utils::{try_get_supertype, NoNull};
-<span class="kw">use </span>polars_ops::prelude::SeriesOps;
 <span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
 </span><span class="kw">use </span>polars_time::series::SeriesOpsTime;
 
@@ -2422,7 +2217,8 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;is_in&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::utils::has_root_literal_expr;
 
-<span class="kw">pub fn </span>binary_expr(l: Expr, op: Operator, r: Expr) -&gt; Expr {
+<span class="doccomment">/// Compute `op(l, r)` (or equivalently `l op r`). `l` and `r` must have types compatible with the Operator.
+</span><span class="kw">pub fn </span>binary_expr(l: Expr, op: Operator, r: Expr) -&gt; Expr {
     Expr::BinaryExpr {
         left: Box::new(l),
         op,
@@ -2665,7 +2461,7 @@
 
     <span class="doccomment">/// Drop null values
     </span><span class="kw">pub fn </span>drop_nulls(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.apply(|s| <span class="prelude-val">Ok</span>(s.drop_nulls()), GetOutput::same_type())
+        <span class="self">self</span>.apply(|s| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.drop_nulls())), GetOutput::same_type())
     }
 
     <span class="doccomment">/// Drop NaN values
@@ -2824,7 +2620,7 @@
                     b = b.cast(<span class="kw-2">&amp;</span>dtype)<span class="question-mark">?</span>;
                 }
                 a.append(<span class="kw-2">&amp;</span>b)<span class="question-mark">?</span>;
-                <span class="prelude-val">Ok</span>(a)
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(a))
             },
             output_type,
         )
@@ -2843,21 +2639,24 @@
 
     <span class="doccomment">/// Get unique values of this expression.
     </span><span class="kw">pub fn </span>unique(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.apply(|s: Series| s.unique(), GetOutput::same_type())
+        <span class="self">self</span>.apply(|s: Series| s.unique().map(<span class="prelude-val">Some</span>), GetOutput::same_type())
             .with_fmt(<span class="string">&quot;unique&quot;</span>)
     }
 
     <span class="doccomment">/// Get unique values of this expression, while maintaining order.
     /// This requires more work than [`Expr::unique`].
     </span><span class="kw">pub fn </span>unique_stable(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.apply(|s: Series| s.unique_stable(), GetOutput::same_type())
-            .with_fmt(<span class="string">&quot;unique_stable&quot;</span>)
+        <span class="self">self</span>.apply(
+            |s: Series| s.unique_stable().map(<span class="prelude-val">Some</span>),
+            GetOutput::same_type(),
+        )
+        .with_fmt(<span class="string">&quot;unique_stable&quot;</span>)
     }
 
     <span class="doccomment">/// Get the first index of unique values of this expression.
     </span><span class="kw">pub fn </span>arg_unique(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.apply(
-            |s: Series| s.arg_unique().map(|ca| ca.into_series()),
+            |s: Series| s.arg_unique().map(|ca| <span class="prelude-val">Some</span>(ca.into_series())),
             GetOutput::from_type(IDX_DTYPE),
         )
         .with_fmt(<span class="string">&quot;arg_unique&quot;</span>)
@@ -2873,7 +2672,12 @@
         };
 
         <span class="self">self</span>.function_with_options(
-            <span class="kw">move </span>|s: Series| <span class="prelude-val">Ok</span>(Series::new(s.name(), <span class="kw-2">&amp;</span>[s.arg_min().map(|idx| idx <span class="kw">as </span>u32)])),
+            <span class="kw">move </span>|s: Series| {
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Series::new(
+                    s.name(),
+                    <span class="kw-2">&amp;</span>[s.arg_min().map(|idx| idx <span class="kw">as </span>u32)],
+                )))
+            },
             GetOutput::from_type(IDX_DTYPE),
             options,
         )
@@ -2889,7 +2693,12 @@
         };
 
         <span class="self">self</span>.function_with_options(
-            <span class="kw">move </span>|s: Series| <span class="prelude-val">Ok</span>(Series::new(s.name(), <span class="kw-2">&amp;</span>[s.arg_max().map(|idx| idx <span class="kw">as </span>u32)])),
+            <span class="kw">move </span>|s: Series| {
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Series::new(
+                    s.name(),
+                    <span class="kw-2">&amp;</span>[s.arg_max().map(|idx| idx <span class="kw">as </span>u32)],
+                )))
+            },
             GetOutput::from_type(IDX_DTYPE),
             options,
         )
@@ -2904,7 +2713,7 @@
         };
 
         <span class="self">self</span>.function_with_options(
-            <span class="kw">move </span>|s: Series| <span class="prelude-val">Ok</span>(s.argsort(sort_options).into_series()),
+            <span class="kw">move </span>|s: Series| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.arg_sort(sort_options).into_series())),
             GetOutput::from_type(IDX_DTYPE),
             options,
         )
@@ -2955,11 +2764,11 @@
     }
 
     <span class="doccomment">/// Sort in increasing order. See [the eager implementation](Series::sort).
-    </span><span class="kw">pub fn </span>sort(<span class="self">self</span>, reverse: bool) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>sort(<span class="self">self</span>, descending: bool) -&gt; <span class="self">Self </span>{
         Expr::Sort {
             expr: Box::new(<span class="self">self</span>),
             options: SortOptions {
-                descending: reverse,
+                descending,
                 ..Default::default()
             },
         }
@@ -2977,8 +2786,8 @@
     ///
     /// This has time complexity `O(n + k log(n))`.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;top_k&quot;</span>)]
-    </span><span class="kw">pub fn </span>top_k(<span class="self">self</span>, k: usize, reverse: bool) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.apply_private(FunctionExpr::TopK { k, reverse })
+    </span><span class="kw">pub fn </span>top_k(<span class="self">self</span>, k: usize, descending: bool) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.apply_private(FunctionExpr::TopK { k, descending })
     }
 
     <span class="doccomment">/// Reverse column
@@ -2997,7 +2806,7 @@
     /// the correct output_type. If None given the output type of the input expr is used.
     </span><span class="kw">pub fn </span>map&lt;F&gt;(<span class="self">self</span>, function: F, output_type: GetOutput) -&gt; <span class="self">Self
     </span><span class="kw">where
-        </span>F: Fn(Series) -&gt; PolarsResult&lt;Series&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
+        </span>F: Fn(Series) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
     {
         <span class="kw">let </span>f = <span class="kw">move </span>|s: <span class="kw-2">&amp;mut </span>[Series]| function(std::mem::take(<span class="kw-2">&amp;mut </span>s[<span class="number">0</span>]));
 
@@ -3037,7 +2846,7 @@
     /// See the [`Expr::map`] function for the differences between [`map`](Expr::map) and [`apply`](Expr::apply).
     </span><span class="kw">pub fn </span>map_many&lt;F&gt;(<span class="self">self</span>, function: F, arguments: <span class="kw-2">&amp;</span>[Expr], output_type: GetOutput) -&gt; <span class="self">Self
     </span><span class="kw">where
-        </span>F: Fn(<span class="kw-2">&amp;mut </span>[Series]) -&gt; PolarsResult&lt;Series&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
+        </span>F: Fn(<span class="kw-2">&amp;mut </span>[Series]) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
     {
         <span class="kw">let </span><span class="kw-2">mut </span>input = <span class="macro">vec!</span>[<span class="self">self</span>];
         input.extend_from_slice(arguments);
@@ -3063,7 +2872,7 @@
     ///  * `map_list` should be used when the function expects a list aggregated series.
     </span><span class="kw">pub fn </span>map_list&lt;F&gt;(<span class="self">self</span>, function: F, output_type: GetOutput) -&gt; <span class="self">Self
     </span><span class="kw">where
-        </span>F: Fn(Series) -&gt; PolarsResult&lt;Series&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
+        </span>F: Fn(Series) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
     {
         <span class="kw">let </span>f = <span class="kw">move </span>|s: <span class="kw-2">&amp;mut </span>[Series]| function(std::mem::take(<span class="kw-2">&amp;mut </span>s[<span class="number">0</span>]));
 
@@ -3087,7 +2896,7 @@
         options: FunctionOptions,
     ) -&gt; <span class="self">Self
     </span><span class="kw">where
-        </span>F: Fn(Series) -&gt; PolarsResult&lt;Series&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
+        </span>F: Fn(Series) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
     {
         <span class="kw">let </span>f = <span class="kw">move </span>|s: <span class="kw-2">&amp;mut </span>[Series]| function(std::mem::take(<span class="kw-2">&amp;mut </span>s[<span class="number">0</span>]));
 
@@ -3110,7 +2919,7 @@
     /// * `apply` should be used for operations that work on a group of data. e.g. `sum`, `count`, etc.
     </span><span class="kw">pub fn </span>apply&lt;F&gt;(<span class="self">self</span>, function: F, output_type: GetOutput) -&gt; <span class="self">Self
     </span><span class="kw">where
-        </span>F: Fn(Series) -&gt; PolarsResult&lt;Series&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
+        </span>F: Fn(Series) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
     {
         <span class="kw">let </span>f = <span class="kw">move </span>|s: <span class="kw-2">&amp;mut </span>[Series]| function(std::mem::take(<span class="kw-2">&amp;mut </span>s[<span class="number">0</span>]));
 
@@ -3142,7 +2951,7 @@
     /// See the [`Expr::apply`] function for the differences between [`map`](Expr::map) and [`apply`](Expr::apply).
     </span><span class="kw">pub fn </span>apply_many&lt;F&gt;(<span class="self">self</span>, function: F, arguments: <span class="kw-2">&amp;</span>[Expr], output_type: GetOutput) -&gt; <span class="self">Self
     </span><span class="kw">where
-        </span>F: Fn(<span class="kw-2">&amp;mut </span>[Series]) -&gt; PolarsResult&lt;Series&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
+        </span>F: Fn(<span class="kw-2">&amp;mut </span>[Series]) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
     {
         <span class="kw">let </span><span class="kw-2">mut </span>input = <span class="macro">vec!</span>[<span class="self">self</span>];
         input.extend_from_slice(arguments);
@@ -3209,7 +3018,7 @@
     </span><span class="attr">#[allow(clippy::wrong_self_convention)]
     </span><span class="kw">pub fn </span>is_finite(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.map(
-            |s: Series| s.is_finite().map(|ca| ca.into_series()),
+            |s: Series| s.is_finite().map(|ca| <span class="prelude-val">Some</span>(ca.into_series())),
             GetOutput::from_type(DataType::Boolean),
         )
         .with_fmt(<span class="string">&quot;is_finite&quot;</span>)
@@ -3219,7 +3028,7 @@
     </span><span class="attr">#[allow(clippy::wrong_self_convention)]
     </span><span class="kw">pub fn </span>is_infinite(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.map(
-            |s: Series| s.is_infinite().map(|ca| ca.into_series()),
+            |s: Series| s.is_infinite().map(|ca| <span class="prelude-val">Some</span>(ca.into_series())),
             GetOutput::from_type(DataType::Boolean),
         )
         .with_fmt(<span class="string">&quot;is_infinite&quot;</span>)
@@ -3253,7 +3062,7 @@
     <span class="doccomment">/// Get an array with the cumulative sum computed at every element
     </span><span class="kw">pub fn </span>cumsum(<span class="self">self</span>, reverse: bool) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s: Series| <span class="prelude-val">Ok</span>(s.cumsum(reverse)),
+            <span class="kw">move </span>|s: Series| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.cumsum(reverse))),
             GetOutput::map_dtype(|dt| {
                 <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
                 <span class="kw">if </span>dt.is_logical() {
@@ -3277,7 +3086,7 @@
     <span class="doccomment">/// Get an array with the cumulative product computed at every element
     </span><span class="kw">pub fn </span>cumprod(<span class="self">self</span>, reverse: bool) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s: Series| <span class="prelude-val">Ok</span>(s.cumprod(reverse)),
+            <span class="kw">move </span>|s: Series| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.cumprod(reverse))),
             GetOutput::map_dtype(|dt| {
                 <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
                 <span class="kw">match </span>dt {
@@ -3295,7 +3104,7 @@
     <span class="doccomment">/// Get an array with the cumulative min computed at every element
     </span><span class="kw">pub fn </span>cummin(<span class="self">self</span>, reverse: bool) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s: Series| <span class="prelude-val">Ok</span>(s.cummin(reverse)),
+            <span class="kw">move </span>|s: Series| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.cummin(reverse))),
             GetOutput::same_type(),
         )
         .with_fmt(<span class="string">&quot;cummin&quot;</span>)
@@ -3304,7 +3113,7 @@
     <span class="doccomment">/// Get an array with the cumulative max computed at every element
     </span><span class="kw">pub fn </span>cummax(<span class="self">self</span>, reverse: bool) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s: Series| <span class="prelude-val">Ok</span>(s.cummax(reverse)),
+            <span class="kw">move </span>|s: Series| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.cummax(reverse))),
             GetOutput::same_type(),
         )
         .with_fmt(<span class="string">&quot;cummax&quot;</span>)
@@ -3320,12 +3129,13 @@
         };
 
         <span class="self">self</span>.function_with_options(
-            <span class="kw">move </span>|s: Series| <span class="prelude-val">Ok</span>(s.product()),
+            <span class="kw">move </span>|s: Series| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.product())),
             GetOutput::map_dtype(|dt| {
                 <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
                 <span class="kw">match </span>dt {
                     Float32 =&gt; Float32,
                     Float64 =&gt; Float64,
+                    UInt64 =&gt; UInt64,
                     <span class="kw">_ </span>=&gt; Int64,
                 }
             }),
@@ -3336,7 +3146,7 @@
     <span class="doccomment">/// Fill missing value with next non-null.
     </span><span class="kw">pub fn </span>backward_fill(<span class="self">self</span>, limit: FillNullLimit) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s: Series| s.fill_null(FillNullStrategy::Backward(limit)),
+            <span class="kw">move </span>|s: Series| s.fill_null(FillNullStrategy::Backward(limit)).map(<span class="prelude-val">Some</span>),
             GetOutput::same_type(),
         )
         .with_fmt(<span class="string">&quot;backward_fill&quot;</span>)
@@ -3345,7 +3155,7 @@
     <span class="doccomment">/// Fill missing value with previous non-null.
     </span><span class="kw">pub fn </span>forward_fill(<span class="self">self</span>, limit: FillNullLimit) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s: Series| s.fill_null(FillNullStrategy::Forward(limit)),
+            <span class="kw">move </span>|s: Series| s.fill_null(FillNullStrategy::Forward(limit)).map(<span class="prelude-val">Some</span>),
             GetOutput::same_type(),
         )
         .with_fmt(<span class="string">&quot;forward_fill&quot;</span>)
@@ -3354,21 +3164,24 @@
     <span class="doccomment">/// Round underlying floating point array to given decimal numbers.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;round_series&quot;</span>)]
     </span><span class="kw">pub fn </span>round(<span class="self">self</span>, decimals: u32) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map(<span class="kw">move </span>|s: Series| s.round(decimals), GetOutput::same_type())
-            .with_fmt(<span class="string">&quot;round&quot;</span>)
+        <span class="self">self</span>.map(
+            <span class="kw">move </span>|s: Series| s.round(decimals).map(<span class="prelude-val">Some</span>),
+            GetOutput::same_type(),
+        )
+        .with_fmt(<span class="string">&quot;round&quot;</span>)
     }
 
     <span class="doccomment">/// Floor underlying floating point array to the lowest integers smaller or equal to the float value.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;round_series&quot;</span>)]
     </span><span class="kw">pub fn </span>floor(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map(<span class="kw">move </span>|s: Series| s.floor(), GetOutput::same_type())
+        <span class="self">self</span>.map(<span class="kw">move </span>|s: Series| s.floor().map(<span class="prelude-val">Some</span>), GetOutput::same_type())
             .with_fmt(<span class="string">&quot;floor&quot;</span>)
     }
 
     <span class="doccomment">/// Ceil underlying floating point array to the highest integers smaller or equal to the float value.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;round_series&quot;</span>)]
     </span><span class="kw">pub fn </span>ceil(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map(<span class="kw">move </span>|s: Series| s.ceil(), GetOutput::same_type())
+        <span class="self">self</span>.map(<span class="kw">move </span>|s: Series| s.ceil().map(<span class="prelude-val">Some</span>), GetOutput::same_type())
             .with_fmt(<span class="string">&quot;ceil&quot;</span>)
     }
 
@@ -3402,7 +3215,7 @@
     <span class="doccomment">/// Convert all values to their absolute/positive value.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
     </span><span class="kw">pub fn </span>abs(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map(<span class="kw">move </span>|s: Series| s.abs(), GetOutput::same_type())
+        <span class="self">self</span>.map(<span class="kw">move </span>|s: Series| s.abs().map(<span class="prelude-val">Some</span>), GetOutput::same_type())
             .with_fmt(<span class="string">&quot;abs&quot;</span>)
     }
 
@@ -3430,7 +3243,7 @@
     ///          sum(&quot;values&quot;).over([col(&quot;groups&quot;)]),
     ///      ])
     ///      .collect()?;
-    ///     dbg!(&amp;out);
+    ///     println!(&quot;{}&quot;, &amp;out);
     ///     Ok(())
     /// }
     ///
@@ -3448,7 +3261,7 @@
     /// │ 1      ┆ 16     │
     /// │ 2      ┆ 13     │
     /// │ 2      ┆ 13     │
-    /// │ ...    ┆ ...    │
+    /// │ …      ┆ …      │
     /// │ 1      ┆ 16     │
     /// │ 2      ┆ 13     │
     /// │ 3      ┆ 15     │
@@ -3521,12 +3334,14 @@
 
     <span class="doccomment">/// Get a mask of duplicated values
     </span><span class="attr">#[allow(clippy::wrong_self_convention)]
+    #[cfg(feature = <span class="string">&quot;is_unique&quot;</span>)]
     </span><span class="kw">pub fn </span>is_duplicated(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.apply_private(FunctionExpr::IsDuplicated)
     }
 
     <span class="doccomment">/// Get a mask of unique values
     </span><span class="attr">#[allow(clippy::wrong_self_convention)]
+    #[cfg(feature = <span class="string">&quot;is_unique&quot;</span>)]
     </span><span class="kw">pub fn </span>is_unique(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.apply_private(FunctionExpr::IsUnique)
     }
@@ -3544,188 +3359,6 @@
     <span class="doccomment">/// or operation
     </span><span class="kw">pub fn </span>or&lt;E: Into&lt;Expr&gt;&gt;(<span class="self">self</span>, expr: E) -&gt; <span class="self">Self </span>{
         binary_expr(<span class="self">self</span>, Operator::Or, expr.into())
-    }
-
-    <span class="doccomment">/// Raise expression to the power `exponent`
-    </span><span class="kw">pub fn </span>pow&lt;E: Into&lt;Expr&gt;&gt;(<span class="self">self</span>, exponent: E) -&gt; <span class="self">Self </span>{
-        Expr::Function {
-            input: <span class="macro">vec!</span>[<span class="self">self</span>, exponent.into()],
-            function: FunctionExpr::Pow,
-            options: FunctionOptions {
-                collect_groups: ApplyOptions::ApplyFlat,
-                ..Default::default()
-            },
-        }
-    }
-
-    <span class="doccomment">/// Compute the sine of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>sin(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        Expr::Function {
-            input: <span class="macro">vec!</span>[<span class="self">self</span>],
-            function: FunctionExpr::Trigonometry(TrigonometricFunction::Sin),
-            options: FunctionOptions {
-                collect_groups: ApplyOptions::ApplyFlat,
-                ..Default::default()
-            },
-        }
-    }
-
-    <span class="doccomment">/// Compute the cosine of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>cos(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        Expr::Function {
-            input: <span class="macro">vec!</span>[<span class="self">self</span>],
-            function: FunctionExpr::Trigonometry(TrigonometricFunction::Cos),
-            options: FunctionOptions {
-                collect_groups: ApplyOptions::ApplyFlat,
-                ..Default::default()
-            },
-        }
-    }
-
-    <span class="doccomment">/// Compute the tangent of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>tan(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        Expr::Function {
-            input: <span class="macro">vec!</span>[<span class="self">self</span>],
-            function: FunctionExpr::Trigonometry(TrigonometricFunction::Tan),
-            options: FunctionOptions {
-                collect_groups: ApplyOptions::ApplyFlat,
-                ..Default::default()
-            },
-        }
-    }
-
-    <span class="doccomment">/// Compute the inverse sine of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>arcsin(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        Expr::Function {
-            input: <span class="macro">vec!</span>[<span class="self">self</span>],
-            function: FunctionExpr::Trigonometry(TrigonometricFunction::ArcSin),
-            options: FunctionOptions {
-                collect_groups: ApplyOptions::ApplyFlat,
-                ..Default::default()
-            },
-        }
-    }
-
-    <span class="doccomment">/// Compute the inverse cosine of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>arccos(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        Expr::Function {
-            input: <span class="macro">vec!</span>[<span class="self">self</span>],
-            function: FunctionExpr::Trigonometry(TrigonometricFunction::ArcCos),
-            options: FunctionOptions {
-                collect_groups: ApplyOptions::ApplyFlat,
-                ..Default::default()
-            },
-        }
-    }
-
-    <span class="doccomment">/// Compute the inverse tangent of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>arctan(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        Expr::Function {
-            input: <span class="macro">vec!</span>[<span class="self">self</span>],
-            function: FunctionExpr::Trigonometry(TrigonometricFunction::ArcTan),
-            options: FunctionOptions {
-                collect_groups: ApplyOptions::ApplyFlat,
-                ..Default::default()
-            },
-        }
-    }
-
-    <span class="doccomment">/// Compute the hyperbolic sine of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>sinh(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        Expr::Function {
-            input: <span class="macro">vec!</span>[<span class="self">self</span>],
-            function: FunctionExpr::Trigonometry(TrigonometricFunction::Sinh),
-            options: FunctionOptions {
-                collect_groups: ApplyOptions::ApplyFlat,
-                ..Default::default()
-            },
-        }
-    }
-
-    <span class="doccomment">/// Compute the hyperbolic cosine of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>cosh(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        Expr::Function {
-            input: <span class="macro">vec!</span>[<span class="self">self</span>],
-            function: FunctionExpr::Trigonometry(TrigonometricFunction::Cosh),
-            options: FunctionOptions {
-                collect_groups: ApplyOptions::ApplyFlat,
-                ..Default::default()
-            },
-        }
-    }
-
-    <span class="doccomment">/// Compute the hyperbolic tangent of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>tanh(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        Expr::Function {
-            input: <span class="macro">vec!</span>[<span class="self">self</span>],
-            function: FunctionExpr::Trigonometry(TrigonometricFunction::Tanh),
-            options: FunctionOptions {
-                collect_groups: ApplyOptions::ApplyFlat,
-                ..Default::default()
-            },
-        }
-    }
-
-    <span class="doccomment">/// Compute the inverse hyperbolic sine of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>arcsinh(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        Expr::Function {
-            input: <span class="macro">vec!</span>[<span class="self">self</span>],
-            function: FunctionExpr::Trigonometry(TrigonometricFunction::ArcSinh),
-            options: FunctionOptions {
-                collect_groups: ApplyOptions::ApplyFlat,
-                ..Default::default()
-            },
-        }
-    }
-
-    <span class="doccomment">/// Compute the inverse hyperbolic cosine of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>arccosh(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        Expr::Function {
-            input: <span class="macro">vec!</span>[<span class="self">self</span>],
-            function: FunctionExpr::Trigonometry(TrigonometricFunction::ArcCosh),
-            options: FunctionOptions {
-                collect_groups: ApplyOptions::ApplyFlat,
-                ..Default::default()
-            },
-        }
-    }
-
-    <span class="doccomment">/// Compute the inverse hyperbolic tangent of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>arctanh(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        Expr::Function {
-            input: <span class="macro">vec!</span>[<span class="self">self</span>],
-            function: FunctionExpr::Trigonometry(TrigonometricFunction::ArcTanh),
-            options: FunctionOptions {
-                collect_groups: ApplyOptions::ApplyFlat,
-                fmt_str: <span class="string">&quot;arctanh&quot;</span>,
-                ..Default::default()
-            },
-        }
-    }
-
-    <span class="doccomment">/// Compute the sign of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;sign&quot;</span>)]
-    </span><span class="kw">pub fn </span>sign(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        Expr::Function {
-            input: <span class="macro">vec!</span>[<span class="self">self</span>],
-            function: FunctionExpr::Sign,
-            options: FunctionOptions {
-                collect_groups: ApplyOptions::ApplyFlat,
-                ..Default::default()
-            },
-        }
     }
 
     <span class="doccomment">/// Filter a single column
@@ -3771,14 +3404,14 @@
     </span><span class="kw">pub fn </span>sort_by&lt;E: AsRef&lt;[IE]&gt;, IE: Into&lt;Expr&gt; + Clone, R: AsRef&lt;[bool]&gt;&gt;(
         <span class="self">self</span>,
         by: E,
-        reverse: R,
+        descending: R,
     ) -&gt; Expr {
         <span class="kw">let </span>by = by.as_ref().iter().map(|e| e.clone().into()).collect();
-        <span class="kw">let </span>reverse = reverse.as_ref().to_vec();
+        <span class="kw">let </span>descending = descending.as_ref().to_vec();
         Expr::SortBy {
             expr: Box::new(<span class="self">self</span>),
             by,
-            reverse,
+            descending,
         }
     }
 
@@ -3788,7 +3421,7 @@
             <span class="kw">let </span>by = <span class="kw-2">&amp;</span>s[<span class="number">1</span>];
             <span class="kw">let </span>s = <span class="kw-2">&amp;</span>s[<span class="number">0</span>];
             <span class="kw">let </span>by = by.cast(<span class="kw-2">&amp;</span>IDX_DTYPE)<span class="question-mark">?</span>;
-            <span class="prelude-val">Ok</span>(s.repeat_by(by.idx()<span class="question-mark">?</span>).into_series())
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.repeat_by(by.idx()<span class="question-mark">?</span>).into_series()))
         };
 
         <span class="self">self</span>.apply_many(
@@ -3811,7 +3444,7 @@
     </span><span class="doccomment">/// Get a mask of the first unique value.
     </span><span class="kw">pub fn </span>is_first(<span class="self">self</span>) -&gt; Expr {
         <span class="self">self</span>.apply(
-            |s| s.is_first().map(|ca| ca.into_series()),
+            |s| is_first(<span class="kw-2">&amp;</span>s).map(|s| <span class="prelude-val">Some</span>(s.into_series())),
             GetOutput::from_type(DataType::Boolean),
         )
         .with_fmt(<span class="string">&quot;is_first&quot;</span>)
@@ -3819,10 +3452,7 @@
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;dot_product&quot;</span>)]
     </span><span class="kw">fn </span>dot_impl(<span class="self">self</span>, other: Expr) -&gt; Expr {
-        <span class="kw">let </span>function = |s: <span class="kw-2">&amp;mut </span>[Series]| <span class="prelude-val">Ok</span>((<span class="kw-2">&amp;</span>s[<span class="number">0</span>] * <span class="kw-2">&amp;</span>s[<span class="number">1</span>]).sum_as_series());
-
-        <span class="self">self</span>.apply_many(function, <span class="kw-2">&amp;</span>[other], GetOutput::same_type())
-            .with_fmt(<span class="string">&quot;dot&quot;</span>)
+        <span class="self">self</span>.apply_many_private(FunctionExpr::Dot, <span class="kw-2">&amp;</span>[other], <span class="bool-val">true</span>, <span class="bool-val">true</span>)
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;dot_product&quot;</span>)]
@@ -3834,7 +3464,7 @@
     </span><span class="doccomment">/// Compute the mode(s) of this column. This is the most occurring value.
     </span><span class="kw">pub fn </span>mode(<span class="self">self</span>) -&gt; Expr {
         <span class="self">self</span>.apply(
-            |s| s.mode().map(|ca| ca.into_series()),
+            |s| s.mode().map(|ca| <span class="prelude-val">Some</span>(ca.into_series())),
             GetOutput::same_type(),
         )
         .with_fmt(<span class="string">&quot;mode&quot;</span>)
@@ -3934,6 +3564,7 @@
         rolling_fn: Arc&lt;
             <span class="kw">dyn </span>(Fn(<span class="kw-2">&amp;</span>Series, RollingOptionsImpl) -&gt; PolarsResult&lt;Series&gt;) + Send + Sync,
         &gt;,
+        output_type: GetOutput,
     ) -&gt; Expr {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>by) = options.by {
             <span class="self">self</span>.apply_many(
@@ -3942,20 +3573,23 @@
                     by = by.rechunk();
                     <span class="kw">let </span>s = <span class="kw-2">&amp;</span>s[<span class="number">0</span>];
 
-                    <span class="kw">if </span>options.weights.is_some() {
-                        <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                            <span class="string">&quot;weights not supported in &#39;rolling by&#39; expression&quot;</span>.into(),
-                        ));
-                    }
-
-                    <span class="kw">if </span><span class="macro">matches!</span>(by.dtype(), DataType::Datetime(<span class="kw">_</span>, <span class="kw">_</span>)) {
-                        by = by.cast(<span class="kw-2">&amp;</span>DataType::Datetime(TimeUnit::Microseconds, <span class="prelude-val">None</span>))<span class="question-mark">?</span>;
-                    }
+                    <span class="macro">polars_ensure!</span>(
+                        options.weights.is_none(),
+                        ComputeError: <span class="string">&quot;`weights` is not supported in &#39;rolling by&#39; expression&quot;
+                    </span>);
+                    <span class="kw">let </span>(by, tz) = <span class="kw">match </span>by.dtype() {
+                        DataType::Datetime(<span class="kw">_</span>, tz) =&gt; (
+                            by.cast(<span class="kw-2">&amp;</span>DataType::Datetime(TimeUnit::Microseconds, <span class="prelude-val">None</span>))<span class="question-mark">?</span>,
+                            tz,
+                        ),
+                        <span class="kw">_ </span>=&gt; (by.clone(), <span class="kw-2">&amp;</span><span class="prelude-val">None</span>),
+                    };
                     <span class="kw">let </span>by = by.datetime().unwrap();
                     <span class="kw">let </span>by_values = by.cont_slice().map_err(|<span class="kw">_</span>| {
-                        PolarsError::ComputeError(
-                            <span class="string">&quot;&#39;by&#39; column should not have null values in &#39;rolling by&#39;&quot;</span>.into(),
-                        )
+                        <span class="macro">polars_err!</span>(
+                            ComputeError:
+                            <span class="string">&quot;`by` column should not have null values in &#39;rolling by&#39; expression&quot;
+                        </span>)
                     })<span class="question-mark">?</span>;
                     <span class="kw">let </span>tu = by.time_unit();
 
@@ -3966,13 +3600,14 @@
                         center: options.center,
                         by: <span class="prelude-val">Some</span>(by_values),
                         tu: <span class="prelude-val">Some</span>(tu),
+                        tz: tz.as_ref(),
                         closed_window: options.closed_window,
                     };
 
-                    rolling_fn(s, options)
+                    rolling_fn(s, options).map(<span class="prelude-val">Some</span>)
                 },
                 <span class="kw-2">&amp;</span>[col(by)],
-                GetOutput::same_type(),
+                output_type,
             )
             .with_fmt(expr_name_by)
         } <span class="kw">else </span>{
@@ -3981,8 +3616,8 @@
             }
 
             <span class="self">self</span>.apply(
-                <span class="kw">move </span>|s| rolling_fn(<span class="kw-2">&amp;</span>s, options.clone().into()),
-                GetOutput::same_type(),
+                <span class="kw">move </span>|s| rolling_fn(<span class="kw-2">&amp;</span>s, options.clone().into()).map(<span class="prelude-val">Some</span>),
+                output_type,
             )
             .with_fmt(expr_name)
         }
@@ -3997,6 +3632,7 @@
             <span class="string">&quot;rolling_min&quot;</span>,
             <span class="string">&quot;rolling_min_by&quot;</span>,
             Arc::new(|s, options| s.rolling_min(options)),
+            GetOutput::same_type(),
         )
     }
 
@@ -4009,6 +3645,7 @@
             <span class="string">&quot;rolling_max&quot;</span>,
             <span class="string">&quot;rolling_max_by&quot;</span>,
             Arc::new(|s, options| s.rolling_max(options)),
+            GetOutput::same_type(),
         )
     }
 
@@ -4021,6 +3658,7 @@
             <span class="string">&quot;rolling_mean&quot;</span>,
             <span class="string">&quot;rolling_mean_by&quot;</span>,
             Arc::new(|s, options| s.rolling_mean(options)),
+            GetOutput::float_type(),
         )
     }
 
@@ -4033,6 +3671,7 @@
             <span class="string">&quot;rolling_sum&quot;</span>,
             <span class="string">&quot;rolling_sum_by&quot;</span>,
             Arc::new(|s, options| s.rolling_sum(options)),
+            GetOutput::same_type(),
         )
     }
 
@@ -4045,6 +3684,7 @@
             <span class="string">&quot;rolling_median&quot;</span>,
             <span class="string">&quot;rolling_median_by&quot;</span>,
             Arc::new(|s, options| s.rolling_median(options)),
+            GetOutput::same_type(),
         )
     }
 
@@ -4062,6 +3702,7 @@
             <span class="string">&quot;rolling_quantile&quot;</span>,
             <span class="string">&quot;rolling_quantile_by&quot;</span>,
             Arc::new(<span class="kw">move </span>|s, options| s.rolling_quantile(quantile, interpolation, options)),
+            GetOutput::float_type(),
         )
     }
 
@@ -4073,6 +3714,7 @@
             <span class="string">&quot;rolling_var&quot;</span>,
             <span class="string">&quot;rolling_var_by&quot;</span>,
             Arc::new(|s, options| s.rolling_var(options)),
+            GetOutput::float_type(),
         )
     }
 
@@ -4084,6 +3726,7 @@
             <span class="string">&quot;rolling_std&quot;</span>,
             <span class="string">&quot;rolling_std_by&quot;</span>,
             Arc::new(|s, options| s.rolling_std(options)),
+            GetOutput::float_type(),
         )
     }
 
@@ -4104,7 +3747,7 @@
         options: RollingOptionsFixedWindow,
     ) -&gt; Expr {
         <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s| s.rolling_apply(f.as_ref(), options.clone()),
+            <span class="kw">move </span>|s| s.rolling_apply(f.as_ref(), options.clone()).map(<span class="prelude-val">Some</span>),
             output_type,
         )
         .with_fmt(<span class="string">&quot;rolling_apply&quot;</span>)
@@ -4134,9 +3777,9 @@
                         .map(|ca| ca.into_series()),
                 }<span class="question-mark">?</span>;
                 <span class="kw">if let </span>DataType::Float32 = s.dtype() {
-                    out.cast(<span class="kw-2">&amp;</span>DataType::Float32)
+                    out.cast(<span class="kw-2">&amp;</span>DataType::Float32).map(<span class="prelude-val">Some</span>)
                 } <span class="kw">else </span>{
-                    <span class="prelude-val">Ok</span>(out)
+                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(out))
                 }
             },
             GetOutput::map_field(|field| <span class="kw">match </span>field.data_type() {
@@ -4151,7 +3794,7 @@
     <span class="attr">#[cfg(feature = <span class="string">&quot;rank&quot;</span>)]
     </span><span class="kw">pub fn </span>rank(<span class="self">self</span>, options: RankOptions) -&gt; Expr {
         <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s| <span class="prelude-val">Ok</span>(s.rank(options)),
+            <span class="kw">move </span>|s| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.rank(options))),
             GetOutput::map_field(<span class="kw">move </span>|fld| <span class="kw">match </span>options.method {
                 RankMethod::Average =&gt; Field::new(fld.name(), DataType::Float32),
                 <span class="kw">_ </span>=&gt; Field::new(fld.name(), IDX_DTYPE),
@@ -4169,7 +3812,7 @@
     </span><span class="kw">pub fn </span>pct_change(<span class="self">self</span>, n: usize) -&gt; Expr {
         <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
         <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s| s.pct_change(n),
+            <span class="kw">move </span>|s| s.pct_change(n).map(<span class="prelude-val">Some</span>),
             GetOutput::map_dtype(|dt| <span class="kw">match </span>dt {
                 Float64 | Float32 =&gt; dt.clone(),
                 <span class="kw">_ </span>=&gt; Float64,
@@ -4190,7 +3833,11 @@
     /// see: https://github.com/scipy/scipy/blob/47bb6febaa10658c72962b9615d5d5aa2513fa3a/scipy/stats/stats.py#L1024
     </span><span class="kw">pub fn </span>skew(<span class="self">self</span>, bias: bool) -&gt; Expr {
         <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s| s.skew(bias).map(|opt_v| Series::new(s.name(), <span class="kw-2">&amp;</span>[opt_v])),
+            <span class="kw">move </span>|s| {
+                s.skew(bias)
+                    .map(|opt_v| Series::new(s.name(), <span class="kw-2">&amp;</span>[opt_v]))
+                    .map(<span class="prelude-val">Some</span>)
+            },
             GetOutput::from_type(DataType::Float64),
         )
         .with_function_options(|<span class="kw-2">mut </span>options| {
@@ -4205,7 +3852,7 @@
         <span class="self">self</span>.apply(
             <span class="kw">move </span>|s| {
                 s.kurtosis(fisher, bias)
-                    .map(|opt_v| Series::new(s.name(), <span class="kw-2">&amp;</span>[opt_v]))
+                    .map(|opt_v| <span class="prelude-val">Some</span>(Series::new(s.name(), <span class="kw-2">&amp;</span>[opt_v])))
             },
             GetOutput::from_type(DataType::Float64),
         )
@@ -4237,13 +3884,11 @@
                     UInt64 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[u64::MAX]),
                     Float32 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[f32::INFINITY]),
                     Float64 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[f64::INFINITY]),
-                    dt =&gt; {
-                        <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                            <span class="macro">format!</span>(<span class="string">&quot;cannot determine upper bound of dtype {dt}&quot;</span>).into(),
-                        ))
-                    }
+                    dt =&gt; <span class="macro">polars_bail!</span>(
+                        ComputeError: <span class="string">&quot;cannot determine upper bound for dtype `{}`&quot;</span>, dt,
+                    ),
                 };
-                <span class="prelude-val">Ok</span>(s)
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s))
             },
             GetOutput::same_type(),
         )
@@ -4271,13 +3916,11 @@
                     UInt64 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[u64::MIN]),
                     Float32 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[f32::NEG_INFINITY]),
                     Float64 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[f64::NEG_INFINITY]),
-                    dt =&gt; {
-                        <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                            <span class="macro">format!</span>(<span class="string">&quot;cannot determine lower bound of dtype {dt}&quot;</span>).into(),
-                        ))
-                    }
+                    dt =&gt; <span class="macro">polars_bail!</span>(
+                        ComputeError: <span class="string">&quot;cannot determine lower bound for dtype `{}`&quot;</span>, dt,
+                    ),
                 };
-                <span class="prelude-val">Ok</span>(s)
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s))
             },
             GetOutput::same_type(),
         )
@@ -4307,7 +3950,7 @@
                 Field::new(fld.name(), DataType::List(Box::new(dtype)))
             })
         };
-        <span class="self">self</span>.apply(<span class="kw">move </span>|s| s.reshape(<span class="kw-2">&amp;</span>dims), output_type)
+        <span class="self">self</span>.apply(<span class="kw">move </span>|s| s.reshape(<span class="kw-2">&amp;</span>dims).map(<span class="prelude-val">Some</span>), output_type)
             .with_fmt(<span class="string">&quot;reshape&quot;</span>)
     }
 
@@ -4319,12 +3962,12 @@
                     <span class="kw">let </span>ca: NoNull&lt;UInt32Chunked&gt; = (<span class="number">0u32</span>..s.len() <span class="kw">as </span>u32).rev().collect();
                     <span class="kw">let </span><span class="kw-2">mut </span>ca = ca.into_inner();
                     ca.rename(s.name());
-                    <span class="prelude-val">Ok</span>(ca.into_series())
+                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(ca.into_series()))
                 } <span class="kw">else </span>{
                     <span class="kw">let </span>ca: NoNull&lt;UInt32Chunked&gt; = (<span class="number">0u32</span>..s.len() <span class="kw">as </span>u32).collect();
                     <span class="kw">let </span><span class="kw-2">mut </span>ca = ca.into_inner();
                     ca.rename(s.name());
-                    <span class="prelude-val">Ok</span>(ca.into_series())
+                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(ca.into_series()))
                 }
             },
             GetOutput::from_type(IDX_DTYPE),
@@ -4334,7 +3977,7 @@
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;random&quot;</span>)]
     </span><span class="kw">pub fn </span>shuffle(<span class="self">self</span>, seed: <span class="prelude-ty">Option</span>&lt;u64&gt;) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.apply(<span class="kw">move </span>|s| <span class="prelude-val">Ok</span>(s.shuffle(seed)), GetOutput::same_type())
+        <span class="self">self</span>.apply(<span class="kw">move </span>|s| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.shuffle(seed))), GetOutput::same_type())
             .with_fmt(<span class="string">&quot;shuffle&quot;</span>)
     }
 
@@ -4347,7 +3990,7 @@
         seed: <span class="prelude-ty">Option</span>&lt;u64&gt;,
     ) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s| s.sample_n(n, with_replacement, shuffle, seed),
+            <span class="kw">move </span>|s| s.sample_n(n, with_replacement, shuffle, seed).map(<span class="prelude-val">Some</span>),
             GetOutput::same_type(),
         )
         .with_fmt(<span class="string">&quot;sample_n&quot;</span>)
@@ -4362,7 +4005,10 @@
         seed: <span class="prelude-ty">Option</span>&lt;u64&gt;,
     ) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s| s.sample_frac(frac, with_replacement, shuffle, seed),
+            <span class="kw">move </span>|s| {
+                s.sample_frac(frac, with_replacement, shuffle, seed)
+                    .map(<span class="prelude-val">Some</span>)
+            },
             GetOutput::same_type(),
         )
         .with_fmt(<span class="string">&quot;sample_frac&quot;</span>)
@@ -4372,7 +4018,7 @@
     </span><span class="kw">pub fn </span>ewm_mean(<span class="self">self</span>, options: EWMOptions) -&gt; <span class="self">Self </span>{
         <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
         <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s| s.ewm_mean(options),
+            <span class="kw">move </span>|s| s.ewm_mean(options).map(<span class="prelude-val">Some</span>),
             GetOutput::map_dtype(|dt| <span class="kw">match </span>dt {
                 Float64 | Float32 =&gt; dt.clone(),
                 <span class="kw">_ </span>=&gt; Float64,
@@ -4385,7 +4031,7 @@
     </span><span class="kw">pub fn </span>ewm_std(<span class="self">self</span>, options: EWMOptions) -&gt; <span class="self">Self </span>{
         <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
         <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s| s.ewm_std(options),
+            <span class="kw">move </span>|s| s.ewm_std(options).map(<span class="prelude-val">Some</span>),
             GetOutput::map_dtype(|dt| <span class="kw">match </span>dt {
                 Float64 | Float32 =&gt; dt.clone(),
                 <span class="kw">_ </span>=&gt; Float64,
@@ -4398,7 +4044,7 @@
     </span><span class="kw">pub fn </span>ewm_var(<span class="self">self</span>, options: EWMOptions) -&gt; <span class="self">Self </span>{
         <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
         <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s| s.ewm_var(options),
+            <span class="kw">move </span>|s| s.ewm_var(options).map(<span class="prelude-val">Some</span>),
             GetOutput::map_dtype(|dt| <span class="kw">match </span>dt {
                 Float64 | Float32 =&gt; dt.clone(),
                 <span class="kw">_ </span>=&gt; Float64,
@@ -4413,9 +4059,9 @@
             <span class="kw">move </span>|s| {
                 <span class="kw">let </span>boolean = s.bool()<span class="question-mark">?</span>;
                 <span class="kw">if </span>boolean.any() {
-                    <span class="prelude-val">Ok</span>(Series::new(s.name(), [<span class="bool-val">true</span>]))
+                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Series::new(s.name(), [<span class="bool-val">true</span>])))
                 } <span class="kw">else </span>{
-                    <span class="prelude-val">Ok</span>(Series::new(s.name(), [<span class="bool-val">false</span>]))
+                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Series::new(s.name(), [<span class="bool-val">false</span>])))
                 }
             },
             GetOutput::from_type(DataType::Boolean),
@@ -4440,9 +4086,9 @@
             <span class="kw">move </span>|s| {
                 <span class="kw">let </span>boolean = s.bool()<span class="question-mark">?</span>;
                 <span class="kw">if </span>boolean.all() {
-                    <span class="prelude-val">Ok</span>(Series::new(s.name(), [<span class="bool-val">true</span>]))
+                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Series::new(s.name(), [<span class="bool-val">true</span>])))
                 } <span class="kw">else </span>{
-                    <span class="prelude-val">Ok</span>(Series::new(s.name(), [<span class="bool-val">false</span>]))
+                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Series::new(s.name(), [<span class="bool-val">false</span>])))
                 }
             },
             GetOutput::from_type(DataType::Boolean),
@@ -4461,7 +4107,7 @@
         <span class="self">self</span>.apply(
             <span class="kw">move </span>|s| {
                 s.value_counts(multithreaded, sorted)
-                    .map(|df| df.into_struct(s.name()).into_series())
+                    .map(|df| <span class="prelude-val">Some</span>(df.into_struct(s.name()).into_series()))
             },
             GetOutput::map_field(|fld| {
                 Field::new(
@@ -4483,7 +4129,7 @@
     /// values, only the counts and might be faster
     </span><span class="kw">pub fn </span>unique_counts(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.apply(
-            |s| <span class="prelude-val">Ok</span>(s.unique_counts().into_series()),
+            |s| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.unique_counts().into_series())),
             GetOutput::from_type(IDX_DTYPE),
         )
         .with_fmt(<span class="string">&quot;unique_counts&quot;</span>)
@@ -4493,7 +4139,7 @@
     </span><span class="doccomment">/// Compute the logarithm to a given base
     </span><span class="kw">pub fn </span>log(<span class="self">self</span>, base: f64) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.map(
-            <span class="kw">move </span>|s| <span class="prelude-val">Ok</span>(s.log(base)),
+            <span class="kw">move </span>|s| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.log(base))),
             GetOutput::map_dtype(|dt| {
                 <span class="kw">if </span><span class="macro">matches!</span>(dt, DataType::Float32) {
                     DataType::Float32
@@ -4509,7 +4155,7 @@
     </span><span class="doccomment">/// Calculate the exponential of all elements in the input array
     </span><span class="kw">pub fn </span>exp(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.map(
-            <span class="kw">move </span>|s| <span class="prelude-val">Ok</span>(s.exp()),
+            <span class="kw">move </span>|s| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.exp())),
             GetOutput::map_dtype(|dt| {
                 <span class="kw">if </span><span class="macro">matches!</span>(dt, DataType::Float32) {
                     DataType::Float32
@@ -4525,21 +4171,11 @@
     </span><span class="doccomment">/// Compute the entropy as `-sum(pk * log(pk)`.
     /// where `pk` are discrete probabilities.
     </span><span class="kw">pub fn </span>entropy(<span class="self">self</span>, base: f64, normalize: bool) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s| <span class="prelude-val">Ok</span>(Series::new(s.name(), [s.entropy(base, normalize)])),
-            GetOutput::map_dtype(|dt| {
-                <span class="kw">if </span><span class="macro">matches!</span>(dt, DataType::Float32) {
-                    DataType::Float32
-                } <span class="kw">else </span>{
-                    DataType::Float64
-                }
-            }),
-        )
-        .with_function_options(|<span class="kw-2">mut </span>options| {
-            options.fmt_str = <span class="string">&quot;entropy&quot;</span>;
-            options.auto_explode = <span class="bool-val">true</span>;
-            options
-        })
+        <span class="self">self</span>.apply_private(FunctionExpr::Entropy { base, normalize })
+            .with_function_options(|<span class="kw-2">mut </span>options| {
+                options.auto_explode = <span class="bool-val">true</span>;
+                options
+            })
     }
     <span class="doccomment">/// Get the null count of the column/group
     </span><span class="kw">pub fn </span>null_count(<span class="self">self</span>) -&gt; Expr {
@@ -4559,7 +4195,7 @@
         <span class="self">self</span>.apply(
             <span class="kw">move </span>|<span class="kw-2">mut </span>s| {
                 s.set_sorted_flag(sorted);
-                <span class="prelude-val">Ok</span>(s)
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s))
             },
             GetOutput::same_type(),
         )
@@ -4576,8 +4212,7 @@
         string::StringNameSpace(<span class="self">self</span>)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
-    </span><span class="kw">pub fn </span>binary(<span class="self">self</span>) -&gt; binary::BinaryNameSpace {
+    <span class="kw">pub fn </span>binary(<span class="self">self</span>) -&gt; binary::BinaryNameSpace {
         binary::BinaryNameSpace(<span class="self">self</span>)
     }
 
@@ -4602,47 +4237,6 @@
     }
 }
 
-<span class="comment">// Arithmetic ops
-</span><span class="kw">impl </span>Add <span class="kw">for </span>Expr {
-    <span class="kw">type </span>Output = Expr;
-
-    <span class="kw">fn </span>add(<span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>::Output {
-        binary_expr(<span class="self">self</span>, Operator::Plus, rhs)
-    }
-}
-
-<span class="kw">impl </span>Sub <span class="kw">for </span>Expr {
-    <span class="kw">type </span>Output = Expr;
-
-    <span class="kw">fn </span>sub(<span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>::Output {
-        binary_expr(<span class="self">self</span>, Operator::Minus, rhs)
-    }
-}
-
-<span class="kw">impl </span>Div <span class="kw">for </span>Expr {
-    <span class="kw">type </span>Output = Expr;
-
-    <span class="kw">fn </span>div(<span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>::Output {
-        binary_expr(<span class="self">self</span>, Operator::Divide, rhs)
-    }
-}
-
-<span class="kw">impl </span>Mul <span class="kw">for </span>Expr {
-    <span class="kw">type </span>Output = Expr;
-
-    <span class="kw">fn </span>mul(<span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>::Output {
-        binary_expr(<span class="self">self</span>, Operator::Multiply, rhs)
-    }
-}
-
-<span class="kw">impl </span>Rem <span class="kw">for </span>Expr {
-    <span class="kw">type </span>Output = Expr;
-
-    <span class="kw">fn </span>rem(<span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>::Output {
-        binary_expr(<span class="self">self</span>, Operator::Modulus, rhs)
-    }
-}
-
 <span class="doccomment">/// Apply a function/closure over multiple columns once the logical plan get executed.
 ///
 /// This function is very similar to `[apply_mul]`, but differs in how it handles aggregations.
@@ -4654,7 +4248,7 @@
 /// the correct output_type. If None given the output type of the input expr is used.
 </span><span class="kw">pub fn </span>map_multiple&lt;F, E&gt;(function: F, expr: E, output_type: GetOutput) -&gt; Expr
 <span class="kw">where
-    </span>F: Fn(<span class="kw-2">&amp;mut </span>[Series]) -&gt; PolarsResult&lt;Series&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
+    </span>F: Fn(<span class="kw-2">&amp;mut </span>[Series]) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
     E: AsRef&lt;[Expr]&gt;,
 {
     <span class="kw">let </span>input = expr.as_ref().to_vec();
@@ -4680,7 +4274,7 @@
 ///  * `map_list_mul` should be used when the function expects a list aggregated series.
 </span><span class="kw">pub fn </span>map_list_multiple&lt;F, E&gt;(function: F, expr: E, output_type: GetOutput) -&gt; Expr
 <span class="kw">where
-    </span>F: Fn(<span class="kw-2">&amp;mut </span>[Series]) -&gt; PolarsResult&lt;Series&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
+    </span>F: Fn(<span class="kw-2">&amp;mut </span>[Series]) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
     E: AsRef&lt;[Expr]&gt;,
 {
     <span class="kw">let </span>input = expr.as_ref().to_vec();
@@ -4714,7 +4308,7 @@
     returns_scalar: bool,
 ) -&gt; Expr
 <span class="kw">where
-    </span>F: Fn(<span class="kw-2">&amp;mut </span>[Series]) -&gt; PolarsResult&lt;Series&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
+    </span>F: Fn(<span class="kw-2">&amp;mut </span>[Series]) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + <span class="lifetime">&#39;static </span>+ Send + Sync,
     E: AsRef&lt;[Expr]&gt;,
 {
     <span class="kw">let </span>input = expr.as_ref().to_vec();
@@ -4749,4 +4343,4 @@
     Expr::Nth(-<span class="number">1</span>)
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_plan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_plan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

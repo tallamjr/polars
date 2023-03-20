@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/src/physical_plan/expressions/filter.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>filter.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_lazy/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/src/physical_plan/expressions/filter.rs`."><title>filter.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_lazy/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -147,8 +147,6 @@
 <a href="#147" id="147">147</a>
 <a href="#148" id="148">148</a>
 <a href="#149" id="149">149</a>
-<a href="#150" id="150">150</a>
-<a href="#151" id="151">151</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::sync::Arc;
 
 <span class="kw">use </span>polars_arrow::is_valid::IsValid;
@@ -199,96 +197,94 @@
         <span class="kw">let </span>(ac_s, ac_predicate) = POOL.install(|| rayon::join(ac_s_f, ac_predicate_f));
         <span class="kw">let </span>(<span class="kw-2">mut </span>ac_s, <span class="kw-2">mut </span>ac_predicate) = (ac_s<span class="question-mark">?</span>, ac_predicate<span class="question-mark">?</span>);
 
-        <span class="kw">match </span>ac_predicate.is_aggregated() {
-            <span class="bool-val">true </span>=&gt; {
-                <span class="kw">let </span>preds = ac_predicate.iter_groups();
-                <span class="kw">let </span>s = ac_s.aggregated();
-                <span class="kw">let </span>ca = s.list()<span class="question-mark">?</span>;
-                <span class="kw">let </span><span class="kw-2">mut </span>out = ca
-                    .amortized_iter()
-                    .zip(preds)
-                    .map(|(opt_s, opt_pred)| <span class="kw">match </span>(opt_s, opt_pred) {
-                        (<span class="prelude-val">Some</span>(s), <span class="prelude-val">Some</span>(pred)) =&gt; s.as_ref().filter(pred.as_ref().bool()<span class="question-mark">?</span>).map(<span class="prelude-val">Some</span>),
-                        <span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
-                    })
-                    .collect::&lt;PolarsResult&lt;ListChunked&gt;&gt;()<span class="question-mark">?</span>;
-                out.rename(s.name());
-                ac_s.with_series(out.into_series(), <span class="bool-val">true</span>);
-                ac_s.update_groups = WithSeriesLen;
-                <span class="prelude-val">Ok</span>(ac_s)
+        <span class="kw">if </span>ac_predicate.is_aggregated() || ac_s.is_aggregated() {
+            <span class="kw">let </span>preds = ac_predicate.iter_groups();
+            <span class="kw">let </span>s = ac_s.aggregated();
+            <span class="kw">let </span>ca = s.list()<span class="question-mark">?</span>;
+            <span class="kw">let </span><span class="kw-2">mut </span>out = ca
+                .amortized_iter()
+                .zip(preds)
+                .map(|(opt_s, opt_pred)| <span class="kw">match </span>(opt_s, opt_pred) {
+                    (<span class="prelude-val">Some</span>(s), <span class="prelude-val">Some</span>(pred)) =&gt; s.as_ref().filter(pred.as_ref().bool()<span class="question-mark">?</span>).map(<span class="prelude-val">Some</span>),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
+                })
+                .collect::&lt;PolarsResult&lt;ListChunked&gt;&gt;()<span class="question-mark">?</span>;
+            out.rename(s.name());
+            ac_s.with_series(out.into_series(), <span class="bool-val">true</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.expr))<span class="question-mark">?</span>;
+            ac_s.update_groups = WithSeriesLen;
+            <span class="prelude-val">Ok</span>(ac_s)
+        } <span class="kw">else </span>{
+            <span class="kw">let </span>groups = ac_s.groups();
+            <span class="kw">let </span>predicate_s = ac_predicate.flat_naive();
+            <span class="kw">let </span>predicate = predicate_s.bool()<span class="question-mark">?</span>;
+
+            <span class="comment">// all values true don&#39;t do anything
+            </span><span class="kw">if </span>predicate.all() {
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(ac_s);
             }
-            <span class="bool-val">false </span>=&gt; {
-                <span class="kw">let </span>groups = ac_s.groups();
-                <span class="kw">let </span>predicate_s = ac_predicate.flat_naive();
-                <span class="kw">let </span>predicate = predicate_s.bool()<span class="question-mark">?</span>.rechunk();
-
-                <span class="comment">// all values true don&#39;t do anything
-                </span><span class="kw">if </span>predicate.all() {
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(ac_s);
+            <span class="comment">// all values false
+            // create empty groups
+            </span><span class="kw">let </span>groups = <span class="kw">if </span>!predicate.any() {
+                <span class="kw">let </span>groups = groups.iter().map(|gi| [gi.first(), <span class="number">0</span>]).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+                GroupsProxy::Slice {
+                    groups,
+                    rolling: <span class="bool-val">false</span>,
                 }
-                <span class="comment">// all values false
-                // create empty groups
-                </span><span class="kw">let </span>groups = <span class="kw">if </span>!predicate.any() {
-                    <span class="kw">let </span>groups = groups.iter().map(|gi| [gi.first(), <span class="number">0</span>]).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-                    GroupsProxy::Slice {
-                        groups,
-                        rolling: <span class="bool-val">false</span>,
-                    }
-                }
-                <span class="comment">// filter the indexes that are true
-                </span><span class="kw">else </span>{
-                    <span class="kw">let </span>predicate = predicate.downcast_iter().next().unwrap();
-                    POOL.install(|| {
-                        <span class="kw">match </span>groups.as_ref() {
-                            GroupsProxy::Idx(groups) =&gt; {
-                                <span class="kw">let </span>groups = groups
-                                    .par_iter()
-                                    .map(|(first, idx)| <span class="kw">unsafe </span>{
-                                        <span class="kw">let </span>idx: Vec&lt;IdxSize&gt; = idx
-                                            .iter()
-                                            <span class="comment">// Safety:
-                                            // just checked bounds in short circuited lhs
-                                            </span>.filter_map(|i| {
-                                                <span class="kw">match </span>predicate.value(<span class="kw-2">*</span>i <span class="kw">as </span>usize)
-                                                    &amp;&amp; predicate.is_valid_unchecked(<span class="kw-2">*</span>i <span class="kw">as </span>usize)
-                                                {
-                                                    <span class="bool-val">true </span>=&gt; <span class="prelude-val">Some</span>(<span class="kw-2">*</span>i),
-                                                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                                                }
-                                            })
-                                            .collect();
+            }
+            <span class="comment">// filter the indexes that are true
+            </span><span class="kw">else </span>{
+                <span class="kw">let </span>predicate = predicate.rechunk();
+                <span class="kw">let </span>predicate = predicate.downcast_iter().next().unwrap();
+                POOL.install(|| {
+                    <span class="kw">match </span>groups.as_ref() {
+                        GroupsProxy::Idx(groups) =&gt; {
+                            <span class="kw">let </span>groups = groups
+                                .par_iter()
+                                .map(|(first, idx)| <span class="kw">unsafe </span>{
+                                    <span class="kw">let </span>idx: Vec&lt;IdxSize&gt; = idx
+                                        .iter()
+                                        <span class="comment">// Safety:
+                                        // just checked bounds in short circuited lhs
+                                        </span>.filter_map(|i| {
+                                            <span class="kw">match </span>predicate.value(<span class="kw-2">*</span>i <span class="kw">as </span>usize)
+                                                &amp;&amp; predicate.is_valid_unchecked(<span class="kw-2">*</span>i <span class="kw">as </span>usize)
+                                            {
+                                                <span class="bool-val">true </span>=&gt; <span class="prelude-val">Some</span>(<span class="kw-2">*</span>i),
+                                                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                                            }
+                                        })
+                                        .collect();
 
-                                        (<span class="kw-2">*</span>idx.first().unwrap_or(<span class="kw-2">&amp;</span>first), idx)
-                                    })
-                                    .collect();
+                                    (<span class="kw-2">*</span>idx.first().unwrap_or(<span class="kw-2">&amp;</span>first), idx)
+                                })
+                                .collect();
 
-                                GroupsProxy::Idx(groups)
-                            }
-                            GroupsProxy::Slice { groups, .. } =&gt; {
-                                <span class="kw">let </span>groups = groups
-                                    .par_iter()
-                                    .map(|<span class="kw-2">&amp;</span>[first, len]| <span class="kw">unsafe </span>{
-                                        <span class="kw">let </span>idx: Vec&lt;IdxSize&gt; = (first..first + len)
-                                            <span class="comment">// Safety:
-                                            // just checked bounds in short circuited lhs
-                                            </span>.filter(|<span class="kw-2">&amp;</span>i| {
-                                                predicate.value(i <span class="kw">as </span>usize)
-                                                    &amp;&amp; predicate.is_valid_unchecked(i <span class="kw">as </span>usize)
-                                            })
-                                            .collect();
-
-                                        (<span class="kw-2">*</span>idx.first().unwrap_or(<span class="kw-2">&amp;</span>first), idx)
-                                    })
-                                    .collect();
-                                GroupsProxy::Idx(groups)
-                            }
+                            GroupsProxy::Idx(groups)
                         }
-                    })
-                };
+                        GroupsProxy::Slice { groups, .. } =&gt; {
+                            <span class="kw">let </span>groups = groups
+                                .par_iter()
+                                .map(|<span class="kw-2">&amp;</span>[first, len]| <span class="kw">unsafe </span>{
+                                    <span class="kw">let </span>idx: Vec&lt;IdxSize&gt; = (first..first + len)
+                                        <span class="comment">// Safety:
+                                        // just checked bounds in short circuited lhs
+                                        </span>.filter(|<span class="kw-2">&amp;</span>i| {
+                                            predicate.value(i <span class="kw">as </span>usize)
+                                                &amp;&amp; predicate.is_valid_unchecked(i <span class="kw">as </span>usize)
+                                        })
+                                        .collect();
 
-                ac_s.with_groups(groups).set_original_len(<span class="bool-val">false</span>);
-                <span class="prelude-val">Ok</span>(ac_s)
-            }
+                                    (<span class="kw-2">*</span>idx.first().unwrap_or(<span class="kw-2">&amp;</span>first), idx)
+                                })
+                                .collect();
+                            GroupsProxy::Idx(groups)
+                        }
+                    }
+                })
+            };
+
+            ac_s.with_groups(groups).set_original_len(<span class="bool-val">false</span>);
+            <span class="prelude-val">Ok</span>(ac_s)
         }
     }
 
@@ -301,4 +297,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_lazy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_lazy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

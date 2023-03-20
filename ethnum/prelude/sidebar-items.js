@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":[["I256","A 256-bit signed integer type."],["U256","A 256-bit unsigned integer type."]],"trait":[["AsI256","This trait defines `as` conversions (casting) from primitive types to `I256`."],["AsU256","This trait defines `as` conversions (casting) from primitive types to `U256`."]]};
+window.SIDEBAR_ITEMS = {"struct":["I256","U256"],"trait":["AsI256","AsU256"]};

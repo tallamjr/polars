@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/frame/groupby/aggregations/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../../source-files.js"></script><script defer src="../../../../../static.files/main-ccceecc34bb68766.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../../polars_core/index.html"><img class="rust-logo" src="../../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/frame/groupby/aggregations/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../../source-files.js"></script><script defer src="../../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../../polars_core/index.html"><img class="rust-logo" src="../../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1178,6 +1178,30 @@
 <a href="#1178" id="1178">1178</a>
 <a href="#1179" id="1179">1179</a>
 <a href="#1180" id="1180">1180</a>
+<a href="#1181" id="1181">1181</a>
+<a href="#1182" id="1182">1182</a>
+<a href="#1183" id="1183">1183</a>
+<a href="#1184" id="1184">1184</a>
+<a href="#1185" id="1185">1185</a>
+<a href="#1186" id="1186">1186</a>
+<a href="#1187" id="1187">1187</a>
+<a href="#1188" id="1188">1188</a>
+<a href="#1189" id="1189">1189</a>
+<a href="#1190" id="1190">1190</a>
+<a href="#1191" id="1191">1191</a>
+<a href="#1192" id="1192">1192</a>
+<a href="#1193" id="1193">1193</a>
+<a href="#1194" id="1194">1194</a>
+<a href="#1195" id="1195">1195</a>
+<a href="#1196" id="1196">1196</a>
+<a href="#1197" id="1197">1197</a>
+<a href="#1198" id="1198">1198</a>
+<a href="#1199" id="1199">1199</a>
+<a href="#1200" id="1200">1200</a>
+<a href="#1201" id="1201">1201</a>
+<a href="#1202" id="1202">1202</a>
+<a href="#1203" id="1203">1203</a>
+<a href="#1204" id="1204">1204</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>agg_list;
 <span class="kw">mod </span>dispatch;
 
@@ -1185,7 +1209,8 @@
 <span class="kw">use </span>arrow::bitmap::{Bitmap, MutableBitmap};
 <span class="kw">use </span>arrow::types::simd::Simd;
 <span class="kw">use </span>arrow::types::NativeType;
-<span class="kw">use </span>num::{Bounded, Num, NumCast, ToPrimitive, Zero};
+<span class="kw">use </span>num_traits::pow::Pow;
+<span class="kw">use </span>num_traits::{Bounded, Num, NumCast, ToPrimitive, Zero};
 <span class="kw">use </span>polars_arrow::data_types::IsFloat;
 <span class="kw">use </span>polars_arrow::kernels::rolling;
 <span class="kw">use </span>polars_arrow::kernels::rolling::no_nulls::{
@@ -1619,6 +1644,154 @@
     }
 }
 
+<span class="doccomment">/// Intermediate helper trait so we can have a single generic implementation
+/// This trait will ensure the specific dispatch works without complicating
+/// the trait bounds.
+</span><span class="kw">trait </span>QuantileDispatcher&lt;K&gt; {
+    <span class="kw">fn </span>_quantile(<span class="self">self</span>, quantile: f64, interpol: QuantileInterpolOptions)
+        -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;K&gt;&gt;;
+
+    <span class="kw">fn </span>_median(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;K&gt;;
+}
+
+<span class="kw">impl</span>&lt;T&gt; QuantileDispatcher&lt;f64&gt; <span class="kw">for </span>ChunkedArray&lt;T&gt;
+<span class="kw">where
+    </span>T: PolarsIntegerType,
+    T::Native: Ord,
+    ChunkedArray&lt;T&gt;: IntoSeries,
+{
+    <span class="kw">fn </span>_quantile(
+        <span class="self">self</span>,
+        quantile: f64,
+        interpol: QuantileInterpolOptions,
+    ) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;f64&gt;&gt; {
+        <span class="self">self</span>.quantile_faster(quantile, interpol)
+    }
+    <span class="kw">fn </span>_median(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;f64&gt; {
+        <span class="self">self</span>.median_faster()
+    }
+}
+
+<span class="kw">impl </span>QuantileDispatcher&lt;f32&gt; <span class="kw">for </span>Float32Chunked {
+    <span class="kw">fn </span>_quantile(
+        <span class="self">self</span>,
+        quantile: f64,
+        interpol: QuantileInterpolOptions,
+    ) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;f32&gt;&gt; {
+        <span class="self">self</span>.quantile_faster(quantile, interpol)
+    }
+    <span class="kw">fn </span>_median(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;f32&gt; {
+        <span class="self">self</span>.median_faster()
+    }
+}
+<span class="kw">impl </span>QuantileDispatcher&lt;f64&gt; <span class="kw">for </span>Float64Chunked {
+    <span class="kw">fn </span>_quantile(
+        <span class="self">self</span>,
+        quantile: f64,
+        interpol: QuantileInterpolOptions,
+    ) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;f64&gt;&gt; {
+        <span class="self">self</span>.quantile_faster(quantile, interpol)
+    }
+    <span class="kw">fn </span>_median(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;f64&gt; {
+        <span class="self">self</span>.median_faster()
+    }
+}
+
+<span class="kw">unsafe fn </span>agg_quantile_generic&lt;T, K&gt;(
+    ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;,
+    groups: <span class="kw-2">&amp;</span>GroupsProxy,
+    quantile: f64,
+    interpol: QuantileInterpolOptions,
+) -&gt; Series
+<span class="kw">where
+    </span>T: PolarsNumericType,
+    ChunkedArray&lt;T&gt;: QuantileDispatcher&lt;K::Native&gt;,
+    ChunkedArray&lt;K&gt;: IntoSeries,
+    K: PolarsNumericType,
+{
+    <span class="kw">let </span>invalid_quantile = !(<span class="number">0.0</span>..=<span class="number">1.0</span>).contains(<span class="kw-2">&amp;</span>quantile);
+    <span class="kw">if </span>invalid_quantile {
+        <span class="kw">return </span>Series::full_null(ca.name(), groups.len(), ca.dtype());
+    }
+    <span class="kw">match </span>groups {
+        GroupsProxy::Idx(groups) =&gt; agg_helper_idx_on_all::&lt;K, <span class="kw">_</span>&gt;(groups, |idx| {
+            <span class="macro">debug_assert!</span>(idx.len() &lt;= ca.len());
+            <span class="kw">if </span>idx.is_empty() {
+                <span class="kw">return </span><span class="prelude-val">None</span>;
+            }
+            <span class="kw">let </span>take = { ca.take_unchecked(idx.into()) };
+            <span class="comment">// checked with invalid quantile check
+            </span>take._quantile(quantile, interpol).unwrap_unchecked()
+        }),
+        GroupsProxy::Slice { groups, .. } =&gt; {
+            <span class="kw">if </span>_use_rolling_kernels(groups, ca.chunks()) {
+                <span class="comment">// this cast is a no-op for floats
+                </span><span class="kw">let </span>s = ca.cast(<span class="kw-2">&amp;</span>K::get_dtype()).unwrap();
+                <span class="kw">let </span>ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;K&gt; = s.as_ref().as_ref();
+                <span class="kw">let </span>arr = ca.downcast_iter().next().unwrap();
+                <span class="kw">let </span>values = arr.values().as_slice();
+                <span class="kw">let </span>offset_iter = groups.iter().map(|[first, len]| (<span class="kw-2">*</span>first, <span class="kw-2">*</span>len));
+                <span class="kw">let </span>arr = <span class="kw">match </span>arr.validity() {
+                    <span class="prelude-val">None </span>=&gt; rolling::no_nulls::rolling_quantile_by_iter(
+                        values,
+                        quantile,
+                        interpol,
+                        offset_iter,
+                    ),
+                    <span class="prelude-val">Some</span>(validity) =&gt; rolling::nulls::rolling_quantile_by_iter(
+                        values,
+                        validity,
+                        quantile,
+                        interpol,
+                        offset_iter,
+                    ),
+                };
+                <span class="comment">// the rolling kernels works on the dtype, this is not yet the float
+                // output type we need.
+                </span>ChunkedArray::&lt;K&gt;::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[arr]).into_series()
+            } <span class="kw">else </span>{
+                _agg_helper_slice::&lt;K, <span class="kw">_</span>&gt;(groups, |[first, len]| {
+                    <span class="macro">debug_assert!</span>(first + len &lt;= ca.len() <span class="kw">as </span>IdxSize);
+                    <span class="kw">match </span>len {
+                        <span class="number">0 </span>=&gt; <span class="prelude-val">None</span>,
+                        <span class="number">1 </span>=&gt; ca.get(first <span class="kw">as </span>usize).map(|v| NumCast::from(v).unwrap()),
+                        <span class="kw">_ </span>=&gt; {
+                            <span class="kw">let </span>arr_group = _slice_from_offsets(ca, first, len);
+                            <span class="comment">// unwrap checked with invalid quantile check
+                            </span>arr_group
+                                ._quantile(quantile, interpol)
+                                .unwrap_unchecked()
+                                .map(|flt| NumCast::from(flt).unwrap_unchecked())
+                        }
+                    }
+                })
+            }
+        }
+    }
+}
+
+<span class="kw">unsafe fn </span>agg_median_generic&lt;T, K&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;, groups: <span class="kw-2">&amp;</span>GroupsProxy) -&gt; Series
+<span class="kw">where
+    </span>T: PolarsNumericType,
+    ChunkedArray&lt;T&gt;: QuantileDispatcher&lt;K::Native&gt;,
+    ChunkedArray&lt;K&gt;: IntoSeries,
+    K: PolarsNumericType,
+{
+    <span class="kw">match </span>groups {
+        GroupsProxy::Idx(groups) =&gt; agg_helper_idx_on_all::&lt;K, <span class="kw">_</span>&gt;(groups, |idx| {
+            <span class="macro">debug_assert!</span>(idx.len() &lt;= ca.len());
+            <span class="kw">if </span>idx.is_empty() {
+                <span class="kw">return </span><span class="prelude-val">None</span>;
+            }
+            <span class="kw">let </span>take = { ca.take_unchecked(idx.into()) };
+            take._median()
+        }),
+        GroupsProxy::Slice { .. } =&gt; {
+            agg_quantile_generic::&lt;T, K&gt;(ca, groups, <span class="number">0.5</span>, QuantileInterpolOptions::Linear)
+        }
+    }
+}
+
 <span class="kw">impl</span>&lt;T&gt; ChunkedArray&lt;T&gt;
 <span class="kw">where
     </span>T: PolarsNumericType + Sync,
@@ -1861,7 +2034,7 @@
         + VarAggSeries
         + ChunkQuantile&lt;T::Native&gt;
         + QuantileAggSeries,
-    T::Native: Simd + NumericNative + num::pow::Pow&lt;T::Native, Output = T::Native&gt;,
+    T::Native: Simd + NumericNative + Pow&lt;T::Native, Output = T::Native&gt;,
     &lt;T::Native <span class="kw">as </span>Simd&gt;::Simd: std::ops::Add&lt;Output = &lt;T::Native <span class="kw">as </span>Simd&gt;::Simd&gt;
         + arrow::compute::aggregate::Sum&lt;T::Native&gt;
         + arrow::compute::aggregate::SimdOrd&lt;T::Native&gt;,
@@ -1958,7 +2131,7 @@
                     <span class="kw">return </span><span class="prelude-val">None</span>;
                 }
                 <span class="kw">let </span>take = { ca.take_unchecked(idx.into()) };
-                take.var_as_series(ddof).unpack::&lt;T&gt;().unwrap().get(<span class="number">0</span>)
+                take.var(ddof)
             }),
             GroupsProxy::Slice { groups, .. } =&gt; {
                 <span class="kw">if </span>_use_rolling_kernels(groups, <span class="self">self</span>.chunks()) {
@@ -2002,7 +2175,7 @@
                     <span class="kw">return </span><span class="prelude-val">None</span>;
                 }
                 <span class="kw">let </span>take = { ca.take_unchecked(idx.into()) };
-                take.std_as_series(ddof).unpack::&lt;T&gt;().unwrap().get(<span class="number">0</span>)
+                take.std(ddof)
             }),
             GroupsProxy::Slice { groups, .. } =&gt; {
                 <span class="kw">if </span>_use_rolling_kernels(groups, <span class="self">self</span>.chunks()) {
@@ -2037,84 +2210,32 @@
             }
         }
     }
+}
 
+<span class="kw">impl </span>Float32Chunked {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>agg_quantile(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         groups: <span class="kw-2">&amp;</span>GroupsProxy,
         quantile: f64,
         interpol: QuantileInterpolOptions,
     ) -&gt; Series {
-        <span class="kw">let </span>ca = <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>;
-        <span class="kw">let </span>invalid_quantile = !(<span class="number">0.0</span>..=<span class="number">1.0</span>).contains(<span class="kw-2">&amp;</span>quantile);
-        <span class="kw">match </span>groups {
-            GroupsProxy::Idx(groups) =&gt; agg_helper_idx_on_all::&lt;T, <span class="kw">_</span>&gt;(groups, |idx| {
-                <span class="macro">debug_assert!</span>(idx.len() &lt;= ca.len());
-                <span class="kw">if </span>idx.is_empty() | invalid_quantile {
-                    <span class="kw">return </span><span class="prelude-val">None</span>;
-                }
-                <span class="kw">let </span>take = { ca.take_unchecked(idx.into()) };
-                take.quantile_as_series(quantile, interpol)
-                    .unwrap() <span class="comment">// checked with invalid quantile check
-                    </span>.unpack::&lt;T&gt;()
-                    .unwrap()
-                    .get(<span class="number">0</span>)
-            }),
-            GroupsProxy::Slice { groups, .. } =&gt; {
-                <span class="kw">if </span>_use_rolling_kernels(groups, <span class="self">self</span>.chunks()) {
-                    <span class="kw">let </span>arr = <span class="self">self</span>.downcast_iter().next().unwrap();
-                    <span class="kw">let </span>values = arr.values().as_slice();
-                    <span class="kw">let </span>offset_iter = groups.iter().map(|[first, len]| (<span class="kw-2">*</span>first, <span class="kw-2">*</span>len));
-                    <span class="kw">let </span>arr = <span class="kw">match </span>arr.validity() {
-                        <span class="prelude-val">None </span>=&gt; rolling::no_nulls::rolling_quantile_by_iter(
-                            values,
-                            quantile,
-                            interpol,
-                            offset_iter,
-                        ),
-                        <span class="prelude-val">Some</span>(validity) =&gt; rolling::nulls::rolling_quantile_by_iter(
-                            values,
-                            validity,
-                            quantile,
-                            interpol,
-                            offset_iter,
-                        ),
-                    };
-                    ChunkedArray::&lt;T&gt;::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[arr]).into_series()
-                } <span class="kw">else </span>{
-                    _agg_helper_slice::&lt;T, <span class="kw">_</span>&gt;(groups, |[first, len]| {
-                        <span class="macro">debug_assert!</span>(first + len &lt;= <span class="self">self</span>.len() <span class="kw">as </span>IdxSize);
-                        <span class="kw">match </span>len {
-                            <span class="number">0 </span>=&gt; <span class="prelude-val">None</span>,
-                            <span class="number">1 </span>=&gt; <span class="self">self</span>.get(first <span class="kw">as </span>usize),
-                            <span class="kw">_ </span>=&gt; {
-                                <span class="kw">let </span>arr_group = _slice_from_offsets(<span class="self">self</span>, first, len);
-                                <span class="comment">// unwrap checked with invalid quantile check
-                                </span>arr_group
-                                    .quantile(quantile, interpol)
-                                    .unwrap()
-                                    .map(|flt| NumCast::from(flt).unwrap())
-                            }
-                        }
-                    })
-                }
-            }
-        }
+        agg_quantile_generic::&lt;<span class="kw">_</span>, Float32Type&gt;(<span class="self">self</span>, groups, quantile, interpol)
     }
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>agg_median(<span class="kw-2">&amp;</span><span class="self">self</span>, groups: <span class="kw-2">&amp;</span>GroupsProxy) -&gt; Series {
-        <span class="kw">let </span>ca = <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>;
-        <span class="kw">match </span>groups {
-            GroupsProxy::Idx(groups) =&gt; agg_helper_idx_on_all::&lt;T, <span class="kw">_</span>&gt;(groups, |idx| {
-                <span class="macro">debug_assert!</span>(idx.len() &lt;= ca.len());
-                <span class="kw">if </span>idx.is_empty() {
-                    <span class="kw">return </span><span class="prelude-val">None</span>;
-                }
-                <span class="kw">let </span>take = { ca.take_unchecked(idx.into()) };
-                take.median_as_series().unpack::&lt;T&gt;().unwrap().get(<span class="number">0</span>)
-            }),
-            GroupsProxy::Slice { .. } =&gt; {
-                <span class="self">self</span>.agg_quantile(groups, <span class="number">0.5</span>, QuantileInterpolOptions::Linear)
-            }
-        }
+        agg_median_generic::&lt;<span class="kw">_</span>, Float32Type&gt;(<span class="self">self</span>, groups)
+    }
+}
+<span class="kw">impl </span>Float64Chunked {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>agg_quantile(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        groups: <span class="kw-2">&amp;</span>GroupsProxy,
+        quantile: f64,
+        interpol: QuantileInterpolOptions,
+    ) -&gt; Series {
+        agg_quantile_generic::&lt;<span class="kw">_</span>, Float64Type&gt;(<span class="self">self</span>, groups, quantile, interpol)
+    }
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>agg_median(<span class="kw-2">&amp;</span><span class="self">self</span>, groups: <span class="kw-2">&amp;</span>GroupsProxy) -&gt; Series {
+        agg_median_generic::&lt;<span class="kw">_</span>, Float64Type&gt;(<span class="self">self</span>, groups)
     }
 }
 
@@ -2212,10 +2333,7 @@
                     <span class="kw">return </span><span class="prelude-val">None</span>;
                 }
                 <span class="kw">let </span>take = { <span class="self">self</span>.take_unchecked(idx.into()) };
-                take.var_as_series(ddof)
-                    .unpack::&lt;Float64Type&gt;()
-                    .unwrap()
-                    .get(<span class="number">0</span>)
+                take.var(ddof)
             }),
             GroupsProxy::Slice {
                 groups: groups_slice,
@@ -2248,10 +2366,7 @@
                     <span class="kw">return </span><span class="prelude-val">None</span>;
                 }
                 <span class="kw">let </span>take = { <span class="self">self</span>.take_unchecked(idx.into()) };
-                take.std_as_series(ddof)
-                    .unpack::&lt;Float64Type&gt;()
-                    .unwrap()
-                    .get(<span class="number">0</span>)
+                take.std(ddof)
             }),
             GroupsProxy::Slice {
                 groups: groups_slice,
@@ -2283,80 +2398,13 @@
         quantile: f64,
         interpol: QuantileInterpolOptions,
     ) -&gt; Series {
-        <span class="kw">match </span>groups {
-            GroupsProxy::Idx(groups) =&gt; agg_helper_idx_on_all::&lt;Float64Type, <span class="kw">_</span>&gt;(groups, |idx| {
-                <span class="macro">debug_assert!</span>(idx.len() &lt;= <span class="self">self</span>.len());
-                <span class="kw">if </span>idx.is_empty() {
-                    <span class="kw">return </span><span class="prelude-val">None</span>;
-                }
-                <span class="kw">let </span>take = <span class="self">self</span>.take_unchecked(idx.into());
-                take.quantile_as_series(quantile, interpol)
-                    .unwrap()
-                    .unpack::&lt;Float64Type&gt;()
-                    .unwrap()
-                    .get(<span class="number">0</span>)
-            }),
-            GroupsProxy::Slice {
-                groups: groups_slice,
-                ..
-            } =&gt; {
-                <span class="kw">if </span>_use_rolling_kernels(groups_slice, <span class="self">self</span>.chunks()) {
-                    <span class="kw">let </span>ca = <span class="self">self</span>.cast(<span class="kw-2">&amp;</span>DataType::Float64).unwrap();
-                    ca.agg_quantile(groups, quantile, interpol)
-                } <span class="kw">else </span>{
-                    _agg_helper_slice::&lt;Float64Type, <span class="kw">_</span>&gt;(groups_slice, |[first, len]| {
-                        <span class="macro">debug_assert!</span>(len &lt;= <span class="self">self</span>.len() <span class="kw">as </span>IdxSize);
-                        <span class="kw">match </span>len {
-                            <span class="number">0 </span>=&gt; <span class="prelude-val">None</span>,
-                            <span class="number">1 </span>=&gt; <span class="self">self</span>.get(first <span class="kw">as </span>usize).map(|v| NumCast::from(v).unwrap()),
-                            <span class="kw">_ </span>=&gt; {
-                                <span class="kw">let </span>arr_group = _slice_from_offsets(<span class="self">self</span>, first, len);
-                                arr_group.quantile(quantile, interpol).unwrap()
-                            }
-                        }
-                    })
-                }
-            }
-        }
+        agg_quantile_generic::&lt;<span class="kw">_</span>, Float64Type&gt;(<span class="self">self</span>, groups, quantile, interpol)
     }
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>agg_median(<span class="kw-2">&amp;</span><span class="self">self</span>, groups: <span class="kw-2">&amp;</span>GroupsProxy) -&gt; Series {
-        <span class="kw">match </span>groups {
-            GroupsProxy::Idx(groups) =&gt; agg_helper_idx_on_all::&lt;Float64Type, <span class="kw">_</span>&gt;(groups, |idx| {
-                <span class="macro">debug_assert!</span>(idx.len() &lt;= <span class="self">self</span>.len());
-                <span class="kw">if </span>idx.is_empty() {
-                    <span class="kw">return </span><span class="prelude-val">None</span>;
-                }
-                <span class="kw">let </span>take = <span class="self">self</span>.take_unchecked(idx.into());
-                take.median_as_series()
-                    .unpack::&lt;Float64Type&gt;()
-                    .unwrap()
-                    .get(<span class="number">0</span>)
-            }),
-            GroupsProxy::Slice {
-                groups: groups_slice,
-                ..
-            } =&gt; {
-                <span class="kw">if </span>_use_rolling_kernels(groups_slice, <span class="self">self</span>.chunks()) {
-                    <span class="kw">let </span>ca = <span class="self">self</span>.cast(<span class="kw-2">&amp;</span>DataType::Float64).unwrap();
-                    ca.agg_median(groups)
-                } <span class="kw">else </span>{
-                    _agg_helper_slice::&lt;Float64Type, <span class="kw">_</span>&gt;(groups_slice, |[first, len]| {
-                        <span class="macro">debug_assert!</span>(len &lt;= <span class="self">self</span>.len() <span class="kw">as </span>IdxSize);
-                        <span class="kw">match </span>len {
-                            <span class="number">0 </span>=&gt; <span class="prelude-val">None</span>,
-                            <span class="number">1 </span>=&gt; <span class="self">self</span>.get(first <span class="kw">as </span>usize).map(|v| NumCast::from(v).unwrap()),
-                            <span class="kw">_ </span>=&gt; {
-                                <span class="kw">let </span>arr_group = _slice_from_offsets(<span class="self">self</span>, first, len);
-                                arr_group.median()
-                            }
-                        }
-                    })
-                }
-            }
-        }
+        agg_median_generic::&lt;<span class="kw">_</span>, Float64Type&gt;(<span class="self">self</span>, groups)
     }
 }
 
 <span class="kw">impl</span>&lt;T: PolarsDataType&gt; ChunkedArray&lt;T&gt; <span class="kw">where </span>ChunkedArray&lt;T&gt;: ChunkTake + IntoSeries {}
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (333ee6c46 2023-01-18)" data-search-js="search-181581080540673f.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-cd1be5fcaa86d99b.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
