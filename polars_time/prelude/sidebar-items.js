@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["ClosedWindow","StartBy"],"fn":["date_range","groupby_values","groupby_windows","in_nanoseconds_window"],"struct":["Bounds","BoundsIter","Duration","Window"],"trait":["SeriesOpsTime"]};
+window.SIDEBAR_ITEMS = {"constant":["NO_TIMEZONE"],"enum":["ClosedWindow","StartBy"],"fn":["date_range","groupby_values","groupby_windows","in_nanoseconds_window"],"struct":["Bounds","BoundsIter","Duration","Window"]};

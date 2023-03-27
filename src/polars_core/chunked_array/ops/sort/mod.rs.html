@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/chunked_array/ops/sort/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../../source-files.js"></script><script defer src="../../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../../polars_core/index.html"><img class="rust-logo" src="../../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/chunked_array/ops/sort/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../../source-files.js"></script><script defer src="../../../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../../polars_core/index.html"><img class="rust-logo" src="../../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -947,36 +947,18 @@
 <a href="#947" id="947">947</a>
 <a href="#948" id="948">948</a>
 <a href="#949" id="949">949</a>
-<a href="#950" id="950">950</a>
-<a href="#951" id="951">951</a>
-<a href="#952" id="952">952</a>
-<a href="#953" id="953">953</a>
-<a href="#954" id="954">954</a>
-<a href="#955" id="955">955</a>
-<a href="#956" id="956">956</a>
-<a href="#957" id="957">957</a>
-<a href="#958" id="958">958</a>
-<a href="#959" id="959">959</a>
-<a href="#960" id="960">960</a>
-<a href="#961" id="961">961</a>
-<a href="#962" id="962">962</a>
-<a href="#963" id="963">963</a>
-<a href="#964" id="964">964</a>
-<a href="#965" id="965">965</a>
-<a href="#966" id="966">966</a>
-<a href="#967" id="967">967</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>arg_sort;
-<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-</span><span class="kw">pub mod </span>arg_sort_multiple;
+
+<span class="kw">pub mod </span>arg_sort_multiple;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
 </span><span class="kw">mod </span>categorical;
+<span class="kw">mod </span>slice;
 
 <span class="kw">use </span>std::cmp::Ordering;
 <span class="kw">use </span>std::hint::unreachable_unchecked;
 <span class="kw">use </span>std::iter::FromIterator;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>arg_sort_multiple::argsort_multiple_row_fmt;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>arg_sort_multiple::argsort_multiple_row_fmt;
 <span class="kw">use </span>arrow::bitmap::MutableBitmap;
 <span class="kw">use </span>arrow::buffer::Buffer;
 <span class="kw">use </span>num_traits::Float;
@@ -985,26 +967,29 @@
 <span class="kw">use </span>polars_arrow::prelude::{FromData, ValueSize};
 <span class="kw">use </span>polars_arrow::trusted_len::PushUnchecked;
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>slice::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::compare_inner::PartialOrdInner;
-<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::prelude::sort::arg_sort_multiple::{arg_sort_multiple_impl, args_validate};
+<span class="kw">use </span><span class="kw">crate</span>::prelude::sort::arg_sort_multiple::{arg_sort_multiple_impl, args_validate};
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
 <span class="kw">use </span><span class="kw">crate</span>::utils::{CustomIterTools, NoNull};
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
 
 <span class="doccomment">/// Reverse sorting when there are no nulls
+</span><span class="attr">#[inline]
 </span><span class="kw">fn </span>order_descending&lt;T: Ord&gt;(a: <span class="kw-2">&amp;</span>T, b: <span class="kw-2">&amp;</span>T) -&gt; Ordering {
     b.cmp(a)
 }
 
 <span class="doccomment">/// Default sorting when there are no nulls
+</span><span class="attr">#[inline]
 </span><span class="kw">fn </span>order_ascending&lt;T: Ord&gt;(a: <span class="kw-2">&amp;</span>T, b: <span class="kw-2">&amp;</span>T) -&gt; Ordering {
     a.cmp(b)
 }
 
-<span class="kw">fn </span>order_ascending_flt&lt;T: Float&gt;(a: <span class="kw-2">&amp;</span>T, b: <span class="kw-2">&amp;</span>T) -&gt; Ordering {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>order_ascending_flt&lt;T: Float&gt;(a: <span class="kw-2">&amp;</span>T, b: <span class="kw-2">&amp;</span>T) -&gt; Ordering {
     a.partial_cmp(b).unwrap_or_else(|| {
         <span class="kw">match </span>(a.is_nan(), b.is_nan()) {
             (<span class="bool-val">true</span>, <span class="bool-val">true</span>) =&gt; Ordering::Equal,
@@ -1016,11 +1001,13 @@
     })
 }
 
-<span class="kw">fn </span>order_descending_flt&lt;T: Float&gt;(a: <span class="kw-2">&amp;</span>T, b: <span class="kw-2">&amp;</span>T) -&gt; Ordering {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>order_descending_flt&lt;T: Float&gt;(a: <span class="kw-2">&amp;</span>T, b: <span class="kw-2">&amp;</span>T) -&gt; Ordering {
     order_ascending_flt(b, a)
 }
 
-<span class="kw">fn </span>sort_branch&lt;T, Fd, Fr&gt;(
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>sort_branch&lt;T, Fd, Fr&gt;(
     slice: <span class="kw-2">&amp;mut </span>[T],
     descending: bool,
     ascending_order_fn: Fd,
@@ -1059,7 +1046,7 @@
     );
 }
 
-<span class="kw">pub fn </span>arg_sort_branch&lt;T, Fd, Fr&gt;(
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>arg_sort_branch&lt;T, Fd, Fr&gt;(
     slice: <span class="kw-2">&amp;mut </span>[T],
     descending: bool,
     ascending_order_fn: Fd,
@@ -1081,20 +1068,6 @@
             <span class="bool-val">false </span>=&gt; slice.sort_by(ascending_order_fn),
         }
     }
-}
-
-<span class="kw">fn </span>memcpy_values&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; Vec&lt;T::Native&gt;
-<span class="kw">where
-    </span>T: PolarsNumericType,
-{
-    <span class="kw">let </span>len = ca.len();
-    <span class="kw">let </span><span class="kw-2">mut </span>vals = Vec::with_capacity(len);
-
-    ca.downcast_iter().for_each(|arr| {
-        <span class="kw">let </span>values = arr.values().as_slice();
-        vals.extend_from_slice(values);
-    });
-    vals
 }
 
 <span class="macro">macro_rules! </span>sort_with_fast_path {
@@ -1141,7 +1114,7 @@
 {
     <span class="macro">sort_with_fast_path!</span>(ca, options);
     <span class="kw">if </span>ca.null_count() == <span class="number">0 </span>{
-        <span class="kw">let </span><span class="kw-2">mut </span>vals = memcpy_values(ca);
+        <span class="kw">let </span><span class="kw-2">mut </span>vals = ca.to_vec_null_aware().left().unwrap();
 
         sort_branch(
             vals.as_mut_slice(),
@@ -1261,8 +1234,7 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-</span><span class="kw">fn </span>arg_sort_multiple_numeric&lt;T: PolarsNumericType&gt;(
+<span class="kw">fn </span>arg_sort_multiple_numeric&lt;T: PolarsNumericType&gt;(
     ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;,
     other: <span class="kw-2">&amp;</span>[Series],
     descending: <span class="kw-2">&amp;</span>[bool],
@@ -1301,8 +1273,7 @@
         arg_sort_numeric(<span class="self">self</span>, options)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-    </span><span class="doccomment">/// # Panics
+    <span class="doccomment">/// # Panics
     ///
     /// This function is very opinionated.
     /// We assume that all numeric `Series` are of the same type, if not it will panic
@@ -1327,8 +1298,7 @@
         arg_sort_numeric(<span class="self">self</span>, options)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-    </span><span class="doccomment">/// # Panics
+    <span class="doccomment">/// # Panics
     ///
     /// This function is very opinionated.
     /// We assume that all numeric `Series` are of the same type, if not it will panic
@@ -1353,8 +1323,7 @@
         arg_sort_numeric(<span class="self">self</span>, options)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-    </span><span class="doccomment">/// # Panics
+    <span class="doccomment">/// # Panics
     ///
     /// This function is very opinionated.
     /// We assume that all numeric `Series` are of the same type, if not it will panic
@@ -1489,8 +1458,7 @@
         <span class="self">self</span>.as_binary().arg_sort(options)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-    </span><span class="doccomment">/// # Panics
+    <span class="doccomment">/// # Panics
     ///
     /// This function is very opinionated. On the implementation of `ChunkedArray&lt;T&gt;` for numeric types,
     /// we assume that all numeric `Series` are of the same type.
@@ -1615,8 +1583,7 @@
         )
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-    </span><span class="doccomment">/// # Panics
+    <span class="doccomment">/// # Panics
     ///
     /// This function is very opinionated. On the implementation of `ChunkedArray&lt;T&gt;` for numeric types,
     /// we assume that all numeric `Series` are of the same type.
@@ -1679,8 +1646,7 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>convert_sort_column_multi_sort(
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>convert_sort_column_multi_sort(
     s: <span class="kw-2">&amp;</span>Series,
     row_ordering: bool,
 ) -&gt; PolarsResult&lt;Series&gt; {
@@ -1717,8 +1683,7 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>prepare_arg_sort(
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>prepare_arg_sort(
     columns: Vec&lt;Series&gt;,
     <span class="kw-2">mut </span>descending: Vec&lt;bool&gt;,
 ) -&gt; PolarsResult&lt;(Series, Vec&lt;Series&gt;, Vec&lt;bool&gt;)&gt; {
@@ -1828,7 +1793,6 @@
     }
 
     <span class="attr">#[test]
-    #[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
     #[cfg_attr(miri, ignore)]
     </span><span class="kw">fn </span>test_arg_sort_multiple() -&gt; PolarsResult&lt;()&gt; {
         <span class="kw">let </span>a = Int32Chunked::new(<span class="string">&quot;a&quot;</span>, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">3</span>]);
@@ -1932,5 +1896,4 @@
         <span class="macro">assert_eq!</span>(Vec::from(<span class="kw-2">&amp;</span>out), expected);
     }
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

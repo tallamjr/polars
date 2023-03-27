@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-io/src/csv/read_impl/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_io/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-io/src/csv/read_impl/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_io" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_io/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -814,6 +814,76 @@
 <a href="#814" id="814">814</a>
 <a href="#815" id="815">815</a>
 <a href="#816" id="816">816</a>
+<a href="#817" id="817">817</a>
+<a href="#818" id="818">818</a>
+<a href="#819" id="819">819</a>
+<a href="#820" id="820">820</a>
+<a href="#821" id="821">821</a>
+<a href="#822" id="822">822</a>
+<a href="#823" id="823">823</a>
+<a href="#824" id="824">824</a>
+<a href="#825" id="825">825</a>
+<a href="#826" id="826">826</a>
+<a href="#827" id="827">827</a>
+<a href="#828" id="828">828</a>
+<a href="#829" id="829">829</a>
+<a href="#830" id="830">830</a>
+<a href="#831" id="831">831</a>
+<a href="#832" id="832">832</a>
+<a href="#833" id="833">833</a>
+<a href="#834" id="834">834</a>
+<a href="#835" id="835">835</a>
+<a href="#836" id="836">836</a>
+<a href="#837" id="837">837</a>
+<a href="#838" id="838">838</a>
+<a href="#839" id="839">839</a>
+<a href="#840" id="840">840</a>
+<a href="#841" id="841">841</a>
+<a href="#842" id="842">842</a>
+<a href="#843" id="843">843</a>
+<a href="#844" id="844">844</a>
+<a href="#845" id="845">845</a>
+<a href="#846" id="846">846</a>
+<a href="#847" id="847">847</a>
+<a href="#848" id="848">848</a>
+<a href="#849" id="849">849</a>
+<a href="#850" id="850">850</a>
+<a href="#851" id="851">851</a>
+<a href="#852" id="852">852</a>
+<a href="#853" id="853">853</a>
+<a href="#854" id="854">854</a>
+<a href="#855" id="855">855</a>
+<a href="#856" id="856">856</a>
+<a href="#857" id="857">857</a>
+<a href="#858" id="858">858</a>
+<a href="#859" id="859">859</a>
+<a href="#860" id="860">860</a>
+<a href="#861" id="861">861</a>
+<a href="#862" id="862">862</a>
+<a href="#863" id="863">863</a>
+<a href="#864" id="864">864</a>
+<a href="#865" id="865">865</a>
+<a href="#866" id="866">866</a>
+<a href="#867" id="867">867</a>
+<a href="#868" id="868">868</a>
+<a href="#869" id="869">869</a>
+<a href="#870" id="870">870</a>
+<a href="#871" id="871">871</a>
+<a href="#872" id="872">872</a>
+<a href="#873" id="873">873</a>
+<a href="#874" id="874">874</a>
+<a href="#875" id="875">875</a>
+<a href="#876" id="876">876</a>
+<a href="#877" id="877">877</a>
+<a href="#878" id="878">878</a>
+<a href="#879" id="879">879</a>
+<a href="#880" id="880">880</a>
+<a href="#881" id="881">881</a>
+<a href="#882" id="882">882</a>
+<a href="#883" id="883">883</a>
+<a href="#884" id="884">884</a>
+<a href="#885" id="885">885</a>
+<a href="#886" id="886">886</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>batched_mmap;
 <span class="kw">mod </span>batched_read;
 
@@ -1167,9 +1237,12 @@
         <span class="kw-2">mut </span>bytes: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[u8],
         logging: bool,
         set_upper_bound: bool,
-    ) -&gt; (<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[u8], usize) {
+    ) -&gt; (<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[u8], usize, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[u8]&gt;) {
         <span class="comment">// initial row guess. We use the line statistic to guess the number of rows to allocate
         </span><span class="kw">let </span><span class="kw-2">mut </span>total_rows = <span class="number">128</span>;
+
+        <span class="comment">// if we set an upper bound on bytes, keep a reference to the bytes beyond the bound
+        </span><span class="kw">let </span><span class="kw-2">mut </span>remaining_bytes = <span class="prelude-val">None</span>;
 
         <span class="comment">// if None, there are less then 128 rows in the file and the statistics don&#39;t matter that much
         </span><span class="kw">if let </span><span class="prelude-val">Some</span>((mean, std)) = get_line_stats(
@@ -1185,6 +1258,7 @@
             }
 
             <span class="comment">// x % upper bound of byte length per line assuming normally distributed
+            // this upper bound assumption is not guaranteed to be accurate
             </span><span class="kw">let </span>line_length_upper_bound = mean + <span class="number">1.1 </span>* std;
             total_rows = (bytes.len() <span class="kw">as </span>f32 / (mean - <span class="number">0.01 </span>* std)) <span class="kw">as </span>usize;
 
@@ -1205,7 +1279,8 @@
                         <span class="self">self</span>.eol_char,
                     ) {
                         <span class="kw">if </span>set_upper_bound {
-                            bytes = <span class="kw-2">&amp;</span>bytes[..n_bytes + pos]
+                            (bytes, remaining_bytes) =
+                                (<span class="kw-2">&amp;</span>bytes[..n_bytes + pos], <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>bytes[n_bytes + pos..]))
                         }
                     }
                 }
@@ -1214,7 +1289,7 @@
                 <span class="macro">eprintln!</span>(<span class="string">&quot;initial row estimate: {total_rows}&quot;</span>)
             }
         }
-        (bytes, total_rows)
+        (bytes, total_rows, remaining_bytes)
     }
 
     <span class="attr">#[allow(clippy::type_complexity)]
@@ -1223,11 +1298,19 @@
         n_threads: <span class="kw-2">&amp;mut </span>usize,
         bytes: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8],
         logging: bool,
-    ) -&gt; PolarsResult&lt;(Vec&lt;(usize, usize)&gt;, usize, usize, <span class="prelude-ty">Option</span>&lt;usize&gt;, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8])&gt; {
+    ) -&gt; PolarsResult&lt;(
+        Vec&lt;(usize, usize)&gt;,
+        usize,
+        usize,
+        <span class="prelude-ty">Option</span>&lt;usize&gt;,
+        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8],
+        <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;,
+    )&gt; {
         <span class="comment">// Make the variable mutable so that we can reassign the sliced file to this variable.
         </span><span class="kw">let </span>(bytes, starting_point_offset) = <span class="self">self</span>.find_starting_point(bytes, <span class="self">self</span>.eol_char)<span class="question-mark">?</span>;
 
-        <span class="kw">let </span>(bytes, total_rows) = <span class="self">self</span>.estimate_rows_and_set_upper_bound(bytes, logging, <span class="bool-val">true</span>);
+        <span class="kw">let </span>(bytes, total_rows, remaining_bytes) =
+            <span class="self">self</span>.estimate_rows_and_set_upper_bound(bytes, logging, <span class="bool-val">true</span>);
         <span class="kw">if </span>total_rows == <span class="number">128 </span>{
             <span class="kw-2">*</span>n_threads = <span class="number">1</span>;
 
@@ -1258,7 +1341,14 @@
             );
         }
 
-        <span class="prelude-val">Ok</span>((chunks, chunk_size, total_rows, starting_point_offset, bytes))
+        <span class="prelude-val">Ok</span>((
+            chunks,
+            chunk_size,
+            total_rows,
+            starting_point_offset,
+            bytes,
+            remaining_bytes,
+        ))
     }
     <span class="kw">fn </span>get_projection(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; Vec&lt;usize&gt; {
         <span class="comment">// we also need to sort the projection to have predictable output.
@@ -1318,7 +1408,7 @@
         predicate: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Arc&lt;<span class="kw">dyn </span>PhysicalIoExpr&gt;&gt;,
     ) -&gt; PolarsResult&lt;DataFrame&gt; {
         <span class="kw">let </span>logging = verbose();
-        <span class="kw">let </span>(file_chunks, chunk_size, total_rows, starting_point_offset, bytes) =
+        <span class="kw">let </span>(file_chunks, chunk_size, total_rows, starting_point_offset, bytes, remaining_bytes) =
             <span class="self">self</span>.determine_file_chunks_and_statistics(<span class="kw-2">&amp;mut </span>n_threads, bytes, logging)<span class="question-mark">?</span>;
         <span class="kw">let </span>projection = <span class="self">self</span>.get_projection();
         <span class="kw">let </span>str_columns = <span class="self">self</span>.get_string_columns(<span class="kw-2">&amp;</span>projection)<span class="question-mark">?</span>;
@@ -1498,6 +1588,56 @@
                     })
                     .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
             })<span class="question-mark">?</span>;
+            <span class="kw">if let </span>(<span class="prelude-val">Some</span>(n_rows), <span class="prelude-val">Some</span>(remaining_bytes)) = (<span class="self">self</span>.n_rows, remaining_bytes) {
+                <span class="kw">let </span>rows_already_read: usize = dfs.iter().map(|x| x.<span class="number">1 </span><span class="kw">as </span>usize).sum();
+                <span class="kw">if </span>rows_already_read &lt; n_rows {
+                    dfs.push({
+                        <span class="kw">let </span><span class="kw-2">mut </span>df = {
+                            <span class="kw">let </span>remaining_rows = n_rows - rows_already_read;
+                            <span class="kw">let </span><span class="kw-2">mut </span>buffers = init_buffers(
+                                <span class="kw-2">&amp;</span>projection,
+                                remaining_rows,
+                                <span class="self">self</span>.schema.as_ref(),
+                                <span class="kw-2">&amp;</span>str_capacities,
+                                <span class="self">self</span>.quote_char,
+                                <span class="self">self</span>.encoding,
+                                <span class="self">self</span>.ignore_errors,
+                            )<span class="question-mark">?</span>;
+
+                            parse_lines(
+                                remaining_bytes,
+                                <span class="number">0</span>,
+                                <span class="self">self</span>.delimiter,
+                                <span class="self">self</span>.comment_char,
+                                <span class="self">self</span>.quote_char,
+                                <span class="self">self</span>.eol_char,
+                                <span class="self">self</span>.null_values.as_ref(),
+                                <span class="self">self</span>.missing_is_null,
+                                <span class="kw-2">&amp;</span>projection,
+                                <span class="kw-2">&amp;mut </span>buffers,
+                                <span class="self">self</span>.ignore_errors,
+                                remaining_rows - <span class="number">1</span>,
+                                <span class="self">self</span>.schema.len(),
+                                <span class="self">self</span>.schema.as_ref(),
+                            )<span class="question-mark">?</span>;
+
+                            DataFrame::new_no_checks(
+                                buffers
+                                    .into_iter()
+                                    .map(|buf| buf.into_series())
+                                    .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>,
+                            )
+                        };
+
+                        cast_columns(<span class="kw-2">&amp;mut </span>df, <span class="kw-2">&amp;</span><span class="self">self</span>.to_cast, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
+                        <span class="kw">if let </span><span class="prelude-val">Some</span>(rc) = <span class="kw-2">&amp;</span><span class="self">self</span>.row_count {
+                            df.with_row_count_mut(<span class="kw-2">&amp;</span>rc.name, <span class="prelude-val">Some</span>(rc.offset));
+                        }
+                        <span class="kw">let </span>n_read = df.height() <span class="kw">as </span>IdxSize;
+                        (df, n_read)
+                    });
+                }
+            }
             <span class="kw">if </span><span class="self">self</span>.row_count.is_some() {
                 update_row_counts(<span class="kw-2">&amp;mut </span>dfs, <span class="number">0</span>)
             }
@@ -1630,5 +1770,4 @@
         })
     }
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_io" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

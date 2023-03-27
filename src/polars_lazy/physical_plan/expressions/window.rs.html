@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/src/physical_plan/expressions/window.rs`."><title>window.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_lazy/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/src/physical_plan/expressions/window.rs`."><title>window.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_lazy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_lazy/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -819,11 +819,27 @@
 <a href="#819" id="819">819</a>
 <a href="#820" id="820">820</a>
 <a href="#821" id="821">821</a>
+<a href="#822" id="822">822</a>
+<a href="#823" id="823">823</a>
+<a href="#824" id="824">824</a>
+<a href="#825" id="825">825</a>
+<a href="#826" id="826">826</a>
+<a href="#827" id="827">827</a>
+<a href="#828" id="828">828</a>
+<a href="#829" id="829">829</a>
+<a href="#830" id="830">830</a>
+<a href="#831" id="831">831</a>
+<a href="#832" id="832">832</a>
+<a href="#833" id="833">833</a>
+<a href="#834" id="834">834</a>
+<a href="#835" id="835">835</a>
+<a href="#836" id="836">836</a>
+<a href="#837" id="837">837</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::fmt::Write;
 <span class="kw">use </span>std::sync::Arc;
 
-<span class="kw">use </span>polars_arrow::bit_util::unset_bit_raw;
 <span class="kw">use </span>polars_arrow::export::arrow::array::PrimitiveArray;
+<span class="kw">use </span>polars_core::export::arrow::bitmap::Bitmap;
 <span class="kw">use </span>polars_core::frame::groupby::{GroupBy, GroupsProxy};
 <span class="kw">use </span>polars_core::frame::hash_join::{
     default_join_ids, private_left_join_multiple_keys, JoinOptIds,
@@ -831,7 +847,6 @@
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::series::IsSorted;
 <span class="kw">use </span>polars_core::utils::_split_offsets;
-<span class="kw">use </span>polars_core::utils::arrow::bitmap::MutableBitmap;
 <span class="kw">use </span>polars_core::{downcast_as_macro_arg_physical, POOL};
 <span class="kw">use </span>polars_utils::format_smartstring;
 <span class="kw">use </span>polars_utils::sort::perfect_sort;
@@ -1371,9 +1386,10 @@
                 <span class="comment">// we try to flatten/extend the array by repeating the aggregated value n times
                 // where n is the number of members in that group. That way we can try to reuse
                 // the same map by arg_sort logic as done for listed aggregations
-                </span><span class="kw">match </span>(
+                </span><span class="kw">let </span>update_groups = !<span class="macro">matches!</span>(<span class="kw-2">&amp;</span>ac.update_groups, UpdateGroups::No);
+                <span class="kw">match </span>(
                     <span class="kw-2">&amp;</span>ac.update_groups,
-                    set_by_groups(<span class="kw-2">&amp;</span>out_column, <span class="kw-2">&amp;</span>ac.groups, df.height()),
+                    set_by_groups(<span class="kw-2">&amp;</span>out_column, <span class="kw-2">&amp;</span>ac.groups, df.height(), update_groups),
                 ) {
                     <span class="comment">// for aggregations that reduce like sum, mean, first and are numeric
                     // we take the group locations to directly map them to the right place
@@ -1485,7 +1501,15 @@
 }
 
 <span class="doccomment">/// Simple reducing aggregation can be set by the groups
-</span><span class="kw">fn </span>set_by_groups(s: <span class="kw-2">&amp;</span>Series, groups: <span class="kw-2">&amp;</span>GroupsProxy, len: usize) -&gt; <span class="prelude-ty">Option</span>&lt;Series&gt; {
+</span><span class="kw">fn </span>set_by_groups(
+    s: <span class="kw-2">&amp;</span>Series,
+    groups: <span class="kw-2">&amp;</span>GroupsProxy,
+    len: usize,
+    update_groups: bool,
+) -&gt; <span class="prelude-ty">Option</span>&lt;Series&gt; {
+    <span class="kw">if </span>update_groups {
+        <span class="kw">return </span><span class="prelude-val">None</span>;
+    }
     <span class="kw">if </span>s.dtype().to_physical().is_numeric() {
         <span class="kw">let </span>dtype = s.dtype();
         <span class="kw">let </span>s = s.to_physical_repr();
@@ -1568,13 +1592,15 @@
         </span><span class="kw">unsafe </span>{ values.set_len(len) }
         <span class="prelude-val">Some</span>(ChunkedArray::new_vec(ca.name(), values).into_series())
     } <span class="kw">else </span>{
-        <span class="kw">let </span><span class="kw-2">mut </span>validity = MutableBitmap::with_capacity(len);
-        validity.extend_constant(len, <span class="bool-val">true</span>);
-        <span class="kw">let </span>validity_ptr = validity.as_slice_mut().as_mut_ptr();
+        <span class="comment">// We don&#39;t use a mutable bitmap as bits will have have race conditions!
+        // A single byte might alias if we write from single threads.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>validity: Vec&lt;bool&gt; = Vec::with_capacity(len);
+        <span class="kw">let </span>validity_ptr = validity.as_mut_ptr();
         <span class="kw">let </span>sync_ptr_validity = <span class="kw">unsafe </span>{ SyncPtr::new(validity_ptr) };
 
         <span class="kw">let </span>n_threads = POOL.current_num_threads();
         <span class="kw">let </span>offsets = _split_offsets(ca.len(), n_threads);
+
         <span class="kw">match </span>groups {
             GroupsProxy::Idx(groups) =&gt; offsets.par_iter().for_each(|(offset, offset_len)| {
                 <span class="kw">let </span>offset = <span class="kw-2">*</span>offset;
@@ -1582,6 +1608,7 @@
                 <span class="kw">let </span>ca = ca.slice(offset <span class="kw">as </span>i64, offset_len);
                 <span class="kw">let </span>groups = <span class="kw-2">&amp;</span>groups.all()[offset..offset + offset_len];
                 <span class="kw">let </span>values_ptr = sync_ptr_values.get();
+                <span class="kw">let </span>validity_ptr = sync_ptr_validity.get();
 
                 ca.into_iter().zip(groups.iter()).for_each(|(opt_v, g)| {
                     <span class="kw">for </span>idx <span class="kw">in </span>g {
@@ -1591,10 +1618,11 @@
                             <span class="kw">match </span>opt_v {
                                 <span class="prelude-val">Some</span>(v) =&gt; {
                                     <span class="kw-2">*</span>values_ptr.add(idx) = v;
+                                    <span class="kw-2">*</span>validity_ptr.add(idx) = <span class="bool-val">true</span>;
                                 }
                                 <span class="prelude-val">None </span>=&gt; {
                                     <span class="kw-2">*</span>values_ptr.add(idx) = T::Native::default();
-                                    unset_bit_raw(sync_ptr_validity.get(), idx)
+                                    <span class="kw-2">*</span>validity_ptr.add(idx) = <span class="bool-val">false</span>;
                                 }
                             };
                         }
@@ -1608,6 +1636,7 @@
                     <span class="kw">let </span>ca = ca.slice(offset <span class="kw">as </span>i64, offset_len);
                     <span class="kw">let </span>groups = <span class="kw-2">&amp;</span>groups[offset..offset + offset_len];
                     <span class="kw">let </span>values_ptr = sync_ptr_values.get();
+                    <span class="kw">let </span>validity_ptr = sync_ptr_validity.get();
 
                     <span class="kw">for </span>(opt_v, [start, g_len]) <span class="kw">in </span>ca.into_iter().zip(groups.iter()) {
                         <span class="kw">let </span>start = <span class="kw-2">*</span>start <span class="kw">as </span>usize;
@@ -1618,10 +1647,11 @@
                                 <span class="kw">match </span>opt_v {
                                     <span class="prelude-val">Some</span>(v) =&gt; {
                                         <span class="kw-2">*</span>values_ptr.add(idx) = v;
+                                        <span class="kw-2">*</span>validity_ptr.add(idx) = <span class="bool-val">true</span>;
                                     }
                                     <span class="prelude-val">None </span>=&gt; {
                                         <span class="kw-2">*</span>values_ptr.add(idx) = T::Native::default();
-                                        unset_bit_raw(sync_ptr_validity.get(), idx)
+                                        <span class="kw-2">*</span>validity_ptr.add(idx) = <span class="bool-val">false</span>;
                                     }
                                 };
                             }
@@ -1632,13 +1662,14 @@
         }
         <span class="comment">// safety: we have written all slots
         </span><span class="kw">unsafe </span>{ values.set_len(len) }
+        <span class="kw">unsafe </span>{ validity.set_len(len) }
+        <span class="kw">let </span>validity = Bitmap::from(validity);
         <span class="kw">let </span>arr = PrimitiveArray::new(
             T::get_dtype().to_physical().to_arrow(),
             values.into(),
-            <span class="prelude-val">Some</span>(validity.into()),
+            <span class="prelude-val">Some</span>(validity),
         );
         <span class="prelude-val">Some</span>(Series::try_from((ca.name(), arr.boxed())).unwrap())
     }
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_lazy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (39f2657d1 2023-03-09)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>
