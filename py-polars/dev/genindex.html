@@ -888,13 +888,25 @@ document.write(`
       <li><a href="reference/api/polars.Date.html#polars.Date">Date (class in polars)</a>
 </li>
       <li><a href="reference/expressions/api/polars.date.html#polars.date">date() (in module polars)</a>
+
+      <ul>
+        <li><a href="reference/expressions/api/polars.Expr.dt.date.html#polars.Expr.dt.date">(polars.Expr.dt method)</a>
 </li>
+        <li><a href="reference/series/api/polars.Series.dt.date.html#polars.Series.dt.date">(polars.Series.dt method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/api/polars.date_range.html#polars.date_range">date_range() (in module polars)</a>
 </li>
       <li><a href="reference/api/polars.Datetime.html#polars.Datetime">Datetime (class in polars)</a>
 </li>
       <li><a href="reference/expressions/api/polars.datetime.html#polars.datetime">datetime() (in module polars)</a>
+
+      <ul>
+        <li><a href="reference/expressions/api/polars.Expr.dt.datetime.html#polars.Expr.dt.datetime">(polars.Expr.dt method)</a>
 </li>
+        <li><a href="reference/series/api/polars.Series.dt.datetime.html#polars.Series.dt.datetime">(polars.Series.dt method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/expressions/api/polars.Expr.dt.day.html#polars.Expr.dt.day">day() (polars.Expr.dt method)</a>
 
       <ul>
@@ -925,6 +937,8 @@ document.write(`
         <li><a href="reference/series/api/polars.Series.describe.html#polars.Series.describe">(polars.Series method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/expressions/api/polars.Expr.diff.html#polars.Expr.diff">diff() (polars.Expr method)</a>
 
       <ul>
@@ -935,8 +949,6 @@ document.write(`
         <li><a href="reference/series/api/polars.Series.arr.diff.html#polars.Series.arr.diff">(polars.Series.arr method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/expressions/api/polars.Expr.dot.html#polars.Expr.dot">dot() (polars.Expr method)</a>
 
       <ul>
@@ -1306,6 +1318,8 @@ document.write(`
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/dataframe/api/polars.DataFrame.height.html#polars.DataFrame.height">height (polars.DataFrame property)</a>
+</li>
+      <li><a href="reference/series/api/polars.Series.hist.html#polars.Series.hist">hist() (polars.Series method)</a>
 </li>
       <li><a href="reference/expressions/api/polars.Expr.dt.hour.html#polars.Expr.dt.hour">hour() (polars.Expr.dt method)</a>
 
@@ -1923,14 +1937,16 @@ document.write(`
 </li>
       <li><a href="reference/expressions/api/polars.pearson_corr.html#polars.pearson_corr">pearson_corr() (in module polars)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/dataframe/api/polars.DataFrame.pipe.html#polars.DataFrame.pipe">pipe() (polars.DataFrame method)</a>
 
       <ul>
+        <li><a href="reference/expressions/api/polars.Expr.pipe.html#polars.Expr.pipe">(polars.Expr method)</a>
+</li>
         <li><a href="reference/lazyframe/api/polars.LazyFrame.pipe.html#polars.LazyFrame.pipe">(polars.LazyFrame method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/dataframe/api/polars.DataFrame.pivot.html#polars.DataFrame.pivot">pivot() (polars.DataFrame method)</a>
 </li>
       <li><a href="reference/expressions/api/polars.Expr.meta.pop.html#polars.Expr.meta.pop">pop() (polars.Expr.meta method)</a>
@@ -1955,6 +1971,8 @@ document.write(`
 <h2 id="Q">Q</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/series/api/polars.Series.qcut.html#polars.Series.qcut">qcut() (polars.Series method)</a>
+</li>
       <li><a href="reference/expressions/api/polars.quantile.html#polars.quantile">quantile() (in module polars)</a>
 
       <ul>
@@ -2599,6 +2617,12 @@ document.write(`
 </li>
       <li><a href="reference/api/polars.Time.html#polars.Time">Time (class in polars)</a>
 </li>
+      <li><a href="reference/expressions/api/polars.Expr.dt.time.html#polars.Expr.dt.time">time() (polars.Expr.dt method)</a>
+
+      <ul>
+        <li><a href="reference/series/api/polars.Series.dt.time.html#polars.Series.dt.time">(polars.Series.dt method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/series/api/polars.Series.time_unit.html#polars.Series.time_unit">time_unit (polars.Series attribute)</a>
 </li>
       <li><a href="reference/expressions/api/polars.Expr.dt.timestamp.html#polars.Expr.dt.timestamp">timestamp() (polars.Expr.dt method)</a>
@@ -2673,9 +2697,13 @@ document.write(`
 </li>
       <li><a href="reference/api/polars.exceptions.TooManyRowsReturned.html#polars.exceptions.TooManyRowsReturned">TooManyRowsReturned</a>
 </li>
-      <li><a href="reference/expressions/api/polars.Expr.top_k.html#polars.Expr.top_k">top_k() (polars.Expr method)</a>
+      <li><a href="reference/dataframe/api/polars.DataFrame.top_k.html#polars.DataFrame.top_k">top_k() (polars.DataFrame method)</a>
 
       <ul>
+        <li><a href="reference/expressions/api/polars.Expr.top_k.html#polars.Expr.top_k">(polars.Expr method)</a>
+</li>
+        <li><a href="reference/lazyframe/api/polars.LazyFrame.top_k.html#polars.LazyFrame.top_k">(polars.LazyFrame method)</a>
+</li>
         <li><a href="reference/series/api/polars.Series.top_k.html#polars.Series.top_k">(polars.Series method)</a>
 </li>
       </ul></li>

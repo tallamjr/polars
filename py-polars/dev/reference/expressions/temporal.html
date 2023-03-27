@@ -586,10 +586,12 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.filter.html">polars.Series.filter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.floor.html">polars.Series.floor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.head.html">polars.Series.head</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.hist.html">polars.Series.hist</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.interpolate.html">polars.Series.interpolate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.item.html">polars.Series.item</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.limit.html">polars.Series.limit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.new_from_index.html">polars.Series.new_from_index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.qcut.html">polars.Series.qcut</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.rechunk.html">polars.Series.rechunk</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.rename.html">polars.Series.rename</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.reshape.html">polars.Series.reshape</a></li>
@@ -668,6 +670,8 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.cast_time_unit.html">polars.Series.dt.cast_time_unit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.replace_time_zone.html">polars.Series.dt.replace_time_zone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.combine.html">polars.Series.dt.combine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.date.html">polars.Series.dt.date</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.datetime.html">polars.Series.dt.datetime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.day.html">polars.Series.dt.day</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.days.html">polars.Series.dt.days</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.epoch.html">polars.Series.dt.epoch</a></li>
@@ -695,6 +699,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.second.html">polars.Series.dt.second</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.seconds.html">polars.Series.dt.seconds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.strftime.html">polars.Series.dt.strftime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.time.html">polars.Series.dt.time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.timestamp.html">polars.Series.dt.timestamp</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.truncate.html">polars.Series.dt.truncate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.week.html">polars.Series.dt.week</a></li>
@@ -822,6 +827,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.sort.html">polars.DataFrame.sort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.tail.html">polars.DataFrame.tail</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.take_every.html">polars.DataFrame.take_every</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.top_k.html">polars.DataFrame.top_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.to_dummies.html">polars.DataFrame.to_dummies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.to_series.html">polars.DataFrame.to_series</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.transpose.html">polars.DataFrame.transpose</a></li>
@@ -917,6 +923,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.sort.html">polars.LazyFrame.sort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.tail.html">polars.LazyFrame.tail</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.take_every.html">polars.LazyFrame.take_every</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.top_k.html">polars.LazyFrame.top_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.unique.html">polars.LazyFrame.unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.unnest.html">polars.LazyFrame.unnest</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.update.html">polars.LazyFrame.update</a></li>
@@ -1186,6 +1193,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.limit.html">polars.Expr.limit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.lower_bound.html">polars.Expr.lower_bound</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.map_dict.html">polars.Expr.map_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.pipe.html">polars.Expr.pipe</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rechunk.html">polars.Expr.rechunk</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.reinterpret.html">polars.Expr.reinterpret</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.repeat_by.html">polars.Expr.repeat_by</a></li>
@@ -1264,6 +1272,8 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.cast_time_unit.html">polars.Expr.dt.cast_time_unit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.replace_time_zone.html">polars.Expr.dt.replace_time_zone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.combine.html">polars.Expr.dt.combine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.date.html">polars.Expr.dt.date</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.datetime.html">polars.Expr.dt.datetime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.day.html">polars.Expr.dt.day</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.days.html">polars.Expr.dt.days</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.epoch.html">polars.Expr.dt.epoch</a></li>
@@ -1287,6 +1297,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.second.html">polars.Expr.dt.second</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.seconds.html">polars.Expr.dt.seconds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.strftime.html">polars.Expr.dt.strftime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.time.html">polars.Expr.dt.time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.timestamp.html">polars.Expr.dt.timestamp</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.truncate.html">polars.Expr.dt.truncate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.week.html">polars.Expr.dt.week</a></li>
@@ -1495,6 +1506,12 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.dt.combine.html#polars.Expr.dt.combine" title="polars.Expr.dt.combine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.combine</span></code></a>(tm[, tu])</p></td>
 <td><p>Create a naive Datetime from an existing Date/Datetime expression and a Time.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.dt.date.html#polars.Expr.dt.date" title="polars.Expr.dt.date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.date</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.dt.datetime.html#polars.Expr.dt.datetime" title="polars.Expr.dt.datetime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.datetime</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.dt.day.html#polars.Expr.dt.day" title="polars.Expr.dt.day"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.day</span></code></a>()</p></td>
 <td><p>Extract day from underlying Date representation.</p></td>
 </tr>
@@ -1564,25 +1581,28 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.dt.strftime.html#polars.Expr.dt.strftime" title="polars.Expr.dt.strftime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.strftime</span></code></a>(fmt)</p></td>
 <td><p>Format Date/Datetime with a formatting rule.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.dt.timestamp.html#polars.Expr.dt.timestamp" title="polars.Expr.dt.timestamp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.timestamp</span></code></a>([tu])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.dt.time.html#polars.Expr.dt.time" title="polars.Expr.dt.time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.time</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.dt.timestamp.html#polars.Expr.dt.timestamp" title="polars.Expr.dt.timestamp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.timestamp</span></code></a>([tu])</p></td>
 <td><p>Return a timestamp in the given time unit.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.dt.truncate.html#polars.Expr.dt.truncate" title="polars.Expr.dt.truncate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.truncate</span></code></a>(every[, offset])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.dt.truncate.html#polars.Expr.dt.truncate" title="polars.Expr.dt.truncate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.truncate</span></code></a>(every[, offset])</p></td>
 <td><p>Divide the date/datetime range into buckets.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.dt.week.html#polars.Expr.dt.week" title="polars.Expr.dt.week"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.week</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.dt.week.html#polars.Expr.dt.week" title="polars.Expr.dt.week"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.week</span></code></a>()</p></td>
 <td><p>Extract the week from the underlying Date representation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.dt.weekday.html#polars.Expr.dt.weekday" title="polars.Expr.dt.weekday"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.weekday</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.dt.weekday.html#polars.Expr.dt.weekday" title="polars.Expr.dt.weekday"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.weekday</span></code></a>()</p></td>
 <td><p>Extract the week day from the underlying Date representation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.dt.with_time_unit.html#polars.Expr.dt.with_time_unit" title="polars.Expr.dt.with_time_unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.with_time_unit</span></code></a>(tu)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.dt.with_time_unit.html#polars.Expr.dt.with_time_unit" title="polars.Expr.dt.with_time_unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.with_time_unit</span></code></a>(tu)</p></td>
 <td><p>Set time unit of a Series of dtype Datetime or Duration.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.dt.convert_time_zone.html#polars.Expr.dt.convert_time_zone" title="polars.Expr.dt.convert_time_zone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.convert_time_zone</span></code></a>(time_zone)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.dt.convert_time_zone.html#polars.Expr.dt.convert_time_zone" title="polars.Expr.dt.convert_time_zone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.convert_time_zone</span></code></a>(time_zone)</p></td>
 <td><p>Convert to given time zone for a Series of type Datetime.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.dt.year.html#polars.Expr.dt.year" title="polars.Expr.dt.year"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.year</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.dt.year.html#polars.Expr.dt.year" title="polars.Expr.dt.year"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.dt.year</span></code></a>()</p></td>
 <td><p>Extract year from underlying Date representation.</p></td>
 </tr>
 </tbody>
