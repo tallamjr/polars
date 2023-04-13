@@ -1,6 +1,0 @@
-﻿polars.exceptions.NoRowsReturned
-================================
-
-.. currentmodule:: polars.exceptions
-
-.. autoexception:: NoRowsReturned

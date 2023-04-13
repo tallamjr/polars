@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>polars.exceptions.RowsException &#8212; Polars  documentation</title>
+    <title>Operators &#8212; Polars  documentation</title>
   
   
   
@@ -49,11 +49,11 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.exceptions.RowsException';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/expressions/operators';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="polars.exceptions.SchemaError" href="polars.exceptions.SchemaError.html" />
-    <link rel="prev" title="polars.exceptions.PanicException" href="polars.exceptions.PanicException.html" />
+    <link rel="next" title="polars.Expr.and_" href="api/polars.Expr.and_.html" />
+    <link rel="prev" title="polars.Expr.set_sorted" href="api/polars.Expr.set_sorted.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -368,33 +368,33 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../io.html">Input/output</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="polars.read_csv.html">polars.read_csv</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.read_csv_batched.html">polars.read_csv_batched</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.scan_csv.html">polars.scan_csv</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.DataFrame.write_csv.html">polars.DataFrame.write_csv</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.read_ipc.html">polars.read_ipc</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.scan_ipc.html">polars.scan_ipc</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.read_ipc_schema.html">polars.read_ipc_schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.DataFrame.write_ipc.html">polars.DataFrame.write_ipc</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.read_parquet.html">polars.read_parquet</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.scan_parquet.html">polars.scan_parquet</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.read_parquet_schema.html">polars.read_parquet_schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.DataFrame.write_parquet.html">polars.DataFrame.write_parquet</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.read_database.html">polars.read_database</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.DataFrame.write_database.html">polars.DataFrame.write_database</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.read_json.html">polars.read_json</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.read_ndjson.html">polars.read_ndjson</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.scan_ndjson.html">polars.scan_ndjson</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.DataFrame.write_json.html">polars.DataFrame.write_json</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.DataFrame.write_ndjson.html">polars.DataFrame.write_ndjson</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.read_avro.html">polars.read_avro</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.DataFrame.write_avro.html">polars.DataFrame.write_avro</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.read_excel.html">polars.read_excel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.DataFrame.write_excel.html">polars.DataFrame.write_excel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.scan_delta.html">polars.scan_delta</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.read_delta.html">polars.read_delta</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.scan_pyarrow_dataset.html">polars.scan_pyarrow_dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.io.csv.batched_reader.BatchedCsvReader.next_batches.html">polars.io.csv.batched_reader.BatchedCsvReader.next_batches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.read_csv.html">polars.read_csv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.read_csv_batched.html">polars.read_csv_batched</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.scan_csv.html">polars.scan_csv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.DataFrame.write_csv.html">polars.DataFrame.write_csv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.read_ipc.html">polars.read_ipc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.scan_ipc.html">polars.scan_ipc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.read_ipc_schema.html">polars.read_ipc_schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.DataFrame.write_ipc.html">polars.DataFrame.write_ipc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.read_parquet.html">polars.read_parquet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.scan_parquet.html">polars.scan_parquet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.read_parquet_schema.html">polars.read_parquet_schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.DataFrame.write_parquet.html">polars.DataFrame.write_parquet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.read_database.html">polars.read_database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.DataFrame.write_database.html">polars.DataFrame.write_database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.read_json.html">polars.read_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.read_ndjson.html">polars.read_ndjson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.scan_ndjson.html">polars.scan_ndjson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.DataFrame.write_json.html">polars.DataFrame.write_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.DataFrame.write_ndjson.html">polars.DataFrame.write_ndjson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.read_avro.html">polars.read_avro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.DataFrame.write_avro.html">polars.DataFrame.write_avro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.read_excel.html">polars.read_excel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.DataFrame.write_excel.html">polars.DataFrame.write_excel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.scan_delta.html">polars.scan_delta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.read_delta.html">polars.read_delta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.scan_pyarrow_dataset.html">polars.scan_pyarrow_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.io.csv.batched_reader.BatchedCsvReader.next_batches.html">polars.io.csv.batched_reader.BatchedCsvReader.next_batches</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../series/index.html">Series</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -474,6 +474,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.kurtosis.html">polars.Series.kurtosis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.log.html">polars.Series.log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.log10.html">polars.Series.log10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.log1p.html">polars.Series.log1p</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.map_dict.html">polars.Series.map_dict</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.pct_change.html">polars.Series.pct_change</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.peak_max.html">polars.Series.peak_max</a></li>
@@ -537,6 +538,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.to_list.html">polars.Series.to_list</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.to_numpy.html">polars.Series.to_numpy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.to_pandas.html">polars.Series.to_pandas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.to_init_repr.html">polars.Series.to_init_repr</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../series/list.html">List</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -572,7 +574,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.alias.html">polars.Series.alias</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.append.html">polars.Series.append</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.arg_sort.html">polars.Series.arg_sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.argsort.html">polars.Series.argsort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.bottom_k.html">polars.Series.bottom_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.cast.html">polars.Series.cast</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.ceil.html">polars.Series.ceil</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.clear.html">polars.Series.clear</a></li>
@@ -759,6 +761,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.to_arrow.html">polars.DataFrame.to_arrow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.to_dict.html">polars.DataFrame.to_dict</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.to_dicts.html">polars.DataFrame.to_dicts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.to_init_repr.html">polars.DataFrame.to_init_repr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.to_numpy.html">polars.DataFrame.to_numpy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.to_pandas.html">polars.DataFrame.to_pandas</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.to_struct.html">polars.DataFrame.to_struct</a></li>
@@ -784,6 +787,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../dataframe/modify_select.html">Manipulation/selection</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-24"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.bottom_k.html">polars.DataFrame.bottom_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.clear.html">polars.DataFrame.clear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.clone.html">polars.DataFrame.clone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.drop.html">polars.DataFrame.drop</a></li>
@@ -897,6 +901,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../lazyframe/modify_select.html">Manipulation/selection</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.bottom_k.html">polars.LazyFrame.bottom_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.clear.html">polars.LazyFrame.clear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.clone.html">polars.LazyFrame.clone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.drop.html">polars.LazyFrame.drop</a></li>
@@ -953,487 +958,510 @@ document.write(`
 </li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../expressions/index.html">Expressions</a><input class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-33"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/aggregation.html">Aggregation</a><input class="toctree-checkbox" id="toctree-checkbox-34" name="toctree-checkbox-34" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-34"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.agg_groups.html">polars.Expr.agg_groups</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arg_max.html">polars.Expr.arg_max</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arg_min.html">polars.Expr.arg_min</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.count.html">polars.Expr.count</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.first.html">polars.Expr.first</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.last.html">polars.Expr.last</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.len.html">polars.Expr.len</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.list.html">polars.Expr.list</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.max.html">polars.Expr.max</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.mean.html">polars.Expr.mean</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.median.html">polars.Expr.median</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.min.html">polars.Expr.min</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.nan_max.html">polars.Expr.nan_max</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.nan_min.html">polars.Expr.nan_min</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.product.html">polars.Expr.product</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.quantile.html">polars.Expr.quantile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.std.html">polars.Expr.std</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.sum.html">polars.Expr.sum</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.var.html">polars.Expr.var</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Expressions</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-33"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="aggregation.html">Aggregation</a><input class="toctree-checkbox" id="toctree-checkbox-34" name="toctree-checkbox-34" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-34"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.agg_groups.html">polars.Expr.agg_groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arg_max.html">polars.Expr.arg_max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arg_min.html">polars.Expr.arg_min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.count.html">polars.Expr.count</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.first.html">polars.Expr.first</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.last.html">polars.Expr.last</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.len.html">polars.Expr.len</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.list.html">polars.Expr.list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.max.html">polars.Expr.max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.mean.html">polars.Expr.mean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.median.html">polars.Expr.median</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.min.html">polars.Expr.min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.nan_max.html">polars.Expr.nan_max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.nan_min.html">polars.Expr.nan_min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.product.html">polars.Expr.product</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.quantile.html">polars.Expr.quantile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.std.html">polars.Expr.std</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.sum.html">polars.Expr.sum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.var.html">polars.Expr.var</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/binary.html">Binary</a><input class="toctree-checkbox" id="toctree-checkbox-35" name="toctree-checkbox-35" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-35"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.bin.contains.html">polars.Expr.bin.contains</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.bin.decode.html">polars.Expr.bin.decode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.bin.encode.html">polars.Expr.bin.encode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.bin.ends_with.html">polars.Expr.bin.ends_with</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.bin.starts_with.html">polars.Expr.bin.starts_with</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="binary.html">Binary</a><input class="toctree-checkbox" id="toctree-checkbox-35" name="toctree-checkbox-35" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-35"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.bin.contains.html">polars.Expr.bin.contains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.bin.decode.html">polars.Expr.bin.decode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.bin.encode.html">polars.Expr.bin.encode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.bin.ends_with.html">polars.Expr.bin.ends_with</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.bin.starts_with.html">polars.Expr.bin.starts_with</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/boolean.html">Boolean</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-36"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.all.html">polars.Expr.all</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.any.html">polars.Expr.any</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.is_between.html">polars.Expr.is_between</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.is_duplicated.html">polars.Expr.is_duplicated</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.is_finite.html">polars.Expr.is_finite</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.is_first.html">polars.Expr.is_first</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.is_in.html">polars.Expr.is_in</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.is_infinite.html">polars.Expr.is_infinite</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.is_nan.html">polars.Expr.is_nan</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.is_not.html">polars.Expr.is_not</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.is_not_nan.html">polars.Expr.is_not_nan</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.is_not_null.html">polars.Expr.is_not_null</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.is_null.html">polars.Expr.is_null</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.is_unique.html">polars.Expr.is_unique</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="boolean.html">Boolean</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-36"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.all.html">polars.Expr.all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.any.html">polars.Expr.any</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.is_between.html">polars.Expr.is_between</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.is_duplicated.html">polars.Expr.is_duplicated</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.is_finite.html">polars.Expr.is_finite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.is_first.html">polars.Expr.is_first</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.is_in.html">polars.Expr.is_in</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.is_infinite.html">polars.Expr.is_infinite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.is_nan.html">polars.Expr.is_nan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.is_not.html">polars.Expr.is_not</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.is_not_nan.html">polars.Expr.is_not_nan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.is_not_null.html">polars.Expr.is_not_null</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.is_null.html">polars.Expr.is_null</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.is_unique.html">polars.Expr.is_unique</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/categories.html">Categories</a><input class="toctree-checkbox" id="toctree-checkbox-37" name="toctree-checkbox-37" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-37"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cat.set_ordering.html">polars.Expr.cat.set_ordering</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="categories.html">Categories</a><input class="toctree-checkbox" id="toctree-checkbox-37" name="toctree-checkbox-37" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-37"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.cat.set_ordering.html">polars.Expr.cat.set_ordering</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/columns.html">Columns / names</a><input class="toctree-checkbox" id="toctree-checkbox-38" name="toctree-checkbox-38" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-38"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.col.html">polars.col</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.alias.html">polars.Expr.alias</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.exclude.html">polars.Expr.exclude</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.keep_name.html">polars.Expr.keep_name</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.map_alias.html">polars.Expr.map_alias</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.prefix.html">polars.Expr.prefix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.suffix.html">polars.Expr.suffix</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="columns.html">Columns / names</a><input class="toctree-checkbox" id="toctree-checkbox-38" name="toctree-checkbox-38" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-38"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.col.html">polars.col</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.alias.html">polars.Expr.alias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.exclude.html">polars.Expr.exclude</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.keep_name.html">polars.Expr.keep_name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.map_alias.html">polars.Expr.map_alias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.prefix.html">polars.Expr.prefix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.suffix.html">polars.Expr.suffix</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/computation.html">Computation</a><input class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-39"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.abs.html">polars.Expr.abs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arccos.html">polars.Expr.arccos</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arccosh.html">polars.Expr.arccosh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arcsin.html">polars.Expr.arcsin</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arcsinh.html">polars.Expr.arcsinh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arctan.html">polars.Expr.arctan</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arctanh.html">polars.Expr.arctanh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arg_unique.html">polars.Expr.arg_unique</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cos.html">polars.Expr.cos</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cosh.html">polars.Expr.cosh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cumcount.html">polars.Expr.cumcount</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cummax.html">polars.Expr.cummax</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cummin.html">polars.Expr.cummin</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cumprod.html">polars.Expr.cumprod</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cumsum.html">polars.Expr.cumsum</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cumulative_eval.html">polars.Expr.cumulative_eval</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.diff.html">polars.Expr.diff</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dot.html">polars.Expr.dot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.entropy.html">polars.Expr.entropy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.ewm_mean.html">polars.Expr.ewm_mean</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.ewm_std.html">polars.Expr.ewm_std</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.ewm_var.html">polars.Expr.ewm_var</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.exp.html">polars.Expr.exp</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.hash.html">polars.Expr.hash</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.kurtosis.html">polars.Expr.kurtosis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.log.html">polars.Expr.log</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.log10.html">polars.Expr.log10</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.mode.html">polars.Expr.mode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.n_unique.html">polars.Expr.n_unique</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.null_count.html">polars.Expr.null_count</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.pct_change.html">polars.Expr.pct_change</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.pow.html">polars.Expr.pow</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rank.html">polars.Expr.rank</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rolling_apply.html">polars.Expr.rolling_apply</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rolling_max.html">polars.Expr.rolling_max</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rolling_mean.html">polars.Expr.rolling_mean</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rolling_median.html">polars.Expr.rolling_median</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rolling_min.html">polars.Expr.rolling_min</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rolling_quantile.html">polars.Expr.rolling_quantile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rolling_skew.html">polars.Expr.rolling_skew</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rolling_std.html">polars.Expr.rolling_std</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rolling_sum.html">polars.Expr.rolling_sum</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rolling_var.html">polars.Expr.rolling_var</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.search_sorted.html">polars.Expr.search_sorted</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.sign.html">polars.Expr.sign</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.sin.html">polars.Expr.sin</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.sinh.html">polars.Expr.sinh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.skew.html">polars.Expr.skew</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.sqrt.html">polars.Expr.sqrt</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.tan.html">polars.Expr.tan</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.tanh.html">polars.Expr.tanh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.unique.html">polars.Expr.unique</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.unique_counts.html">polars.Expr.unique_counts</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.value_counts.html">polars.Expr.value_counts</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="computation.html">Computation</a><input class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-39"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.abs.html">polars.Expr.abs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.approx_unique.html">polars.Expr.approx_unique</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arccos.html">polars.Expr.arccos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arccosh.html">polars.Expr.arccosh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arcsin.html">polars.Expr.arcsin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arcsinh.html">polars.Expr.arcsinh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arctan.html">polars.Expr.arctan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arctanh.html">polars.Expr.arctanh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arg_unique.html">polars.Expr.arg_unique</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.cos.html">polars.Expr.cos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.cosh.html">polars.Expr.cosh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.cumcount.html">polars.Expr.cumcount</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.cummax.html">polars.Expr.cummax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.cummin.html">polars.Expr.cummin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.cumprod.html">polars.Expr.cumprod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.cumsum.html">polars.Expr.cumsum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.cumulative_eval.html">polars.Expr.cumulative_eval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.diff.html">polars.Expr.diff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dot.html">polars.Expr.dot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.entropy.html">polars.Expr.entropy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.ewm_mean.html">polars.Expr.ewm_mean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.ewm_std.html">polars.Expr.ewm_std</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.ewm_var.html">polars.Expr.ewm_var</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.exp.html">polars.Expr.exp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.hash.html">polars.Expr.hash</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.kurtosis.html">polars.Expr.kurtosis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.log.html">polars.Expr.log</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.log10.html">polars.Expr.log10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.log1p.html">polars.Expr.log1p</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.mode.html">polars.Expr.mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.n_unique.html">polars.Expr.n_unique</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.null_count.html">polars.Expr.null_count</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.pct_change.html">polars.Expr.pct_change</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rank.html">polars.Expr.rank</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rolling_apply.html">polars.Expr.rolling_apply</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rolling_max.html">polars.Expr.rolling_max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rolling_mean.html">polars.Expr.rolling_mean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rolling_median.html">polars.Expr.rolling_median</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rolling_min.html">polars.Expr.rolling_min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rolling_quantile.html">polars.Expr.rolling_quantile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rolling_skew.html">polars.Expr.rolling_skew</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rolling_std.html">polars.Expr.rolling_std</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rolling_sum.html">polars.Expr.rolling_sum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rolling_var.html">polars.Expr.rolling_var</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.search_sorted.html">polars.Expr.search_sorted</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.sign.html">polars.Expr.sign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.sin.html">polars.Expr.sin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.sinh.html">polars.Expr.sinh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.skew.html">polars.Expr.skew</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.sqrt.html">polars.Expr.sqrt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.tan.html">polars.Expr.tan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.tanh.html">polars.Expr.tanh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.unique.html">polars.Expr.unique</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.unique_counts.html">polars.Expr.unique_counts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.value_counts.html">polars.Expr.value_counts</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/functions.html">Functions</a><input class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-40"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.all.html">polars.all</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.any.html">polars.any</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.apply.html">polars.apply</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.arange.html">polars.arange</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.arg_sort_by.html">polars.arg_sort_by</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.avg.html">polars.avg</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.coalesce.html">polars.coalesce</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.concat_list.html">polars.concat_list</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.concat_str.html">polars.concat_str</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.corr.html">polars.corr</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.count.html">polars.count</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.cov.html">polars.cov</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.cumfold.html">polars.cumfold</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.cumreduce.html">polars.cumreduce</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.cumsum.html">polars.cumsum</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.date.html">polars.date</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.datetime.html">polars.datetime</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.duration.html">polars.duration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.element.html">polars.element</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.exclude.html">polars.exclude</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.first.html">polars.first</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.fold.html">polars.fold</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.format.html">polars.format</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.from_epoch.html">polars.from_epoch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.groups.html">polars.groups</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.head.html">polars.head</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.list.html">polars.list</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.lit.html">polars.lit</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.map.html">polars.map</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.max.html">polars.max</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.mean.html">polars.mean</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.median.html">polars.median</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.min.html">polars.min</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.n_unique.html">polars.n_unique</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.pearson_corr.html">polars.pearson_corr</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.quantile.html">polars.quantile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.reduce.html">polars.reduce</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.repeat.html">polars.repeat</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.select.html">polars.select</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.spearman_rank_corr.html">polars.spearman_rank_corr</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.std.html">polars.std</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.struct.html">polars.struct</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.sum.html">polars.sum</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.tail.html">polars.tail</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.var.html">polars.var</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.when.html">polars.when</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.all.html">polars.Expr.all</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.any.html">polars.Expr.any</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.apply.html">polars.Expr.apply</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.count.html">polars.Expr.count</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cumsum.html">polars.Expr.cumsum</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.exclude.html">polars.Expr.exclude</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.first.html">polars.Expr.first</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.head.html">polars.Expr.head</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.list.html">polars.Expr.list</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.map.html">polars.Expr.map</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.max.html">polars.Expr.max</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.mean.html">polars.Expr.mean</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.median.html">polars.Expr.median</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.min.html">polars.Expr.min</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.n_unique.html">polars.Expr.n_unique</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.quantile.html">polars.Expr.quantile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.std.html">polars.Expr.std</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.sum.html">polars.Expr.sum</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.tail.html">polars.Expr.tail</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.var.html">polars.Expr.var</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="functions.html">Functions</a><input class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-40"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.all.html">polars.all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.any.html">polars.any</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.apply.html">polars.apply</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.approx_unique.html">polars.approx_unique</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.arange.html">polars.arange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.arg_sort_by.html">polars.arg_sort_by</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.avg.html">polars.avg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.coalesce.html">polars.coalesce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.concat_list.html">polars.concat_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.concat_str.html">polars.concat_str</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.corr.html">polars.corr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.count.html">polars.count</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.cov.html">polars.cov</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.cumfold.html">polars.cumfold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.cumreduce.html">polars.cumreduce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.cumsum.html">polars.cumsum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.date.html">polars.date</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.datetime.html">polars.datetime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.duration.html">polars.duration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.element.html">polars.element</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.exclude.html">polars.exclude</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.first.html">polars.first</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.fold.html">polars.fold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.format.html">polars.format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.from_epoch.html">polars.from_epoch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.groups.html">polars.groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.head.html">polars.head</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.list.html">polars.list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.lit.html">polars.lit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.map.html">polars.map</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.max.html">polars.max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.mean.html">polars.mean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.median.html">polars.median</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.min.html">polars.min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.n_unique.html">polars.n_unique</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.pearson_corr.html">polars.pearson_corr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.quantile.html">polars.quantile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.reduce.html">polars.reduce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.repeat.html">polars.repeat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.select.html">polars.select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.spearman_rank_corr.html">polars.spearman_rank_corr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.std.html">polars.std</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.struct.html">polars.struct</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.sum.html">polars.sum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.tail.html">polars.tail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.var.html">polars.var</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.when.html">polars.when</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.all.html">polars.Expr.all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.any.html">polars.Expr.any</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.apply.html">polars.Expr.apply</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.approx_unique.html">polars.Expr.approx_unique</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.count.html">polars.Expr.count</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.cumsum.html">polars.Expr.cumsum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.exclude.html">polars.Expr.exclude</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.first.html">polars.Expr.first</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.head.html">polars.Expr.head</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.list.html">polars.Expr.list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.map.html">polars.Expr.map</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.max.html">polars.Expr.max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.mean.html">polars.Expr.mean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.median.html">polars.Expr.median</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.min.html">polars.Expr.min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.n_unique.html">polars.Expr.n_unique</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.quantile.html">polars.Expr.quantile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.std.html">polars.Expr.std</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.sum.html">polars.Expr.sum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.tail.html">polars.Expr.tail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.var.html">polars.Expr.var</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/list.html">List</a><input class="toctree-checkbox" id="toctree-checkbox-41" name="toctree-checkbox-41" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-41"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.arg_max.html">polars.Expr.arr.arg_max</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.arg_min.html">polars.Expr.arr.arg_min</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.concat.html">polars.Expr.arr.concat</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.contains.html">polars.Expr.arr.contains</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.count_match.html">polars.Expr.arr.count_match</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.diff.html">polars.Expr.arr.diff</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.eval.html">polars.Expr.arr.eval</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.explode.html">polars.Expr.arr.explode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.first.html">polars.Expr.arr.first</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.get.html">polars.Expr.arr.get</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.head.html">polars.Expr.arr.head</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.join.html">polars.Expr.arr.join</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.last.html">polars.Expr.arr.last</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.lengths.html">polars.Expr.arr.lengths</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.max.html">polars.Expr.arr.max</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.mean.html">polars.Expr.arr.mean</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.min.html">polars.Expr.arr.min</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.reverse.html">polars.Expr.arr.reverse</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.shift.html">polars.Expr.arr.shift</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.slice.html">polars.Expr.arr.slice</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.sort.html">polars.Expr.arr.sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.sum.html">polars.Expr.arr.sum</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.tail.html">polars.Expr.arr.tail</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.take.html">polars.Expr.arr.take</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.to_struct.html">polars.Expr.arr.to_struct</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.unique.html">polars.Expr.arr.unique</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="list.html">List</a><input class="toctree-checkbox" id="toctree-checkbox-41" name="toctree-checkbox-41" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-41"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.arg_max.html">polars.Expr.arr.arg_max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.arg_min.html">polars.Expr.arr.arg_min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.concat.html">polars.Expr.arr.concat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.contains.html">polars.Expr.arr.contains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.count_match.html">polars.Expr.arr.count_match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.diff.html">polars.Expr.arr.diff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.eval.html">polars.Expr.arr.eval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.explode.html">polars.Expr.arr.explode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.first.html">polars.Expr.arr.first</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.get.html">polars.Expr.arr.get</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.head.html">polars.Expr.arr.head</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.join.html">polars.Expr.arr.join</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.last.html">polars.Expr.arr.last</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.lengths.html">polars.Expr.arr.lengths</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.max.html">polars.Expr.arr.max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.mean.html">polars.Expr.arr.mean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.min.html">polars.Expr.arr.min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.reverse.html">polars.Expr.arr.reverse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.shift.html">polars.Expr.arr.shift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.slice.html">polars.Expr.arr.slice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.sort.html">polars.Expr.arr.sort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.sum.html">polars.Expr.arr.sum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.tail.html">polars.Expr.arr.tail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.take.html">polars.Expr.arr.take</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.to_struct.html">polars.Expr.arr.to_struct</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arr.unique.html">polars.Expr.arr.unique</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/modify_select.html">Manipulation/selection</a><input class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-42"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.append.html">polars.Expr.append</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arg_sort.html">polars.Expr.arg_sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.argsort.html">polars.Expr.argsort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arg_true.html">polars.Expr.arg_true</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.backward_fill.html">polars.Expr.backward_fill</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cast.html">polars.Expr.cast</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.ceil.html">polars.Expr.ceil</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.clip.html">polars.Expr.clip</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.clip_max.html">polars.Expr.clip_max</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.clip_min.html">polars.Expr.clip_min</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.drop_nans.html">polars.Expr.drop_nans</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.drop_nulls.html">polars.Expr.drop_nulls</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.explode.html">polars.Expr.explode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.extend_constant.html">polars.Expr.extend_constant</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.fill_nan.html">polars.Expr.fill_nan</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.fill_null.html">polars.Expr.fill_null</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.filter.html">polars.Expr.filter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.flatten.html">polars.Expr.flatten</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.floor.html">polars.Expr.floor</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.forward_fill.html">polars.Expr.forward_fill</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.head.html">polars.Expr.head</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.inspect.html">polars.Expr.inspect</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.interpolate.html">polars.Expr.interpolate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.limit.html">polars.Expr.limit</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.lower_bound.html">polars.Expr.lower_bound</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.map_dict.html">polars.Expr.map_dict</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.pipe.html">polars.Expr.pipe</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rechunk.html">polars.Expr.rechunk</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.reinterpret.html">polars.Expr.reinterpret</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.repeat_by.html">polars.Expr.repeat_by</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.reshape.html">polars.Expr.reshape</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.reverse.html">polars.Expr.reverse</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.round.html">polars.Expr.round</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.sample.html">polars.Expr.sample</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.shift.html">polars.Expr.shift</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.shift_and_fill.html">polars.Expr.shift_and_fill</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.shrink_dtype.html">polars.Expr.shrink_dtype</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.shuffle.html">polars.Expr.shuffle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.slice.html">polars.Expr.slice</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.sort.html">polars.Expr.sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.sort_by.html">polars.Expr.sort_by</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.tail.html">polars.Expr.tail</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.take.html">polars.Expr.take</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.take_every.html">polars.Expr.take_every</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.to_physical.html">polars.Expr.to_physical</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.top_k.html">polars.Expr.top_k</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.upper_bound.html">polars.Expr.upper_bound</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.where.html">polars.Expr.where</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="modify_select.html">Manipulation/selection</a><input class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-42"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.append.html">polars.Expr.append</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arg_sort.html">polars.Expr.arg_sort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arg_true.html">polars.Expr.arg_true</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.backward_fill.html">polars.Expr.backward_fill</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.bottom_k.html">polars.Expr.bottom_k</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.cast.html">polars.Expr.cast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.ceil.html">polars.Expr.ceil</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.clip.html">polars.Expr.clip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.clip_max.html">polars.Expr.clip_max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.clip_min.html">polars.Expr.clip_min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.drop_nans.html">polars.Expr.drop_nans</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.drop_nulls.html">polars.Expr.drop_nulls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.explode.html">polars.Expr.explode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.extend_constant.html">polars.Expr.extend_constant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.fill_nan.html">polars.Expr.fill_nan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.fill_null.html">polars.Expr.fill_null</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.filter.html">polars.Expr.filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.flatten.html">polars.Expr.flatten</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.floor.html">polars.Expr.floor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.forward_fill.html">polars.Expr.forward_fill</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.head.html">polars.Expr.head</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.inspect.html">polars.Expr.inspect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.interpolate.html">polars.Expr.interpolate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.limit.html">polars.Expr.limit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.lower_bound.html">polars.Expr.lower_bound</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.map_dict.html">polars.Expr.map_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.pipe.html">polars.Expr.pipe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.rechunk.html">polars.Expr.rechunk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.reinterpret.html">polars.Expr.reinterpret</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.repeat_by.html">polars.Expr.repeat_by</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.reshape.html">polars.Expr.reshape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.reverse.html">polars.Expr.reverse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.round.html">polars.Expr.round</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.sample.html">polars.Expr.sample</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.shift.html">polars.Expr.shift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.shift_and_fill.html">polars.Expr.shift_and_fill</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.shrink_dtype.html">polars.Expr.shrink_dtype</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.shuffle.html">polars.Expr.shuffle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.slice.html">polars.Expr.slice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.sort.html">polars.Expr.sort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.sort_by.html">polars.Expr.sort_by</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.tail.html">polars.Expr.tail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.take.html">polars.Expr.take</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.take_every.html">polars.Expr.take_every</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.to_physical.html">polars.Expr.to_physical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.top_k.html">polars.Expr.top_k</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.upper_bound.html">polars.Expr.upper_bound</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.where.html">polars.Expr.where</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/meta.html">Meta</a><input class="toctree-checkbox" id="toctree-checkbox-43" name="toctree-checkbox-43" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-43"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.has_multiple_outputs.html">polars.Expr.meta.has_multiple_outputs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.is_regex_projection.html">polars.Expr.meta.is_regex_projection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.output_name.html">polars.Expr.meta.output_name</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.pop.html">polars.Expr.meta.pop</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.root_names.html">polars.Expr.meta.root_names</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.undo_aliases.html">polars.Expr.meta.undo_aliases</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="meta.html">Meta</a><input class="toctree-checkbox" id="toctree-checkbox-43" name="toctree-checkbox-43" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-43"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.has_multiple_outputs.html">polars.Expr.meta.has_multiple_outputs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.is_regex_projection.html">polars.Expr.meta.is_regex_projection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.output_name.html">polars.Expr.meta.output_name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.pop.html">polars.Expr.meta.pop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.root_names.html">polars.Expr.meta.root_names</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.undo_aliases.html">polars.Expr.meta.undo_aliases</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/miscellaneous.html">Miscellaneous</a><input class="toctree-checkbox" id="toctree-checkbox-44" name="toctree-checkbox-44" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-44"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.set_sorted.html">polars.Expr.set_sorted</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="miscellaneous.html">Miscellaneous</a><input class="toctree-checkbox" id="toctree-checkbox-44" name="toctree-checkbox-44" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-44"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.set_sorted.html">polars.Expr.set_sorted</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/string.html">String</a><input class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-45"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.concat.html">polars.Expr.str.concat</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.contains.html">polars.Expr.str.contains</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.count_match.html">polars.Expr.str.count_match</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.decode.html">polars.Expr.str.decode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.encode.html">polars.Expr.str.encode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.ends_with.html">polars.Expr.str.ends_with</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.explode.html">polars.Expr.str.explode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.extract.html">polars.Expr.str.extract</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.extract_all.html">polars.Expr.str.extract_all</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.json_extract.html">polars.Expr.str.json_extract</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.json_path_match.html">polars.Expr.str.json_path_match</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.lengths.html">polars.Expr.str.lengths</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.ljust.html">polars.Expr.str.ljust</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.lstrip.html">polars.Expr.str.lstrip</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.n_chars.html">polars.Expr.str.n_chars</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.replace.html">polars.Expr.str.replace</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.replace_all.html">polars.Expr.str.replace_all</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.rjust.html">polars.Expr.str.rjust</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.rstrip.html">polars.Expr.str.rstrip</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.slice.html">polars.Expr.str.slice</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.split.html">polars.Expr.str.split</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.split_exact.html">polars.Expr.str.split_exact</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.splitn.html">polars.Expr.str.splitn</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.starts_with.html">polars.Expr.str.starts_with</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.strip.html">polars.Expr.str.strip</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.strptime.html">polars.Expr.str.strptime</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.to_lowercase.html">polars.Expr.str.to_lowercase</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.to_uppercase.html">polars.Expr.str.to_uppercase</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.zfill.html">polars.Expr.str.zfill</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.parse_int.html">polars.Expr.str.parse_int</a></li>
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Operators</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-45"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.and_.html">polars.Expr.and_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.or_.html">polars.Expr.or_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.eq.html">polars.Expr.eq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.ge.html">polars.Expr.ge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.gt.html">polars.Expr.gt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.le.html">polars.Expr.le</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.lt.html">polars.Expr.lt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.ne.html">polars.Expr.ne</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.add.html">polars.Expr.add</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.floordiv.html">polars.Expr.floordiv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.mod.html">polars.Expr.mod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.mul.html">polars.Expr.mul</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.sub.html">polars.Expr.sub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.truediv.html">polars.Expr.truediv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.pow.html">polars.Expr.pow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.xor.html">polars.Expr.xor</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/struct.html">Struct</a><input class="toctree-checkbox" id="toctree-checkbox-46" name="toctree-checkbox-46" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-46"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.struct.field.html">polars.Expr.struct.field</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.struct.rename_fields.html">polars.Expr.struct.rename_fields</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="string.html">String</a><input class="toctree-checkbox" id="toctree-checkbox-46" name="toctree-checkbox-46" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-46"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.concat.html">polars.Expr.str.concat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.contains.html">polars.Expr.str.contains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.count_match.html">polars.Expr.str.count_match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.decode.html">polars.Expr.str.decode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.encode.html">polars.Expr.str.encode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.ends_with.html">polars.Expr.str.ends_with</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.explode.html">polars.Expr.str.explode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.extract.html">polars.Expr.str.extract</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.extract_all.html">polars.Expr.str.extract_all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.json_extract.html">polars.Expr.str.json_extract</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.json_path_match.html">polars.Expr.str.json_path_match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.lengths.html">polars.Expr.str.lengths</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.ljust.html">polars.Expr.str.ljust</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.lstrip.html">polars.Expr.str.lstrip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.n_chars.html">polars.Expr.str.n_chars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.replace.html">polars.Expr.str.replace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.replace_all.html">polars.Expr.str.replace_all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.rjust.html">polars.Expr.str.rjust</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.rstrip.html">polars.Expr.str.rstrip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.slice.html">polars.Expr.str.slice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.split.html">polars.Expr.str.split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.split_exact.html">polars.Expr.str.split_exact</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.splitn.html">polars.Expr.str.splitn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.starts_with.html">polars.Expr.str.starts_with</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.strip.html">polars.Expr.str.strip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.strptime.html">polars.Expr.str.strptime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.to_lowercase.html">polars.Expr.str.to_lowercase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.to_uppercase.html">polars.Expr.str.to_uppercase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.zfill.html">polars.Expr.str.zfill</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.parse_int.html">polars.Expr.str.parse_int</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/temporal.html">Temporal</a><input class="toctree-checkbox" id="toctree-checkbox-47" name="toctree-checkbox-47" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-47"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.cast_time_unit.html">polars.Expr.dt.cast_time_unit</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.replace_time_zone.html">polars.Expr.dt.replace_time_zone</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.combine.html">polars.Expr.dt.combine</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.date.html">polars.Expr.dt.date</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.datetime.html">polars.Expr.dt.datetime</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.day.html">polars.Expr.dt.day</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.days.html">polars.Expr.dt.days</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.epoch.html">polars.Expr.dt.epoch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.hour.html">polars.Expr.dt.hour</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.hours.html">polars.Expr.dt.hours</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.is_leap_year.html">polars.Expr.dt.is_leap_year</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.iso_year.html">polars.Expr.dt.iso_year</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.microsecond.html">polars.Expr.dt.microsecond</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.microseconds.html">polars.Expr.dt.microseconds</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.millisecond.html">polars.Expr.dt.millisecond</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.milliseconds.html">polars.Expr.dt.milliseconds</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.minute.html">polars.Expr.dt.minute</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.minutes.html">polars.Expr.dt.minutes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.month.html">polars.Expr.dt.month</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.nanosecond.html">polars.Expr.dt.nanosecond</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.nanoseconds.html">polars.Expr.dt.nanoseconds</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.offset_by.html">polars.Expr.dt.offset_by</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.ordinal_day.html">polars.Expr.dt.ordinal_day</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.quarter.html">polars.Expr.dt.quarter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.round.html">polars.Expr.dt.round</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.second.html">polars.Expr.dt.second</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.seconds.html">polars.Expr.dt.seconds</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.strftime.html">polars.Expr.dt.strftime</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.time.html">polars.Expr.dt.time</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.timestamp.html">polars.Expr.dt.timestamp</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.truncate.html">polars.Expr.dt.truncate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.week.html">polars.Expr.dt.week</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.weekday.html">polars.Expr.dt.weekday</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.with_time_unit.html">polars.Expr.dt.with_time_unit</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.convert_time_zone.html">polars.Expr.dt.convert_time_zone</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.year.html">polars.Expr.dt.year</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="struct.html">Struct</a><input class="toctree-checkbox" id="toctree-checkbox-47" name="toctree-checkbox-47" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-47"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.struct.field.html">polars.Expr.struct.field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.struct.rename_fields.html">polars.Expr.struct.rename_fields</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/window.html">Window</a><input class="toctree-checkbox" id="toctree-checkbox-48" name="toctree-checkbox-48" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-48"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.over.html">polars.Expr.over</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="temporal.html">Temporal</a><input class="toctree-checkbox" id="toctree-checkbox-48" name="toctree-checkbox-48" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-48"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.cast_time_unit.html">polars.Expr.dt.cast_time_unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.replace_time_zone.html">polars.Expr.dt.replace_time_zone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.combine.html">polars.Expr.dt.combine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.date.html">polars.Expr.dt.date</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.datetime.html">polars.Expr.dt.datetime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.day.html">polars.Expr.dt.day</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.days.html">polars.Expr.dt.days</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.epoch.html">polars.Expr.dt.epoch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.hour.html">polars.Expr.dt.hour</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.hours.html">polars.Expr.dt.hours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.is_leap_year.html">polars.Expr.dt.is_leap_year</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.iso_year.html">polars.Expr.dt.iso_year</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.microsecond.html">polars.Expr.dt.microsecond</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.microseconds.html">polars.Expr.dt.microseconds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.millisecond.html">polars.Expr.dt.millisecond</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.milliseconds.html">polars.Expr.dt.milliseconds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.minute.html">polars.Expr.dt.minute</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.minutes.html">polars.Expr.dt.minutes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.month.html">polars.Expr.dt.month</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.nanosecond.html">polars.Expr.dt.nanosecond</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.nanoseconds.html">polars.Expr.dt.nanoseconds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.offset_by.html">polars.Expr.dt.offset_by</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.ordinal_day.html">polars.Expr.dt.ordinal_day</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.quarter.html">polars.Expr.dt.quarter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.round.html">polars.Expr.dt.round</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.second.html">polars.Expr.dt.second</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.seconds.html">polars.Expr.dt.seconds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.strftime.html">polars.Expr.dt.strftime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.time.html">polars.Expr.dt.time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.timestamp.html">polars.Expr.dt.timestamp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.truncate.html">polars.Expr.dt.truncate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.week.html">polars.Expr.dt.week</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.weekday.html">polars.Expr.dt.weekday</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.with_time_unit.html">polars.Expr.dt.with_time_unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.convert_time_zone.html">polars.Expr.dt.convert_time_zone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.dt.year.html">polars.Expr.dt.year</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="window.html">Window</a><input class="toctree-checkbox" id="toctree-checkbox-49" name="toctree-checkbox-49" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-49"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.over.html">polars.Expr.over</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">Extending the API</a><input class="toctree-checkbox" id="toctree-checkbox-49" name="toctree-checkbox-49" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-49"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="polars.api.register_expr_namespace.html">polars.api.register_expr_namespace</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.api.register_dataframe_namespace.html">polars.api.register_dataframe_namespace</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.api.register_lazyframe_namespace.html">polars.api.register_lazyframe_namespace</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.api.register_series_namespace.html">polars.api.register_series_namespace</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">Extending the API</a><input class="toctree-checkbox" id="toctree-checkbox-50" name="toctree-checkbox-50" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-50"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.api.register_expr_namespace.html">polars.api.register_expr_namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.api.register_dataframe_namespace.html">polars.api.register_dataframe_namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.api.register_lazyframe_namespace.html">polars.api.register_lazyframe_namespace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.api.register_series_namespace.html">polars.api.register_series_namespace</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../functions.html">Functions</a><input class="toctree-checkbox" id="toctree-checkbox-50" name="toctree-checkbox-50" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-50"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="polars.from_arrow.html">polars.from_arrow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.from_dataframe.html">polars.from_dataframe</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.from_dict.html">polars.from_dict</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.from_dicts.html">polars.from_dicts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.from_numpy.html">polars.from_numpy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.from_pandas.html">polars.from_pandas</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.from_records.html">polars.from_records</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.arg_where.html">polars.arg_where</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.concat.html">polars.concat</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.cut.html">polars.cut</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.date_range.html">polars.date_range</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.get_dummies.html">polars.get_dummies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.ones.html">polars.ones</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.zeros.html">polars.zeros</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.align_frames.html">polars.align_frames</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.toggle_string_cache.html">polars.toggle_string_cache</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.StringCache.html">polars.StringCache</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../functions.html">Functions</a><input class="toctree-checkbox" id="toctree-checkbox-51" name="toctree-checkbox-51" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-51"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.from_arrow.html">polars.from_arrow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.from_dataframe.html">polars.from_dataframe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.from_dict.html">polars.from_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.from_dicts.html">polars.from_dicts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.from_numpy.html">polars.from_numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.from_pandas.html">polars.from_pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.from_records.html">polars.from_records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.from_repr.html">polars.from_repr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.arg_where.html">polars.arg_where</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.concat.html">polars.concat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.cut.html">polars.cut</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.date_range.html">polars.date_range</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.get_dummies.html">polars.get_dummies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.ones.html">polars.ones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.zeros.html">polars.zeros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.align_frames.html">polars.align_frames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.collect_all.html">polars.collect_all</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.enable_string_cache.html">polars.enable_string_cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.StringCache.html">polars.StringCache</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../datatypes.html">Data types</a><input class="toctree-checkbox" id="toctree-checkbox-51" name="toctree-checkbox-51" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-51"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="polars.DataType.html">polars.DataType</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Decimal.html">polars.Decimal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Float32.html">polars.Float32</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Float64.html">polars.Float64</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Int16.html">polars.Int16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Int32.html">polars.Int32</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Int64.html">polars.Int64</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Int8.html">polars.Int8</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.UInt16.html">polars.UInt16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.UInt32.html">polars.UInt32</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.UInt64.html">polars.UInt64</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.UInt8.html">polars.UInt8</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Date.html">polars.Date</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Datetime.html">polars.Datetime</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Duration.html">polars.Duration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Time.html">polars.Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.List.html">polars.List</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Struct.html">polars.Struct</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Boolean.html">polars.Boolean</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Binary.html">polars.Binary</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Categorical.html">polars.Categorical</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Null.html">polars.Null</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Object.html">polars.Object</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Utf8.html">polars.Utf8</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Unknown.html">polars.Unknown</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../datatypes.html">Data types</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.DataType.html">polars.DataType</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Decimal.html">polars.Decimal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Float32.html">polars.Float32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Float64.html">polars.Float64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Int16.html">polars.Int16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Int32.html">polars.Int32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Int64.html">polars.Int64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Int8.html">polars.Int8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.UInt16.html">polars.UInt16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.UInt32.html">polars.UInt32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.UInt64.html">polars.UInt64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.UInt8.html">polars.UInt8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Date.html">polars.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Datetime.html">polars.Datetime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Duration.html">polars.Duration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Time.html">polars.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.List.html">polars.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Struct.html">polars.Struct</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Boolean.html">polars.Boolean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Binary.html">polars.Binary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Categorical.html">polars.Categorical</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Null.html">polars.Null</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Object.html">polars.Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Utf8.html">polars.Utf8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Unknown.html">polars.Unknown</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../config.html">Config</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.activate_decimals.html">polars.Config.activate_decimals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_ascii_tables.html">polars.Config.set_ascii_tables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_fmt_float.html">polars.Config.set_fmt_float</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_fmt_str_lengths.html">polars.Config.set_fmt_str_lengths</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_streaming_chunk_size.html">polars.Config.set_streaming_chunk_size</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_tbl_cell_alignment.html">polars.Config.set_tbl_cell_alignment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_tbl_cols.html">polars.Config.set_tbl_cols</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_tbl_column_data_type_inline.html">polars.Config.set_tbl_column_data_type_inline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_tbl_dataframe_shape_below.html">polars.Config.set_tbl_dataframe_shape_below</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_tbl_formatting.html">polars.Config.set_tbl_formatting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_tbl_hide_column_data_types.html">polars.Config.set_tbl_hide_column_data_types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_tbl_hide_column_names.html">polars.Config.set_tbl_hide_column_names</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_tbl_hide_dataframe_shape.html">polars.Config.set_tbl_hide_dataframe_shape</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_tbl_hide_dtype_separator.html">polars.Config.set_tbl_hide_dtype_separator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_tbl_rows.html">polars.Config.set_tbl_rows</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_tbl_width_chars.html">polars.Config.set_tbl_width_chars</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.set_verbose.html">polars.Config.set_verbose</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.load.html">polars.Config.load</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.save.html">polars.Config.save</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.state.html">polars.Config.state</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Config.restore_defaults.html">polars.Config.restore_defaults</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../config.html">Config</a><input class="toctree-checkbox" id="toctree-checkbox-53" name="toctree-checkbox-53" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-53"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.activate_decimals.html">polars.Config.activate_decimals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_ascii_tables.html">polars.Config.set_ascii_tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_fmt_float.html">polars.Config.set_fmt_float</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_fmt_str_lengths.html">polars.Config.set_fmt_str_lengths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_streaming_chunk_size.html">polars.Config.set_streaming_chunk_size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_tbl_cell_alignment.html">polars.Config.set_tbl_cell_alignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_tbl_cols.html">polars.Config.set_tbl_cols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_tbl_column_data_type_inline.html">polars.Config.set_tbl_column_data_type_inline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_tbl_dataframe_shape_below.html">polars.Config.set_tbl_dataframe_shape_below</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_tbl_formatting.html">polars.Config.set_tbl_formatting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_tbl_hide_column_data_types.html">polars.Config.set_tbl_hide_column_data_types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_tbl_hide_column_names.html">polars.Config.set_tbl_hide_column_names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_tbl_hide_dataframe_shape.html">polars.Config.set_tbl_hide_dataframe_shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_tbl_hide_dtype_separator.html">polars.Config.set_tbl_hide_dtype_separator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_tbl_rows.html">polars.Config.set_tbl_rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_tbl_width_chars.html">polars.Config.set_tbl_width_chars</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_verbose.html">polars.Config.set_verbose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.load.html">polars.Config.load</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.save.html">polars.Config.save</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.state.html">polars.Config.state</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.restore_defaults.html">polars.Config.restore_defaults</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../exceptions.html">Exceptions</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-53" name="toctree-checkbox-53" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-53"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.ArrowError.html">polars.exceptions.ArrowError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.ColumnNotFoundError.html">polars.exceptions.ColumnNotFoundError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.ComputeError.html">polars.exceptions.ComputeError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.DuplicateError.html">polars.exceptions.DuplicateError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.InvalidOperationError.html">polars.exceptions.InvalidOperationError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.NoDataError.html">polars.exceptions.NoDataError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.NoRowsReturned.html">polars.exceptions.NoRowsReturned</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.PanicException.html">polars.exceptions.PanicException</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.exceptions.RowsException</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.SchemaError.html">polars.exceptions.SchemaError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.SchemaFieldNotFoundError.html">polars.exceptions.SchemaFieldNotFoundError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.ShapeError.html">polars.exceptions.ShapeError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.StructFieldNotFoundError.html">polars.exceptions.StructFieldNotFoundError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.TooManyRowsReturned.html">polars.exceptions.TooManyRowsReturned</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exceptions.html">Exceptions</a><input class="toctree-checkbox" id="toctree-checkbox-54" name="toctree-checkbox-54" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-54"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.ArrowError.html">polars.exceptions.ArrowError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.ColumnNotFoundError.html">polars.exceptions.ColumnNotFoundError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.ComputeError.html">polars.exceptions.ComputeError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.DuplicateError.html">polars.exceptions.DuplicateError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.InvalidOperationError.html">polars.exceptions.InvalidOperationError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.NoDataError.html">polars.exceptions.NoDataError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.NoRowsReturnedError.html">polars.exceptions.NoRowsReturnedError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.PolarsPanicError.html">polars.exceptions.PolarsPanicError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.RowsError.html">polars.exceptions.RowsError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.SchemaError.html">polars.exceptions.SchemaError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.SchemaFieldNotFoundError.html">polars.exceptions.SchemaFieldNotFoundError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.ShapeError.html">polars.exceptions.ShapeError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.StructFieldNotFoundError.html">polars.exceptions.StructFieldNotFoundError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.TooManyRowsReturnedError.html">polars.exceptions.TooManyRowsReturnedError</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../testing.html">Testing</a><input class="toctree-checkbox" id="toctree-checkbox-54" name="toctree-checkbox-54" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-54"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="polars.testing.assert_frame_equal.html">polars.testing.assert_frame_equal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.testing.assert_series_equal.html">polars.testing.assert_series_equal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.testing.parametric.dataframes.html">polars.testing.parametric.dataframes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.testing.parametric.series.html">polars.testing.parametric.series</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.testing.parametric.column.html">polars.testing.parametric.column</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.testing.parametric.columns.html">polars.testing.parametric.columns</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../testing.html">Testing</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.testing.assert_frame_equal.html">polars.testing.assert_frame_equal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.testing.assert_series_equal.html">polars.testing.assert_series_equal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.testing.parametric.dataframes.html">polars.testing.parametric.dataframes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.testing.parametric.series.html">polars.testing.parametric.series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.testing.parametric.column.html">polars.testing.parametric.column</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.testing.parametric.columns.html">polars.testing.parametric.columns</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../utils.html">Utils</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="polars.build_info.html">polars.build_info</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.get_index_type.html">polars.get_index_type</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.show_versions.html">polars.show_versions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.threadpool_size.html">polars.threadpool_size</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../utils.html">Utils</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.build_info.html">polars.build_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.get_index_type.html">polars.get_index_type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.show_versions.html">polars.show_versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.threadpool_size.html">polars.threadpool_size</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../sql.html">SQL</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.execute.html">polars.SQLContext.execute</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.register.html">polars.SQLContext.register</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.query.html">polars.SQLContext.query</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sql.html">SQL</a><input class="toctree-checkbox" id="toctree-checkbox-57" name="toctree-checkbox-57" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-57"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.SQLContext.execute.html">polars.SQLContext.execute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.SQLContext.register.html">polars.SQLContext.register</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.SQLContext.query.html">polars.SQLContext.query</a></li>
 </ul>
 </li>
 </ul>
@@ -1477,9 +1505,9 @@ document.write(`
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API reference</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../exceptions.html" class="nav-link">Exceptions</a></li>
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Expressions</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">polars.exceptions.RowsException</li>
+    <li class="breadcrumb-item active" aria-current="page">Operators</li>
   </ul>
 </nav>
 </div>
@@ -1496,14 +1524,87 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="polars-exceptions-rowsexception">
-<h1>polars.exceptions.RowsException<a class="headerlink" href="#polars-exceptions-rowsexception" title="Permalink to this heading">#</a></h1>
-<dl class="py exception">
-<dt class="sig sig-object py" id="polars.exceptions.RowsException">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.exceptions.</span></span><span class="sig-name descname"><span class="pre">RowsException</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/exceptions.py#L57-L58"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.exceptions.RowsException" title="Permalink to this definition">#</a></dt>
-<dd><p>Exception raised when the number of returned rows does not match expectation.</p>
-</dd></dl>
-
+  <section id="operators">
+<h1>Operators<a class="headerlink" href="#operators" title="Permalink to this heading">#</a></h1>
+<p>Polars supports native Python operators for all common operations;
+these operators are also available as methods on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Expr</span></code>
+class.</p>
+<section id="conjunction">
+<h2>Conjunction<a class="headerlink" href="#conjunction" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.and_.html#polars.Expr.and_" title="polars.Expr.and_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.and_</span></code></a>(*others)</p></td>
+<td><p>Method equivalent of logical &quot;and&quot; operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">&amp;</span> <span class="pre">other</span> <span class="pre">&amp;</span> <span class="pre">...</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.or_.html#polars.Expr.or_" title="polars.Expr.or_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.or_</span></code></a>(*others)</p></td>
+<td><p>Method equivalent of logical &quot;or&quot; operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">|</span> <span class="pre">other</span> <span class="pre">|</span> <span class="pre">...</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="comparison">
+<h2>Comparison<a class="headerlink" href="#comparison" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.eq.html#polars.Expr.eq" title="polars.Expr.eq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.eq</span></code></a>(other)</p></td>
+<td><p>Method equivalent of equality operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">==</span> <span class="pre">other</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.ge.html#polars.Expr.ge" title="polars.Expr.ge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.ge</span></code></a>(other)</p></td>
+<td><p>Method equivalent of &quot;greater than or equal&quot; operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">&gt;=</span> <span class="pre">other</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.gt.html#polars.Expr.gt" title="polars.Expr.gt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.gt</span></code></a>(other)</p></td>
+<td><p>Method equivalent of &quot;greater than&quot; operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">&gt;</span> <span class="pre">other</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.le.html#polars.Expr.le" title="polars.Expr.le"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.le</span></code></a>(other)</p></td>
+<td><p>Method equivalent of &quot;less than or equal&quot; operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">&lt;=</span> <span class="pre">other</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.lt.html#polars.Expr.lt" title="polars.Expr.lt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.lt</span></code></a>(other)</p></td>
+<td><p>Method equivalent of &quot;less than&quot; operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">&lt;</span> <span class="pre">other</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.ne.html#polars.Expr.ne" title="polars.Expr.ne"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.ne</span></code></a>(other)</p></td>
+<td><p>Method equivalent of inequality operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">!=</span> <span class="pre">other</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="numeric">
+<h2>Numeric<a class="headerlink" href="#numeric" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.add.html#polars.Expr.add" title="polars.Expr.add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.add</span></code></a>(other)</p></td>
+<td><p>Method equivalent of addition operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">+</span> <span class="pre">other</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.floordiv.html#polars.Expr.floordiv" title="polars.Expr.floordiv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.floordiv</span></code></a>(other)</p></td>
+<td><p>Method equivalent of integer division operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">//</span> <span class="pre">other</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.mod.html#polars.Expr.mod" title="polars.Expr.mod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.mod</span></code></a>(other)</p></td>
+<td><p>Method equivalent of modulus operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">%</span> <span class="pre">other</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.mul.html#polars.Expr.mul" title="polars.Expr.mul"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.mul</span></code></a>(other)</p></td>
+<td><p>Method equivalent of multiplication operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">*</span> <span class="pre">other</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.sub.html#polars.Expr.sub" title="polars.Expr.sub"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.sub</span></code></a>(other)</p></td>
+<td><p>Method equivalent of subtraction operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">-</span> <span class="pre">other</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.truediv.html#polars.Expr.truediv" title="polars.Expr.truediv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.truediv</span></code></a>(other)</p></td>
+<td><p>Method equivalent of float division operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">/</span> <span class="pre">other</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.pow.html#polars.Expr.pow" title="polars.Expr.pow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.pow</span></code></a>(exponent)</p></td>
+<td><p>Method equivalent of exponentiation operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">**</span> <span class="pre">exponent</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="binary">
+<h2>Binary<a class="headerlink" href="#binary" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.xor.html#polars.Expr.xor" title="polars.Expr.xor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.xor</span></code></a>(other)</p></td>
+<td><p>Method equivalent of logical exclusive-or operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">^</span> <span class="pre">other</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 
 
@@ -1515,20 +1616,20 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.exceptions.PanicException.html"
+       href="api/polars.Expr.set_sorted.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.exceptions.PanicException</p>
+        <p class="prev-next-title">polars.Expr.set_sorted</p>
       </div>
     </a>
     <a class="right-next"
-       href="polars.exceptions.SchemaError.html"
+       href="api/polars.Expr.and_.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.exceptions.SchemaError</p>
+        <p class="prev-next-title">polars.Expr.and_</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1547,7 +1648,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.exceptions.RowsException"><code class="docutils literal notranslate"><span class="pre">RowsException</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conjunction">Conjunction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">Comparison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numeric">Numeric</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binary">Binary</a></li>
 </ul>
   </nav></div>
 

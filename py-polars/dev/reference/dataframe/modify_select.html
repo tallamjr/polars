@@ -52,7 +52,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/dataframe/modify_select';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="polars.DataFrame.clear" href="api/polars.DataFrame.clear.html" />
+    <link rel="next" title="polars.DataFrame.bottom_k" href="api/polars.DataFrame.bottom_k.html" />
     <link rel="prev" title="polars.dataframe.groupby.GroupBy.tail" href="api/polars.dataframe.groupby.GroupBy.tail.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -470,6 +470,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.kurtosis.html">polars.Series.kurtosis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.log.html">polars.Series.log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.log10.html">polars.Series.log10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.log1p.html">polars.Series.log1p</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.map_dict.html">polars.Series.map_dict</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.pct_change.html">polars.Series.pct_change</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.peak_max.html">polars.Series.peak_max</a></li>
@@ -533,6 +534,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.to_list.html">polars.Series.to_list</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.to_numpy.html">polars.Series.to_numpy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.to_pandas.html">polars.Series.to_pandas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.to_init_repr.html">polars.Series.to_init_repr</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../series/list.html">List</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -568,7 +570,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.alias.html">polars.Series.alias</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.append.html">polars.Series.append</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.arg_sort.html">polars.Series.arg_sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.argsort.html">polars.Series.argsort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.bottom_k.html">polars.Series.bottom_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.cast.html">polars.Series.cast</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.ceil.html">polars.Series.ceil</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.clear.html">polars.Series.clear</a></li>
@@ -755,6 +757,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.to_arrow.html">polars.DataFrame.to_arrow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.to_dict.html">polars.DataFrame.to_dict</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.to_dicts.html">polars.DataFrame.to_dicts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.to_init_repr.html">polars.DataFrame.to_init_repr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.to_numpy.html">polars.DataFrame.to_numpy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.to_pandas.html">polars.DataFrame.to_pandas</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.to_struct.html">polars.DataFrame.to_struct</a></li>
@@ -780,6 +783,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Manipulation/selection</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-24"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.bottom_k.html">polars.DataFrame.bottom_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.clear.html">polars.DataFrame.clear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.clone.html">polars.DataFrame.clone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.DataFrame.drop.html">polars.DataFrame.drop</a></li>
@@ -893,6 +897,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../lazyframe/modify_select.html">Manipulation/selection</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.bottom_k.html">polars.LazyFrame.bottom_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.clear.html">polars.LazyFrame.clear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.clone.html">polars.LazyFrame.clone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.drop.html">polars.LazyFrame.drop</a></li>
@@ -1013,6 +1018,7 @@ document.write(`
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/computation.html">Computation</a><input class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-39"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.abs.html">polars.Expr.abs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.approx_unique.html">polars.Expr.approx_unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arccos.html">polars.Expr.arccos</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arccosh.html">polars.Expr.arccosh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arcsin.html">polars.Expr.arcsin</a></li>
@@ -1039,11 +1045,11 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.kurtosis.html">polars.Expr.kurtosis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.log.html">polars.Expr.log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.log10.html">polars.Expr.log10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.log1p.html">polars.Expr.log1p</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.mode.html">polars.Expr.mode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.n_unique.html">polars.Expr.n_unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.null_count.html">polars.Expr.null_count</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.pct_change.html">polars.Expr.pct_change</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.pow.html">polars.Expr.pow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rank.html">polars.Expr.rank</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rolling_apply.html">polars.Expr.rolling_apply</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rolling_max.html">polars.Expr.rolling_max</a></li>
@@ -1072,6 +1078,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.all.html">polars.all</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.any.html">polars.any</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.apply.html">polars.apply</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.approx_unique.html">polars.approx_unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.arange.html">polars.arange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.arg_sort_by.html">polars.arg_sort_by</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.avg.html">polars.avg</a></li>
@@ -1118,6 +1125,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.all.html">polars.Expr.all</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.any.html">polars.Expr.any</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.apply.html">polars.Expr.apply</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.approx_unique.html">polars.Expr.approx_unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.count.html">polars.Expr.count</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cumsum.html">polars.Expr.cumsum</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.exclude.html">polars.Expr.exclude</a></li>
@@ -1169,9 +1177,9 @@ document.write(`
 <li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/modify_select.html">Manipulation/selection</a><input class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-42"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.append.html">polars.Expr.append</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arg_sort.html">polars.Expr.arg_sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.argsort.html">polars.Expr.argsort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arg_true.html">polars.Expr.arg_true</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.backward_fill.html">polars.Expr.backward_fill</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.bottom_k.html">polars.Expr.bottom_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cast.html">polars.Expr.cast</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.ceil.html">polars.Expr.ceil</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.clip.html">polars.Expr.clip</a></li>
@@ -1230,7 +1238,26 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.set_sorted.html">polars.Expr.set_sorted</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/string.html">String</a><input class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-45"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/operators.html">Operators</a><input class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-45"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.and_.html">polars.Expr.and_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.or_.html">polars.Expr.or_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.eq.html">polars.Expr.eq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.ge.html">polars.Expr.ge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.gt.html">polars.Expr.gt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.le.html">polars.Expr.le</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.lt.html">polars.Expr.lt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.ne.html">polars.Expr.ne</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.add.html">polars.Expr.add</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.floordiv.html">polars.Expr.floordiv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.mod.html">polars.Expr.mod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.mul.html">polars.Expr.mul</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.sub.html">polars.Expr.sub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.truediv.html">polars.Expr.truediv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.pow.html">polars.Expr.pow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.xor.html">polars.Expr.xor</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/string.html">String</a><input class="toctree-checkbox" id="toctree-checkbox-46" name="toctree-checkbox-46" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-46"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.concat.html">polars.Expr.str.concat</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.contains.html">polars.Expr.str.contains</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.count_match.html">polars.Expr.str.count_match</a></li>
@@ -1263,12 +1290,12 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.parse_int.html">polars.Expr.str.parse_int</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/struct.html">Struct</a><input class="toctree-checkbox" id="toctree-checkbox-46" name="toctree-checkbox-46" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-46"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/struct.html">Struct</a><input class="toctree-checkbox" id="toctree-checkbox-47" name="toctree-checkbox-47" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-47"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.struct.field.html">polars.Expr.struct.field</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.struct.rename_fields.html">polars.Expr.struct.rename_fields</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/temporal.html">Temporal</a><input class="toctree-checkbox" id="toctree-checkbox-47" name="toctree-checkbox-47" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-47"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/temporal.html">Temporal</a><input class="toctree-checkbox" id="toctree-checkbox-48" name="toctree-checkbox-48" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-48"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.cast_time_unit.html">polars.Expr.dt.cast_time_unit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.replace_time_zone.html">polars.Expr.dt.replace_time_zone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.combine.html">polars.Expr.dt.combine</a></li>
@@ -1307,20 +1334,20 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.year.html">polars.Expr.dt.year</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/window.html">Window</a><input class="toctree-checkbox" id="toctree-checkbox-48" name="toctree-checkbox-48" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-48"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/window.html">Window</a><input class="toctree-checkbox" id="toctree-checkbox-49" name="toctree-checkbox-49" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-49"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.over.html">polars.Expr.over</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">Extending the API</a><input class="toctree-checkbox" id="toctree-checkbox-49" name="toctree-checkbox-49" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-49"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">Extending the API</a><input class="toctree-checkbox" id="toctree-checkbox-50" name="toctree-checkbox-50" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-50"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.api.register_expr_namespace.html">polars.api.register_expr_namespace</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.api.register_dataframe_namespace.html">polars.api.register_dataframe_namespace</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.api.register_lazyframe_namespace.html">polars.api.register_lazyframe_namespace</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.api.register_series_namespace.html">polars.api.register_series_namespace</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../functions.html">Functions</a><input class="toctree-checkbox" id="toctree-checkbox-50" name="toctree-checkbox-50" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-50"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../functions.html">Functions</a><input class="toctree-checkbox" id="toctree-checkbox-51" name="toctree-checkbox-51" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-51"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.from_arrow.html">polars.from_arrow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.from_dataframe.html">polars.from_dataframe</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.from_dict.html">polars.from_dict</a></li>
@@ -1328,6 +1355,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.from_numpy.html">polars.from_numpy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.from_pandas.html">polars.from_pandas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.from_records.html">polars.from_records</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.from_repr.html">polars.from_repr</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.arg_where.html">polars.arg_where</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.concat.html">polars.concat</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.cut.html">polars.cut</a></li>
@@ -1337,11 +1365,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/polars.toggle_string_cache.html">polars.toggle_string_cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.enable_string_cache.html">polars.enable_string_cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.StringCache.html">polars.StringCache</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../datatypes.html">Data types</a><input class="toctree-checkbox" id="toctree-checkbox-51" name="toctree-checkbox-51" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-51"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../datatypes.html">Data types</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.DataType.html">polars.DataType</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Decimal.html">polars.Decimal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Float32.html">polars.Float32</a></li>
@@ -1369,7 +1397,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Unknown.html">polars.Unknown</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../config.html">Config</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../config.html">Config</a><input class="toctree-checkbox" id="toctree-checkbox-53" name="toctree-checkbox-53" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-53"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.activate_decimals.html">polars.Config.activate_decimals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_ascii_tables.html">polars.Config.set_ascii_tables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.set_fmt_float.html">polars.Config.set_fmt_float</a></li>
@@ -1393,24 +1421,24 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Config.restore_defaults.html">polars.Config.restore_defaults</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../exceptions.html">Exceptions</a><input class="toctree-checkbox" id="toctree-checkbox-53" name="toctree-checkbox-53" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-53"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exceptions.html">Exceptions</a><input class="toctree-checkbox" id="toctree-checkbox-54" name="toctree-checkbox-54" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-54"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.ArrowError.html">polars.exceptions.ArrowError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.ColumnNotFoundError.html">polars.exceptions.ColumnNotFoundError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.ComputeError.html">polars.exceptions.ComputeError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.DuplicateError.html">polars.exceptions.DuplicateError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.InvalidOperationError.html">polars.exceptions.InvalidOperationError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.NoDataError.html">polars.exceptions.NoDataError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.NoRowsReturned.html">polars.exceptions.NoRowsReturned</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.PanicException.html">polars.exceptions.PanicException</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.RowsException.html">polars.exceptions.RowsException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.NoRowsReturnedError.html">polars.exceptions.NoRowsReturnedError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.PolarsPanicError.html">polars.exceptions.PolarsPanicError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.RowsError.html">polars.exceptions.RowsError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.SchemaError.html">polars.exceptions.SchemaError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.SchemaFieldNotFoundError.html">polars.exceptions.SchemaFieldNotFoundError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.ShapeError.html">polars.exceptions.ShapeError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.StructFieldNotFoundError.html">polars.exceptions.StructFieldNotFoundError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.TooManyRowsReturned.html">polars.exceptions.TooManyRowsReturned</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.exceptions.TooManyRowsReturnedError.html">polars.exceptions.TooManyRowsReturnedError</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../testing.html">Testing</a><input class="toctree-checkbox" id="toctree-checkbox-54" name="toctree-checkbox-54" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-54"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../testing.html">Testing</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.testing.assert_frame_equal.html">polars.testing.assert_frame_equal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.testing.assert_series_equal.html">polars.testing.assert_series_equal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.testing.parametric.dataframes.html">polars.testing.parametric.dataframes</a></li>
@@ -1419,14 +1447,14 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.testing.parametric.columns.html">polars.testing.parametric.columns</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../utils.html">Utils</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../utils.html">Utils</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.build_info.html">polars.build_info</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.get_index_type.html">polars.get_index_type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.show_versions.html">polars.show_versions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.threadpool_size.html">polars.threadpool_size</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../sql.html">SQL</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sql.html">SQL</a><input class="toctree-checkbox" id="toctree-checkbox-57" name="toctree-checkbox-57" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-57"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.SQLContext.execute.html">polars.SQLContext.execute</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.SQLContext.register.html">polars.SQLContext.register</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.SQLContext.query.html">polars.SQLContext.query</a></li>
@@ -1496,181 +1524,184 @@ document.write(`
 <h1>Manipulation/selection<a class="headerlink" href="#manipulation-selection" title="Permalink to this heading">#</a></h1>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.clear.html#polars.DataFrame.clear" title="polars.DataFrame.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.clear</span></code></a>([n])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.bottom_k.html#polars.DataFrame.bottom_k" title="polars.DataFrame.bottom_k"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.bottom_k</span></code></a>(k, *, by[, descending, ...])</p></td>
+<td><p>Return the <cite>k</cite> smallest elements.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.clear.html#polars.DataFrame.clear" title="polars.DataFrame.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.clear</span></code></a>([n])</p></td>
 <td><p>Create an empty copy of the current DataFrame, with zero to 'n' rows.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.clone.html#polars.DataFrame.clone" title="polars.DataFrame.clone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.clone</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.clone.html#polars.DataFrame.clone" title="polars.DataFrame.clone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.clone</span></code></a>()</p></td>
 <td><p>Cheap deepcopy/clone.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.drop.html#polars.DataFrame.drop" title="polars.DataFrame.drop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.drop</span></code></a>(columns, *more_columns)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.drop.html#polars.DataFrame.drop" title="polars.DataFrame.drop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.drop</span></code></a>(columns, *more_columns)</p></td>
 <td><p>Remove columns from the dataframe.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.drop_in_place.html#polars.DataFrame.drop_in_place" title="polars.DataFrame.drop_in_place"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.drop_in_place</span></code></a>(name)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.drop_in_place.html#polars.DataFrame.drop_in_place" title="polars.DataFrame.drop_in_place"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.drop_in_place</span></code></a>(name)</p></td>
 <td><p>Drop a single column in-place and return the dropped column.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.drop_nulls.html#polars.DataFrame.drop_nulls" title="polars.DataFrame.drop_nulls"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.drop_nulls</span></code></a>([subset])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.drop_nulls.html#polars.DataFrame.drop_nulls" title="polars.DataFrame.drop_nulls"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.drop_nulls</span></code></a>([subset])</p></td>
 <td><p>Drop all rows that contain null values.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.explode.html#polars.DataFrame.explode" title="polars.DataFrame.explode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.explode</span></code></a>(columns, *more_columns)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.explode.html#polars.DataFrame.explode" title="polars.DataFrame.explode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.explode</span></code></a>(columns, *more_columns)</p></td>
 <td><p>Explode the dataframe to long format by exploding the given columns.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.extend.html#polars.DataFrame.extend" title="polars.DataFrame.extend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.extend</span></code></a>(other)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.extend.html#polars.DataFrame.extend" title="polars.DataFrame.extend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.extend</span></code></a>(other)</p></td>
 <td><p>Extend the memory backed by this <cite>DataFrame</cite> with the values from <cite>other</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.fill_nan.html#polars.DataFrame.fill_nan" title="polars.DataFrame.fill_nan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.fill_nan</span></code></a>(fill_value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.fill_nan.html#polars.DataFrame.fill_nan" title="polars.DataFrame.fill_nan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.fill_nan</span></code></a>(value)</p></td>
 <td><p>Fill floating point NaN values by an Expression evaluation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.fill_null.html#polars.DataFrame.fill_null" title="polars.DataFrame.fill_null"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.fill_null</span></code></a>([value, strategy, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.fill_null.html#polars.DataFrame.fill_null" title="polars.DataFrame.fill_null"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.fill_null</span></code></a>([value, strategy, ...])</p></td>
 <td><p>Fill null values using the specified value or strategy.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.filter.html#polars.DataFrame.filter" title="polars.DataFrame.filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.filter</span></code></a>(predicate)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.filter.html#polars.DataFrame.filter" title="polars.DataFrame.filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.filter</span></code></a>(predicate)</p></td>
 <td><p>Filter the rows in the DataFrame based on a predicate expression.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.find_idx_by_name.html#polars.DataFrame.find_idx_by_name" title="polars.DataFrame.find_idx_by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.find_idx_by_name</span></code></a>(name)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.find_idx_by_name.html#polars.DataFrame.find_idx_by_name" title="polars.DataFrame.find_idx_by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.find_idx_by_name</span></code></a>(name)</p></td>
 <td><p>Find the index of a column by name.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.get_column.html#polars.DataFrame.get_column" title="polars.DataFrame.get_column"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.get_column</span></code></a>(name)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.get_column.html#polars.DataFrame.get_column" title="polars.DataFrame.get_column"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.get_column</span></code></a>(name)</p></td>
 <td><p>Get a single column as Series by name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.get_columns.html#polars.DataFrame.get_columns" title="polars.DataFrame.get_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.get_columns</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.get_columns.html#polars.DataFrame.get_columns" title="polars.DataFrame.get_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.get_columns</span></code></a>()</p></td>
 <td><p>Get the DataFrame as a List of Series.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.groupby.html#polars.DataFrame.groupby" title="polars.DataFrame.groupby"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.groupby</span></code></a>(by, *more_by[, maintain_order])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.groupby.html#polars.DataFrame.groupby" title="polars.DataFrame.groupby"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.groupby</span></code></a>(by, *more_by[, maintain_order])</p></td>
 <td><p>Start a groupby operation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.groupby_dynamic.html#polars.DataFrame.groupby_dynamic" title="polars.DataFrame.groupby_dynamic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.groupby_dynamic</span></code></a>(index_column, *, every)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.groupby_dynamic.html#polars.DataFrame.groupby_dynamic" title="polars.DataFrame.groupby_dynamic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.groupby_dynamic</span></code></a>(index_column, *, every)</p></td>
 <td><p>Group based on a time value (or index value of type Int32, Int64).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.groupby_rolling.html#polars.DataFrame.groupby_rolling" title="polars.DataFrame.groupby_rolling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.groupby_rolling</span></code></a>(index_column, *, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.groupby_rolling.html#polars.DataFrame.groupby_rolling" title="polars.DataFrame.groupby_rolling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.groupby_rolling</span></code></a>(index_column, *, ...)</p></td>
 <td><p>Create rolling groups based on a time column.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.head.html#polars.DataFrame.head" title="polars.DataFrame.head"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.head</span></code></a>([n])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.head.html#polars.DataFrame.head" title="polars.DataFrame.head"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.head</span></code></a>([n])</p></td>
 <td><p>Get the first <cite>n</cite> rows.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.hstack.html#polars.DataFrame.hstack" title="polars.DataFrame.hstack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.hstack</span></code></a>(columns, *[, in_place])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.hstack.html#polars.DataFrame.hstack" title="polars.DataFrame.hstack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.hstack</span></code></a>(columns, *[, in_place])</p></td>
 <td><p>Return a new DataFrame grown horizontally by stacking multiple Series to it.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.insert_at_idx.html#polars.DataFrame.insert_at_idx" title="polars.DataFrame.insert_at_idx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.insert_at_idx</span></code></a>(index, series)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.insert_at_idx.html#polars.DataFrame.insert_at_idx" title="polars.DataFrame.insert_at_idx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.insert_at_idx</span></code></a>(index, series)</p></td>
 <td><p>Insert a Series at a certain column index.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.interpolate.html#polars.DataFrame.interpolate" title="polars.DataFrame.interpolate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.interpolate</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.interpolate.html#polars.DataFrame.interpolate" title="polars.DataFrame.interpolate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.interpolate</span></code></a>()</p></td>
 <td><p>Interpolate intermediate values.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.item.html#polars.DataFrame.item" title="polars.DataFrame.item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.item</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.item.html#polars.DataFrame.item" title="polars.DataFrame.item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.item</span></code></a>()</p></td>
 <td><p>Return the dataframe as a scalar.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.iter_rows.html#polars.DataFrame.iter_rows" title="polars.DataFrame.iter_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.iter_rows</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.iter_rows.html#polars.DataFrame.iter_rows" title="polars.DataFrame.iter_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.iter_rows</span></code></a>()</p></td>
 <td><p>Returns an iterator over the DataFrame of rows of python-native values.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.iter_slices.html#polars.DataFrame.iter_slices" title="polars.DataFrame.iter_slices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.iter_slices</span></code></a>([n_rows])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.iter_slices.html#polars.DataFrame.iter_slices" title="polars.DataFrame.iter_slices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.iter_slices</span></code></a>([n_rows])</p></td>
 <td><p>Returns a non-copying iterator of slices over the underlying DataFrame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.join.html#polars.DataFrame.join" title="polars.DataFrame.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.join</span></code></a>(other, *[, left_on, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.join.html#polars.DataFrame.join" title="polars.DataFrame.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.join</span></code></a>(other[, on, how, left_on, ...])</p></td>
 <td><p>Join in SQL-like fashion.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.join_asof.html#polars.DataFrame.join_asof" title="polars.DataFrame.join_asof"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.join_asof</span></code></a>(other, *[, left_on, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.join_asof.html#polars.DataFrame.join_asof" title="polars.DataFrame.join_asof"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.join_asof</span></code></a>(other, *[, left_on, ...])</p></td>
 <td><p>Perform an asof join.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.limit.html#polars.DataFrame.limit" title="polars.DataFrame.limit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.limit</span></code></a>([n])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.limit.html#polars.DataFrame.limit" title="polars.DataFrame.limit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.limit</span></code></a>([n])</p></td>
 <td><p>Get the first <cite>n</cite> rows.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.melt.html#polars.DataFrame.melt" title="polars.DataFrame.melt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.melt</span></code></a>([id_vars, value_vars, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.melt.html#polars.DataFrame.melt" title="polars.DataFrame.melt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.melt</span></code></a>([id_vars, value_vars, ...])</p></td>
 <td><p>Unpivot a DataFrame from wide to long format.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.merge_sorted.html#polars.DataFrame.merge_sorted" title="polars.DataFrame.merge_sorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.merge_sorted</span></code></a>(other, key)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.merge_sorted.html#polars.DataFrame.merge_sorted" title="polars.DataFrame.merge_sorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.merge_sorted</span></code></a>(other, key)</p></td>
 <td><p>Take two sorted DataFrames and merge them by the sorted key.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.partition_by.html#polars.DataFrame.partition_by" title="polars.DataFrame.partition_by"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.partition_by</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.partition_by.html#polars.DataFrame.partition_by" title="polars.DataFrame.partition_by"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.partition_by</span></code></a>()</p></td>
 <td><p>Group by the given columns and return the groups as separate dataframes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.pipe.html#polars.DataFrame.pipe" title="polars.DataFrame.pipe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.pipe</span></code></a>(func, *args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.pipe.html#polars.DataFrame.pipe" title="polars.DataFrame.pipe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.pipe</span></code></a>(function, *args, **kwargs)</p></td>
 <td><p>Offers a structured way to apply a sequence of user-defined functions (UDFs).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.pivot.html#polars.DataFrame.pivot" title="polars.DataFrame.pivot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.pivot</span></code></a>(values, index, columns[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.pivot.html#polars.DataFrame.pivot" title="polars.DataFrame.pivot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.pivot</span></code></a>(values, index, columns[, ...])</p></td>
 <td><p>Create a spreadsheet-style pivot table as a DataFrame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.rechunk.html#polars.DataFrame.rechunk" title="polars.DataFrame.rechunk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.rechunk</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.rechunk.html#polars.DataFrame.rechunk" title="polars.DataFrame.rechunk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.rechunk</span></code></a>()</p></td>
 <td><p>Rechunk the data in this DataFrame to a contiguous allocation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.rename.html#polars.DataFrame.rename" title="polars.DataFrame.rename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.rename</span></code></a>(mapping)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.rename.html#polars.DataFrame.rename" title="polars.DataFrame.rename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.rename</span></code></a>(mapping)</p></td>
 <td><p>Rename column names.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.replace.html#polars.DataFrame.replace" title="polars.DataFrame.replace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.replace</span></code></a>(column, new_col)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.replace.html#polars.DataFrame.replace" title="polars.DataFrame.replace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.replace</span></code></a>(column, new_column)</p></td>
 <td><p>Replace a column by a new Series.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.replace_at_idx.html#polars.DataFrame.replace_at_idx" title="polars.DataFrame.replace_at_idx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.replace_at_idx</span></code></a>(index, series)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.replace_at_idx.html#polars.DataFrame.replace_at_idx" title="polars.DataFrame.replace_at_idx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.replace_at_idx</span></code></a>(index, series)</p></td>
 <td><p>Replace a column at an index location.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.reverse.html#polars.DataFrame.reverse" title="polars.DataFrame.reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.reverse</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.reverse.html#polars.DataFrame.reverse" title="polars.DataFrame.reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.reverse</span></code></a>()</p></td>
 <td><p>Reverse the DataFrame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.row.html#polars.DataFrame.row" title="polars.DataFrame.row"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.row</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.row.html#polars.DataFrame.row" title="polars.DataFrame.row"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.row</span></code></a>()</p></td>
 <td><p>Get the values of a single row, either by index or by predicate.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.rows.html#polars.DataFrame.rows" title="polars.DataFrame.rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.rows</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.rows.html#polars.DataFrame.rows" title="polars.DataFrame.rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.rows</span></code></a>()</p></td>
 <td><p>Returns all data in the DataFrame as a list of rows of python-native values.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.sample.html#polars.DataFrame.sample" title="polars.DataFrame.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.sample</span></code></a>([n, frac, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.sample.html#polars.DataFrame.sample" title="polars.DataFrame.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.sample</span></code></a>([n, fraction, ...])</p></td>
 <td><p>Sample from this DataFrame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.select.html#polars.DataFrame.select" title="polars.DataFrame.select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.select</span></code></a>([exprs])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.select.html#polars.DataFrame.select" title="polars.DataFrame.select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.select</span></code></a>([exprs])</p></td>
 <td><p>Select columns from this DataFrame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.shift.html#polars.DataFrame.shift" title="polars.DataFrame.shift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.shift</span></code></a>(periods)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.shift.html#polars.DataFrame.shift" title="polars.DataFrame.shift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.shift</span></code></a>(periods)</p></td>
 <td><p>Shift values by the given period.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.shift_and_fill.html#polars.DataFrame.shift_and_fill" title="polars.DataFrame.shift_and_fill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.shift_and_fill</span></code></a>(periods, fill_value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.shift_and_fill.html#polars.DataFrame.shift_and_fill" title="polars.DataFrame.shift_and_fill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.shift_and_fill</span></code></a>(fill_value, *[, ...])</p></td>
 <td><p>Shift the values by a given period and fill the resulting null values.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.shrink_to_fit.html#polars.DataFrame.shrink_to_fit" title="polars.DataFrame.shrink_to_fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.shrink_to_fit</span></code></a>(*[, in_place])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.shrink_to_fit.html#polars.DataFrame.shrink_to_fit" title="polars.DataFrame.shrink_to_fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.shrink_to_fit</span></code></a>(*[, in_place])</p></td>
 <td><p>Shrink DataFrame memory usage.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.slice.html#polars.DataFrame.slice" title="polars.DataFrame.slice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.slice</span></code></a>(offset[, length])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.slice.html#polars.DataFrame.slice" title="polars.DataFrame.slice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.slice</span></code></a>(offset[, length])</p></td>
 <td><p>Get a slice of this DataFrame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.sort.html#polars.DataFrame.sort" title="polars.DataFrame.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.sort</span></code></a>(by, *more_by[, descending, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.sort.html#polars.DataFrame.sort" title="polars.DataFrame.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.sort</span></code></a>(by, *more_by[, descending, ...])</p></td>
 <td><p>Sort the dataframe by the given columns.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.tail.html#polars.DataFrame.tail" title="polars.DataFrame.tail"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.tail</span></code></a>([n])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.tail.html#polars.DataFrame.tail" title="polars.DataFrame.tail"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.tail</span></code></a>([n])</p></td>
 <td><p>Get the last <cite>n</cite> rows.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.take_every.html#polars.DataFrame.take_every" title="polars.DataFrame.take_every"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.take_every</span></code></a>(n)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.take_every.html#polars.DataFrame.take_every" title="polars.DataFrame.take_every"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.take_every</span></code></a>(n)</p></td>
 <td><p>Take every nth row in the DataFrame and return as a new DataFrame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.top_k.html#polars.DataFrame.top_k" title="polars.DataFrame.top_k"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.top_k</span></code></a>(k, *, by[, descending, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.top_k.html#polars.DataFrame.top_k" title="polars.DataFrame.top_k"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.top_k</span></code></a>(k, *, by[, descending, ...])</p></td>
 <td><p>Return the <cite>k</cite> largest elements.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.to_dummies.html#polars.DataFrame.to_dummies" title="polars.DataFrame.to_dummies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.to_dummies</span></code></a>([columns, separator])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.to_dummies.html#polars.DataFrame.to_dummies" title="polars.DataFrame.to_dummies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.to_dummies</span></code></a>([columns, separator])</p></td>
 <td><p>Convert categorical variables into dummy/indicator variables.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.to_series.html#polars.DataFrame.to_series" title="polars.DataFrame.to_series"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.to_series</span></code></a>([index])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.to_series.html#polars.DataFrame.to_series" title="polars.DataFrame.to_series"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.to_series</span></code></a>([index])</p></td>
 <td><p>Select column as Series at index location.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.transpose.html#polars.DataFrame.transpose" title="polars.DataFrame.transpose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.transpose</span></code></a>(*[, include_header, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.transpose.html#polars.DataFrame.transpose" title="polars.DataFrame.transpose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.transpose</span></code></a>(*[, include_header, ...])</p></td>
 <td><p>Transpose a DataFrame over the diagonal.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.unique.html#polars.DataFrame.unique" title="polars.DataFrame.unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.unique</span></code></a>(*[, maintain_order, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.unique.html#polars.DataFrame.unique" title="polars.DataFrame.unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.unique</span></code></a>([subset, keep, maintain_order])</p></td>
 <td><p>Drop duplicate rows from this dataframe.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.unnest.html#polars.DataFrame.unnest" title="polars.DataFrame.unnest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.unnest</span></code></a>(columns, *more_columns)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.unnest.html#polars.DataFrame.unnest" title="polars.DataFrame.unnest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.unnest</span></code></a>(columns, *more_columns)</p></td>
 <td><p>Decompose struct columns into separate columns for each of their fields.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.unstack.html#polars.DataFrame.unstack" title="polars.DataFrame.unstack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.unstack</span></code></a>(step[, how, columns, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.unstack.html#polars.DataFrame.unstack" title="polars.DataFrame.unstack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.unstack</span></code></a>(step[, how, columns, ...])</p></td>
 <td><p>Unstack a long table to a wide form without doing an aggregation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.update.html#polars.DataFrame.update" title="polars.DataFrame.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.update</span></code></a>(other[, on, how])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.update.html#polars.DataFrame.update" title="polars.DataFrame.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.update</span></code></a>(other[, on, how])</p></td>
 <td><p>Update the values in this <cite>DataFrame</cite> with the non-null values in <cite>other</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.upsample.html#polars.DataFrame.upsample" title="polars.DataFrame.upsample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.upsample</span></code></a>(time_column, *, every[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.upsample.html#polars.DataFrame.upsample" title="polars.DataFrame.upsample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.upsample</span></code></a>(time_column, *, every[, ...])</p></td>
 <td><p>Upsample a DataFrame at a regular frequency.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.vstack.html#polars.DataFrame.vstack" title="polars.DataFrame.vstack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.vstack</span></code></a>(df, *[, in_place])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.vstack.html#polars.DataFrame.vstack" title="polars.DataFrame.vstack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.vstack</span></code></a>(df, *[, in_place])</p></td>
 <td><p>Grow this DataFrame vertically by stacking a DataFrame to it.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.with_columns.html#polars.DataFrame.with_columns" title="polars.DataFrame.with_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.with_columns</span></code></a>([exprs])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.with_columns.html#polars.DataFrame.with_columns" title="polars.DataFrame.with_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.with_columns</span></code></a>([exprs])</p></td>
 <td><p>Add columns to this DataFrame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.with_row_count.html#polars.DataFrame.with_row_count" title="polars.DataFrame.with_row_count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.with_row_count</span></code></a>([name, offset])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.with_row_count.html#polars.DataFrame.with_row_count" title="polars.DataFrame.with_row_count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.with_row_count</span></code></a>([name, offset])</p></td>
 <td><p>Add a column at index 0 that counts the rows.</p></td>
 </tr>
 </tbody>
@@ -1695,11 +1726,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="api/polars.DataFrame.clear.html"
+       href="api/polars.DataFrame.bottom_k.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.DataFrame.clear</p>
+        <p class="prev-next-title">polars.DataFrame.bottom_k</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

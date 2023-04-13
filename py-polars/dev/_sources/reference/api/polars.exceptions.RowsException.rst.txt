@@ -1,6 +1,0 @@
-﻿polars.exceptions.RowsException
-===============================
-
-.. currentmodule:: polars.exceptions
-
-.. autoexception:: RowsException

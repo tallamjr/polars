@@ -24,6 +24,6 @@
 
    .. autosummary::
    
-      ~Duration.tu
+      ~Duration.time_unit
    
    

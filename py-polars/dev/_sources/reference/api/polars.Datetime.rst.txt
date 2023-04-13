@@ -24,7 +24,7 @@
 
    .. autosummary::
    
-      ~Datetime.tu
-      ~Datetime.tz
+      ~Datetime.time_unit
+      ~Datetime.time_zone
    
    
