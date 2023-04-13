@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-time/src/chunkedarray/utf8/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_time/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-time/src/chunkedarray/utf8/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_time/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -549,12 +549,18 @@
 <a href="#549" id="549">549</a>
 <a href="#550" id="550">550</a>
 <a href="#551" id="551">551</a>
-</pre><pre class="rust"><code><span class="kw">pub mod </span>infer;
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+</pre></div><pre class="rust"><code><span class="kw">pub mod </span>infer;
 <span class="kw">mod </span>patterns;
 <span class="kw">mod </span>strptime;
 
 <span class="kw">use </span>chrono::ParseError;
-<span class="kw">pub use </span>patterns::Pattern;
+<span class="kw">pub use </span>patterns::{Pattern, PatternWithOffset};
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
@@ -937,13 +943,13 @@
         tu: TimeUnit,
         cache: bool,
         tz_aware: bool,
-        _utc: bool,
+        utc: bool,
         tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
     ) -&gt; PolarsResult&lt;DatetimeChunked&gt; {
         <span class="kw">let </span>utf8_ca = <span class="self">self</span>.as_utf8();
         <span class="kw">let </span>fmt = <span class="kw">match </span>fmt {
             <span class="prelude-val">Some</span>(fmt) =&gt; fmt,
-            <span class="prelude-val">None </span>=&gt; <span class="kw">return </span>infer::to_datetime(utf8_ca, tu, tz),
+            <span class="prelude-val">None </span>=&gt; <span class="kw">return </span>infer::to_datetime(utf8_ca, tu, tz, utc),
         };
         <span class="kw">let </span>fmt = strptime::compile_fmt(fmt);
         <span class="kw">let </span>cache = cache &amp;&amp; utf8_ca.len() &gt; <span class="number">50</span>;
@@ -966,7 +972,7 @@
                     DateTime::parse_from_str(s, <span class="kw-2">&amp;</span>fmt)
                         .ok()
                         .map(|dt| {
-                            <span class="kw">if </span>!_utc {
+                            <span class="kw">if </span>!utc {
                                 <span class="kw">if let </span><span class="prelude-val">Some</span>(tz_found) = tz {
                                     <span class="macro">polars_ensure!</span>(
                                         tz_found == dt.timezone(),
@@ -1008,7 +1014,7 @@
                     .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>;
 
                 ca.rename(utf8_ca.name());
-                <span class="kw">if </span>!_utc {
+                <span class="kw">if </span>!utc {
                     <span class="kw">let </span>tz = tz.map(|of| <span class="macro">format!</span>(<span class="string">&quot;{of}&quot;</span>));
                     <span class="prelude-val">Ok</span>(ca.into_datetime(tu, tz))
                 } <span class="kw">else </span>{
@@ -1035,7 +1041,7 @@
                     <span class="comment">// Safety:
                     // fmt_len is correct, it was computed with this `fmt` str.
                     </span><span class="kw">match unsafe </span>{ strptime_cache.parse(s.as_bytes(), fmt.as_bytes(), fmt_len) } {
-                        <span class="prelude-val">None </span>=&gt; transform(s, <span class="kw-2">&amp;</span>fmt),
+                        <span class="prelude-val">None </span>=&gt; transform(s, <span class="kw-2">&amp;</span>fmt, <span class="prelude-val">None</span>, utc),
                         <span class="prelude-val">Some</span>(ndt) =&gt; <span class="prelude-val">Some</span>(func(ndt)),
                     }
                 };
@@ -1071,19 +1077,25 @@
                     .map(|opt_s| {
                         opt_s.and_then(|s| {
                             <span class="kw">if </span>cache {
-                                <span class="kw-2">*</span>cache_map.entry(s).or_insert_with(|| transform(s, <span class="kw-2">&amp;</span>fmt))
+                                <span class="kw-2">*</span>cache_map
+                                    .entry(s)
+                                    .or_insert_with(|| transform(s, <span class="kw-2">&amp;</span>fmt, <span class="prelude-val">None</span>, <span class="bool-val">false</span>))
                             } <span class="kw">else </span>{
-                                transform(s, <span class="kw-2">&amp;</span>fmt)
+                                transform(s, <span class="kw-2">&amp;</span>fmt, <span class="prelude-val">None</span>, <span class="bool-val">false</span>)
                             }
                         })
                     })
                     .collect_trusted()
             };
             ca.rename(utf8_ca.name());
-            <span class="kw">match </span>tz {
+            <span class="kw">match </span>(tz, utc) {
                 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-                </span><span class="prelude-val">Some</span>(tz) =&gt; ca.into_datetime(tu, <span class="prelude-val">None</span>).replace_time_zone(<span class="prelude-val">Some</span>(tz)),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(ca.into_datetime(tu, <span class="prelude-val">None</span>)),
+                </span>(<span class="prelude-val">Some</span>(tz), <span class="bool-val">false</span>) =&gt; ca.into_datetime(tu, <span class="prelude-val">None</span>).replace_time_zone(<span class="prelude-val">Some</span>(tz)),
+                <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+                </span>(<span class="prelude-val">None</span>, <span class="bool-val">true</span>) =&gt; ca.into_datetime(tu, <span class="prelude-val">None</span>).replace_time_zone(<span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>)),
+                <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+                </span>(<span class="prelude-val">Some</span>(<span class="kw">_</span>), <span class="bool-val">true</span>) =&gt; <span class="macro">unreachable!</span>(), <span class="comment">// has already been validated in strptime
+                </span><span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(ca.into_datetime(tu, <span class="prelude-val">None</span>)),
             }
         }
     }

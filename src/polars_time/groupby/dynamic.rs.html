@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-time/src/groupby/dynamic.rs`."><title>dynamic.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_time/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-time/src/groupby/dynamic.rs`."><title>dynamic.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_time/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -863,25 +863,7 @@
 <a href="#863" id="863">863</a>
 <a href="#864" id="864">864</a>
 <a href="#865" id="865">865</a>
-<a href="#866" id="866">866</a>
-<a href="#867" id="867">867</a>
-<a href="#868" id="868">868</a>
-<a href="#869" id="869">869</a>
-<a href="#870" id="870">870</a>
-<a href="#871" id="871">871</a>
-<a href="#872" id="872">872</a>
-<a href="#873" id="873">873</a>
-<a href="#874" id="874">874</a>
-<a href="#875" id="875">875</a>
-<a href="#876" id="876">876</a>
-<a href="#877" id="877">877</a>
-<a href="#878" id="878">878</a>
-<a href="#879" id="879">879</a>
-<a href="#880" id="880">880</a>
-<a href="#881" id="881">881</a>
-<a href="#882" id="882">882</a>
-<a href="#883" id="883">883</a>
-</pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+</pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>chrono_tz::Tz;
@@ -990,9 +972,7 @@
         <span class="kw">let </span>time = <span class="self">self</span>.<span class="number">0</span>.column(<span class="kw-2">&amp;</span>options.index_column)<span class="question-mark">?</span>.clone();
         <span class="kw">let </span>time_type = time.dtype();
 
-        <span class="kw">if </span>time.null_count() &gt; <span class="number">0 </span>{
-            <span class="macro">panic!</span>(<span class="string">&quot;null values in dynamic groupby not yet supported, fill nulls.&quot;</span>)
-        }
+        <span class="macro">polars_ensure!</span>(time.null_count() == <span class="number">0</span>, ComputeError: <span class="string">&quot;null values in dynamic groupby not supported, fill nulls.&quot;</span>);
 
         <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
         <span class="kw">let </span>(dt, tu, tz): (Series, TimeUnit, <span class="prelude-ty">Option</span>&lt;TimeZone&gt;) = <span class="kw">match </span>time_type {
@@ -1056,20 +1036,18 @@
         options: <span class="kw-2">&amp;</span>DynamicGroupOptions,
     ) -&gt; PolarsResult&lt;(Series, Vec&lt;Series&gt;, GroupsProxy)&gt; {
         <span class="kw">if </span>options.offset.parsed_int || options.every.parsed_int || options.period.parsed_int {
-            <span class="macro">assert!</span>(
-                (options.offset.parsed_int || options.offset.is_zero())
+            <span class="macro">polars_ensure!</span>(
+                ((options.offset.parsed_int || options.offset.is_zero())
                     &amp;&amp; (options.every.parsed_int || options.every.is_zero())
-                    &amp;&amp; (options.period.parsed_int || options.period.is_zero()),
-                <span class="string">&quot;you cannot combine time durations like &#39;2h&#39; with integer durations like &#39;3i&#39;&quot;
+                    &amp;&amp; (options.period.parsed_int || options.period.is_zero())),
+                ComputeError: <span class="string">&quot;you cannot combine time durations like &#39;2h&#39; with integer durations like &#39;3i&#39;&quot;
             </span>)
         }
 
         <span class="kw">let </span>time = <span class="self">self</span>.<span class="number">0</span>.column(<span class="kw-2">&amp;</span>options.index_column)<span class="question-mark">?</span>.rechunk();
         <span class="kw">let </span>time_type = time.dtype();
 
-        <span class="kw">if </span>time.null_count() &gt; <span class="number">0 </span>{
-            <span class="macro">panic!</span>(<span class="string">&quot;null values in dynamic groupby not yet supported, fill nulls.&quot;</span>)
-        }
+        <span class="macro">polars_ensure!</span>(time.null_count() == <span class="number">0</span>, ComputeError: <span class="string">&quot;null values in dynamic groupby not supported, fill nulls.&quot;</span>);
 
         <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
         <span class="kw">let </span>(dt, tu) = <span class="kw">match </span>time_type {
@@ -1121,9 +1099,12 @@
         tu: TimeUnit,
         time_type: <span class="kw-2">&amp;</span>DataType,
     ) -&gt; PolarsResult&lt;(Series, Vec&lt;Series&gt;, GroupsProxy)&gt; {
+        <span class="macro">polars_ensure!</span>(!options.every.negative, ComputeError: <span class="string">&quot;&#39;every&#39; argument must be positive&quot;</span>);
         <span class="kw">if </span>dt.is_empty() {
             <span class="kw">return </span>dt.cast(time_type).map(|s| (s, by, GroupsProxy::default()));
         }
+
+        <span class="kw">let </span>sorted_set = <span class="macro">matches!</span>(dt.is_sorted_flag(), IsSorted::Ascending);
         <span class="comment">// a requirement for the index
         // so we can set this such that downstream code has this info
         </span>dt.set_sorted_flag(IsSorted::Ascending);
@@ -1162,7 +1143,9 @@
         <span class="kw">let </span>groups = <span class="kw">if </span>by.is_empty() {
             <span class="kw">let </span>vals = dt.downcast_iter().next().unwrap();
             <span class="kw">let </span>ts = vals.values().as_slice();
-            partially_check_sorted(ts);
+            <span class="kw">if </span>!sorted_set {
+                partially_check_sorted(ts);
+            }
             <span class="kw">let </span>(groups, lower, upper) = groupby_windows(
                 w,
                 ts,
@@ -1695,25 +1678,6 @@
         );
         <span class="macro">assert_eq!</span>(expected, groups);
         <span class="prelude-val">Ok</span>(())
-    }
-
-    <span class="attr">#[test]
-    #[should_panic]
-    </span><span class="kw">fn </span>test_panic_integer_temporal_combine() {
-        <span class="kw">let </span>df = DataFrame::new_no_checks(<span class="macro">vec!</span>[]);
-        <span class="kw">let _ </span>= df.groupby_dynamic(
-            <span class="macro">vec!</span>[],
-            <span class="kw-2">&amp;</span>DynamicGroupOptions {
-                index_column: <span class="string">&quot;date&quot;</span>.into(),
-                every: Duration::parse(<span class="string">&quot;1h&quot;</span>),
-                period: Duration::parse(<span class="string">&quot;1i&quot;</span>),
-                offset: Duration::parse(<span class="string">&quot;0h&quot;</span>),
-                truncate: <span class="bool-val">true</span>,
-                include_boundaries: <span class="bool-val">true</span>,
-                closed_window: ClosedWindow::Both,
-                start_by: Default::default(),
-            },
-        );
     }
 
     <span class="attr">#[test]

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"trait":["PolarsAsRef"]};
+window.SIDEBAR_ITEMS = {"fn":["flatten_par"],"trait":["PolarsAsRef"]};

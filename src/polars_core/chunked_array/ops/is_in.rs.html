@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/chunked_array/ops/is_in.rs`."><title>is_in.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_core/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/chunked_array/ops/is_in.rs`."><title>is_in.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_core/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -376,49 +376,7 @@
 <a href="#376" id="376">376</a>
 <a href="#377" id="377">377</a>
 <a href="#378" id="378">378</a>
-<a href="#379" id="379">379</a>
-<a href="#380" id="380">380</a>
-<a href="#381" id="381">381</a>
-<a href="#382" id="382">382</a>
-<a href="#383" id="383">383</a>
-<a href="#384" id="384">384</a>
-<a href="#385" id="385">385</a>
-<a href="#386" id="386">386</a>
-<a href="#387" id="387">387</a>
-<a href="#388" id="388">388</a>
-<a href="#389" id="389">389</a>
-<a href="#390" id="390">390</a>
-<a href="#391" id="391">391</a>
-<a href="#392" id="392">392</a>
-<a href="#393" id="393">393</a>
-<a href="#394" id="394">394</a>
-<a href="#395" id="395">395</a>
-<a href="#396" id="396">396</a>
-<a href="#397" id="397">397</a>
-<a href="#398" id="398">398</a>
-<a href="#399" id="399">399</a>
-<a href="#400" id="400">400</a>
-<a href="#401" id="401">401</a>
-<a href="#402" id="402">402</a>
-<a href="#403" id="403">403</a>
-<a href="#404" id="404">404</a>
-<a href="#405" id="405">405</a>
-<a href="#406" id="406">406</a>
-<a href="#407" id="407">407</a>
-<a href="#408" id="408">408</a>
-<a href="#409" id="409">409</a>
-<a href="#410" id="410">410</a>
-<a href="#411" id="411">411</a>
-<a href="#412" id="412">412</a>
-<a href="#413" id="413">413</a>
-<a href="#414" id="414">414</a>
-<a href="#415" id="415">415</a>
-<a href="#416" id="416">416</a>
-<a href="#417" id="417">417</a>
-<a href="#418" id="418">418</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::hash::Hash;
-
-<span class="kw">use </span>hashbrown::hash_set::HashSet;
+</pre></div><pre class="rust"><code><span class="kw">use </span>std::hash::Hash;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::utils::{try_get_supertype, CustomIterTools};
@@ -428,7 +386,7 @@
     </span>T: PolarsNumericType,
     P: Eq + Hash + Copy,
 {
-    <span class="kw">let </span><span class="kw-2">mut </span>set = HashSet::with_capacity(other.len());
+    <span class="kw">let </span><span class="kw-2">mut </span>set = PlHashSet::with_capacity(other.len());
 
     <span class="kw">let </span>other = ca.unpack_series_matching_type(other)<span class="question-mark">?</span>;
     other.downcast_iter().for_each(|iter| {
@@ -582,56 +540,16 @@
                     <span class="macro">unreachable!</span>()
                 }
             }
-            DataType::List(dt) <span class="kw">if </span>DataType::Utf8 == <span class="kw-2">**</span>dt =&gt; {
-                <span class="kw">let </span><span class="kw-2">mut </span>ca: BooleanChunked = <span class="kw">if </span><span class="self">self</span>.len() == <span class="number">1 </span>&amp;&amp; other.len() != <span class="number">1 </span>{
-                    <span class="kw">let </span>value = <span class="self">self</span>.get(<span class="number">0</span>);
-                    other
-                        .list()<span class="question-mark">?
-                        </span>.amortized_iter()
-                        .map(|opt_s| {
-                            opt_s.map(|s| {
-                                <span class="kw">let </span>ca = s.as_ref().unpack::&lt;Utf8Type&gt;().unwrap();
-                                ca.into_iter().any(|a| a == value)
-                            }) == <span class="prelude-val">Some</span>(<span class="bool-val">true</span>)
-                        })
-                        .collect_trusted()
-                } <span class="kw">else </span>{
-                    <span class="self">self</span>.into_iter()
-                        .zip(other.list()<span class="question-mark">?</span>.amortized_iter())
-                        .map(|(value, series)| <span class="kw">match </span>(value, series) {
-                            (val, <span class="prelude-val">Some</span>(series)) =&gt; {
-                                <span class="kw">let </span>ca = series.as_ref().unpack::&lt;Utf8Type&gt;().unwrap();
-                                ca.into_iter().any(|a| a == val)
-                            }
-                            <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
-                        })
-                        .collect_trusted()
-                };
-                ca.rename(<span class="self">self</span>.name());
-                <span class="prelude-val">Ok</span>(ca)
-            }
-            DataType::Utf8 =&gt; {
-                <span class="kw">let </span><span class="kw-2">mut </span>set = HashSet::with_capacity(other.len());
-
-                <span class="kw">let </span>other = other.utf8()<span class="question-mark">?</span>;
-                other.downcast_iter().for_each(|iter| {
-                    iter.into_iter().for_each(|opt_val| {
-                        set.insert(opt_val);
-                    })
-                });
-                <span class="kw">let </span><span class="kw-2">mut </span>ca: BooleanChunked = <span class="self">self
-                    </span>.into_iter()
-                    .map(|opt_val| set.contains(<span class="kw-2">&amp;</span>opt_val))
-                    .collect_trusted();
-                ca.rename(<span class="self">self</span>.name());
-                <span class="prelude-val">Ok</span>(ca)
-            }
+            DataType::List(dt) <span class="kw">if </span>DataType::Utf8 == <span class="kw-2">**</span>dt =&gt; <span class="self">self</span>.as_binary().is_in(
+                <span class="kw-2">&amp;</span>other
+                    .cast(<span class="kw-2">&amp;</span>DataType::List(Box::new(DataType::Binary)))
+                    .unwrap(),
+            ),
+            DataType::Utf8 =&gt; <span class="self">self
+                </span>.as_binary()
+                .is_in(<span class="kw-2">&amp;</span>other.cast(<span class="kw-2">&amp;</span>DataType::Binary).unwrap()),
             <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(opq = is_in, <span class="self">self</span>.dtype(), other.dtype()),
         }
-        .map(|<span class="kw-2">mut </span>ca| {
-            ca.rename(<span class="self">self</span>.name());
-            ca
-        })
     }
 }
 
@@ -667,7 +585,7 @@
                 <span class="prelude-val">Ok</span>(ca)
             }
             DataType::Binary =&gt; {
-                <span class="kw">let </span><span class="kw-2">mut </span>set = HashSet::with_capacity(other.len());
+                <span class="kw">let </span><span class="kw-2">mut </span>set = PlHashSet::with_capacity(other.len());
 
                 <span class="kw">let </span>other = other.binary()<span class="question-mark">?</span>;
                 other.downcast_iter().for_each(|iter| {
@@ -787,22 +705,24 @@
                     <span class="self">self</span>.fields().len(), other.fields().len()
                 );
 
-                <span class="kw">let </span>out = <span class="self">self
-                    </span>.fields()
-                    .iter()
-                    .zip(other.fields())
-                    .map(|(lhs, rhs)| lhs.is_in(rhs))
-                    .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
-
-                <span class="kw">let </span>out = out.into_iter().reduce(|acc, val| {
-                    <span class="comment">// all false
-                    </span><span class="kw">if </span>!acc.any() {
-                        acc
-                    } <span class="kw">else </span>{
-                        acc &amp; val
-                    }
+                <span class="kw">let </span><span class="kw-2">mut </span>anyvalues = Vec::with_capacity(other.len() * other.fields().len());
+                <span class="comment">// Safety:
+                // the iterator is unsafe as the lifetime is tied to the iterator
+                // so we copy to an owned buffer first
+                </span>other.into_iter().for_each(|val| {
+                    anyvalues.extend_from_slice(val);
                 });
-                out.ok_or_else(|| <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;no fields in struct&quot;</span>))
+
+                <span class="comment">// then we fill the set
+                </span><span class="kw">let </span><span class="kw-2">mut </span>set = PlHashSet::with_capacity(other.len());
+                <span class="kw">for </span>key <span class="kw">in </span>anyvalues.chunks_exact(other.fields().len()) {
+                    set.insert(key);
+                }
+                <span class="comment">// and then we check for membership
+                </span><span class="kw">let </span><span class="kw-2">mut </span>ca: BooleanChunked =
+                    <span class="self">self</span>.into_iter().map(|vals| set.contains(<span class="kw-2">&amp;</span>vals)).collect();
+                ca.rename(<span class="self">self</span>.name());
+                <span class="prelude-val">Ok</span>(ca)
             }
         }
     }

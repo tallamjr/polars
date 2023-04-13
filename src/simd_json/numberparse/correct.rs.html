@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/simd-json-0.7.0/src/numberparse/correct.rs`."><title>correct.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="simd_json" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../simd_json/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/git/checkouts/simd-json-b6a55740aaec8c97/cbd3736/src/numberparse/correct.rs`."><title>correct.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="simd_json" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../simd_json/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -531,7 +531,16 @@
 <a href="#531" id="531">531</a>
 <a href="#532" id="532">532</a>
 <a href="#533" id="533">533</a>
-</pre><pre class="rust"><code><span class="kw">mod </span>numberconst;
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+</pre></div><pre class="rust"><code><span class="kw">mod </span>numberconst;
 
 <span class="kw">use </span><span class="self">self</span>::numberconst::{MANTISSA_128, POW10, POW10_COMPONENTS};
 <span class="kw">use super</span>::{is_integer, is_not_structural_or_whitespace_or_exponent_or_decimal};
@@ -553,7 +562,7 @@
 }
 <span class="macro">macro_rules! </span>err {
     (<span class="macro-nonterminal">$idx</span>:ident, <span class="macro-nonterminal">$num</span>:expr) =&gt; {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(Error::new(<span class="macro-nonterminal">$idx</span>, <span class="macro-nonterminal">$num </span><span class="kw">as </span>char, ErrorType::InvalidNumber))
+        <span class="kw">return </span><span class="prelude-val">Err</span>(Error::new_c(<span class="macro-nonterminal">$idx</span>, <span class="macro-nonterminal">$num </span><span class="kw">as </span>char, ErrorType::InvalidNumber))
     };
 }
 
@@ -615,7 +624,10 @@
 
             <span class="attr">#[cfg(feature = <span class="string">&quot;swar-number-parsing&quot;</span>)]
             </span>{
-                <span class="kw">if </span>is_made_of_eight_digits_fast(<span class="kw-2">&amp;</span>buf[idx..]) {
+                <span class="kw">let </span>slice = <span class="kw-2">&amp;</span>buf[idx..idx + <span class="number">8</span>];
+                <span class="comment">// safety: we have 8 bytes
+                </span><span class="kw">let </span>chars: [u8; <span class="number">8</span>] = <span class="kw">unsafe </span>{ slice.try_into().unwrap_unchecked() };
+                <span class="kw">if </span>is_made_of_eight_digits_fast(chars) {
                     num = <span class="number">100_000_000_u64
                         </span>.wrapping_mul(num)
                         .wrapping_add(u64::from(parse_eight_digits_unrolled(<span class="kw-2">&amp;</span>buf[idx..])));
@@ -677,7 +689,7 @@
                 <span class="kw">while </span><span class="macro">get!</span>(buf, start) == <span class="string">b&#39;0&#39; </span>|| <span class="macro">get!</span>(buf, start) == <span class="string">b&#39;.&#39; </span>{
                     start += <span class="number">1</span>;
                 }
-                digit_count = digit_count.wrapping_sub((start.wrapping_sub(start_digits)) <span class="kw">as </span>usize);
+                digit_count = digit_count.wrapping_sub(start.wrapping_sub(start_digits));
                 <span class="kw">if </span>digit_count &gt;= <span class="number">19 </span>{
                     <span class="kw">return </span>f64_from_parts_slow(<span class="kw-2">&amp;</span>buf[start_idx..idx], start_idx);
                 }
@@ -891,7 +903,7 @@
     ) {
         <span class="prelude-val">Ok</span>(val) =&gt; {
             <span class="kw">if </span>val.is_infinite() {
-                <span class="macro">err!</span>(offset, <span class="macro">get!</span>(slice, offset))
+                <span class="macro">err!</span>(offset, <span class="macro">get!</span>(slice, offset.saturating_sub(<span class="number">1</span>)))
             }
 
             <span class="prelude-val">Ok</span>(StaticNode::F64(val))
@@ -916,27 +928,25 @@
         to_value(val)
     }
 
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>float() {
+    <span class="attr">#[allow(clippy::float_cmp)]
+    #[test]
+    </span><span class="kw">fn </span>float() -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw">crate</span>::Error&gt; {
         <span class="macro">assert_eq!</span>(
             to_value_from_str(<span class="string">&quot;0.4e5&quot;</span>).expect(<span class="string">&quot;40000.0&quot;</span>),
             Static(F64(<span class="number">40000.0</span>))
         );
         <span class="macro">assert_eq!</span>(
-            to_value_from_str(<span class="string">&quot;-12345678901234.56789012&quot;</span>).unwrap(),
+            to_value_from_str(<span class="string">&quot;-12345678901234.56789012&quot;</span>)<span class="question-mark">?</span>,
             Static(F64(-<span class="number">12_345_678_901_234.568</span>))
         );
-        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;0.4e-001&quot;</span>).unwrap(), Static(F64(<span class="number">0.04</span>)));
+        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;0.4e-001&quot;</span>)<span class="question-mark">?</span>, Static(F64(<span class="number">0.04</span>)));
         <span class="macro">assert_eq!</span>(
-            to_value_from_str(<span class="string">&quot;0.123456789e-12&quot;</span>).unwrap(),
+            to_value_from_str(<span class="string">&quot;0.123456789e-12&quot;</span>)<span class="question-mark">?</span>,
             Static(F64(<span class="number">1.234_567_89e-13</span>))
         );
+        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;1.234567890E+34&quot;</span>)<span class="question-mark">?</span>, <span class="number">1.234_567_89e34</span>);
         <span class="macro">assert_eq!</span>(
-            to_value_from_str(<span class="string">&quot;1.234567890E+34&quot;</span>).unwrap(),
-            <span class="number">1.234_567_89e34
-        </span>);
-        <span class="macro">assert_eq!</span>(
-            to_value_from_str(<span class="string">&quot;23456789012E66&quot;</span>).unwrap(),
+            to_value_from_str(<span class="string">&quot;23456789012E66&quot;</span>)<span class="question-mark">?</span>,
             Static(F64(<span class="number">2.345_678_901_2e76</span>))
         );
         <span class="macro">assert_eq!</span>(
@@ -945,34 +955,37 @@
             Static(F64(<span class="number">1.23</span>))
         );
         <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;0.6&quot;</span>).expect(<span class="string">&quot;0.6&quot;</span>), Static(F64(<span class="number">0.6</span>)));
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>float_precision() {
+    <span class="attr">#[allow(clippy::float_cmp)]
+    #[test]
+    </span><span class="kw">fn </span>float_precision() -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw">crate</span>::Error&gt; {
         <span class="macro">assert_eq!</span>(
-            to_value_from_str(<span class="string">&quot;31.245270191439438&quot;</span>).unwrap(),
+            to_value_from_str(<span class="string">&quot;31.245270191439438&quot;</span>)<span class="question-mark">?</span>,
             <span class="number">31.245_270_191_439_438
         </span>);
         <span class="macro">assert_eq!</span>(
-            to_value_from_str(<span class="string">&quot;-31.245270191439438&quot;</span>).unwrap(),
+            to_value_from_str(<span class="string">&quot;-31.245270191439438&quot;</span>)<span class="question-mark">?</span>,
             -<span class="number">31.245_270_191_439_438
         </span>);
         <span class="macro">assert_eq!</span>(
-            to_value_from_str(<span class="string">&quot;121.48791951161945&quot;</span>).unwrap(),
+            to_value_from_str(<span class="string">&quot;121.48791951161945&quot;</span>)<span class="question-mark">?</span>,
             <span class="number">121.487_919_511_619_45
         </span>);
         <span class="macro">assert_eq!</span>(
-            to_value_from_str(<span class="string">&quot;-121.48791951161945&quot;</span>).unwrap(),
+            to_value_from_str(<span class="string">&quot;-121.48791951161945&quot;</span>)<span class="question-mark">?</span>,
             -<span class="number">121.487_919_511_619_45
         </span>);
         <span class="macro">assert_eq!</span>(
-            to_value_from_str(<span class="string">&quot;100.78399658203125&quot;</span>).unwrap(),
+            to_value_from_str(<span class="string">&quot;100.78399658203125&quot;</span>)<span class="question-mark">?</span>,
             <span class="number">100.783_996_582_031_25
         </span>);
         <span class="macro">assert_eq!</span>(
-            to_value_from_str(<span class="string">&quot;-100.78399658203125&quot;</span>).unwrap(),
+            to_value_from_str(<span class="string">&quot;-100.78399658203125&quot;</span>)<span class="question-mark">?</span>,
             -<span class="number">100.783_996_582_031_25
         </span>);
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="attr">#[test]
@@ -1033,35 +1046,40 @@
     }
 
     <span class="attr">#[test]
-    </span><span class="kw">fn </span>zero_int() {
-        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;0&quot;</span>).expect(<span class="string">&quot;0&quot;</span>), Static(I64(<span class="number">0</span>)));
+    </span><span class="kw">fn </span>zero_int() -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw">crate</span>::Error&gt; {
+        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;0&quot;</span>)<span class="question-mark">?</span>, Static(I64(<span class="number">0</span>)));
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="attr">#[test]
-    </span><span class="kw">fn </span>zero_float() {
-        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;0e1&quot;</span>).expect(<span class="string">&quot;0e1&quot;</span>), Static(F64(<span class="number">0.0</span>)));
-        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;0.00e-00&quot;</span>).unwrap(), Static(F64(<span class="number">0.0</span>)));
-        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;0e-1&quot;</span>).expect(<span class="string">&quot;0e-1&quot;</span>), Static(F64(-<span class="number">0.0</span>)));
-        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;-0.00e-00&quot;</span>).unwrap(), Static(F64(-<span class="number">0.0</span>)));
+    </span><span class="kw">fn </span>zero_float() -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw">crate</span>::Error&gt; {
+        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;0e1&quot;</span>)<span class="question-mark">?</span>, Static(F64(<span class="number">0.0</span>)));
+        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;0.00e-00&quot;</span>)<span class="question-mark">?</span>, Static(F64(<span class="number">0.0</span>)));
+        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;0e-1&quot;</span>)<span class="question-mark">?</span>, Static(F64(-<span class="number">0.0</span>)));
+        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;-0.00e-00&quot;</span>)<span class="question-mark">?</span>, Static(F64(-<span class="number">0.0</span>)));
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="attr">#[test]
-    </span><span class="kw">fn </span>int() {
-        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;1&quot;</span>).unwrap(), Static(I64(<span class="number">1</span>)));
-        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;257&quot;</span>).unwrap(), Static(I64(<span class="number">257</span>)));
+    </span><span class="kw">fn </span>int() -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw">crate</span>::Error&gt; {
+        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;1&quot;</span>)<span class="question-mark">?</span>, Static(I64(<span class="number">1</span>)));
+        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;257&quot;</span>)<span class="question-mark">?</span>, Static(I64(<span class="number">257</span>)));
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="attr">#[test]
-    </span><span class="kw">fn </span>minus_309() {
+    </span><span class="kw">fn </span>minus_309() -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw">crate</span>::Error&gt; {
         <span class="macro">assert_eq!</span>(
-            to_value_from_str(<span class="string">&quot;-5.96916642387374e-309&quot;</span>).unwrap(),
+            to_value_from_str(<span class="string">&quot;-5.96916642387374e-309&quot;</span>)<span class="question-mark">?</span>,
             Static(F64(-<span class="number">5.969_166_423_873_74e-_309</span>))
         );
+        <span class="prelude-val">Ok</span>(())
     }
     <span class="attr">#[allow(clippy::unreadable_literal)]
     #[test]
-    </span><span class="kw">fn </span>tiny_float() {
-        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;-0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000596916642387374&quot;</span>).unwrap(), Static(F64(-<span class="number">0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000596916642387374</span>)));
+    </span><span class="kw">fn </span>tiny_float() -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw">crate</span>::Error&gt; {
+        <span class="macro">assert_eq!</span>(to_value_from_str(<span class="string">&quot;-0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000596916642387374&quot;</span>)<span class="question-mark">?</span>, Static(F64(-<span class="number">0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000596916642387374</span>)));
+        <span class="prelude-val">Ok</span>(())
     }
 }
 </code></pre></div></section></main></body></html>

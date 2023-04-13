@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/src/physical_plan/planner/lp.rs`."><title>lp.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_lazy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_lazy/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/src/physical_plan/planner/lp.rs`."><title>lp.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_lazy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_lazy/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -511,46 +511,10 @@
 <a href="#511" id="511">511</a>
 <a href="#512" id="512">512</a>
 <a href="#513" id="513">513</a>
-<a href="#514" id="514">514</a>
-<a href="#515" id="515">515</a>
-<a href="#516" id="516">516</a>
-<a href="#517" id="517">517</a>
-<a href="#518" id="518">518</a>
-<a href="#519" id="519">519</a>
-<a href="#520" id="520">520</a>
-<a href="#521" id="521">521</a>
-<a href="#522" id="522">522</a>
-<a href="#523" id="523">523</a>
-<a href="#524" id="524">524</a>
-<a href="#525" id="525">525</a>
-<a href="#526" id="526">526</a>
-<a href="#527" id="527">527</a>
-<a href="#528" id="528">528</a>
-<a href="#529" id="529">529</a>
-<a href="#530" id="530">530</a>
-<a href="#531" id="531">531</a>
-<a href="#532" id="532">532</a>
-<a href="#533" id="533">533</a>
-<a href="#534" id="534">534</a>
-<a href="#535" id="535">535</a>
-<a href="#536" id="536">536</a>
-<a href="#537" id="537">537</a>
-<a href="#538" id="538">538</a>
-<a href="#539" id="539">539</a>
-<a href="#540" id="540">540</a>
-<a href="#541" id="541">541</a>
-<a href="#542" id="542">542</a>
-<a href="#543" id="543">543</a>
-<a href="#544" id="544">544</a>
-<a href="#545" id="545">545</a>
-<a href="#546" id="546">546</a>
-<a href="#547" id="547">547</a>
-</pre><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
+</pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">super</span>::<span class="kw">super</span>::executors::{<span class="self">self</span>, Executor};
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
-<span class="attr">#[cfg(feature = <span class="string">&quot;streaming&quot;</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::physical_plan::streaming::insert_streaming_nodes;
 <span class="kw">use </span><span class="kw">crate</span>::utils::<span class="kw-2">*</span>;
 
 <span class="kw">fn </span>partitionable_gb(
@@ -944,48 +908,6 @@
             <span class="comment">// We first check if we can partition the groupby on the latest moment.
             </span><span class="kw">let </span>partitionable = partitionable_gb(<span class="kw-2">&amp;</span>keys, <span class="kw-2">&amp;</span>aggs, <span class="kw-2">&amp;</span>input_schema, expr_arena, <span class="kw-2">&amp;</span>apply);
             <span class="kw">if </span>partitionable {
-                <span class="attr">#[cfg(feature = <span class="string">&quot;streaming&quot;</span>)]
-                </span><span class="kw">if </span>!maintain_order
-                    <span class="comment">// many aggregations are more expensive
-                    // at a certain point the cost of collecting
-                    // the indices is amortized
-                    </span>&amp;&amp; aggs.len() &lt; <span class="number">10
-                    </span>&amp;&amp; std::env::var(<span class="string">&quot;POLARS_NO_STREAMING_GROUPBY&quot;</span>).is_err()
-                {
-                    <span class="kw">let </span>key_dtype = schema.get_index(<span class="number">0</span>).unwrap().<span class="number">1</span>.to_physical();
-                    <span class="comment">// only on numeric and string keys for now
-                    </span><span class="kw">let </span>allowed_key = keys.len() == <span class="number">1 </span>&amp;&amp; key_dtype.is_numeric()
-                        || <span class="macro">matches!</span>(key_dtype, DataType::Utf8);
-                    <span class="kw">let </span>allowed_aggs = schema.iter_dtypes().skip(<span class="number">1</span>).all(|dtype| {
-                        <span class="kw">let </span>dt = dtype.to_physical();
-                        dt.is_numeric() || <span class="macro">matches!</span>(dt, DataType::Utf8 | DataType::Boolean)
-                    });
-
-                    <span class="kw">let </span>lp = Aggregate {
-                        input,
-                        keys,
-                        aggs,
-                        apply,
-                        schema: schema.clone(),
-                        maintain_order,
-                        options: options.clone(),
-                    };
-                    <span class="kw">let </span>root = lp_arena.add(lp);
-
-                    <span class="comment">// do not jit insert if we have joins or distinct
-                    // first we have to test them more and ensure solid perf
-                    </span><span class="kw">let </span>has_joins_or_distinct = (<span class="kw-2">&amp;*</span>lp_arena)
-                        .iter(root)
-                        .any(|(<span class="kw">_</span>, lp)| <span class="macro">matches!</span>(lp, Join { .. } | Distinct { .. }));
-                    <span class="kw">if </span>allowed_key
-                        &amp;&amp; allowed_aggs
-                        &amp;&amp; !has_joins_or_distinct
-                        &amp;&amp; insert_streaming_nodes(root, lp_arena, expr_arena, <span class="kw-2">&amp;mut </span><span class="macro">vec!</span>[], <span class="bool-val">false</span>)<span class="question-mark">?
-                    </span>{
-                        <span class="kw">return </span>create_physical_plan(root, lp_arena, expr_arena);
-                    }
-                }
-
                 <span class="kw">let </span>from_partitioned_ds = (<span class="kw-2">&amp;*</span>lp_arena).iter(input).any(|(<span class="kw">_</span>, lp)| {
                     <span class="kw">if let </span>Union { options, .. } = lp {
                         options.from_partitioned_ds
@@ -994,6 +916,14 @@
                     </span>}
                 });
                 <span class="kw">let </span>input = create_physical_plan(input, lp_arena, expr_arena)<span class="question-mark">?</span>;
+                <span class="kw">let </span>keys = keys
+                    .iter()
+                    .map(|node| node_to_expr(<span class="kw-2">*</span>node, expr_arena))
+                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+                <span class="kw">let </span>aggs = aggs
+                    .iter()
+                    .map(|node| node_to_expr(<span class="kw-2">*</span>node, expr_arena))
+                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
                 <span class="prelude-val">Ok</span>(Box::new(executors::PartitionGroupByExec::new(
                     input,
                     phys_keys,
@@ -1003,6 +933,8 @@
                     input_schema,
                     schema,
                     from_partitioned_ds,
+                    keys,
+                    aggs,
                 )))
             } <span class="kw">else </span>{
                 <span class="kw">let </span>input = create_physical_plan(input, lp_arena, expr_arena)<span class="question-mark">?</span>;

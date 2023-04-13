@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-time/src/windows/duration.rs`."><title>duration.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_time/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-time/src/windows/duration.rs`."><title>duration.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_time/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -695,10 +695,19 @@
 <a href="#695" id="695">695</a>
 <a href="#696" id="696">696</a>
 <a href="#697" id="697">697</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
+<a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
+<a href="#700" id="700">700</a>
+<a href="#701" id="701">701</a>
+<a href="#702" id="702">702</a>
+<a href="#703" id="703">703</a>
+<a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
 <span class="kw">use </span>std::ops::Mul;
 
 <span class="kw">use </span>chrono::{Datelike, NaiveDate, NaiveDateTime, NaiveTime, Timelike, Weekday};
+<span class="kw">use </span>polars_arrow::error::polars_err;
 <span class="kw">use </span>polars_arrow::export::arrow::temporal_conversions::{
     timestamp_ms_to_datetime, timestamp_ns_to_datetime, timestamp_us_to_datetime, MILLISECONDS,
 };
@@ -713,8 +722,7 @@
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
 
 <span class="kw">use </span><span class="kw">super</span>::calendar::{
-    is_leap_year, last_day_of_month, NS_DAY, NS_HOUR, NS_MICROSECOND, NS_MILLISECOND, NS_MINUTE,
-    NS_SECOND, NS_WEEK,
+    NS_DAY, NS_HOUR, NS_MICROSECOND, NS_MILLISECOND, NS_MINUTE, NS_SECOND, NS_WEEK,
 };
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::utils::{localize_datetime, unlocalize_datetime};
@@ -761,21 +769,34 @@
         }
     }
 
-    <span class="doccomment">/// 1ns // 1 nanosecond
-    /// 1us // 1 microsecond
-    /// 1ms // 1 millisecond
-    /// 1s  // 1 second
-    /// 1m  // 1 minute
-    /// 1h  // 1 hour
-    /// 1d  // 1 day
-    /// 1w  // 1 week
-    /// 1mo // 1 calendar month
-    /// 1y  // 1 calendar year
-    /// 1i  // 1 index value (only for {Int32, Int64} dtypes
+    <span class="doccomment">/// Parse a string into a `Duration`
     ///
-    /// 3d12h4m25s // 3 days, 12 hours, 4 minutes, and 25 seconds
+    /// Strings are composed of a sequence of number-unit pairs, such as `5d` (5 days). A string may begin with a minus
+    /// sign, in which case it is interpreted as a negative duration. Some examples:
     ///
-    /// # Panics if given str is incorrect
+    /// * `&quot;1y&quot;`: 1 year
+    /// * `&quot;-1w2d&quot;`: negative 1 week, 2 days (i.e. -9 days)
+    /// * `&quot;3d12h4m25s&quot;`: 3 days, 12 hours, 4 minutes, and 25 seconds
+    ///
+    /// Aside from a leading minus sign, strings may not contain any characters other than numbers and letters
+    /// (including whitespace).
+    ///
+    /// The available units, in ascending order of magnitude, are as follows:
+    ///
+    /// * `ns`: nanosecond
+    /// * `us`: microsecond
+    /// * `ms`: millisecond
+    /// * `s`:  second
+    /// * `m`:  minute
+    /// * `h`:  hour
+    /// * `d`:  day
+    /// * `w`:  week
+    /// * `mo`: calendar month
+    /// * `y`:  calendar year
+    /// * `i`:  index value (only for {Int32, Int64} dtypes)
+    ///
+    /// # Panics
+    /// If the given str is invalid for any reason.
     </span><span class="kw">pub fn </span>parse(duration: <span class="kw-2">&amp;</span>str) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>num_minus_signs = duration.matches(<span class="string">&#39;-&#39;</span>).count();
         <span class="kw">if </span>num_minus_signs &gt; <span class="number">1 </span>{
@@ -1123,7 +1144,9 @@
                 <span class="comment">// recreate a new time from the year and month combination
                 </span><span class="kw">let </span>(year, month) = ((total / <span class="number">12</span>), ((total % <span class="number">12</span>) + <span class="number">1</span>) <span class="kw">as </span>u32);
 
-                <span class="kw">let </span>dt = new_datetime(year, month, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);
+                <span class="kw">let </span>dt = new_datetime(year, month, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>).ok_or(<span class="macro">polars_err!</span>(
+                    ComputeError: <span class="macro">format!</span>(<span class="string">&quot;date &#39;{}-{}-1&#39; does not exist&quot;</span>, year, month)
+                ))<span class="question-mark">?</span>;
                 <span class="kw">match </span>tz {
                     <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
                     </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="prelude-val">Ok</span>(datetime_to_timestamp(localize_datetime(dt, tz)<span class="question-mark">?</span>)),
@@ -1203,7 +1226,7 @@
             };
             <span class="kw">let </span><span class="kw-2">mut </span>year = ts.year();
             <span class="kw">let </span><span class="kw-2">mut </span>month = ts.month() <span class="kw">as </span>i32;
-            <span class="kw">let </span><span class="kw-2">mut </span>day = ts.day();
+            <span class="kw">let </span>day = ts.day();
             year += (months / <span class="number">12</span>) <span class="kw">as </span>i32;
             month += (months % <span class="number">12</span>) <span class="kw">as </span>i32;
 
@@ -1218,23 +1241,17 @@
                 month += <span class="number">12</span>;
             }
 
-            <span class="comment">// Normalize the day if we are past the end of the month.
-            </span><span class="kw">let </span><span class="kw-2">mut </span>last_day_of_month = last_day_of_month(month);
-            <span class="kw">if </span>month == (chrono::Month::February.number_from_month() <span class="kw">as </span>i32) &amp;&amp; is_leap_year(year) {
-                last_day_of_month += <span class="number">1</span>;
-            }
-
-            <span class="kw">if </span>day &gt; last_day_of_month {
-                day = last_day_of_month
-            }
-
             <span class="comment">// Retrieve the original time and construct a data
             // with the new year, month and day
             </span><span class="kw">let </span>hour = ts.hour();
             <span class="kw">let </span>minute = ts.minute();
             <span class="kw">let </span>sec = ts.second();
             <span class="kw">let </span>nsec = ts.nanosecond();
-            <span class="kw">let </span>dt = new_datetime(year, month <span class="kw">as </span>u32, day, hour, minute, sec, nsec);
+            <span class="kw">let </span>dt = new_datetime(year, month <span class="kw">as </span>u32, day, hour, minute, sec, nsec).ok_or(
+                <span class="macro">polars_err!</span>(
+                    ComputeError: <span class="macro">format!</span>(<span class="string">&quot;cannot advance &#39;{}&#39; by {} month(s)&quot;</span>, ts, d.months)
+                ),
+            )<span class="question-mark">?</span>;
             new_t = <span class="kw">match </span>tz {
                 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
                 </span><span class="prelude-val">Some</span>(tz) =&gt; datetime_to_timestamp(localize_datetime(dt, tz)<span class="question-mark">?</span>),
@@ -1339,11 +1356,10 @@
     min: u32,
     sec: u32,
     nano: u32,
-) -&gt; NaiveDateTime {
-    <span class="kw">let </span>date = NaiveDate::from_ymd_opt(year, month, days).unwrap();
-    <span class="kw">let </span>time = NaiveTime::from_hms_nano_opt(hour, min, sec, nano).unwrap();
-
-    NaiveDateTime::new(date, time)
+) -&gt; <span class="prelude-ty">Option</span>&lt;NaiveDateTime&gt; {
+    <span class="kw">let </span>date = NaiveDate::from_ymd_opt(year, month, days)<span class="question-mark">?</span>;
+    <span class="kw">let </span>time = NaiveTime::from_hms_nano_opt(hour, min, sec, nano)<span class="question-mark">?</span>;
+    <span class="prelude-val">Some</span>(NaiveDateTime::new(date, time))
 }
 
 <span class="attr">#[cfg(test)]

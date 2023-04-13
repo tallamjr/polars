@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/frame/explode.rs`."><title>explode.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_core/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/frame/explode.rs`."><title>explode.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_core/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -453,8 +453,37 @@
 <a href="#453" id="453">453</a>
 <a href="#454" id="454">454</a>
 <a href="#455" id="455">455</a>
-</pre><pre class="rust"><code><span class="kw">use </span>arrow::offset::OffsetsBuffer;
+<a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
+<a href="#459" id="459">459</a>
+<a href="#460" id="460">460</a>
+<a href="#461" id="461">461</a>
+<a href="#462" id="462">462</a>
+<a href="#463" id="463">463</a>
+<a href="#464" id="464">464</a>
+<a href="#465" id="465">465</a>
+<a href="#466" id="466">466</a>
+<a href="#467" id="467">467</a>
+<a href="#468" id="468">468</a>
+<a href="#469" id="469">469</a>
+<a href="#470" id="470">470</a>
+<a href="#471" id="471">471</a>
+<a href="#472" id="472">472</a>
+<a href="#473" id="473">473</a>
+<a href="#474" id="474">474</a>
+<a href="#475" id="475">475</a>
+<a href="#476" id="476">476</a>
+<a href="#477" id="477">477</a>
+<a href="#478" id="478">478</a>
+<a href="#479" id="479">479</a>
+<a href="#480" id="480">480</a>
+<a href="#481" id="481">481</a>
+<a href="#482" id="482">482</a>
+<a href="#483" id="483">483</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>arrow::offset::OffsetsBuffer;
 <span class="kw">use </span>polars_arrow::kernels::concatenate::concatenate_owned_unchecked;
+<span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde-lazy&quot;</span>)]
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
 <span class="kw">use </span>smartstring::alias::String <span class="kw">as </span>SmartString;
@@ -463,6 +492,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
 <span class="kw">use </span><span class="kw">crate</span>::utils::try_get_supertype;
+<span class="kw">use </span><span class="kw">crate</span>::POOL;
 
 <span class="kw">fn </span>get_exploded(series: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;(Series, OffsetsBuffer&lt;i64&gt;)&gt; {
     <span class="kw">match </span>series.dtype() {
@@ -507,34 +537,60 @@
             df = df.drop(s.name())<span class="question-mark">?</span>;
         }
 
-        <span class="kw">for </span>(i, s) <span class="kw">in </span>columns.iter().enumerate() {
-            <span class="comment">// Safety:
-            // offsets don&#39;t have indices exceeding Series length.
-            </span><span class="kw">if let </span><span class="prelude-val">Ok</span>((exploded, offsets)) = get_exploded(s) {
-                <span class="kw">let </span>col_idx = <span class="self">self</span>.check_name_to_idx(s.name())<span class="question-mark">?</span>;
+        <span class="kw">let </span>exploded_columns = POOL.install(|| {
+            columns
+                .par_iter()
+                .map(get_exploded)
+                .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
+        })<span class="question-mark">?</span>;
 
-                <span class="comment">// expand all the other columns based the exploded first column
-                </span><span class="kw">if </span>i == <span class="number">0 </span>{
-                    <span class="kw">let </span>row_idx = offsets_to_indexes(offsets.as_slice(), exploded.len());
-                    <span class="kw">let </span><span class="kw-2">mut </span>row_idx = IdxCa::from_vec(<span class="string">&quot;&quot;</span>, row_idx);
-                    row_idx.set_sorted_flag(IsSorted::Ascending);
-
-                    <span class="comment">// Safety
-                    // We just created indices that are in bounds.
-                    </span>df = <span class="kw">unsafe </span>{ df.take_unchecked(<span class="kw-2">&amp;</span>row_idx) };
-                }
-                <span class="kw">if </span>exploded.len() == df.height() || df.width() == <span class="number">0 </span>{
-                    df.columns.insert(col_idx, exploded);
-                } <span class="kw">else </span>{
-                    <span class="macro">polars_bail!</span>(
-                        ShapeMismatch: <span class="string">&quot;exploded column(s) {:?} doesn&#39;t have the same length: {} \
-                        as the dataframe: {}&quot;</span>, exploded.name(), exploded.name(), df.height(),
-                    );
-                }
+        <span class="kw">fn </span>process_column(
+            original_df: <span class="kw-2">&amp;</span>DataFrame,
+            df: <span class="kw-2">&amp;mut </span>DataFrame,
+            exploded: Series,
+        ) -&gt; PolarsResult&lt;()&gt; {
+            <span class="kw">if </span>exploded.len() == df.height() || df.width() == <span class="number">0 </span>{
+                <span class="kw">let </span>col_idx = original_df.check_name_to_idx(exploded.name())<span class="question-mark">?</span>;
+                df.columns.insert(col_idx, exploded);
             } <span class="kw">else </span>{
-                <span class="macro">polars_bail!</span>(opq = explode, s.dtype());
+                <span class="macro">polars_bail!</span>(
+                    ShapeMismatch: <span class="string">&quot;exploded column(s) {:?} doesn&#39;t have the same length: {} \
+                    as the dataframe: {}&quot;</span>, exploded.name(), exploded.name(), df.height(),
+                );
             }
+            <span class="prelude-val">Ok</span>(())
         }
+
+        <span class="kw">let </span>check_offsets = || {
+            <span class="kw">let </span>first_offsets = exploded_columns[<span class="number">0</span>].<span class="number">1</span>.as_slice();
+            <span class="kw">for </span>(<span class="kw">_</span>, offsets) <span class="kw">in </span><span class="kw-2">&amp;</span>exploded_columns[<span class="number">1</span>..] {
+                <span class="macro">polars_ensure!</span>(first_offsets == offsets.as_slice(),
+                    ShapeMismatch: <span class="string">&quot;exploded columns must have matching element counts&quot;
+                </span>)
+            }
+            <span class="prelude-val">Ok</span>(())
+        };
+        <span class="kw">let </span>process_first = || {
+            <span class="kw">let </span>(exploded, offsets) = <span class="kw-2">&amp;</span>exploded_columns[<span class="number">0</span>];
+
+            <span class="kw">let </span>row_idx = offsets_to_indexes(offsets.as_slice(), exploded.len());
+            <span class="kw">let </span><span class="kw-2">mut </span>row_idx = IdxCa::from_vec(<span class="string">&quot;&quot;</span>, row_idx);
+            row_idx.set_sorted_flag(IsSorted::Ascending);
+
+            <span class="comment">// Safety
+            // We just created indices that are in bounds.
+            </span><span class="kw">let </span><span class="kw-2">mut </span>df = <span class="kw">unsafe </span>{ df.take_unchecked(<span class="kw-2">&amp;</span>row_idx) };
+            process_column(<span class="self">self</span>, <span class="kw-2">&amp;mut </span>df, exploded.clone())<span class="question-mark">?</span>;
+            PolarsResult::Ok(df)
+        };
+        <span class="kw">let </span>(df, result) = POOL.join(process_first, check_offsets);
+        <span class="kw">let </span><span class="kw-2">mut </span>df = df<span class="question-mark">?</span>;
+        result<span class="question-mark">?</span>;
+
+        <span class="kw">for </span>(exploded, <span class="kw">_</span>) <span class="kw">in </span>exploded_columns.into_iter().skip(<span class="number">1</span>) {
+            process_column(<span class="self">self</span>, <span class="kw-2">&amp;mut </span>df, exploded)<span class="question-mark">?
+        </span>}
+
         <span class="prelude-val">Ok</span>(df)
     }
     <span class="doccomment">/// Explode `DataFrame` to long format by exploding a column with Lists.
@@ -825,7 +881,7 @@
 
         <span class="macro">assert!</span>(out.frame_equal_missing(<span class="kw-2">&amp;</span>expected));
 
-        <span class="kw">let </span>list = Series::new(<span class="string">&quot;foo&quot;</span>, <span class="kw-2">&amp;</span>[s0.clone(), s1.clear(), s1.clone()]);
+        <span class="kw">let </span>list = Series::new(<span class="string">&quot;foo&quot;</span>, [s0.clone(), s1.clear(), s1.clone()]);
         <span class="kw">let </span>df = DataFrame::new(<span class="macro">vec!</span>[list, s0.clone(), s1.clone()])<span class="question-mark">?</span>;
         <span class="kw">let </span>out = df.explode([<span class="string">&quot;foo&quot;</span>])<span class="question-mark">?</span>;
         <span class="kw">let </span>expected = <span class="macro">df!</span>[
@@ -846,7 +902,7 @@
         <span class="kw">let </span>list = Series::new(<span class="string">&quot;foo&quot;</span>, <span class="kw-2">&amp;</span>[s0, s1]);
         <span class="kw">let </span>df = DataFrame::new(<span class="macro">vec!</span>[list])<span class="question-mark">?</span>;
 
-        <span class="kw">let </span>out = df.explode(<span class="kw-2">&amp;</span>[<span class="string">&quot;foo&quot;</span>])<span class="question-mark">?</span>;
+        <span class="kw">let </span>out = df.explode([<span class="string">&quot;foo&quot;</span>])<span class="question-mark">?</span>;
         <span class="kw">let </span>out = out
             .column(<span class="string">&quot;foo&quot;</span>)<span class="question-mark">?
             </span>.i32()<span class="question-mark">?
@@ -867,7 +923,7 @@
         )
         .unwrap();
 
-        <span class="kw">let </span>melted = df.melt(<span class="kw-2">&amp;</span>[<span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>], <span class="kw-2">&amp;</span>[<span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>])<span class="question-mark">?</span>;
+        <span class="kw">let </span>melted = df.melt([<span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>], [<span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>])<span class="question-mark">?</span>;
         <span class="macro">assert_eq!</span>(
             Vec::from(melted.column(<span class="string">&quot;value&quot;</span>)<span class="question-mark">?</span>.i32()<span class="question-mark">?</span>),
             <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">10</span>), <span class="prelude-val">Some</span>(<span class="number">11</span>), <span class="prelude-val">Some</span>(<span class="number">12</span>), <span class="prelude-val">Some</span>(<span class="number">2</span>), <span class="prelude-val">Some</span>(<span class="number">4</span>), <span class="prelude-val">Some</span>(<span class="number">6</span>)]

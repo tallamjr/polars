@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/simd-json-0.7.0/src/serde/value/owned/se.rs`."><title>se.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="simd_json" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../../source-files.js"></script><script defer src="../../../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../../simd_json/index.html"><img class="rust-logo" src="../../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/git/checkouts/simd-json-b6a55740aaec8c97/cbd3736/src/serde/value/owned/se.rs`."><title>se.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="simd_json" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../../source-files.js"></script><script defer src="../../../../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../../simd_json/index.html"><img class="rust-logo" src="../../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -750,69 +750,15 @@
 <a href="#750" id="750">750</a>
 <a href="#751" id="751">751</a>
 <a href="#752" id="752">752</a>
-<a href="#753" id="753">753</a>
-<a href="#754" id="754">754</a>
-<a href="#755" id="755">755</a>
-<a href="#756" id="756">756</a>
-<a href="#757" id="757">757</a>
-<a href="#758" id="758">758</a>
-<a href="#759" id="759">759</a>
-<a href="#760" id="760">760</a>
-<a href="#761" id="761">761</a>
-<a href="#762" id="762">762</a>
-<a href="#763" id="763">763</a>
-<a href="#764" id="764">764</a>
-<a href="#765" id="765">765</a>
-<a href="#766" id="766">766</a>
-<a href="#767" id="767">767</a>
-<a href="#768" id="768">768</a>
-<a href="#769" id="769">769</a>
-<a href="#770" id="770">770</a>
-<a href="#771" id="771">771</a>
-<a href="#772" id="772">772</a>
-<a href="#773" id="773">773</a>
-<a href="#774" id="774">774</a>
-<a href="#775" id="775">775</a>
-<a href="#776" id="776">776</a>
-<a href="#777" id="777">777</a>
-<a href="#778" id="778">778</a>
-<a href="#779" id="779">779</a>
-<a href="#780" id="780">780</a>
-<a href="#781" id="781">781</a>
-<a href="#782" id="782">782</a>
-<a href="#783" id="783">783</a>
-<a href="#784" id="784">784</a>
-<a href="#785" id="785">785</a>
-<a href="#786" id="786">786</a>
-<a href="#787" id="787">787</a>
-<a href="#788" id="788">788</a>
-<a href="#789" id="789">789</a>
-<a href="#790" id="790">790</a>
-<a href="#791" id="791">791</a>
-<a href="#792" id="792">792</a>
-<a href="#793" id="793">793</a>
-<a href="#794" id="794">794</a>
-<a href="#795" id="795">795</a>
-<a href="#796" id="796">796</a>
-<a href="#797" id="797">797</a>
-<a href="#798" id="798">798</a>
-<a href="#799" id="799">799</a>
-<a href="#800" id="800">800</a>
-<a href="#801" id="801">801</a>
-<a href="#802" id="802">802</a>
-<a href="#803" id="803">803</a>
-<a href="#804" id="804">804</a>
-<a href="#805" id="805">805</a>
-<a href="#806" id="806">806</a>
-<a href="#807" id="807">807</a>
-<a href="#808" id="808">808</a>
-<a href="#809" id="809">809</a>
-<a href="#810" id="810">810</a>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::to_value;
-<span class="kw">use </span><span class="kw">crate</span>::value::owned::{Object, Value};
-<span class="kw">use crate</span>::{stry, Error, ErrorType, <span class="prelude-ty">Result</span>, StaticNode};
-<span class="kw">use </span>serde::ser::{<span class="self">self</span>, Serialize};
-<span class="kw">use </span>serde_ext::ser::{SerializeMap <span class="kw">as </span>SerializeMapTrait, SerializeSeq <span class="kw">as </span>SerializeSeqTrait};
+</pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::to_value;
+<span class="kw">use crate</span>::{
+    stry,
+    value::owned::{Object, Value},
+    Error, ErrorType, <span class="prelude-ty">Result</span>, StaticNode,
+};
+<span class="kw">use </span>serde_ext::ser::{
+    <span class="self">self</span>, Serialize, SerializeMap <span class="kw">as </span>SerializeMapTrait, SerializeSeq <span class="kw">as </span>SerializeSeqTrait,
+};
 
 <span class="kw">type </span>Impossible&lt;T&gt; = ser::Impossible&lt;T, Error&gt;;
 
@@ -822,24 +768,24 @@
         </span>S: ser::Serializer,
     {
         <span class="kw">match </span><span class="self">self </span>{
-            <span class="self">Self</span>::Static(StaticNode::Bool(b)) =&gt; serializer.serialize_bool(<span class="kw-2">*</span>b),
-            <span class="self">Self</span>::Static(StaticNode::Null) =&gt; serializer.serialize_unit(),
-            <span class="self">Self</span>::Static(StaticNode::F64(f)) =&gt; serializer.serialize_f64(<span class="kw-2">*</span>f),
-            <span class="self">Self</span>::Static(StaticNode::U64(i)) =&gt; serializer.serialize_u64(<span class="kw-2">*</span>i),
+            Value::Static(StaticNode::Null) =&gt; serializer.serialize_unit(),
+            Value::Static(StaticNode::Bool(b)) =&gt; serializer.serialize_bool(<span class="kw-2">*</span>b),
+            Value::Static(StaticNode::F64(f)) =&gt; serializer.serialize_f64(<span class="kw-2">*</span>f),
+            Value::Static(StaticNode::U64(i)) =&gt; serializer.serialize_u64(<span class="kw-2">*</span>i),
             <span class="attr">#[cfg(feature = <span class="string">&quot;128bit&quot;</span>)]
-            </span><span class="self">Self</span>::Static(StaticNode::U128(i)) =&gt; serializer.serialize_u128(<span class="kw-2">*</span>i),
-            <span class="self">Self</span>::Static(StaticNode::I64(i)) =&gt; serializer.serialize_i64(<span class="kw-2">*</span>i),
+            </span>Value::Static(StaticNode::U128(i)) =&gt; serializer.serialize_u128(<span class="kw-2">*</span>i),
+            Value::Static(StaticNode::I64(i)) =&gt; serializer.serialize_i64(<span class="kw-2">*</span>i),
             <span class="attr">#[cfg(feature = <span class="string">&quot;128bit&quot;</span>)]
-            </span><span class="self">Self</span>::Static(StaticNode::I128(i)) =&gt; serializer.serialize_i128(<span class="kw-2">*</span>i),
-            <span class="self">Self</span>::String(s) =&gt; serializer.serialize_str(s),
-            <span class="self">Self</span>::Array(v) =&gt; {
+            </span>Value::Static(StaticNode::I128(i)) =&gt; serializer.serialize_i128(<span class="kw-2">*</span>i),
+            Value::String(s) =&gt; serializer.serialize_str(s),
+            Value::Array(v) =&gt; {
                 <span class="kw">let </span><span class="kw-2">mut </span>seq = serializer.serialize_seq(<span class="prelude-val">Some</span>(v.len()))<span class="question-mark">?</span>;
                 <span class="kw">for </span>e <span class="kw">in </span>v {
                     seq.serialize_element(e)<span class="question-mark">?</span>;
                 }
                 seq.end()
             }
-            <span class="self">Self</span>::Object(m) =&gt; {
+            Value::Object(m) =&gt; {
                 <span class="kw">let </span><span class="kw-2">mut </span>map = serializer.serialize_map(<span class="prelude-val">Some</span>(m.len()))<span class="question-mark">?</span>;
                 <span class="kw">for </span>(k, v) <span class="kw">in </span>m.iter() {
                     map.serialize_entry(k, v)<span class="question-mark">?</span>;
@@ -889,11 +835,9 @@
         <span class="prelude-val">Ok</span>(Value::Static(StaticNode::I64(value)))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;arbitrary_precision&quot;</span>)]
-    </span><span class="macro">serde_if_integer128! </span>{
-        <span class="kw">fn </span>serialize_i128(<span class="self">self</span>, value: i128) -&gt; <span class="prelude-ty">Result</span>&lt;Value&gt; {
-            <span class="prelude-val">Ok</span>(Value::Number(value.into()))
-        }
+    <span class="attr">#[cfg(feature = <span class="string">&quot;128bit&quot;</span>)]
+    </span><span class="kw">fn </span>serialize_i128(<span class="self">self</span>, value: i128) -&gt; <span class="prelude-ty">Result</span>&lt;Value&gt; {
+        <span class="prelude-val">Ok</span>(Value::Static(StaticNode::I128(value)))
     }
 
     <span class="attr">#[inline]
@@ -912,16 +856,13 @@
     }
 
     <span class="attr">#[inline]
-    #[allow(clippy::cast_possible_wrap)]
     </span><span class="kw">fn </span>serialize_u64(<span class="self">self</span>, value: u64) -&gt; <span class="prelude-ty">Result</span>&lt;Value&gt; {
-        <span class="prelude-val">Ok</span>(Value::Static(StaticNode::U64(value <span class="kw">as </span>u64)))
+        <span class="prelude-val">Ok</span>(Value::Static(StaticNode::U64(value)))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;arbitrary_precision&quot;</span>)]
-    </span><span class="macro">serde_if_integer128! </span>{
-        <span class="kw">fn </span>serialize_u128(<span class="self">self</span>, value: u128) -&gt; <span class="prelude-ty">Result</span>&lt;Value&gt; {
-            <span class="prelude-val">Ok</span>(Value::Number(value.into()))
-        }
+    <span class="attr">#[cfg(feature = <span class="string">&quot;128bit&quot;</span>)]
+    </span><span class="kw">fn </span>serialize_u128(<span class="self">self</span>, value: u128) -&gt; <span class="prelude-ty">Result</span>&lt;Value&gt; {
+        <span class="prelude-val">Ok</span>(Value::Static(StaticNode::U128(value)))
     }
 
     <span class="attr">#[inline]
@@ -1039,7 +980,7 @@
     }
 
     <span class="kw">fn </span>serialize_map(<span class="self">self</span>, _len: <span class="prelude-ty">Option</span>&lt;usize&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::SerializeMap&gt; {
-        <span class="prelude-val">Ok</span>(SerializeMap::Map {
+        <span class="prelude-val">Ok</span>(SerializeMap {
             map: Object::new(),
             next_key: <span class="prelude-val">None</span>,
         })
@@ -1072,11 +1013,9 @@
     vec: Vec&lt;Value&gt;,
 }
 
-<span class="kw">pub enum </span>SerializeMap {
-    Map {
-        map: Object,
-        next_key: <span class="prelude-ty">Option</span>&lt;String&gt;,
-    },
+<span class="kw">pub struct </span>SerializeMap {
+    map: Object,
+    next_key: <span class="prelude-ty">Option</span>&lt;String&gt;,
 }
 
 <span class="kw">pub struct </span>SerializeStructVariant {
@@ -1162,51 +1101,24 @@
     <span class="kw">where
         </span>T: Serialize,
     {
-        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            <span class="self">Self</span>::Map {
-                <span class="kw-2">ref mut </span>next_key, ..
-            } =&gt; {
-                <span class="kw-2">*</span>next_key = <span class="prelude-val">Some</span>(<span class="macro">stry!</span>(key.serialize(MapKeySerializer {})));
-                <span class="prelude-val">Ok</span>(())
-            }
-            <span class="attr">#[cfg(feature = <span class="string">&quot;arbitrary_precision&quot;</span>)]
-            </span><span class="self">Self</span>::Number { .. } =&gt; <span class="macro">unreachable!</span>(),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;raw_value&quot;</span>)]
-            </span><span class="self">Self</span>::RawValue { .. } =&gt; <span class="macro">unreachable!</span>(),
-        }
+        <span class="self">self</span>.next_key = <span class="prelude-val">Some</span>(<span class="macro">stry!</span>(key.serialize(MapKeySerializer {})));
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">fn </span>serialize_value&lt;T: <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;
     <span class="kw">where
         </span>T: Serialize,
     {
-        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            <span class="self">Self</span>::Map {
-                <span class="kw-2">ref mut </span>map,
-                <span class="kw-2">ref mut </span>next_key,
-            } =&gt; {
-                <span class="kw">let </span>key = next_key.take();
-                <span class="comment">// Panic because this indicates a bug in the program rather than an
-                // expected failure.
-                </span><span class="kw">let </span>key = key.expect(<span class="string">&quot;serialize_value called before serialize_key&quot;</span>);
-                map.insert(key, <span class="macro">stry!</span>(to_value(value)));
-                <span class="prelude-val">Ok</span>(())
-            }
-            <span class="attr">#[cfg(feature = <span class="string">&quot;arbitrary_precision&quot;</span>)]
-            </span><span class="self">Self</span>::Number { .. } =&gt; <span class="macro">unreachable!</span>(),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;raw_value&quot;</span>)]
-            </span><span class="self">Self</span>::RawValue { .. } =&gt; <span class="macro">unreachable!</span>(),
-        }
+        <span class="kw">let </span>key = <span class="self">self</span>.next_key.take();
+        <span class="comment">// Panic because this indicates a bug in the program rather than an
+        // expected failure.
+        </span><span class="kw">let </span>key = key.expect(<span class="string">&quot;serialize_value called before serialize_key&quot;</span>);
+        <span class="self">self</span>.map.insert(key, <span class="macro">stry!</span>(to_value(value)));
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">fn </span>end(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Value&gt; {
-        <span class="kw">match </span><span class="self">self </span>{
-            <span class="self">Self</span>::Map { map, .. } =&gt; <span class="prelude-val">Ok</span>(Value::from(map)),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;arbitrary_precision&quot;</span>)]
-            </span><span class="self">Self</span>::Number { .. } =&gt; <span class="macro">unreachable!</span>(),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;raw_value&quot;</span>)]
-            </span><span class="self">Self</span>::RawValue { .. } =&gt; <span class="macro">unreachable!</span>(),
-        }
+        <span class="prelude-val">Ok</span>(Value::from(<span class="self">self</span>.map))
     }
 }
 
@@ -1392,40 +1304,12 @@
     <span class="kw">where
         </span>T: Serialize,
     {
-        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            <span class="self">Self</span>::Map { .. } =&gt; {
-                <span class="macro">stry!</span>(serde::ser::SerializeMap::serialize_key(<span class="self">self</span>, key));
-                serde::ser::SerializeMap::serialize_value(<span class="self">self</span>, value)
-            }
-            <span class="attr">#[cfg(feature = <span class="string">&quot;arbitrary_precision&quot;</span>)]
-            </span><span class="self">Self</span>::Number { <span class="kw-2">ref mut </span>out_value } =&gt; {
-                <span class="kw">if </span>key == ::number::TOKEN {
-                    <span class="kw-2">*</span>out_value = <span class="prelude-val">Some</span>(value.serialize(NumberValueEmitter)<span class="question-mark">?</span>);
-                    <span class="prelude-val">Ok</span>(())
-                } <span class="kw">else </span>{
-                    <span class="prelude-val">Err</span>(invalid_number())
-                }
-            }
-            <span class="attr">#[cfg(feature = <span class="string">&quot;raw_value&quot;</span>)]
-            </span><span class="self">Self</span>::RawValue { <span class="kw-2">ref mut </span>out_value } =&gt; {
-                <span class="kw">if </span>key == ::raw::TOKEN {
-                    <span class="kw-2">*</span>out_value = <span class="prelude-val">Some</span>(value.serialize(RawValueEmitter)<span class="question-mark">?</span>);
-                    <span class="prelude-val">Ok</span>(())
-                } <span class="kw">else </span>{
-                    <span class="prelude-val">Err</span>(invalid_raw_value())
-                }
-            }
-        }
+        <span class="macro">stry!</span>(serde::ser::SerializeMap::serialize_key(<span class="self">self</span>, key));
+        serde::ser::SerializeMap::serialize_value(<span class="self">self</span>, value)
     }
 
     <span class="kw">fn </span>end(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Value&gt; {
-        <span class="kw">match </span><span class="self">self </span>{
-            <span class="self">Self</span>::Map { .. } =&gt; serde::ser::SerializeMap::end(<span class="self">self</span>),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;arbitrary_precision&quot;</span>)]
-            </span><span class="self">Self</span>::Number { out_value, .. } =&gt; <span class="prelude-val">Ok</span>(out_value.expect(<span class="string">&quot;number value was not emitted&quot;</span>)),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;raw_value&quot;</span>)]
-            </span><span class="self">Self</span>::RawValue { out_value, .. } =&gt; <span class="prelude-val">Ok</span>(out_value.expect(<span class="string">&quot;raw value was not emitted&quot;</span>)),
-        }
+        serde::ser::SerializeMap::end(<span class="self">self</span>)
     }
 }
 

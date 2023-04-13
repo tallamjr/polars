@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-time/src/chunkedarray/utf8/infer.rs`."><title>infer.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_time/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-time/src/chunkedarray/utf8/infer.rs`."><title>infer.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_time" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_time/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -313,12 +313,132 @@
 <a href="#313" id="313">313</a>
 <a href="#314" id="314">314</a>
 <a href="#315" id="315">315</a>
-</pre><pre class="rust"><code><span class="kw">use </span>chrono::{NaiveDate, NaiveDateTime};
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
+<a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
+<a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
+<a href="#411" id="411">411</a>
+<a href="#412" id="412">412</a>
+<a href="#413" id="413">413</a>
+<a href="#414" id="414">414</a>
+<a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+<a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
+<a href="#429" id="429">429</a>
+<a href="#430" id="430">430</a>
+<a href="#431" id="431">431</a>
+<a href="#432" id="432">432</a>
+<a href="#433" id="433">433</a>
+<a href="#434" id="434">434</a>
+<a href="#435" id="435">435</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>chrono::{DateTime, FixedOffset, NaiveDate, NaiveDateTime};
 <span class="kw">use </span>polars_arrow::export::arrow::array::PrimitiveArray;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::utils::arrow::types::NativeType;
 
-<span class="kw">use </span><span class="kw">super</span>::patterns;
+<span class="kw">use </span><span class="kw">super</span>::patterns::{<span class="self">self</span>, PatternWithOffset};
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::chunkedarray::date::naive_date_to_date;
 <span class="kw">use </span><span class="kw">crate</span>::chunkedarray::utf8::patterns::Pattern;
@@ -397,10 +517,11 @@
 </span><span class="kw">pub struct </span>DatetimeInfer&lt;T&gt; {
     patterns: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str],
     latest_fmt: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
-    transform: <span class="kw">fn</span>(<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt;,
+    transform: <span class="kw">fn</span>(<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str, <span class="prelude-ty">Option</span>&lt;FixedOffset&gt;, bool) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt;,
     transform_bytes: StrpTimeState,
     fmt_len: u16,
     <span class="kw">pub </span>logical_type: DataType,
+    utc: bool,
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
@@ -416,6 +537,7 @@
                 transform_bytes: StrpTimeState::default(),
                 fmt_len: <span class="number">0</span>,
                 logical_type: DataType::Datetime(TimeUnit::Microseconds, <span class="prelude-val">None</span>),
+                utc: <span class="bool-val">false</span>,
             }),
             Pattern::DatetimeYMD =&gt; <span class="prelude-val">Ok</span>(DatetimeInfer {
                 patterns: patterns::DATETIME_Y_M_D,
@@ -424,6 +546,16 @@
                 transform_bytes: StrpTimeState::default(),
                 fmt_len: <span class="number">0</span>,
                 logical_type: DataType::Datetime(TimeUnit::Microseconds, <span class="prelude-val">None</span>),
+                utc: <span class="bool-val">false</span>,
+            }),
+            Pattern::DatetimeYMDZ =&gt; <span class="prelude-val">Ok</span>(DatetimeInfer {
+                patterns: patterns::DATETIME_Y_M_D_Z,
+                latest_fmt: patterns::DATETIME_Y_M_D_Z[<span class="number">0</span>],
+                transform: transform_tzaware_datetime_us,
+                transform_bytes: StrpTimeState::default(),
+                fmt_len: <span class="number">0</span>,
+                logical_type: DataType::Datetime(TimeUnit::Microseconds, <span class="prelude-val">None</span>),
+                utc: <span class="bool-val">false</span>,
             }),
             <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;could not convert pattern&quot;</span>),
         }
@@ -443,6 +575,7 @@
                 transform_bytes: StrpTimeState::default(),
                 fmt_len: <span class="number">0</span>,
                 logical_type: DataType::Date,
+                utc: <span class="bool-val">false</span>,
             }),
             Pattern::DateYMD =&gt; <span class="prelude-val">Ok</span>(DatetimeInfer {
                 patterns: patterns::DATE_Y_M_D,
@@ -451,6 +584,7 @@
                 transform_bytes: StrpTimeState::default(),
                 fmt_len: <span class="number">0</span>,
                 logical_type: DataType::Date,
+                utc: <span class="bool-val">false</span>,
             }),
             <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;could not convert pattern&quot;</span>),
         }
@@ -458,14 +592,14 @@
 }
 
 <span class="kw">impl</span>&lt;T: NativeType&gt; DatetimeInfer&lt;T&gt; {
-    <span class="kw">pub fn </span>parse(<span class="kw-2">&amp;mut </span><span class="self">self</span>, val: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt; {
-        <span class="kw">match </span>(<span class="self">self</span>.transform)(val, <span class="self">self</span>.latest_fmt) {
+    <span class="kw">pub fn </span>parse(<span class="kw-2">&amp;mut </span><span class="self">self</span>, val: <span class="kw-2">&amp;</span>str, offset: <span class="prelude-ty">Option</span>&lt;FixedOffset&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt; {
+        <span class="kw">match </span>(<span class="self">self</span>.transform)(val, <span class="self">self</span>.latest_fmt, offset, <span class="self">self</span>.utc) {
             <span class="prelude-val">Some</span>(parsed) =&gt; <span class="prelude-val">Some</span>(parsed),
             <span class="comment">// try other patterns
             </span><span class="prelude-val">None </span>=&gt; {
                 <span class="kw">for </span>fmt <span class="kw">in </span><span class="self">self</span>.patterns {
                     <span class="self">self</span>.fmt_len = <span class="number">0</span>;
-                    <span class="kw">if let </span><span class="prelude-val">Some</span>(parsed) = (<span class="self">self</span>.transform)(val, fmt) {
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(parsed) = (<span class="self">self</span>.transform)(val, fmt, offset, <span class="self">self</span>.utc) {
                         <span class="self">self</span>.latest_fmt = fmt;
                         <span class="kw">return </span><span class="prelude-val">Some</span>(parsed);
                     }
@@ -475,13 +609,13 @@
         }
     }
 
-    <span class="kw">fn </span>coerce_utf8(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ca: <span class="kw-2">&amp;</span>Utf8Chunked) -&gt; Series {
+    <span class="kw">fn </span>coerce_utf8(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ca: <span class="kw-2">&amp;</span>Utf8Chunked, offset: <span class="prelude-ty">Option</span>&lt;FixedOffset&gt;) -&gt; Series {
         <span class="kw">let </span>chunks = ca
             .downcast_iter()
             .map(|array| {
                 <span class="kw">let </span>iter = array
                     .into_iter()
-                    .map(|opt_val| opt_val.and_then(|val| <span class="self">self</span>.parse(val)));
+                    .map(|opt_val| opt_val.and_then(|val| <span class="self">self</span>.parse(val, offset)));
                 Box::new(PrimitiveArray::from_trusted_len_iter(iter)) <span class="kw">as </span>ArrayRef
             })
             .collect();
@@ -502,14 +636,19 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
-</span><span class="kw">fn </span>transform_date(val: <span class="kw-2">&amp;</span>str, fmt: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;i32&gt; {
+</span><span class="kw">fn </span>transform_date(val: <span class="kw-2">&amp;</span>str, fmt: <span class="kw-2">&amp;</span>str, _offset: <span class="prelude-ty">Option</span>&lt;FixedOffset&gt;, _utc: bool) -&gt; <span class="prelude-ty">Option</span>&lt;i32&gt; {
     NaiveDate::parse_from_str(val, fmt)
         .ok()
         .map(naive_date_to_date)
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>transform_datetime_ns(val: <span class="kw-2">&amp;</span>str, fmt: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>transform_datetime_ns(
+    val: <span class="kw-2">&amp;</span>str,
+    fmt: <span class="kw-2">&amp;</span>str,
+    _offset: <span class="prelude-ty">Option</span>&lt;FixedOffset&gt;,
+    _utc: bool,
+) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
     <span class="kw">let </span>out = NaiveDateTime::parse_from_str(val, fmt)
         .ok()
         .map(datetime_to_timestamp_ns);
@@ -520,8 +659,29 @@
     })
 }
 
+<span class="kw">fn </span>transform_tzaware_datetime_ns(
+    val: <span class="kw-2">&amp;</span>str,
+    fmt: <span class="kw-2">&amp;</span>str,
+    offset: <span class="prelude-ty">Option</span>&lt;FixedOffset&gt;,
+    utc: bool,
+) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
+    <span class="kw">let </span>dt = DateTime::parse_from_str(val, fmt);
+    <span class="kw">match </span>utc {
+        <span class="bool-val">true </span>=&gt; dt.ok().map(|dt| datetime_to_timestamp_ns(dt.naive_utc())),
+        <span class="bool-val">false </span>=&gt; <span class="kw">match </span><span class="prelude-val">Some</span>(dt.ok()<span class="question-mark">?</span>.timezone()) == offset {
+            <span class="bool-val">true </span>=&gt; dt.ok().map(|dt| datetime_to_timestamp_ns(dt.naive_utc())),
+            <span class="bool-val">false </span>=&gt; <span class="prelude-val">None</span>,
+        },
+    }
+}
+
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>transform_datetime_us(val: <span class="kw-2">&amp;</span>str, fmt: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>transform_datetime_us(
+    val: <span class="kw-2">&amp;</span>str,
+    fmt: <span class="kw-2">&amp;</span>str,
+    _offset: <span class="prelude-ty">Option</span>&lt;FixedOffset&gt;,
+    _utc: bool,
+) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
     <span class="kw">let </span>out = NaiveDateTime::parse_from_str(val, fmt)
         .ok()
         .map(datetime_to_timestamp_us);
@@ -532,8 +692,29 @@
     })
 }
 
+<span class="kw">fn </span>transform_tzaware_datetime_us(
+    val: <span class="kw-2">&amp;</span>str,
+    fmt: <span class="kw-2">&amp;</span>str,
+    offset: <span class="prelude-ty">Option</span>&lt;FixedOffset&gt;,
+    utc: bool,
+) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
+    <span class="kw">let </span>dt = DateTime::parse_from_str(val, fmt);
+    <span class="kw">match </span>utc {
+        <span class="bool-val">true </span>=&gt; dt.ok().map(|dt| datetime_to_timestamp_us(dt.naive_utc())),
+        <span class="bool-val">false </span>=&gt; <span class="kw">match </span><span class="prelude-val">Some</span>(dt.ok()<span class="question-mark">?</span>.timezone()) == offset {
+            <span class="bool-val">true </span>=&gt; dt.ok().map(|dt| datetime_to_timestamp_us(dt.naive_utc())),
+            <span class="bool-val">false </span>=&gt; <span class="prelude-val">None</span>,
+        },
+    }
+}
+
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>transform_datetime_ms(val: <span class="kw-2">&amp;</span>str, fmt: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>transform_datetime_ms(
+    val: <span class="kw-2">&amp;</span>str,
+    fmt: <span class="kw-2">&amp;</span>str,
+    _offset: <span class="prelude-ty">Option</span>&lt;FixedOffset&gt;,
+    _utc: bool,
+) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
     <span class="kw">let </span>out = NaiveDateTime::parse_from_str(val, fmt)
         .ok()
         .map(datetime_to_timestamp_ms);
@@ -544,38 +725,72 @@
     })
 }
 
-<span class="kw">pub fn </span>infer_pattern_single(val: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Pattern&gt; {
+<span class="kw">fn </span>transform_tzaware_datetime_ms(
+    val: <span class="kw-2">&amp;</span>str,
+    fmt: <span class="kw-2">&amp;</span>str,
+    offset: <span class="prelude-ty">Option</span>&lt;FixedOffset&gt;,
+    utc: bool,
+) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
+    <span class="kw">let </span>dt = DateTime::parse_from_str(val, fmt);
+    <span class="kw">match </span>utc {
+        <span class="bool-val">true </span>=&gt; dt.ok().map(|dt| datetime_to_timestamp_ms(dt.naive_utc())),
+        <span class="bool-val">false </span>=&gt; <span class="kw">match </span><span class="prelude-val">Some</span>(dt.ok()<span class="question-mark">?</span>.timezone()) == offset {
+            <span class="bool-val">true </span>=&gt; dt.ok().map(|dt| datetime_to_timestamp_ms(dt.naive_utc())),
+            <span class="bool-val">false </span>=&gt; <span class="prelude-val">None</span>,
+        },
+    }
+}
+
+<span class="kw">pub fn </span>infer_pattern_single(val: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;PatternWithOffset&gt; {
     <span class="comment">// Dates come first, because we see datetimes as superset of dates
     </span>infer_pattern_date_single(val).or_else(|| infer_pattern_datetime_single(val))
 }
 
-<span class="kw">fn </span>infer_pattern_datetime_single(val: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Pattern&gt; {
+<span class="kw">fn </span>infer_pattern_datetime_single(val: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;PatternWithOffset&gt; {
     <span class="kw">if </span>patterns::DATETIME_D_M_Y.iter().any(|fmt| {
         NaiveDateTime::parse_from_str(val, fmt).is_ok()
             || NaiveDate::parse_from_str(val, fmt).is_ok()
     }) {
-        <span class="prelude-val">Some</span>(Pattern::DatetimeDMY)
+        <span class="prelude-val">Some</span>(PatternWithOffset {
+            pattern: Pattern::DatetimeDMY,
+            offset: <span class="prelude-val">None</span>,
+        })
     } <span class="kw">else if </span>patterns::DATETIME_Y_M_D.iter().any(|fmt| {
         NaiveDateTime::parse_from_str(val, fmt).is_ok()
             || NaiveDate::parse_from_str(val, fmt).is_ok()
     }) {
-        <span class="prelude-val">Some</span>(Pattern::DatetimeYMD)
+        <span class="prelude-val">Some</span>(PatternWithOffset {
+            pattern: Pattern::DatetimeYMD,
+            offset: <span class="prelude-val">None</span>,
+        })
     } <span class="kw">else </span>{
-        <span class="prelude-val">None
-    </span>}
+        patterns::DATETIME_Y_M_D_Z
+            .iter()
+            .find_map(|fmt| DateTime::parse_from_str(val, fmt).ok())
+            .map(|dt| PatternWithOffset {
+                pattern: Pattern::DatetimeYMDZ,
+                offset: <span class="prelude-val">Some</span>(dt.timezone()),
+            })
+    }
 }
 
-<span class="kw">fn </span>infer_pattern_date_single(val: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Pattern&gt; {
+<span class="kw">fn </span>infer_pattern_date_single(val: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;PatternWithOffset&gt; {
     <span class="kw">if </span>patterns::DATE_D_M_Y
         .iter()
         .any(|fmt| NaiveDate::parse_from_str(val, fmt).is_ok())
     {
-        <span class="prelude-val">Some</span>(Pattern::DateDMY)
+        <span class="prelude-val">Some</span>(PatternWithOffset {
+            pattern: Pattern::DateDMY,
+            offset: <span class="prelude-val">None</span>,
+        })
     } <span class="kw">else if </span>patterns::DATE_Y_M_D
         .iter()
         .any(|fmt| NaiveDate::parse_from_str(val, fmt).is_ok())
     {
-        <span class="prelude-val">Some</span>(Pattern::DateYMD)
+        <span class="prelude-val">Some</span>(PatternWithOffset {
+            pattern: Pattern::DateYMD,
+            offset: <span class="prelude-val">None</span>,
+        })
     } <span class="kw">else </span>{
         <span class="prelude-val">None
     </span>}
@@ -586,31 +801,56 @@
     ca: <span class="kw-2">&amp;</span>Utf8Chunked,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
+    utc: bool,
 ) -&gt; PolarsResult&lt;DatetimeChunked&gt; {
     <span class="kw">match </span>ca.first_non_null() {
         <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(Int64Chunked::full_null(ca.name(), ca.len()).into_datetime(tu, tz.cloned())),
         <span class="prelude-val">Some</span>(idx) =&gt; {
             <span class="kw">let </span>subset = ca.slice(idx <span class="kw">as </span>i64, ca.len());
-            <span class="kw">let </span>pattern = subset
+            <span class="kw">let </span>pattern_with_offset = subset
                 .into_iter()
                 .find_map(|opt_val| opt_val.and_then(infer_pattern_datetime_single))
                 .ok_or_else(|| <span class="macro">polars_err!</span>(parse_fmt_idk = <span class="string">&quot;date&quot;</span>))<span class="question-mark">?</span>;
-            <span class="kw">let </span><span class="kw-2">mut </span>infer = DatetimeInfer::&lt;i64&gt;::try_from(pattern).unwrap();
-            <span class="kw">match </span>tu {
-                TimeUnit::Nanoseconds =&gt; infer.transform = transform_datetime_ns,
-                TimeUnit::Microseconds =&gt; infer.transform = transform_datetime_us,
-                TimeUnit::Milliseconds =&gt; infer.transform = transform_datetime_ms,
+            <span class="kw">let </span><span class="kw-2">mut </span>infer = DatetimeInfer::&lt;i64&gt;::try_from(pattern_with_offset.pattern)<span class="question-mark">?</span>;
+            <span class="kw">match </span>(tu, pattern_with_offset.offset) {
+                (TimeUnit::Nanoseconds, <span class="prelude-val">None</span>) =&gt; infer.transform = transform_datetime_ns,
+                (TimeUnit::Microseconds, <span class="prelude-val">None</span>) =&gt; infer.transform = transform_datetime_us,
+                (TimeUnit::Milliseconds, <span class="prelude-val">None</span>) =&gt; infer.transform = transform_datetime_ms,
+                (TimeUnit::Nanoseconds, <span class="kw">_</span>) =&gt; infer.transform = transform_tzaware_datetime_ns,
+                (TimeUnit::Microseconds, <span class="kw">_</span>) =&gt; infer.transform = transform_tzaware_datetime_us,
+                (TimeUnit::Milliseconds, <span class="kw">_</span>) =&gt; infer.transform = transform_tzaware_datetime_ms,
             }
-            infer.coerce_utf8(ca).datetime().map(|ca| {
-                <span class="kw">let </span><span class="kw-2">mut </span>ca = ca.clone();
-                ca.set_time_unit(tu);
-                <span class="kw">match </span>tz {
-                    <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-                    </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="prelude-val">Ok</span>(ca.replace_time_zone(<span class="prelude-val">Some</span>(tz))<span class="question-mark">?</span>),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(ca),
-                }
-            })<span class="question-mark">?
-        </span>}
+            infer.utc = utc;
+            <span class="kw">if </span>tz.is_some() &amp;&amp; pattern_with_offset.offset.is_some() {
+                <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;cannot parse tz-aware values with tz-aware dtype - please drop the time zone from the dtype.&quot;</span>)
+            }
+            <span class="kw">match </span>pattern_with_offset.offset {
+                <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+                </span><span class="prelude-val">Some</span>(offset) =&gt; infer.coerce_utf8(ca, <span class="prelude-val">Some</span>(offset)).datetime().map(|ca| {
+                    <span class="kw">let </span><span class="kw-2">mut </span>ca = ca.clone();
+                    ca.set_time_unit(tu);
+                    <span class="kw">match </span>utc {
+                        <span class="bool-val">true </span>=&gt; <span class="prelude-val">Ok</span>(ca.replace_time_zone(<span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>))<span class="question-mark">?</span>),
+                        <span class="bool-val">false </span>=&gt; <span class="prelude-val">Ok</span>(ca
+                            .replace_time_zone(<span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>))<span class="question-mark">?
+                            </span>.convert_time_zone(offset.to_string())<span class="question-mark">?</span>),
+                    }
+                })<span class="question-mark">?</span>,
+                <span class="kw">_ </span>=&gt; infer.coerce_utf8(ca, <span class="prelude-val">None</span>).datetime().map(|ca| {
+                    <span class="kw">let </span><span class="kw-2">mut </span>ca = ca.clone();
+                    ca.set_time_unit(tu);
+                    <span class="kw">match </span>(tz, utc) {
+                        <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+                        </span>(<span class="prelude-val">Some</span>(tz), <span class="bool-val">false</span>) =&gt; <span class="prelude-val">Ok</span>(ca.replace_time_zone(<span class="prelude-val">Some</span>(tz))<span class="question-mark">?</span>),
+                        <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+                        </span>(<span class="prelude-val">None</span>, <span class="bool-val">true</span>) =&gt; <span class="prelude-val">Ok</span>(ca.replace_time_zone(<span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>))<span class="question-mark">?</span>),
+                        <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+                        </span>(<span class="prelude-val">Some</span>(<span class="kw">_</span>), <span class="bool-val">true</span>) =&gt; <span class="macro">unreachable!</span>(), <span class="comment">// has already been validated in strptime
+                        </span><span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(ca),
+                    }
+                })<span class="question-mark">?</span>,
+            }
+        }
     }
 }
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
@@ -619,12 +859,12 @@
         <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(Int32Chunked::full_null(ca.name(), ca.len()).into_date()),
         <span class="prelude-val">Some</span>(idx) =&gt; {
             <span class="kw">let </span>subset = ca.slice(idx <span class="kw">as </span>i64, ca.len());
-            <span class="kw">let </span>pattern = subset
+            <span class="kw">let </span>pattern_with_offset = subset
                 .into_iter()
                 .find_map(|opt_val| opt_val.and_then(infer_pattern_date_single))
                 .ok_or_else(|| <span class="macro">polars_err!</span>(parse_fmt_idk = <span class="string">&quot;date&quot;</span>))<span class="question-mark">?</span>;
-            <span class="kw">let </span><span class="kw-2">mut </span>infer = DatetimeInfer::&lt;i32&gt;::try_from(pattern).unwrap();
-            infer.coerce_utf8(ca).date().cloned()
+            <span class="kw">let </span><span class="kw-2">mut </span>infer = DatetimeInfer::&lt;i32&gt;::try_from(pattern_with_offset.pattern).unwrap();
+            infer.coerce_utf8(ca, <span class="prelude-val">None</span>).date().cloned()
         }
     }
 }

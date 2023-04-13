@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["reset_string_cache","toggle_string_cache","using_string_cache","with_string_cache"],"struct":["IUseStringCache"]};
+window.SIDEBAR_ITEMS = {"fn":["enable_string_cache","reset_string_cache","using_string_cache","with_string_cache"],"struct":["IUseStringCache"]};

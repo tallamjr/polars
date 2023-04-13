@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/simd-json-0.7.0/src/serde/value/borrowed/de.rs`."><title>de.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="simd_json" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../../source-files.js"></script><script defer src="../../../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../../simd_json/index.html"><img class="rust-logo" src="../../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/git/checkouts/simd-json-b6a55740aaec8c97/cbd3736/src/serde/value/borrowed/de.rs`."><title>de.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="simd_json" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../../source-files.js"></script><script defer src="../../../../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../../simd_json/index.html"><img class="rust-logo" src="../../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1011,56 +1011,23 @@
 <a href="#1011" id="1011">1011</a>
 <a href="#1012" id="1012">1012</a>
 <a href="#1013" id="1013">1013</a>
-<a href="#1014" id="1014">1014</a>
-<a href="#1015" id="1015">1015</a>
-<a href="#1016" id="1016">1016</a>
-<a href="#1017" id="1017">1017</a>
-<a href="#1018" id="1018">1018</a>
-<a href="#1019" id="1019">1019</a>
-<a href="#1020" id="1020">1020</a>
-<a href="#1021" id="1021">1021</a>
-<a href="#1022" id="1022">1022</a>
-<a href="#1023" id="1023">1023</a>
-<a href="#1024" id="1024">1024</a>
-<a href="#1025" id="1025">1025</a>
-<a href="#1026" id="1026">1026</a>
-<a href="#1027" id="1027">1027</a>
-<a href="#1028" id="1028">1028</a>
-<a href="#1029" id="1029">1029</a>
-<a href="#1030" id="1030">1030</a>
-<a href="#1031" id="1031">1031</a>
-<a href="#1032" id="1032">1032</a>
-<a href="#1033" id="1033">1033</a>
-<a href="#1034" id="1034">1034</a>
-<a href="#1035" id="1035">1035</a>
-<a href="#1036" id="1036">1036</a>
-<a href="#1037" id="1037">1037</a>
-<a href="#1038" id="1038">1038</a>
-<a href="#1039" id="1039">1039</a>
-<a href="#1040" id="1040">1040</a>
-<a href="#1041" id="1041">1041</a>
-<a href="#1042" id="1042">1042</a>
-<a href="#1043" id="1043">1043</a>
-<a href="#1044" id="1044">1044</a>
-<a href="#1045" id="1045">1045</a>
-<a href="#1046" id="1046">1046</a>
-<a href="#1047" id="1047">1047</a>
-<a href="#1048" id="1048">1048</a>
-<a href="#1049" id="1049">1049</a>
-<a href="#1050" id="1050">1050</a>
-<a href="#1051" id="1051">1051</a>
-</pre><pre class="rust"><code><span class="comment">// A lot of this logic is a re-implementation or copy of serde_json::Value
-</span><span class="kw">use </span><span class="kw">super</span>::<span class="kw">super</span>::shared::MapKeyDeserializer;
-<span class="kw">use </span><span class="kw">crate</span>::value::borrowed::{Object, Value};
-<span class="kw">use </span><span class="kw">crate</span>::Error;
+</pre></div><pre class="rust"><code><span class="comment">// A lot of this logic is a re-implementation or copy of serde_json::Value
+</span><span class="kw">use </span><span class="kw">crate</span>::Error;
 <span class="kw">use </span><span class="kw">crate</span>::StaticNode;
-<span class="kw">use crate</span>::{cow::Cow, stry, ErrorType};
-<span class="kw">use </span>serde_ext::de::{
-    <span class="self">self</span>, Deserialize, DeserializeSeed, Deserializer, EnumAccess, IntoDeserializer, MapAccess,
-    SeqAccess, VariantAccess, Visitor,
+<span class="kw">use crate</span>::{cow::Cow, ErrorType};
+<span class="kw">use crate</span>::{
+    serde::value::shared::MapKeyDeserializer,
+    value::borrowed::{Object, Value},
 };
-<span class="kw">use </span>serde_ext::forward_to_deserialize_any;
-<span class="kw">use </span>std::{fmt, slice};
+<span class="kw">use </span>serde_ext::{
+    de::{
+        <span class="self">self</span>, Deserialize, DeserializeSeed, Deserializer, EnumAccess, IntoDeserializer, MapAccess,
+        SeqAccess, VariantAccess, Visitor,
+    },
+    forward_to_deserialize_any,
+};
+<span class="kw">use </span>std::fmt;
+<span class="kw">use </span>value_trait::{ValueAccess, ValueType};
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; de::Deserializer&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>Value&lt;<span class="lifetime">&#39;de</span>&gt; {
     <span class="kw">type </span>Error = Error;
@@ -1075,12 +1042,12 @@
         <span class="kw">match </span><span class="self">self </span>{
             Value::Static(StaticNode::Null) =&gt; visitor.visit_unit(),
             Value::Static(StaticNode::Bool(b)) =&gt; visitor.visit_bool(b),
-            <span class="self">Self</span>::Static(StaticNode::I64(n)) =&gt; visitor.visit_i64(n),
+            Value::Static(StaticNode::I64(n)) =&gt; visitor.visit_i64(n),
             <span class="attr">#[cfg(feature = <span class="string">&quot;128bit&quot;</span>)]
-            </span><span class="self">Self</span>::Static(StaticNode::I128(n)) =&gt; visitor.visit_i128(n),
-            <span class="self">Self</span>::Static(StaticNode::U64(n)) =&gt; visitor.visit_u64(n),
+            </span>Value::Static(StaticNode::I128(n)) =&gt; visitor.visit_i128(n),
+            Value::Static(StaticNode::U64(n)) =&gt; visitor.visit_u64(n),
             <span class="attr">#[cfg(feature = <span class="string">&quot;128bit&quot;</span>)]
-            </span><span class="self">Self</span>::Static(StaticNode::U128(n)) =&gt; visitor.visit_u128(n),
+            </span>Value::Static(StaticNode::U128(n)) =&gt; visitor.visit_u128(n),
             Value::Static(StaticNode::F64(n)) =&gt; visitor.visit_f64(n),
             <span class="attr">#[cfg(feature = <span class="string">&quot;beef&quot;</span>)]
             </span>Value::String(s) =&gt; {
@@ -1096,11 +1063,8 @@
                 Cow::Owned(s) =&gt; visitor.visit_string(s),
             },
 
-            Value::Array(a) =&gt; visitor.visit_seq(Array(a.iter())),
-            Value::Object(o) =&gt; visitor.visit_map(ObjectAccess {
-                i: o.iter(),
-                v: <span class="kw-2">&amp;</span>Value::Static(StaticNode::Null),
-            }),
+            Value::Array(a) =&gt; visitor.visit_seq(Array(a.into_iter())),
+            Value::Object(o) =&gt; visitor.visit_map(ObjectAccess::new(o.into_iter())),
         }
     }
 
@@ -1109,7 +1073,7 @@
     <span class="kw">where
         </span>V: Visitor&lt;<span class="lifetime">&#39;de</span>&gt;,
     {
-        <span class="kw">if </span><span class="self">self </span>== <span class="self">Self</span>::Static(StaticNode::Null) {
+        <span class="kw">if </span><span class="self">self </span>== Value::Static(StaticNode::Null) {
             visitor.visit_unit()
         } <span class="kw">else </span>{
             visitor.visit_some(<span class="self">self</span>)
@@ -1132,20 +1096,21 @@
                 <span class="kw">let </span>(variant, value) = <span class="kw">match </span>iter.next() {
                     <span class="prelude-val">Some</span>(v) =&gt; v,
                     <span class="prelude-val">None </span>=&gt; {
-                        <span class="comment">// FIXME: better error
-                        </span><span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::ExpectedString));
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Eof));
                     }
                 };
                 <span class="comment">// enums are encoded in json as maps with a single key:value pair
                 </span><span class="kw">if </span>iter.next().is_some() {
-                    <span class="comment">// FIXME: better error
-                    </span><span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::ExpectedString));
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::TrailingData));
                 }
                 (variant, <span class="prelude-val">Some</span>(value))
             }
             Value::String(variant) =&gt; (variant, <span class="prelude-val">None</span>),
-            _other =&gt; {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::ExpectedMap));
+            other =&gt; {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Unexpected(
+                    <span class="prelude-val">Some</span>(ValueType::Object),
+                    <span class="prelude-val">Some</span>(other.value_type()),
+                )));
             }
         };
 
@@ -1176,12 +1141,12 @@
     {
         <span class="kw">match </span><span class="self">self </span>{
             <span class="comment">// Give the visitor access to each element of the sequence.
-            </span>Value::Array(a) =&gt; visitor.visit_seq(Array(a.iter())),
-            Value::Object(o) =&gt; visitor.visit_map(ObjectAccess {
-                i: o.iter(),
-                v: <span class="kw-2">&amp;</span>Value::Static(StaticNode::Null),
-            }),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::ExpectedMap)),
+            </span>Value::Array(a) =&gt; visitor.visit_seq(Array(a.into_iter())),
+            Value::Object(o) =&gt; visitor.visit_map(ObjectAccess::new(o.into_iter())),
+            other =&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Unexpected(
+                <span class="prelude-val">Some</span>(ValueType::Object),
+                <span class="prelude-val">Some</span>(other.value_type()),
+            ))),
         }
     }
 
@@ -1192,32 +1157,54 @@
     }
 }
 
-<span class="kw">struct </span>Array&lt;<span class="lifetime">&#39;de</span>, <span class="lifetime">&#39;value</span>: <span class="lifetime">&#39;de</span>&gt;(std::slice::Iter&lt;<span class="lifetime">&#39;de</span>, Value&lt;<span class="lifetime">&#39;value</span>&gt;&gt;);
+<span class="kw">struct </span>Array&lt;<span class="lifetime">&#39;de</span>&gt;(std::vec::IntoIter&lt;Value&lt;<span class="lifetime">&#39;de</span>&gt;&gt;);
 
 <span class="comment">// `SeqAccess` is provided to the `Visitor` to give it the ability to iterate
 // through elements of the sequence.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>, <span class="lifetime">&#39;value</span>&gt; SeqAccess&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>Array&lt;<span class="lifetime">&#39;value</span>, <span class="lifetime">&#39;de</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; SeqAccess&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>Array&lt;<span class="lifetime">&#39;de</span>&gt; {
     <span class="kw">type </span>Error = Error;
 
     <span class="kw">fn </span>next_element_seed&lt;T&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, seed: T) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;T::Value&gt;, <span class="self">Self</span>::Error&gt;
     <span class="kw">where
         </span>T: DeserializeSeed&lt;<span class="lifetime">&#39;de</span>&gt;,
     {
-        <span class="comment">//TODO: This is ugly
-        </span><span class="self">self</span>.<span class="number">0
+        <span class="self">self</span>.<span class="number">0
             </span>.next()
-            .map_or(<span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>), |v| seed.deserialize(v.clone()).map(<span class="prelude-val">Some</span>))
+            .map_or(<span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>), |v| seed.deserialize(v).map(<span class="prelude-val">Some</span>))
     }
 }
 
-<span class="kw">struct </span>ObjectAccess&lt;<span class="lifetime">&#39;de</span>, <span class="lifetime">&#39;value</span>: <span class="lifetime">&#39;de</span>&gt; {
-    i: halfbrown::Iter&lt;<span class="lifetime">&#39;de</span>, Cow&lt;<span class="lifetime">&#39;value</span>, str&gt;, Value&lt;<span class="lifetime">&#39;value</span>&gt;&gt;,
-    v: <span class="kw-2">&amp;</span><span class="lifetime">&#39;de </span>Value&lt;<span class="lifetime">&#39;value</span>&gt;,
+<span class="kw">struct </span>ArrayRef&lt;<span class="lifetime">&#39;de</span>&gt;(std::slice::Iter&lt;<span class="lifetime">&#39;de</span>, Value&lt;<span class="lifetime">&#39;de</span>&gt;&gt;);
+
+<span class="comment">// `SeqAccess` is provided to the `Visitor` to give it the ability to iterate
+// through elements of the sequence.
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; SeqAccess&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>ArrayRef&lt;<span class="lifetime">&#39;de</span>&gt; {
+    <span class="kw">type </span>Error = Error;
+
+    <span class="kw">fn </span>next_element_seed&lt;T&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, seed: T) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;T::Value&gt;, <span class="self">Self</span>::Error&gt;
+    <span class="kw">where
+        </span>T: DeserializeSeed&lt;<span class="lifetime">&#39;de</span>&gt;,
+    {
+        <span class="self">self</span>.<span class="number">0
+            </span>.next()
+            .map_or(<span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>), |v| seed.deserialize(v).map(<span class="prelude-val">Some</span>))
+    }
+}
+
+<span class="kw">struct </span>ObjectAccess&lt;<span class="lifetime">&#39;de</span>&gt; {
+    i: halfbrown::IntoIter&lt;Cow&lt;<span class="lifetime">&#39;de</span>, str&gt;, Value&lt;<span class="lifetime">&#39;de</span>&gt;&gt;,
+    v: <span class="prelude-ty">Option</span>&lt;Value&lt;<span class="lifetime">&#39;de</span>&gt;&gt;,
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; ObjectAccess&lt;<span class="lifetime">&#39;de</span>&gt; {
+    <span class="kw">fn </span>new(i: halfbrown::IntoIter&lt;Cow&lt;<span class="lifetime">&#39;de</span>, str&gt;, Value&lt;<span class="lifetime">&#39;de</span>&gt;&gt;) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{ i, v: <span class="prelude-val">None </span>}
+    }
 }
 
 <span class="comment">// `MapAccess` is provided to the `Visitor` to give it the ability to iterate
 // through entries of the map.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>, <span class="lifetime">&#39;value</span>&gt; MapAccess&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>ObjectAccess&lt;<span class="lifetime">&#39;value</span>, <span class="lifetime">&#39;de</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; MapAccess&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>ObjectAccess&lt;<span class="lifetime">&#39;de</span>&gt; {
     <span class="kw">type </span>Error = Error;
 
     <span class="kw">fn </span>next_key_seed&lt;K&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, seed: K) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;K::Value&gt;, <span class="self">Self</span>::Error&gt;
@@ -1225,8 +1212,8 @@
         </span>K: DeserializeSeed&lt;<span class="lifetime">&#39;de</span>&gt;,
     {
         <span class="kw">if let </span><span class="prelude-val">Some</span>((k, v)) = <span class="self">self</span>.i.next() {
-            <span class="self">self</span>.v = v;
-            seed.deserialize(Value::String(k.clone())).map(<span class="prelude-val">Some</span>)
+            <span class="self">self</span>.v = <span class="prelude-val">Some</span>(v);
+            seed.deserialize(Value::String(k)).map(<span class="prelude-val">Some</span>)
         } <span class="kw">else </span>{
             <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
         }
@@ -1236,8 +1223,49 @@
     <span class="kw">where
         </span>V: DeserializeSeed&lt;<span class="lifetime">&#39;de</span>&gt;,
     {
-        <span class="comment">//TODO: This is ugly
-        </span>seed.deserialize(<span class="self">self</span>.v.clone())
+        <span class="kw">match </span><span class="self">self</span>.v.take() {
+            <span class="prelude-val">Some</span>(v) =&gt; seed.deserialize(v),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Eof)),
+        }
+    }
+}
+
+<span class="kw">struct </span>ObjectRefAccess&lt;<span class="lifetime">&#39;de</span>&gt; {
+    i: halfbrown::Iter&lt;<span class="lifetime">&#39;de</span>, Cow&lt;<span class="lifetime">&#39;de</span>, str&gt;, Value&lt;<span class="lifetime">&#39;de</span>&gt;&gt;,
+    v: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;de </span>Value&lt;<span class="lifetime">&#39;de</span>&gt;&gt;,
+}
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; ObjectRefAccess&lt;<span class="lifetime">&#39;de</span>&gt; {
+    <span class="kw">fn </span>new(i: halfbrown::Iter&lt;<span class="lifetime">&#39;de</span>, Cow&lt;<span class="lifetime">&#39;de</span>, str&gt;, Value&lt;<span class="lifetime">&#39;de</span>&gt;&gt;) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{ i, v: <span class="prelude-val">None </span>}
+    }
+}
+
+<span class="comment">// `MapAccess` is provided to the `Visitor` to give it the ability to iterate
+// through entries of the map.
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; MapAccess&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>ObjectRefAccess&lt;<span class="lifetime">&#39;de</span>&gt; {
+    <span class="kw">type </span>Error = Error;
+
+    <span class="kw">fn </span>next_key_seed&lt;K&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, seed: K) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;K::Value&gt;, <span class="self">Self</span>::Error&gt;
+    <span class="kw">where
+        </span>K: DeserializeSeed&lt;<span class="lifetime">&#39;de</span>&gt;,
+    {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>((k, v)) = <span class="self">self</span>.i.next() {
+            <span class="self">self</span>.v = <span class="prelude-val">Some</span>(v);
+            <span class="kw">let </span>s: <span class="kw-2">&amp;</span>str = k;
+            seed.deserialize(MapKeyDeserializer::borrowed(s)).map(<span class="prelude-val">Some</span>)
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
+        }
+    }
+
+    <span class="kw">fn </span>next_value_seed&lt;V&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, seed: V) -&gt; <span class="prelude-ty">Result</span>&lt;V::Value, <span class="self">Self</span>::Error&gt;
+    <span class="kw">where
+        </span>V: DeserializeSeed&lt;<span class="lifetime">&#39;de</span>&gt;,
+    {
+        <span class="kw">match </span><span class="self">self</span>.v.take() {
+            <span class="prelude-val">Some</span>(v) =&gt; seed.deserialize(v),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Eof)),
+        }
     }
 }
 
@@ -1489,41 +1517,6 @@
     }
 }
 
-<span class="kw">fn </span>visit_array_ref&lt;<span class="lifetime">&#39;de</span>, V&gt;(array: <span class="kw-2">&amp;</span><span class="lifetime">&#39;de </span>[Value&lt;<span class="lifetime">&#39;de</span>&gt;], visitor: V) -&gt; <span class="prelude-ty">Result</span>&lt;V::Value, Error&gt;
-<span class="kw">where
-    </span>V: Visitor&lt;<span class="lifetime">&#39;de</span>&gt;,
-{
-    <span class="kw">let </span>len = array.len();
-    <span class="kw">let </span><span class="kw-2">mut </span>deserializer = SeqRefDeserializer::new(array);
-    <span class="kw">let </span>seq = <span class="macro">stry!</span>(visitor.visit_seq(<span class="kw-2">&amp;mut </span>deserializer));
-    <span class="kw">let </span>remaining = deserializer.iter.len();
-    <span class="kw">if </span>remaining == <span class="number">0 </span>{
-        <span class="prelude-val">Ok</span>(seq)
-    } <span class="kw">else </span>{
-        <span class="prelude-val">Err</span>(serde::de::Error::invalid_length(
-            len,
-            <span class="kw-2">&amp;</span><span class="string">&quot;fewer elements in array&quot;</span>,
-        ))
-    }
-}
-
-<span class="kw">fn </span>visit_object_ref&lt;<span class="lifetime">&#39;de</span>, V&gt;(object: <span class="kw-2">&amp;</span><span class="lifetime">&#39;de </span>Object&lt;<span class="lifetime">&#39;de</span>&gt;, visitor: V) -&gt; <span class="prelude-ty">Result</span>&lt;V::Value, Error&gt;
-<span class="kw">where
-    </span>V: Visitor&lt;<span class="lifetime">&#39;de</span>&gt;,
-{
-    <span class="kw">let </span>len = object.len();
-    <span class="kw">let </span><span class="kw-2">mut </span>deserializer = MapRefDeserializer::new(object);
-    <span class="kw">let </span>map = <span class="macro">stry!</span>(visitor.visit_map(<span class="kw-2">&amp;mut </span>deserializer));
-    <span class="kw">if </span>deserializer.iter.next().is_none() {
-        <span class="prelude-val">Ok</span>(map)
-    } <span class="kw">else </span>{
-        <span class="prelude-val">Err</span>(serde::de::Error::invalid_length(
-            len,
-            <span class="kw-2">&amp;</span><span class="string">&quot;fewer elements in map&quot;</span>,
-        ))
-    }
-}
-
 <span class="kw">struct </span>EnumDeserializer&lt;<span class="lifetime">&#39;de</span>&gt; {
     variant: Cow&lt;<span class="lifetime">&#39;de</span>, str&gt;,
     value: <span class="prelude-ty">Option</span>&lt;Value&lt;<span class="lifetime">&#39;de</span>&gt;&gt;,
@@ -1571,12 +1564,11 @@
     {
         <span class="kw">match </span><span class="self">self</span>.value {
             <span class="prelude-val">Some</span>(value) =&gt; seed.deserialize(value),
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::ExpectedMap))
-            <span class="comment">// None =&gt; Err(serde::de::Error::invalid_type(
-            //     Unexpected::UnitVariant,
-            //     &amp;&quot;newtype variant&quot;,
-            // )),
-        </span>}
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Unexpected(
+                <span class="prelude-val">Some</span>(ValueType::Object),
+                <span class="prelude-val">None</span>,
+            ))),
+        }
     }
 
     <span class="kw">fn </span>tuple_variant&lt;V&gt;(<span class="self">self</span>, _len: usize, visitor: V) -&gt; <span class="prelude-ty">Result</span>&lt;V::Value, Error&gt;
@@ -1588,21 +1580,18 @@
                 <span class="kw">if </span>v.is_empty() {
                     visitor.visit_unit()
                 } <span class="kw">else </span>{
-                    visitor.visit_seq(Array(v.iter()))
-                    <span class="comment">// visit_array_ref(v, visitor)
-                </span>}
+                    visitor.visit_seq(Array(v.into_iter()))
+                }
             }
-            <span class="comment">// FIXME
-            </span><span class="prelude-val">Some</span>(<span class="kw">_</span>) | <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::ExpectedMap))
-            <span class="comment">// Some(other) =&gt; Err(serde::de::Error::invalid_type(
-            //     other.unexpected(),
-            //     &amp;&quot;tuple variant&quot;,
-            // )),
-            // None =&gt; Err(serde::de::Error::invalid_type(
-            //     Unexpected::UnitVariant,
-            //     &amp;&quot;tuple variant&quot;,
-            // )),
-        </span>}
+            <span class="prelude-val">Some</span>(other) =&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Unexpected(
+                <span class="prelude-val">Some</span>(ValueType::Array),
+                <span class="prelude-val">Some</span>(other.value_type()),
+            ))),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Unexpected(
+                <span class="prelude-val">Some</span>(ValueType::Array),
+                <span class="prelude-val">None</span>,
+            ))),
+        }
     }
 
     <span class="kw">fn </span>struct_variant&lt;V&gt;(
@@ -1614,22 +1603,16 @@
         </span>V: Visitor&lt;<span class="lifetime">&#39;de</span>&gt;,
     {
         <span class="kw">match </span><span class="self">self</span>.value {
-            <span class="prelude-val">Some</span>(Value::Object(v)) =&gt; visitor.visit_map(ObjectAccess {
-                i: v.iter(),
-                v: <span class="kw-2">&amp;</span>Value::Static(StaticNode::Null),
-            }),<span class="comment">//visit_object(v, visitor),
-            // FIXME
-            </span><span class="prelude-val">Some</span>(<span class="kw">_</span>) | <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::ExpectedMap))
-
-            <span class="comment">// Some(other) =&gt; Err(serde::de::Error::invalid_type(
-            //     other.unexpected(),
-            //     &amp;&quot;struct variant&quot;,
-            // )),
-            // None =&gt; Err(serde::de::Error::invalid_type(
-            //     Unexpected::UnitVariant,
-            //     &amp;&quot;struct variant&quot;,
-            // )),
-        </span>}
+            <span class="prelude-val">Some</span>(Value::Object(o)) =&gt; visitor.visit_map(ObjectAccess::new(o.into_iter())),
+            <span class="prelude-val">Some</span>(other) =&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Unexpected(
+                <span class="prelude-val">Some</span>(ValueType::Object),
+                <span class="prelude-val">Some</span>(other.value_type()),
+            ))),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Unexpected(
+                <span class="prelude-val">Some</span>(ValueType::Object),
+                <span class="prelude-val">None</span>,
+            ))),
+        }
     }
 }
 
@@ -1653,9 +1636,9 @@
             <span class="attr">#[cfg(feature = <span class="string">&quot;128bit&quot;</span>)]
             </span>Value::Static(StaticNode::U128(n)) =&gt; visitor.visit_u128(<span class="kw-2">*</span>n),
             Value::Static(StaticNode::F64(n)) =&gt; visitor.visit_f64(<span class="kw-2">*</span>n),
-            Value::String(<span class="kw-2">ref </span>s) =&gt; visitor.visit_borrowed_str(s),
-            Value::Array(<span class="kw-2">ref </span>a) =&gt; visit_array_ref(a, visitor),
-            Value::Object(<span class="kw-2">ref </span>o) =&gt; visit_object_ref(o, visitor),
+            Value::String(s) =&gt; visitor.visit_borrowed_str(s),
+            Value::Array(a) =&gt; visitor.visit_seq(ArrayRef(a.iter())),
+            Value::Object(o) =&gt; visitor.visit_map(ObjectRefAccess::new(o.iter())),
         }
     }
 
@@ -1694,9 +1677,12 @@
     {
         <span class="kw">match </span><span class="self">self </span>{
             <span class="comment">// Give the visitor access to each element of the sequence.
-            </span>Value::Array(<span class="kw-2">ref </span>a) =&gt; visit_array_ref(a, visitor),
-            Value::Object(<span class="kw-2">ref </span>o) =&gt; visit_object_ref(o, visitor),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::ExpectedMap)),
+            </span>Value::Array(a) =&gt; visitor.visit_seq(ArrayRef(a.iter())),
+            Value::Object(o) =&gt; visitor.visit_map(ObjectRefAccess::new(o.iter())),
+            other =&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Unexpected(
+                <span class="prelude-val">Some</span>(ValueType::Object),
+                <span class="prelude-val">Some</span>(other.value_type()),
+            ))),
         }
     }
 
@@ -1716,20 +1702,21 @@
                 <span class="kw">let </span>(variant, value) = <span class="kw">match </span>iter.next() {
                     <span class="prelude-val">Some</span>(v) =&gt; v,
                     <span class="prelude-val">None </span>=&gt; {
-                        <span class="comment">// FIXME: better error
-                        </span><span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::ExpectedString));
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Eof));
                     }
                 };
                 <span class="comment">// enums are encoded in json as maps with a single key:value pair
                 </span><span class="kw">if </span>iter.next().is_some() {
-                    <span class="comment">// FIXME: better error
-                    </span><span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::ExpectedString));
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::TrailingData));
                 }
                 (variant, <span class="prelude-val">Some</span>(value))
             }
             Value::String(variant) =&gt; (variant, <span class="prelude-val">None</span>),
-            _other =&gt; {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::ExpectedMap));
+            other =&gt; {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Unexpected(
+                    <span class="prelude-val">Some</span>(ValueType::Object),
+                    <span class="prelude-val">Some</span>(other.value_type()),
+                )));
             }
         };
 
@@ -1766,8 +1753,8 @@
     <span class="kw">where
         </span>V: DeserializeSeed&lt;<span class="lifetime">&#39;de</span>&gt;,
     {
-        <span class="comment">// FIXME: why do we need to clone here
-        </span><span class="kw">let </span>variant = <span class="self">self</span>.variant.clone().into_deserializer();
+        <span class="kw">let </span>var: <span class="kw-2">&amp;</span>str = <span class="self">self</span>.variant;
+        <span class="kw">let </span>variant = var.into_deserializer();
         <span class="kw">let </span>visitor = VariantRefDeserializer { value: <span class="self">self</span>.value };
         seed.deserialize(variant).map(|v| (v, visitor))
     }
@@ -1792,12 +1779,11 @@
     {
         <span class="kw">match </span><span class="self">self</span>.value {
             <span class="prelude-val">Some</span>(value) =&gt; seed.deserialize(value),
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::ExpectedMap))
-            <span class="comment">// None =&gt; Err(serde::de::Error::invalid_type(
-            //     Unexpected::UnitVariant,
-            //     &amp;&quot;newtype variant&quot;,
-            // )),
-        </span>}
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Unexpected(
+                <span class="prelude-val">Some</span>(ValueType::Object),
+                <span class="prelude-val">None</span>,
+            ))),
+        }
     }
 
     <span class="kw">fn </span>tuple_variant&lt;V&gt;(<span class="self">self</span>, _len: usize, visitor: V) -&gt; <span class="prelude-ty">Result</span>&lt;V::Value, Error&gt;
@@ -1809,21 +1795,18 @@
                 <span class="kw">if </span>v.is_empty() {
                     visitor.visit_unit()
                 } <span class="kw">else </span>{
-                    visitor.visit_seq(Array(v.iter()))
-                    <span class="comment">// visit_array_ref(v, visitor)
-                </span>}
+                    visitor.visit_seq(ArrayRef(v.iter()))
+                }
             }
-            <span class="comment">// FIXME
-            </span><span class="prelude-val">Some</span>(<span class="kw">_</span>) | <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::ExpectedMap))
-            <span class="comment">// Some(other) =&gt; Err(serde::de::Error::invalid_type(
-            //     other.unexpected(),
-            //     &amp;&quot;tuple variant&quot;,
-            // )),
-            // None =&gt; Err(serde::de::Error::invalid_type(
-            //     Unexpected::UnitVariant,
-            //     &amp;&quot;tuple variant&quot;,
-            // )),
-        </span>}
+            <span class="prelude-val">Some</span>(other) =&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Unexpected(
+                <span class="prelude-val">Some</span>(ValueType::Array),
+                <span class="prelude-val">Some</span>(other.value_type()),
+            ))),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Unexpected(
+                <span class="prelude-val">Some</span>(ValueType::Array),
+                <span class="prelude-val">None</span>,
+            ))),
+        }
     }
 
     <span class="kw">fn </span>struct_variant&lt;V&gt;(
@@ -1835,158 +1818,26 @@
         </span>V: Visitor&lt;<span class="lifetime">&#39;de</span>&gt;,
     {
         <span class="kw">match </span><span class="self">self</span>.value {
-            <span class="prelude-val">Some</span>(Value::Object(v)) =&gt; visitor.visit_map(ObjectAccess {
-                i: v.iter(),
-                v: <span class="kw-2">&amp;</span>Value::Static(StaticNode::Null),
-            }),<span class="comment">//visit_object(v, visitor),
-            // FIXME
-            </span><span class="prelude-val">Some</span>(<span class="kw">_</span>) | <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::ExpectedMap))
-
-            <span class="comment">// Some(other) =&gt; Err(serde::de::Error::invalid_type(
-            //     other.unexpected(),
-            //     &amp;&quot;struct variant&quot;,
-            // )),
-            // None =&gt; Err(serde::de::Error::invalid_type(
-            //     Unexpected::UnitVariant,
-            //     &amp;&quot;struct variant&quot;,
-            // )),
-        </span>}
-    }
-}
-<span class="kw">struct </span>SeqRefDeserializer&lt;<span class="lifetime">&#39;de</span>&gt; {
-    iter: slice::Iter&lt;<span class="lifetime">&#39;de</span>, Value&lt;<span class="lifetime">&#39;de</span>&gt;&gt;,
-}
-
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; SeqRefDeserializer&lt;<span class="lifetime">&#39;de</span>&gt; {
-    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;de </span>[Value&lt;<span class="lifetime">&#39;de</span>&gt;]) -&gt; <span class="self">Self </span>{
-        SeqRefDeserializer { iter: slice.iter() }
-    }
-}
-
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; serde::Deserializer&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>SeqRefDeserializer&lt;<span class="lifetime">&#39;de</span>&gt; {
-    <span class="kw">type </span>Error = Error;
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>deserialize_any&lt;V&gt;(<span class="kw-2">mut </span><span class="self">self</span>, visitor: V) -&gt; <span class="prelude-ty">Result</span>&lt;V::Value, Error&gt;
-    <span class="kw">where
-        </span>V: Visitor&lt;<span class="lifetime">&#39;de</span>&gt;,
-    {
-        <span class="kw">let </span>len = <span class="self">self</span>.iter.len();
-        <span class="kw">if </span>len == <span class="number">0 </span>{
-            visitor.visit_unit()
-        } <span class="kw">else </span>{
-            <span class="kw">let </span>ret = <span class="macro">stry!</span>(visitor.visit_seq(<span class="kw-2">&amp;mut </span><span class="self">self</span>));
-            <span class="kw">let </span>remaining = <span class="self">self</span>.iter.len();
-            <span class="kw">if </span>remaining == <span class="number">0 </span>{
-                <span class="prelude-val">Ok</span>(ret)
-            } <span class="kw">else </span>{
-                <span class="prelude-val">Err</span>(serde::de::Error::invalid_length(
-                    len,
-                    <span class="kw-2">&amp;</span><span class="string">&quot;fewer elements in array&quot;</span>,
-                ))
-            }
+            <span class="prelude-val">Some</span>(Value::Object(o)) =&gt; visitor.visit_map(ObjectRefAccess::new(o.iter())),
+            <span class="prelude-val">Some</span>(other) =&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Unexpected(
+                <span class="prelude-val">Some</span>(ValueType::Object),
+                <span class="prelude-val">Some</span>(other.value_type()),
+            ))),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Deserializer::error(ErrorType::Unexpected(
+                <span class="prelude-val">Some</span>(ValueType::Object),
+                <span class="prelude-val">None</span>,
+            ))),
         }
-    }
-
-    <span class="macro">forward_to_deserialize_any! </span>{
-        bool i8 i16 i32 i64 i128 u8 u16 u32 u64 u128 f32 f64 char str string
-        bytes byte_buf option unit unit_struct newtype_struct seq tuple
-        tuple_struct map <span class="kw">struct enum </span>identifier ignored_any
-    }
-}
-
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; SeqAccess&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>SeqRefDeserializer&lt;<span class="lifetime">&#39;de</span>&gt; {
-    <span class="kw">type </span>Error = Error;
-
-    <span class="kw">fn </span>next_element_seed&lt;T&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, seed: T) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;T::Value&gt;, Error&gt;
-    <span class="kw">where
-        </span>T: DeserializeSeed&lt;<span class="lifetime">&#39;de</span>&gt;,
-    {
-        <span class="kw">match </span><span class="self">self</span>.iter.next() {
-            <span class="prelude-val">Some</span>(value) =&gt; seed.deserialize(value).map(<span class="prelude-val">Some</span>),
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
-        }
-    }
-
-    <span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
-        <span class="kw">match </span><span class="self">self</span>.iter.size_hint() {
-            (lower, <span class="prelude-val">Some</span>(upper)) <span class="kw">if </span>lower == upper =&gt; <span class="prelude-val">Some</span>(upper),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-
-<span class="kw">struct </span>MapRefDeserializer&lt;<span class="lifetime">&#39;de</span>&gt; {
-    iter: &lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;de </span>Object&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">as </span>IntoIterator&gt;::IntoIter,
-    value: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;de </span>Value&lt;<span class="lifetime">&#39;de</span>&gt;&gt;,
-}
-
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; MapRefDeserializer&lt;<span class="lifetime">&#39;de</span>&gt; {
-    <span class="kw">fn </span>new(map: <span class="kw-2">&amp;</span><span class="lifetime">&#39;de </span>Object&lt;<span class="lifetime">&#39;de</span>&gt;) -&gt; <span class="self">Self </span>{
-        MapRefDeserializer {
-            iter: map.into_iter(),
-            value: <span class="prelude-val">None</span>,
-        }
-    }
-}
-
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; MapAccess&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>MapRefDeserializer&lt;<span class="lifetime">&#39;de</span>&gt; {
-    <span class="kw">type </span>Error = Error;
-
-    <span class="kw">fn </span>next_key_seed&lt;T&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, seed: T) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;T::Value&gt;, Error&gt;
-    <span class="kw">where
-        </span>T: DeserializeSeed&lt;<span class="lifetime">&#39;de</span>&gt;,
-    {
-        <span class="kw">match </span><span class="self">self</span>.iter.next() {
-            <span class="prelude-val">Some</span>((key, value)) =&gt; {
-                <span class="self">self</span>.value = <span class="prelude-val">Some</span>(value);
-                <span class="kw">let </span>key_de = MapKeyDeserializer {
-                    key: Cow::from(<span class="kw-2">&amp;**</span>key),
-                };
-                seed.deserialize(key_de).map(<span class="prelude-val">Some</span>)
-            }
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
-        }
-    }
-
-    <span class="kw">fn </span>next_value_seed&lt;T&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, seed: T) -&gt; <span class="prelude-ty">Result</span>&lt;T::Value, Error&gt;
-    <span class="kw">where
-        </span>T: DeserializeSeed&lt;<span class="lifetime">&#39;de</span>&gt;,
-    {
-        <span class="kw">match </span><span class="self">self</span>.value.take() {
-            <span class="prelude-val">Some</span>(value) =&gt; seed.deserialize(value),
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(serde::de::Error::custom(<span class="string">&quot;value is missing&quot;</span>)),
-        }
-    }
-
-    <span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
-        <span class="kw">match </span><span class="self">self</span>.iter.size_hint() {
-            (lower, <span class="prelude-val">Some</span>(upper)) <span class="kw">if </span>lower == upper =&gt; <span class="prelude-val">Some</span>(upper),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; serde::Deserializer&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>MapRefDeserializer&lt;<span class="lifetime">&#39;de</span>&gt; {
-    <span class="kw">type </span>Error = Error;
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>deserialize_any&lt;V&gt;(<span class="self">self</span>, visitor: V) -&gt; <span class="prelude-ty">Result</span>&lt;V::Value, Error&gt;
-    <span class="kw">where
-        </span>V: Visitor&lt;<span class="lifetime">&#39;de</span>&gt;,
-    {
-        visitor.visit_map(<span class="self">self</span>)
-    }
-
-    <span class="macro">forward_to_deserialize_any! </span>{
-        bool i8 i16 i32 i64 i128 u8 u16 u32 u64 u128 f32 f64 char str string
-        bytes byte_buf option unit unit_struct newtype_struct seq tuple
-        tuple_struct map <span class="kw">struct enum </span>identifier ignored_any
     }
 }
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>test {
+    <span class="kw">use </span>serde::Deserialize;
+    <span class="kw">use </span>value_trait::ValueAccess;
+
+    <span class="kw">use crate</span>::{borrowed, json};
+
     <span class="attr">#[test]
     </span><span class="kw">fn </span>option_field_absent_owned() {
         <span class="attr">#[derive(serde::Deserialize, Debug)]
@@ -2027,7 +1878,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>deserialize() {
         <span class="kw">use </span>halfbrown::{hashmap, HashMap};
-        <span class="attr">#[derive(serde::Deserialize, Debug, PartialEq)]
+        <span class="attr">#[derive(serde::Deserialize, Debug, PartialEq, Eq)]
         #[serde(rename_all = <span class="string">&quot;lowercase&quot;</span>)]
         </span><span class="kw">pub enum </span>Rotate {
             Left,
@@ -2050,7 +1901,7 @@
             <span class="kw">pub </span>pos: Point,
             <span class="kw">pub </span>age: u64,
         }
-        <span class="attr">#[derive(serde::Deserialize, Debug, PartialEq)]
+        <span class="attr">#[derive(serde::Deserialize, Debug, PartialEq, Eq)]
         </span><span class="kw">pub struct </span>TestStruct {
             <span class="kw">pub </span>key: HashMap&lt;String, String&gt;,
             <span class="kw">pub </span>vec: Vec&lt;Vec&lt;<span class="prelude-ty">Option</span>&lt;u8&gt;&gt;&gt;,
@@ -2098,6 +1949,79 @@
         <span class="kw">let </span>int128 = <span class="kw">crate</span>::BorrowedValue::Static(<span class="kw">crate</span>::StaticNode::U128(value));
         <span class="kw">let </span>res: u128 = <span class="kw">super</span>::<span class="kw">super</span>::from_refvalue(<span class="kw-2">&amp;</span>int128).expect(<span class="string">&quot;from_refvalue&quot;</span>);
         <span class="macro">assert_eq!</span>(value, res);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>variant() {
+        <span class="kw">struct </span>NameAndConfig&lt;<span class="lifetime">&#39;v</span>&gt; {
+            name: String,
+            config: <span class="prelude-ty">Option</span>&lt;borrowed::Value&lt;<span class="lifetime">&#39;v</span>&gt;&gt;,
+        }
+        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; serde::Deserialize&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>NameAndConfig&lt;<span class="lifetime">&#39;v</span>&gt; {
+            <span class="kw">fn </span>deserialize&lt;D&gt;(deserializer: D) -&gt; std::result::Result&lt;<span class="self">Self</span>, D::Error&gt;
+            <span class="kw">where
+                </span>D: serde::Deserializer&lt;<span class="lifetime">&#39;v</span>&gt;,
+            {
+                <span class="attr">#[derive(Deserialize)]
+                </span><span class="comment">// This is ugly but it&#39;s needed for `serde::Deserialize` to not explode on lifetimes
+                // An error like this is otherwise produced:
+                //     error: lifetime may not live long enough
+                //     --&gt; src/serde/value/borrowed/de.rs:960:25
+                //      |
+                //  953 |                 #[derive(Deserialize)]
+                //      |                          ----------- lifetime `&#39;de` defined here
+                //  ...
+                //  956 |                 enum Variants&lt;&#39;v&gt; {
+                //      |                               -- lifetime `&#39;v` defined here
+                //  ...
+                //  960 |                         config: Option&lt;borrowed::Value&lt;&#39;v&gt;&gt;,
+                //      |                         ^^^^^^ requires that `&#39;de` must outlive `&#39;v`
+                //      |
+                //      = help: consider adding the following bound: `&#39;de: &#39;v`
+
+                //  error: lifetime may not live long enough
+                //     --&gt; src/serde/value/borrowed/de.rs:960:25
+                //      |
+                //  953 |                 #[derive(Deserialize)]
+                //      |                          ----------- lifetime `&#39;de` defined here
+                //  ...
+                //  956 |                 enum Variants&lt;&#39;v&gt; {
+                //      |                               -- lifetime `&#39;v` defined here
+                //  ...
+                //  960 |                         config: Option&lt;borrowed::Value&lt;&#39;v&gt;&gt;,
+                //      |                         ^^^^^^ requires that `&#39;v` must outlive `&#39;de`
+                //      |
+                //      = help: consider adding the following bound: `&#39;v: &#39;de`
+                </span><span class="attr">#[serde(bound(deserialize = <span class="string">&quot;&#39;de: &#39;v, &#39;v: &#39;de&quot;</span>), untagged)]
+                </span><span class="kw">enum </span>Variants&lt;<span class="lifetime">&#39;v</span>&gt; {
+                    Name(String),
+                    NameAndConfig {
+                        name: String,
+                        config: <span class="prelude-ty">Option</span>&lt;borrowed::Value&lt;<span class="lifetime">&#39;v</span>&gt;&gt;,
+                    },
+                }
+
+                <span class="kw">let </span>var = Variants::deserialize(deserializer)<span class="question-mark">?</span>;
+
+                <span class="kw">match </span>var {
+                    Variants::Name(name) =&gt; <span class="prelude-val">Ok</span>(NameAndConfig { name, config: <span class="prelude-val">None </span>}),
+                    Variants::NameAndConfig { name, config } =&gt; <span class="prelude-val">Ok</span>(NameAndConfig { name, config }),
+                }
+            }
+        }
+
+        <span class="kw">let </span>v = <span class="macro">json!</span>({<span class="string">&quot;name&quot;</span>: <span class="string">&quot;name&quot;</span>, <span class="string">&quot;config&quot;</span>: <span class="number">42</span>});
+        <span class="kw">let </span>nac = NameAndConfig::deserialize(v).expect(<span class="string">&quot;could structurize two element struct&quot;</span>);
+        <span class="macro">assert_eq!</span>(nac.name, <span class="string">&quot;name&quot;</span>);
+        <span class="macro">assert_eq!</span>(nac.config.as_u8(), <span class="prelude-val">Some</span>(<span class="number">42</span>));
+        <span class="kw">let </span>v = <span class="macro">json!</span>({<span class="string">&quot;name&quot;</span>: <span class="string">&quot;name&quot;</span>});
+        <span class="kw">let </span>nac = NameAndConfig::deserialize(v).expect(<span class="string">&quot;could structurize one element struct&quot;</span>);
+        <span class="macro">assert_eq!</span>(nac.name, <span class="string">&quot;name&quot;</span>);
+        <span class="macro">assert_eq!</span>(nac.config, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>v = <span class="macro">json!</span>(<span class="string">&quot;name&quot;</span>);
+        <span class="kw">let </span>nac = NameAndConfig::deserialize(v).expect(<span class="string">&quot;could structurize string&quot;</span>);
+        <span class="macro">assert_eq!</span>(nac.name, <span class="string">&quot;name&quot;</span>);
+        <span class="macro">assert_eq!</span>(nac.config, <span class="prelude-val">None</span>);
     }
 }
 </code></pre></div></section></main></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/src/dsl/list.rs`."><title>list.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_lazy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_lazy/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/src/dsl/list.rs`."><title>list.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_lazy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_lazy/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -134,18 +134,92 @@
 <a href="#134" id="134">134</a>
 <a href="#135" id="135">135</a>
 <a href="#136" id="136">136</a>
-</pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;list_eval&quot;</span>)]
-</span><span class="kw">use </span>std::sync::Mutex;
+<a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
+<a href="#139" id="139">139</a>
+<a href="#140" id="140">140</a>
+<a href="#141" id="141">141</a>
+<a href="#142" id="142">142</a>
+<a href="#143" id="143">143</a>
+<a href="#144" id="144">144</a>
+<a href="#145" id="145">145</a>
+<a href="#146" id="146">146</a>
+<a href="#147" id="147">147</a>
+<a href="#148" id="148">148</a>
+<a href="#149" id="149">149</a>
+<a href="#150" id="150">150</a>
+<a href="#151" id="151">151</a>
+<a href="#152" id="152">152</a>
+<a href="#153" id="153">153</a>
+<a href="#154" id="154">154</a>
+<a href="#155" id="155">155</a>
+<a href="#156" id="156">156</a>
+<a href="#157" id="157">157</a>
+<a href="#158" id="158">158</a>
+<a href="#159" id="159">159</a>
+<a href="#160" id="160">160</a>
+<a href="#161" id="161">161</a>
+<a href="#162" id="162">162</a>
+<a href="#163" id="163">163</a>
+<a href="#164" id="164">164</a>
+<a href="#165" id="165">165</a>
+<a href="#166" id="166">166</a>
+<a href="#167" id="167">167</a>
+<a href="#168" id="168">168</a>
+<a href="#169" id="169">169</a>
+<a href="#170" id="170">170</a>
+<a href="#171" id="171">171</a>
+<a href="#172" id="172">172</a>
+<a href="#173" id="173">173</a>
+<a href="#174" id="174">174</a>
+<a href="#175" id="175">175</a>
+<a href="#176" id="176">176</a>
+<a href="#177" id="177">177</a>
+<a href="#178" id="178">178</a>
+<a href="#179" id="179">179</a>
+<a href="#180" id="180">180</a>
+<a href="#181" id="181">181</a>
+<a href="#182" id="182">182</a>
+<a href="#183" id="183">183</a>
+<a href="#184" id="184">184</a>
+<a href="#185" id="185">185</a>
+<a href="#186" id="186">186</a>
+<a href="#187" id="187">187</a>
+<a href="#188" id="188">188</a>
+<a href="#189" id="189">189</a>
+<a href="#190" id="190">190</a>
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
+<a href="#193" id="193">193</a>
+<a href="#194" id="194">194</a>
+<a href="#195" id="195">195</a>
+<a href="#196" id="196">196</a>
+<a href="#197" id="197">197</a>
+<a href="#198" id="198">198</a>
+<a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a>
+<a href="#207" id="207">207</a>
+<a href="#208" id="208">208</a>
+<a href="#209" id="209">209</a>
+<a href="#210" id="210">210</a>
+<a href="#211" id="211">211</a>
+<a href="#212" id="212">212</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>std::sync::Mutex;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;list_eval&quot;</span>)]
-</span><span class="kw">use </span>polars_arrow::utils::CustomIterTools;
-<span class="attr">#[cfg(feature = <span class="string">&quot;list_eval&quot;</span>)]
-</span><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
-<span class="attr">#[cfg(feature = <span class="string">&quot;list_eval&quot;</span>)]
-</span><span class="kw">use </span>polars_plan::dsl::<span class="kw-2">*</span>;
-<span class="attr">#[cfg(feature = <span class="string">&quot;list_eval&quot;</span>)]
-</span><span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span>polars_arrow::utils::CustomIterTools;
+<span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span>polars_plan::constants::MAP_LIST_NAME;
+<span class="kw">use </span>polars_plan::dsl::<span class="kw-2">*</span>;
+<span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 
+<span class="kw">use </span><span class="kw">crate</span>::physical_plan::exotic::prepare_expression_for_context;
+<span class="kw">use </span><span class="kw">crate</span>::physical_plan::state::ExecutionState;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">pub trait </span>IntoListNameSpace {
@@ -158,14 +232,131 @@
     </span>}
 }
 
+<span class="kw">fn </span>offsets_to_groups(offsets: <span class="kw-2">&amp;</span>[i64]) -&gt; <span class="prelude-ty">Option</span>&lt;GroupsProxy&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>start = offsets[<span class="number">0</span>];
+    <span class="kw">let </span>end = <span class="kw-2">*</span>offsets.last().unwrap();
+    <span class="kw">let </span>fits_into_idx = (end - start) &lt;= IdxSize::MAX <span class="kw">as </span>i64;
+
+    <span class="kw">if </span>fits_into_idx {
+        <span class="kw">let </span>groups = offsets
+            .iter()
+            .skip(<span class="number">1</span>)
+            .map(|end| {
+                <span class="kw">let </span>offset = start <span class="kw">as </span>IdxSize;
+                <span class="kw">let </span>len = (<span class="kw-2">*</span>end - start) <span class="kw">as </span>IdxSize;
+                start = <span class="kw-2">*</span>end;
+                [offset, len]
+            })
+            .collect();
+        <span class="prelude-val">Some</span>(GroupsProxy::Slice {
+            groups,
+            rolling: <span class="bool-val">false</span>,
+        })
+    } <span class="kw">else </span>{
+        <span class="prelude-val">None
+    </span>}
+}
+
+<span class="kw">fn </span>run_per_sublist(
+    s: Series,
+    lst: <span class="kw-2">&amp;</span>ListChunked,
+    expr: <span class="kw-2">&amp;</span>Expr,
+    parallel: bool,
+    output_field: Field,
+) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; {
+    <span class="kw">let </span>phys_expr = prepare_expression_for_context(<span class="string">&quot;&quot;</span>, expr, <span class="kw-2">&amp;</span>lst.inner_dtype(), Context::Default)<span class="question-mark">?</span>;
+
+    <span class="kw">let </span>state = ExecutionState::new();
+
+    <span class="kw">let </span><span class="kw-2">mut </span>err = <span class="prelude-val">None</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>ca: ListChunked = <span class="kw">if </span>parallel {
+        <span class="kw">let </span>m_err = Mutex::new(<span class="prelude-val">None</span>);
+        <span class="kw">let </span>ca: ListChunked = lst
+            .par_iter()
+            .map(|opt_s| {
+                opt_s.and_then(|s| {
+                    <span class="kw">let </span>df = DataFrame::new_no_checks(<span class="macro">vec!</span>[s]);
+                    <span class="kw">let </span>out = phys_expr.evaluate(<span class="kw-2">&amp;</span>df, <span class="kw-2">&amp;</span>state);
+                    <span class="kw">match </span>out {
+                        <span class="prelude-val">Ok</span>(s) =&gt; <span class="prelude-val">Some</span>(s),
+                        <span class="prelude-val">Err</span>(e) =&gt; {
+                            <span class="kw-2">*</span>m_err.lock().unwrap() = <span class="prelude-val">Some</span>(e);
+                            <span class="prelude-val">None
+                        </span>}
+                    }
+                })
+            })
+            .collect();
+        err = m_err.lock().unwrap().take();
+        ca
+    } <span class="kw">else </span>{
+        <span class="kw">let </span><span class="kw-2">mut </span>df_container = DataFrame::new_no_checks(<span class="macro">vec!</span>[]);
+
+        lst.into_iter()
+            .map(|s| {
+                s.and_then(|s| <span class="kw">unsafe </span>{
+                    df_container.get_columns_mut().push(s);
+                    <span class="kw">let </span>out = phys_expr.evaluate(<span class="kw-2">&amp;</span>df_container, <span class="kw-2">&amp;</span>state);
+                    df_container.get_columns_mut().clear();
+                    <span class="kw">match </span>out {
+                        <span class="prelude-val">Ok</span>(s) =&gt; <span class="prelude-val">Some</span>(s),
+                        <span class="prelude-val">Err</span>(e) =&gt; {
+                            err = <span class="prelude-val">Some</span>(e);
+                            <span class="prelude-val">None
+                        </span>}
+                    }
+                })
+            })
+            .collect_trusted()
+    };
+
+    ca.rename(s.name());
+
+    <span class="kw">if </span>ca.dtype() != output_field.data_type() {
+        ca.cast(output_field.data_type()).map(<span class="prelude-val">Some</span>)
+    } <span class="kw">else </span>{
+        <span class="kw">match </span>err {
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(ca.into_series())),
+            <span class="prelude-val">Some</span>(e) =&gt; <span class="prelude-val">Err</span>(e),
+        }
+    }
+}
+
+<span class="kw">fn </span>run_on_groupby_engine(
+    name: <span class="kw-2">&amp;</span>str,
+    lst: <span class="kw-2">&amp;</span>ListChunked,
+    expr: <span class="kw-2">&amp;</span>Expr,
+) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; {
+    <span class="kw">let </span>lst = lst.rechunk();
+    <span class="kw">let </span>arr = lst.downcast_iter().next().unwrap();
+    <span class="kw">let </span>groups = offsets_to_groups(arr.offsets()).unwrap();
+
+    <span class="comment">// list elements in a series
+    </span><span class="kw">let </span>values = Series::try_from((<span class="string">&quot;&quot;</span>, arr.values().clone())).unwrap();
+    <span class="kw">let </span>inner_dtype = lst.inner_dtype();
+    <span class="comment">// ensure we use the logical type
+    </span><span class="kw">let </span>values = values.cast(<span class="kw-2">&amp;</span>inner_dtype).unwrap();
+
+    <span class="kw">let </span>df_context = DataFrame::new_no_checks(<span class="macro">vec!</span>[values]);
+    <span class="kw">let </span>phys_expr = prepare_expression_for_context(<span class="string">&quot;&quot;</span>, expr, <span class="kw-2">&amp;</span>inner_dtype, Context::Aggregation)<span class="question-mark">?</span>;
+
+    <span class="kw">let </span>state = ExecutionState::new();
+    <span class="kw">let </span><span class="kw-2">mut </span>ac = phys_expr.evaluate_on_groups(<span class="kw-2">&amp;</span>df_context, <span class="kw-2">&amp;</span>groups, <span class="kw-2">&amp;</span>state)<span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="kw">match </span>ac.agg_state() {
+        AggState::AggregatedFlat(<span class="kw">_</span>) | AggState::Literal(<span class="kw">_</span>) =&gt; {
+            <span class="kw">let </span>out = ac.aggregated();
+            out.as_list().into_series()
+        }
+        <span class="kw">_ </span>=&gt; ac.aggregated(),
+    };
+    out.rename(name);
+    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(out))
+}
+
 <span class="kw">pub trait </span>ListNameSpaceExtension: IntoListNameSpace + Sized {
     <span class="doccomment">/// Run any [`Expr`] on these lists elements
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;list_eval&quot;</span>)]
     </span><span class="kw">fn </span>eval(<span class="self">self</span>, expr: Expr, parallel: bool) -&gt; Expr {
         <span class="kw">let </span>this = <span class="self">self</span>.into_list_name_space();
-
-        <span class="kw">use </span><span class="kw">crate</span>::physical_plan::exotic::prepare_expression_for_context;
-        <span class="kw">use </span><span class="kw">crate</span>::physical_plan::state::ExecutionState;
 
         <span class="kw">let </span>expr2 = expr.clone();
         <span class="kw">let </span>func = <span class="kw">move </span>|s: Series| {
@@ -190,9 +381,10 @@
                     <span class="kw">_ </span>=&gt; {}
                 }
             }
+            <span class="kw">let </span>lst = s.list()<span class="question-mark">?</span>.clone();
 
-            <span class="kw">let </span>lst = s.list()<span class="question-mark">?</span>;
-            <span class="comment">// ensure we get the new schema
+            <span class="comment">// # fast returns
+            // ensure we get the new schema
             </span><span class="kw">let </span>output_field = eval_field_to_dtype(lst.ref_field(), <span class="kw-2">&amp;</span>expr, <span class="bool-val">true</span>);
             <span class="kw">if </span>lst.is_empty() {
                 <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Series::new_empty(s.name(), output_field.data_type())));
@@ -201,62 +393,22 @@
                 <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s));
             }
 
-            <span class="kw">let </span>phys_expr =
-                prepare_expression_for_context(<span class="string">&quot;&quot;</span>, <span class="kw-2">&amp;</span>expr, <span class="kw-2">&amp;</span>lst.inner_dtype(), Context::Default)<span class="question-mark">?</span>;
-
-            <span class="kw">let </span>state = ExecutionState::new();
-
-            <span class="kw">let </span><span class="kw-2">mut </span>err = <span class="prelude-val">None</span>;
-            <span class="kw">let </span><span class="kw-2">mut </span>ca: ListChunked = <span class="kw">if </span>parallel {
-                <span class="kw">let </span>m_err = Mutex::new(<span class="prelude-val">None</span>);
-                <span class="kw">let </span>ca: ListChunked = lst
-                    .par_iter()
-                    .map(|opt_s| {
-                        opt_s.and_then(|s| {
-                            <span class="kw">let </span>df = DataFrame::new_no_checks(<span class="macro">vec!</span>[s]);
-                            <span class="kw">let </span>out = phys_expr.evaluate(<span class="kw-2">&amp;</span>df, <span class="kw-2">&amp;</span>state);
-                            <span class="kw">match </span>out {
-                                <span class="prelude-val">Ok</span>(s) =&gt; <span class="prelude-val">Some</span>(s),
-                                <span class="prelude-val">Err</span>(e) =&gt; {
-                                    <span class="kw-2">*</span>m_err.lock().unwrap() = <span class="prelude-val">Some</span>(e);
-                                    <span class="prelude-val">None
-                                </span>}
-                            }
-                        })
-                    })
-                    .collect();
-                err = m_err.lock().unwrap().take();
-                ca
-            } <span class="kw">else </span>{
-                <span class="kw">let </span><span class="kw-2">mut </span>df_container = DataFrame::new_no_checks(<span class="macro">vec!</span>[]);
-
-                lst.into_iter()
-                    .map(|s| {
-                        s.and_then(|s| <span class="kw">unsafe </span>{
-                            df_container.get_columns_mut().push(s);
-                            <span class="kw">let </span>out = phys_expr.evaluate(<span class="kw-2">&amp;</span>df_container, <span class="kw-2">&amp;</span>state);
-                            df_container.get_columns_mut().clear();
-                            <span class="kw">match </span>out {
-                                <span class="prelude-val">Ok</span>(s) =&gt; <span class="prelude-val">Some</span>(s),
-                                <span class="prelude-val">Err</span>(e) =&gt; {
-                                    err = <span class="prelude-val">Some</span>(e);
-                                    <span class="prelude-val">None
-                                </span>}
-                            }
-                        })
-                    })
-                    .collect_trusted()
+            <span class="kw">let </span>fits_idx_size = lst.get_values_size() &lt;= (IdxSize::MAX <span class="kw">as </span>usize);
+            <span class="comment">// if a users passes a return type to `apply`
+            // e.g. `return_dtype=pl.Int64`
+            // this fails as the list builder expects `List&lt;Int64&gt;`
+            // so let&#39;s skip that for now
+            </span><span class="kw">let </span>is_user_apply = || {
+                expr.into_iter().any(|e| <span class="kw">match </span>e {
+                    Expr::AnonymousFunction { options, .. } =&gt; options.fmt_str == MAP_LIST_NAME,
+                    <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
+                })
             };
 
-            ca.rename(s.name());
-
-            <span class="kw">if </span>ca.dtype() != output_field.data_type() {
-                ca.cast(output_field.data_type()).map(<span class="prelude-val">Some</span>)
+            <span class="kw">if </span>fits_idx_size &amp;&amp; s.null_count() == <span class="number">0 </span>&amp;&amp; !is_user_apply() {
+                run_on_groupby_engine(s.name(), <span class="kw-2">&amp;</span>lst, <span class="kw-2">&amp;</span>expr)
             } <span class="kw">else </span>{
-                <span class="kw">match </span>err {
-                    <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(ca.into_series())),
-                    <span class="prelude-val">Some</span>(e) =&gt; <span class="prelude-val">Err</span>(e),
-                }
+                run_per_sublist(s, <span class="kw-2">&amp;</span>lst, <span class="kw-2">&amp;</span>expr, parallel, output_field)
             }
         };
 

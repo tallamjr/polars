@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/polars-plan/src/dsl/function_expr/schema.rs`."><title>schema.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_plan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_plan/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/polars-plan/src/dsl/function_expr/schema.rs`."><title>schema.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_plan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../polars_plan/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -295,7 +295,18 @@
 <a href="#295" id="295">295</a>
 <a href="#296" id="296">296</a>
 <a href="#297" id="297">297</a>
-</pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+</pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">impl </span>FunctionExpr {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>get_field(
@@ -401,13 +412,13 @@
 
         <span class="kw">use </span>FunctionExpr::<span class="kw-2">*</span>;
         <span class="kw">match </span><span class="self">self </span>{
+            <span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
+            </span>Abs =&gt; same_type(),
             NullCount =&gt; with_dtype(IDX_DTYPE),
             Pow =&gt; float_dtype(),
             Coalesce =&gt; super_type(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;row_hash&quot;</span>)]
             </span>Hash(..) =&gt; with_dtype(DataType::UInt64),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;is_in&quot;</span>)]
-            </span>IsIn =&gt; with_dtype(DataType::Boolean),
             <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
             </span>ArgWhere =&gt; with_dtype(IDX_DTYPE),
             <span class="attr">#[cfg(feature = <span class="string">&quot;search_sorted&quot;</span>)]
@@ -480,7 +491,7 @@
             <span class="attr">#[cfg(all(feature = <span class="string">&quot;rolling_window&quot;</span>, feature = <span class="string">&quot;moment&quot;</span>))]
             </span>RollingSkew { .. } =&gt; float_dtype(),
             ShiftAndFill { .. } =&gt; same_type(),
-            Nan(n) =&gt; n.get_field(fields),
+            DropNans =&gt; same_type(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;round_series&quot;</span>)]
             </span>Clip { .. } =&gt; same_type(),
             ListExpr(l) =&gt; {
@@ -538,9 +549,16 @@
             <span class="attr">#[cfg(feature = <span class="string">&quot;top_k&quot;</span>)]
             </span>TopK { .. } =&gt; same_type(),
             Shift(..) | Reverse =&gt; same_type(),
-            IsNotNull | IsNull | Not =&gt; with_dtype(DataType::Boolean),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;is_unique&quot;</span>)]
-            </span>IsUnique | IsDuplicated =&gt; with_dtype(DataType::Boolean),
+            Boolean(f) =&gt; with_dtype(f.dtype_out()),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
+            </span>Categorical(f) =&gt; with_dtype(f.dtype_out()),
+            Cumcount { .. } =&gt; with_dtype(IDX_DTYPE),
+            Cumsum { .. } =&gt; map_dtype(<span class="kw-2">&amp;</span>cum::dtypes::cumsum),
+            Cumprod { .. } =&gt; map_dtype(<span class="kw-2">&amp;</span>cum::dtypes::cumprod),
+            Cummin { .. } =&gt; same_type(),
+            Cummax { .. } =&gt; same_type(),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;approx_unique&quot;</span>)]
+            </span>ApproxUnique =&gt; with_dtype(IDX_DTYPE),
             <span class="attr">#[cfg(feature = <span class="string">&quot;diff&quot;</span>)]
             </span>Diff(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; map_dtype(<span class="kw-2">&amp;</span>|dt| <span class="kw">match </span>dt {
                 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
@@ -588,7 +606,11 @@
                 }
             }),
             <span class="attr">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
-            </span>Entropy { .. } =&gt; float_dtype(),
+            </span>Entropy { .. } | Log { .. } | Log1p | Exp =&gt; float_dtype(),
+            Unique(<span class="kw">_</span>) =&gt; same_type(),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;round_series&quot;</span>)]
+            </span>Round { .. } | Floor | Ceil =&gt; same_type(),
+            UpperBound | LowerBound =&gt; same_type(),
         }
     }
 }

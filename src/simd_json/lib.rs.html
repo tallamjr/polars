@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/simd-json-0.7.0/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="simd_json" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../simd_json/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/git/checkouts/simd-json-b6a55740aaec8c97/cbd3736/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="simd_json" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../simd_json/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1921,7 +1921,8 @@
 <a href="#1921" id="1921">1921</a>
 <a href="#1922" id="1922">1922</a>
 <a href="#1923" id="1923">1923</a>
-</pre><pre class="rust"><code><span class="attr">#![deny(warnings)]
+<a href="#1924" id="1924">1924</a>
+</pre></div><pre class="rust"><code><span class="attr">#![deny(warnings)]
 #![cfg_attr(feature = <span class="string">&quot;hints&quot;</span>, feature(core_intrinsics))]
 #![warn(unused_extern_crates)]
 #![deny(
@@ -2340,11 +2341,12 @@
 
     <span class="attr">#[cfg_attr(not(feature = <span class="string">&quot;no-inline&quot;</span>), inline(always))]
     </span><span class="kw">fn </span>error(error: ErrorType) -&gt; Error {
-        <span class="self">Self</span>::raw_error(<span class="number">0</span>, <span class="string">&#39;?&#39;</span>, error)
+        Error::new(<span class="number">0</span>, <span class="prelude-val">None</span>, error)
     }
 
-    <span class="kw">fn </span>raw_error(idx: usize, c: char, error: ErrorType) -&gt; Error {
-        Error::new(idx, c, error)
+    <span class="attr">#[cfg_attr(not(feature = <span class="string">&quot;no-inline&quot;</span>), inline(always))]
+    </span><span class="kw">fn </span>error_c(idx: usize, c: char, error: ErrorType) -&gt; Error {
+        Error::new(idx, <span class="prelude-val">Some</span>(c), error)
     }
 
     <span class="doccomment">/// Creates a serializer from a mutable slice of bytes
@@ -2486,7 +2488,7 @@
         // expensive carryless multiply in the previous step with this work
         </span><span class="kw">let </span><span class="kw-2">mut </span>structurals: u64 = <span class="number">0</span>;
 
-        <span class="kw">let </span>lenminus64: usize = <span class="kw">if </span>len &lt; <span class="number">64 </span>{ <span class="number">0 </span>} <span class="kw">else </span>{ len <span class="kw">as </span>usize - <span class="number">64 </span>};
+        <span class="kw">let </span>lenminus64: usize = <span class="kw">if </span>len &lt; <span class="number">64 </span>{ <span class="number">0 </span>} <span class="kw">else </span>{ len - <span class="number">64 </span>};
         <span class="kw">let </span><span class="kw-2">mut </span>idx: usize = <span class="number">0</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>error_mask: u64 = <span class="number">0</span>; <span class="comment">// for unescaped characters within strings (ASCII code points &lt; 0x20)
 
@@ -2540,8 +2542,7 @@
             <span class="kw">let </span><span class="kw-2">mut </span>tmpbuf: [u8; SIMDINPUT_LENGTH] = [<span class="number">0x20</span>; SIMDINPUT_LENGTH];
             tmpbuf
                 .as_mut_ptr()
-                .copy_from(input.as_ptr().add(idx), len <span class="kw">as </span>usize - idx);
-
+                .copy_from(input.as_ptr().add(idx), len - idx);
             utf8_validator.update_from_chunks(<span class="kw-2">&amp;</span>tmpbuf);
 
             <span class="kw">let </span>input = SimdInput::new(<span class="kw-2">&amp;</span>tmpbuf);
@@ -2704,40 +2705,39 @@
     </span><span class="kw">fn </span>test_send_sync() {
         <span class="kw">struct </span>TestStruct&lt;T: Sync + Send&gt;(T);
 
-        <span class="kw">let _ </span>= TestStruct(<span class="kw">super</span>::AlignedBuf::with_capacity(<span class="number">0</span>));
-
-        <span class="macro">assert!</span>(<span class="bool-val">true</span>)
+        <span class="attr">#[allow(clippy::let_underscore_drop)] </span><span class="comment">// test
+        </span><span class="kw">let _ </span>= TestStruct(<span class="kw">super</span>::AlignedBuf::with_capacity(<span class="number">0</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>count1() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;[]&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
-        <span class="kw">let </span>simd = Deserializer::from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>simd = Deserializer::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(simd.tape[<span class="number">1</span>], Node::Array(<span class="number">0</span>, <span class="number">2</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>count2() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;[1]&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
-        <span class="kw">let </span>simd = Deserializer::from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>simd = Deserializer::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(simd.tape[<span class="number">1</span>], Node::Array(<span class="number">1</span>, <span class="number">3</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>count3() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;[1,2]&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
-        <span class="kw">let </span>simd = Deserializer::from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>simd = Deserializer::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(simd.tape[<span class="number">1</span>], Node::Array(<span class="number">2</span>, <span class="number">4</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>count4() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot; [ 1 , [ 3 ] , 2 ]&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
-        <span class="kw">let </span>simd = Deserializer::from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>simd = Deserializer::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(simd.tape[<span class="number">1</span>], Node::Array(<span class="number">3</span>, <span class="number">6</span>));
         <span class="macro">assert_eq!</span>(simd.tape[<span class="number">3</span>], Node::Array(<span class="number">1</span>, <span class="number">5</span>));
     }
@@ -2745,8 +2745,8 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>count5() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;[[],null,null]&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
-        <span class="kw">let </span>simd = Deserializer::from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>simd = Deserializer::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(simd.tape[<span class="number">1</span>], Node::Array(<span class="number">3</span>, <span class="number">5</span>));
         <span class="macro">assert_eq!</span>(simd.tape[<span class="number">2</span>], Node::Array(<span class="number">0</span>, <span class="number">3</span>));
     }
@@ -2914,9 +2914,9 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>empty() {
-        <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
-        <span class="kw">let </span>v_simd = from_slice::&lt;Value&gt;(<span class="kw-2">&amp;mut </span>d);
+        <span class="kw">let </span><span class="kw-2">mut </span>d = String::new();
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>v_simd = from_slice::&lt;Value&gt;(d);
         <span class="kw">let </span>v_serde = serde_json::from_slice::&lt;Value&gt;(d);
         <span class="macro">assert!</span>(v_simd.is_err());
         <span class="macro">assert!</span>(v_serde.is_err());
@@ -2926,25 +2926,25 @@
     </span><span class="kw">fn </span>bool_true() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;true&quot;</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
 
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
-        <span class="macro">assert_eq!</span>(to_value(<span class="kw-2">&amp;mut </span>d1), <span class="prelude-val">Ok</span>(Value::from(<span class="bool-val">true</span>)));
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::from(<span class="bool-val">true</span>)));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>bool_false() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;false&quot;</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
-        <span class="macro">assert_eq!</span>(to_value(<span class="kw-2">&amp;mut </span>d1), <span class="prelude-val">Ok</span>(Value::from(<span class="bool-val">false</span>)));
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::from(<span class="bool-val">false</span>)));
         <span class="comment">//assert!(false)
     </span>}
 
@@ -2952,92 +2952,92 @@
     </span><span class="kw">fn </span>union() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;null&quot;</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
-        <span class="macro">assert_eq!</span>(to_value(<span class="kw-2">&amp;mut </span>d1), <span class="prelude-val">Ok</span>(Value::Static(StaticNode::Null)));
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::Static(StaticNode::Null)));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>int() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;42&quot;</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
-        <span class="macro">assert_eq!</span>(to_value(<span class="kw-2">&amp;mut </span>d1), <span class="prelude-val">Ok</span>(Value::from(<span class="number">42</span>)));
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::from(<span class="number">42</span>)));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>zero() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;0&quot;</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
-        <span class="macro">assert_eq!</span>(to_value(<span class="kw-2">&amp;mut </span>d1), <span class="prelude-val">Ok</span>(Value::from(<span class="number">0</span>)));
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::from(<span class="number">0</span>)));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>one() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;1&quot;</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
-        <span class="macro">assert_eq!</span>(to_value(<span class="kw-2">&amp;mut </span>d1), <span class="prelude-val">Ok</span>(Value::from(<span class="number">1</span>)));
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::from(<span class="number">1</span>)));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>minus_one() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;-1&quot;</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
-        <span class="macro">assert_eq!</span>(to_value(<span class="kw-2">&amp;mut </span>d1), <span class="prelude-val">Ok</span>(Value::from(-<span class="number">1</span>)));
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::from(-<span class="number">1</span>)));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>float() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;23.0&quot;</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
-        <span class="macro">assert_eq!</span>(to_value(<span class="kw-2">&amp;mut </span>d1), <span class="prelude-val">Ok</span>(Value::from(<span class="number">23.0</span>)));
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::from(<span class="number">23.0</span>)));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>string() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;&quot;snot&quot;&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="macro">assert_eq!</span>(to_value(<span class="kw-2">&amp;mut </span>d1), <span class="prelude-val">Ok</span>(Value::from(<span class="string">&quot;snot&quot;</span>)));
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::from(<span class="string">&quot;snot&quot;</span>)));
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>lonely_quote() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;&quot;&quot;#</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde = serde_json::from_slice::&lt;serde_json::Value&gt;(d).is_err();
-        <span class="kw">let </span>v_simd = from_slice::&lt;serde_json::Value&gt;(<span class="kw-2">&amp;mut </span>d).is_err();
+        <span class="kw">let </span>v_simd = from_slice::&lt;serde_json::Value&gt;(d).is_err();
         <span class="macro">assert!</span>(v_simd);
         <span class="macro">assert!</span>(v_serde);
     }
@@ -3045,18 +3045,18 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>lonely_quote1() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;[&quot;]&quot;#</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde = serde_json::from_slice::&lt;serde_json::Value&gt;(d).is_err();
-        <span class="kw">let </span>v_simd = from_slice::&lt;serde_json::Value&gt;(<span class="kw-2">&amp;mut </span>d).is_err();
+        <span class="kw">let </span>v_simd = from_slice::&lt;serde_json::Value&gt;(d).is_err();
         <span class="macro">assert!</span>(v_simd);
         <span class="macro">assert!</span>(v_serde);
     }
     <span class="attr">#[test]
     </span><span class="kw">fn </span>lonely_quote2() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;[1, &quot;]&quot;#</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde = serde_json::from_slice::&lt;serde_json::Value&gt;(d).is_err();
-        <span class="kw">let </span>v_simd = from_slice::&lt;serde_json::Value&gt;(<span class="kw-2">&amp;mut </span>d).is_err();
+        <span class="kw">let </span>v_simd = from_slice::&lt;serde_json::Value&gt;(d).is_err();
         <span class="macro">assert!</span>(v_simd);
         <span class="macro">assert!</span>(v_serde);
     }
@@ -3064,9 +3064,9 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>lonely_quote3() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;{&quot;: 1}&quot;#</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde = serde_json::from_slice::&lt;serde_json::Value&gt;(d).is_err();
-        <span class="kw">let </span>v_simd = from_slice::&lt;serde_json::Value&gt;(<span class="kw-2">&amp;mut </span>d).is_err();
+        <span class="kw">let </span>v_simd = from_slice::&lt;serde_json::Value&gt;(d).is_err();
         <span class="macro">assert!</span>(v_simd);
         <span class="macro">assert!</span>(v_serde);
     }
@@ -3075,11 +3075,11 @@
     </span><span class="kw">fn </span>empty_string() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;&quot;&quot;&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="macro">assert_eq!</span>(to_value(<span class="kw-2">&amp;mut </span>d1), <span class="prelude-val">Ok</span>(Value::from(<span class="string">&quot;&quot;</span>)));
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::from(<span class="string">&quot;&quot;</span>)));
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3087,11 +3087,11 @@
     </span><span class="kw">fn </span>empty_array() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;[]&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;parse_serde&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;parse_simd&quot;</span>);
-        <span class="macro">assert_eq!</span>(to_value(<span class="kw-2">&amp;mut </span>d1), <span class="prelude-val">Ok</span>(Value::Array(<span class="macro">vec!</span>[])));
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;parse_simd&quot;</span>);
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::Array(<span class="macro">vec!</span>[])));
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3100,13 +3100,13 @@
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;[[&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
         <span class="kw">let </span><span class="kw-2">mut </span>d2 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d2 = <span class="kw">unsafe </span>{ d2.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d2 = <span class="kw">unsafe </span>{ d2.as_bytes_mut() };
         <span class="kw">let </span>v_serde: <span class="prelude-ty">Result</span>&lt;serde_json::Value, <span class="kw">_</span>&gt; = serde_json::from_slice(d);
-        <span class="kw">let </span>v_simd_owned_value = to_owned_value(<span class="kw-2">&amp;mut </span>d);
-        <span class="kw">let </span>v_simd_borrowed_value = to_borrowed_value(<span class="kw-2">&amp;mut </span>d1);
-        <span class="kw">let </span>v_simd: <span class="prelude-ty">Result</span>&lt;serde_json::Value, <span class="kw">_</span>&gt; = from_slice(<span class="kw-2">&amp;mut </span>d2);
+        <span class="kw">let </span>v_simd_owned_value = to_owned_value(d);
+        <span class="kw">let </span>v_simd_borrowed_value = to_borrowed_value(d1);
+        <span class="kw">let </span>v_simd: <span class="prelude-ty">Result</span>&lt;serde_json::Value, <span class="kw">_</span>&gt; = from_slice(d2);
         <span class="macro">assert!</span>(v_simd_owned_value.is_err());
         <span class="macro">assert!</span>(v_simd_borrowed_value.is_err());
         <span class="macro">assert!</span>(v_simd.is_err());
@@ -3117,14 +3117,11 @@
     </span><span class="kw">fn </span>double_array() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;[[]]&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;parse_serde&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;parse_simd&quot;</span>);
-        <span class="macro">assert_eq!</span>(
-            to_value(<span class="kw-2">&amp;mut </span>d1),
-            <span class="prelude-val">Ok</span>(Value::Array(<span class="macro">vec!</span>[Value::Array(<span class="macro">vec!</span>[])]))
-        );
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;parse_simd&quot;</span>);
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::Array(<span class="macro">vec!</span>[Value::Array(<span class="macro">vec!</span>[])])));
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3132,12 +3129,12 @@
     </span><span class="kw">fn </span>null_null_array() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;[[],null,null]&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;parse_serde&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;parse_simd&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;parse_simd&quot;</span>);
         <span class="macro">assert_eq!</span>(
-            to_value(<span class="kw-2">&amp;mut </span>d1),
+            to_value(d1),
             <span class="prelude-val">Ok</span>(Value::Array(<span class="macro">vec!</span>[
                 Value::Array(<span class="macro">vec!</span>[]),
                 Value::Static(StaticNode::Null),
@@ -3151,14 +3148,11 @@
     </span><span class="kw">fn </span>one_element_array() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;[&quot;snot&quot;]&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
-        <span class="macro">assert_eq!</span>(
-            to_value(<span class="kw-2">&amp;mut </span>d1),
-            <span class="prelude-val">Ok</span>(Value::Array(<span class="macro">vec!</span>[Value::from(<span class="string">&quot;snot&quot;</span>)]))
-        );
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::Array(<span class="macro">vec!</span>[Value::from(<span class="string">&quot;snot&quot;</span>)])));
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3166,17 +3160,17 @@
     </span><span class="kw">fn </span>two_element_array() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;[&quot;snot&quot;, &quot;badger&quot;]&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="macro">assert_eq!</span>(
-            to_value(<span class="kw-2">&amp;mut </span>d1),
+            to_value(d1),
             <span class="prelude-val">Ok</span>(Value::Array(<span class="macro">vec!</span>[
                 Value::from(<span class="string">&quot;snot&quot;</span>),
                 Value::from(<span class="string">&quot;badger&quot;</span>)
             ]))
         );
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3184,13 +3178,13 @@
     </span><span class="kw">fn </span>list() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;[42, 23.0, &quot;snot badger&quot;]&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
         <span class="macro">assert_eq!</span>(
-            to_value(<span class="kw-2">&amp;mut </span>d1),
+            to_value(d1),
             <span class="prelude-val">Ok</span>(Value::Array(<span class="macro">vec!</span>[
                 Value::from(<span class="number">42</span>),
                 Value::from(<span class="number">23.0</span>),
@@ -3203,10 +3197,10 @@
     </span><span class="kw">fn </span>nested_list1() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;[42, [23.0, &quot;snot&quot;], &quot;bad&quot;, &quot;ger&quot;]&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="macro">assert_eq!</span>(
-            to_value(<span class="kw-2">&amp;mut </span>d1),
+            to_value(d1),
             <span class="prelude-val">Ok</span>(Value::Array(<span class="macro">vec!</span>[
                 Value::from(<span class="number">42</span>),
                 Value::Array(<span class="macro">vec!</span>[Value::from(<span class="number">23.0</span>), Value::from(<span class="string">&quot;snot&quot;</span>)]),
@@ -3216,24 +3210,24 @@
         );
 
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>nested_list2() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;[42, [23.0, &quot;snot&quot;], {&quot;bad&quot;: &quot;ger&quot;}]&quot;#</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>utf8() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;&quot;\u000e&quot;&quot;#</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, <span class="string">&quot;\u{e}&quot;</span>);
         <span class="comment">// NOTE: serde is broken for this
         //assert_eq!(v_serde, &quot;\u{e}&quot;);
@@ -3243,17 +3237,17 @@
     </span><span class="kw">fn </span>utf8_invalid_surrogates() {
         <span class="comment">// This is invalid UTF-8, the first character is a high surrogate
         </span><span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;&quot;\uDE71&quot;&quot;#</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
-        <span class="kw">let </span>v_simd: <span class="prelude-ty">Result</span>&lt;serde_json::Value, <span class="kw">_</span>&gt; = from_slice(<span class="kw-2">&amp;mut </span>d);
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>v_simd: <span class="prelude-ty">Result</span>&lt;serde_json::Value, <span class="kw">_</span>&gt; = from_slice(d);
         <span class="macro">assert!</span>(v_simd.is_err());
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>unicode() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;&quot;¡\&quot;&quot;&quot;#</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3261,13 +3255,13 @@
     </span><span class="kw">fn </span>odd_array() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;[{},null]&quot;</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
         <span class="macro">assert_eq!</span>(
-            to_value(<span class="kw-2">&amp;mut </span>d1),
+            to_value(d1),
             <span class="prelude-val">Ok</span>(Value::Array(<span class="macro">vec!</span>[
                 Value::from(Object::new()),
                 Value::Static(StaticNode::Null)
@@ -3282,25 +3276,25 @@
         );
 
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
         <span class="kw">let </span><span class="kw-2">mut </span>o = Value::object();
         o.insert(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;max_unsafe_auto_id_timestamp&quot;</span>)
             .expect(<span class="string">&quot;failed to set key&quot;</span>);
         o.insert(<span class="string">&quot;value&quot;</span>, -<span class="number">9_223_372_036_854_775_808_i64</span>)
             .expect(<span class="string">&quot;failed to set key&quot;</span>);
-        <span class="macro">assert_eq!</span>(to_value(<span class="kw-2">&amp;mut </span>d1), <span class="prelude-val">Ok</span>(o));
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(o));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>map2() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;[{&quot;\u0000&quot;:null}]&quot;#</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3308,28 +3302,28 @@
     </span><span class="kw">fn </span>null() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;null&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
-        <span class="macro">assert_eq!</span>(to_value(<span class="kw-2">&amp;mut </span>d1), <span class="prelude-val">Ok</span>(Value::Static(StaticNode::Null)));
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::Static(StaticNode::Null)));
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
     <span class="attr">#[test]
     </span><span class="kw">fn </span>null_null() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;[null, null]&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="macro">assert_eq!</span>(
-            to_value(<span class="kw-2">&amp;mut </span>d1),
+            to_value(d1),
             <span class="prelude-val">Ok</span>(Value::Array(<span class="macro">vec!</span>[
                 Value::Static(StaticNode::Null),
                 Value::Static(StaticNode::Null),
             ]))
         );
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3337,10 +3331,10 @@
     </span><span class="kw">fn </span>nested_null() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;[[null, null]]&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="macro">assert_eq!</span>(
-            to_value(<span class="kw-2">&amp;mut </span>d1),
+            to_value(d1),
             <span class="prelude-val">Ok</span>(Value::Array(<span class="macro">vec!</span>[Value::Array(<span class="macro">vec!</span>[
                 Value::Static(StaticNode::Null),
                 Value::Static(StaticNode::Null),
@@ -3348,7 +3342,7 @@
         );
 
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3356,13 +3350,13 @@
     </span><span class="kw">fn </span>nestednested_null() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;[[[null, null]]]&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
         <span class="macro">assert_eq!</span>(
-            to_value(<span class="kw-2">&amp;mut </span>d1),
+            to_value(d1),
             <span class="prelude-val">Ok</span>(Value::Array(<span class="macro">vec!</span>[Value::Array(<span class="macro">vec!</span>[Value::Array(<span class="macro">vec!</span>[
                 Value::Static(StaticNode::Null),
                 Value::Static(StaticNode::Null),
@@ -3373,36 +3367,36 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>odd_array2() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;[[\&quot;\\u0000\\\&quot;\&quot;]]&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>odd_array3() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;[{\&quot;\\u0000\\u0000\&quot;:null}]&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>odd_array4() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;[{\&quot;\\u0000𐀀a\&quot;:null}]&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>float1() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;2.3250706903316115e307&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3411,9 +3405,9 @@
     #[test]
     </span><span class="kw">fn </span>float2() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;-4.5512678569607477e306&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3421,9 +3415,9 @@
     #[test]
     </span><span class="kw">fn </span>float3() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;0.6&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Number = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Number = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Number = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3431,47 +3425,47 @@
     </span><span class="kw">fn </span>map0() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;{&quot;snot&quot;: &quot;badger&quot;}&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
         <span class="kw">let </span><span class="kw-2">mut </span>h = Object::new();
         h.insert(<span class="string">&quot;snot&quot;</span>.into(), Value::from(<span class="string">&quot;badger&quot;</span>));
-        <span class="macro">assert_eq!</span>(to_value(<span class="kw-2">&amp;mut </span>d1), <span class="prelude-val">Ok</span>(Value::from(h)));
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::from(h)));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>map1() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;{&quot;snot&quot;: &quot;badger&quot;, &quot;badger&quot;: &quot;snot&quot;}&quot;#</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-        <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d1 = <span class="kw">unsafe </span>{ d1.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
         <span class="kw">let </span><span class="kw-2">mut </span>h = Object::new();
         h.insert(<span class="string">&quot;snot&quot;</span>.into(), Value::from(<span class="string">&quot;badger&quot;</span>));
         h.insert(<span class="string">&quot;badger&quot;</span>.into(), Value::from(<span class="string">&quot;snot&quot;</span>));
-        <span class="macro">assert_eq!</span>(to_value(<span class="kw-2">&amp;mut </span>d1), <span class="prelude-val">Ok</span>(Value::from(h)));
+        <span class="macro">assert_eq!</span>(to_value(d1), <span class="prelude-val">Ok</span>(Value::from(h)));
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;serde_impl&quot;</span>)]
     #[test]
     </span><span class="kw">fn </span>tpl1() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;[-65.613616999999977, 43.420273000000009]&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: (f32, f32) = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: (f32, f32) = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: (f32, f32) = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>tpl2() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;[[-65.613616999999977, 43.420273000000009]]&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: Vec&lt;(f32, f32)&gt; = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: Vec&lt;(f32, f32)&gt; = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: Vec&lt;(f32, f32)&gt; = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3480,43 +3474,43 @@
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(
             <span class="string">&quot;[[-65.613616999999977,43.420273000000009], [-65.613616999999977,43.420273000000009]]&quot;</span>,
         );
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: Vec&lt;(f32, f32)&gt; = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: Vec&lt;(f32, f32)&gt; = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: Vec&lt;(f32, f32)&gt; = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
     <span class="attr">#[test]
     </span><span class="kw">fn </span>tpl4() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;[[[-65.613616999999977,43.420273000000009]]]&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: Vec&lt;Vec&lt;(f32, f32)&gt;&gt; = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: Vec&lt;Vec&lt;(f32, f32)&gt;&gt; = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: Vec&lt;Vec&lt;(f32, f32)&gt;&gt; = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
     <span class="attr">#[test]
     </span><span class="kw">fn </span>tpl5() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;[[[-65.613616999999977,43.420273000000009], [-65.613616999999977,43.420273000000009]]]&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: Vec&lt;Vec&lt;(f32, f32)&gt;&gt; = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: Vec&lt;Vec&lt;(f32, f32)&gt;&gt; = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: Vec&lt;Vec&lt;(f32, f32)&gt;&gt; = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>tpl6() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;[[[[-65.613616999999977,43.420273000000009], [-65.613616999999977,43.420273000000009]]]]&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: Vec&lt;Vec&lt;Vec&lt;(f32, f32)&gt;&gt;&gt; = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: Vec&lt;Vec&lt;Vec&lt;(f32, f32)&gt;&gt;&gt; = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: Vec&lt;Vec&lt;Vec&lt;(f32, f32)&gt;&gt;&gt; = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>tpl7() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;[[[[-65.613616999999977,43.420273000000009], [-65.613616999999977,43.420273000000009]]]]&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: Vec&lt;Vec&lt;Vec&lt;[f32; <span class="number">2</span>]&gt;&gt;&gt; = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: Vec&lt;Vec&lt;Vec&lt;[f32; <span class="number">2</span>]&gt;&gt;&gt; = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: Vec&lt;Vec&lt;Vec&lt;[f32; <span class="number">2</span>]&gt;&gt;&gt; = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3534,9 +3528,9 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>obj1() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;{&quot;a&quot;: 1, &quot;b&quot;:1}&quot;#</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: Obj = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: Obj = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: Obj = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3544,9 +3538,9 @@
     </span><span class="kw">fn </span>obj2() {
         <span class="kw">let </span><span class="kw-2">mut </span>d =
             String::from(<span class="string">r#&quot;{&quot;a&quot;: {&quot;a&quot;: 1, &quot;b&quot;:1}, &quot;b&quot;: {&quot;a&quot;: 1, &quot;b&quot;:1}, &quot;c&quot;: {&quot;a&quot;: 1, &quot;b&quot;: 1}}&quot;#</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: HashMap&lt;String, Obj&gt; = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: HashMap&lt;String, Obj&gt; = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: HashMap&lt;String, Obj&gt; = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3555,28 +3549,28 @@
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(
             <span class="string">r#&quot;{&quot;c&quot;: {&quot;a&quot;: {&quot;a&quot;: 1, &quot;b&quot;:1}, &quot;b&quot;: {&quot;a&quot;: 1, &quot;b&quot;:1}, &quot;c&quot;: {&quot;a&quot;: 1, &quot;b&quot;: 1}}}&quot;#</span>,
         );
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: HashMap&lt;String, HashMap&lt;String, Obj&gt;&gt; =
             serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: HashMap&lt;String, HashMap&lt;String, Obj&gt;&gt; = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: HashMap&lt;String, HashMap&lt;String, Obj&gt;&gt; = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>obj4() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">r#&quot;{&quot;c&quot;: {&quot;a&quot;: {&quot;a&quot;: 1, &quot;b&quot;:1}}}&quot;#</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: HashMap&lt;String, Obj1&gt; = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: HashMap&lt;String, Obj1&gt; = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: HashMap&lt;String, Obj1&gt; = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>vecvec() {
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(<span class="string">&quot;[[[-65.613616999999977,43.420273000000009], [-65.613616999999977,43.420273000000009]], [[-65.613616999999977,43.420273000000009], [-65.613616999999977,43.420273000000009]]]&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: Vec&lt;Vec&lt;(f32, f32)&gt;&gt; = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: Vec&lt;Vec&lt;(f32, f32)&gt;&gt; = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: Vec&lt;Vec&lt;(f32, f32)&gt;&gt; = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3585,16 +3579,16 @@
         <span class="comment">// there is unicode in here!
         </span><span class="kw">let </span>d = <span class="string">&quot;\&quot;𐀀𐀀  𐀀𐀀0 𐀀A\\u00000A0 A \\u000b\&quot;&quot;</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>d = String::from(d);
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: serde_json::Value = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: serde_json::Value = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;serde_impl&quot;</span>)]
     #[test]
     </span><span class="kw">fn </span>event() {
-        <span class="attr">#[derive(Deserialize, Debug, PartialEq)]
+        <span class="attr">#[derive(Deserialize, Debug, PartialEq, Eq)]
         #[serde(deny_unknown_fields, rename_all = <span class="string">&quot;camelCase&quot;</span>)]
         </span><span class="kw">pub struct </span>CitmCatalog {
             <span class="kw">pub </span>area_names: HashMap&lt;String, String&gt;,
@@ -3603,7 +3597,7 @@
             <span class="kw">pub </span>events: HashMap&lt;String, Event&gt;,
         }
         <span class="kw">pub type </span>Id = u32;
-        <span class="attr">#[derive(Deserialize, Debug, PartialEq)]
+        <span class="attr">#[derive(Deserialize, Debug, PartialEq, Eq)]
         #[serde(deny_unknown_fields, rename_all = <span class="string">&quot;camelCase&quot;</span>)]
         </span><span class="kw">pub struct </span>Event {
             <span class="kw">pub </span>description: (),
@@ -3681,9 +3675,9 @@
 }
 &quot;#</span>,
         );
-        <span class="kw">let </span><span class="kw-2">mut </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
+        <span class="kw">let </span>d = <span class="kw">unsafe </span>{ d.as_bytes_mut() };
         <span class="kw">let </span>v_serde: CitmCatalog = serde_json::from_slice(d).expect(<span class="string">&quot;serde_json&quot;</span>);
-        <span class="kw">let </span>v_simd: CitmCatalog = from_slice(<span class="kw-2">&amp;mut </span>d).expect(<span class="string">&quot;simd_json&quot;</span>);
+        <span class="kw">let </span>v_simd: CitmCatalog = from_slice(d).expect(<span class="string">&quot;simd_json&quot;</span>);
         <span class="macro">assert_eq!</span>(v_simd, v_serde);
     }
 
@@ -3717,7 +3711,7 @@
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;serde_impl&quot;</span>)]
     #[test]
-    </span><span class="kw">fn </span>int_map_key() {
+    </span><span class="kw">fn </span>int_map_key() -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw">crate</span>::Error&gt; {
         <span class="kw">use </span>std::collections::BTreeMap;
 
         <span class="kw">let </span><span class="kw-2">mut </span>map = BTreeMap::new();
@@ -3727,13 +3721,14 @@
 
         <span class="macro">assert_eq!</span>(
             <span class="string">r#&quot;{&quot;0&quot;:&quot;foo&quot;,&quot;1&quot;:&quot;bar&quot;,&quot;2&quot;:&quot;baz&quot;}&quot;#</span>,
-            <span class="kw">crate</span>::to_string(<span class="kw-2">&amp;</span>map).unwrap()
-        );
+            <span class="kw">crate</span>::to_string(<span class="kw-2">&amp;</span>map)<span class="question-mark">?
+        </span>);
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;serde_impl&quot;</span>)]
     #[test]
-    </span><span class="kw">fn </span>enum_test() {
+    </span><span class="kw">fn </span>enum_test() -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw">crate</span>::Error&gt; {
         <span class="kw">use </span>serde::{Deserialize, Serialize};
 
         <span class="attr">#[derive(Debug, Serialize, Deserialize, PartialEq, Eq)]
@@ -3748,11 +3743,18 @@
         }
 
         <span class="kw">let </span>thing = MyEnum::First(MyStruct { field: <span class="number">1 </span>});
-        <span class="kw">let </span><span class="kw-2">mut </span>ser = <span class="kw">crate</span>::serde::to_string(<span class="kw-2">&amp;</span>thing).unwrap();
-        <span class="macro">println!</span>(<span class="string">&quot;Ser {:?}&quot;</span>, ser);
-        <span class="kw">let </span>des: MyEnum = <span class="kw">unsafe </span>{ <span class="kw">crate</span>::serde::from_str(<span class="kw-2">&amp;mut </span>ser).unwrap() };
-        <span class="macro">println!</span>(<span class="string">&quot;Des {:?}&quot;</span>, des);
+        <span class="kw">let </span><span class="kw-2">mut </span>ser = <span class="kw">crate</span>::serde::to_string(<span class="kw-2">&amp;</span>thing)<span class="question-mark">?</span>;
+        <span class="macro">println!</span>(<span class="string">&quot;Ser {ser:?}&quot;</span>);
+        <span class="kw">let </span>des: MyEnum = <span class="kw">unsafe </span>{ <span class="kw">crate</span>::serde::from_str(<span class="kw-2">&amp;mut </span>ser)<span class="question-mark">? </span>};
+        <span class="macro">println!</span>(<span class="string">&quot;Des {des:?}&quot;</span>);
         <span class="macro">assert_eq!</span>(thing, des);
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>invalid_float() {
+        <span class="kw">let </span><span class="kw-2">mut </span>s: Vec&lt;u8&gt; = <span class="string">b&quot;[100,9e999]&quot;</span>.to_vec();
+        <span class="macro">assert!</span>(to_owned_value(<span class="kw-2">&amp;mut </span>s).is_err());
     }
 
     <span class="attr">#[cfg(not(target_arch = <span class="string">&quot;wasm32&quot;</span>))]
@@ -3832,14 +3834,14 @@
         #[should_panic]
         </span><span class="kw">fn </span>prop_string(d <span class="kw">in </span><span class="string">&quot;\\PC*&quot;</span>) {
             <span class="kw">let </span><span class="kw-2">mut </span>d1 = d.clone();
-            <span class="kw">let </span><span class="kw-2">mut </span>d1 = <span class="kw">unsafe</span>{ d1.as_bytes_mut()};
+            <span class="kw">let </span>d1 = <span class="kw">unsafe</span>{ d1.as_bytes_mut()};
             <span class="kw">let </span><span class="kw-2">mut </span>d2 = d.clone();
-            <span class="kw">let </span><span class="kw-2">mut </span>d2 = <span class="kw">unsafe</span>{ d2.as_bytes_mut()};
+            <span class="kw">let </span>d2 = <span class="kw">unsafe</span>{ d2.as_bytes_mut()};
             <span class="kw">let </span><span class="kw-2">mut </span>d3 = d;
-            <span class="kw">let </span><span class="kw-2">mut </span>d3 = <span class="kw">unsafe</span>{ d3.as_bytes_mut()};
-            from_slice::&lt;serde_json::Value&gt;(<span class="kw-2">&amp;mut </span>d1).expect(<span class="string">&quot;from_slice&quot;</span>);
-            to_borrowed_value(<span class="kw-2">&amp;mut </span>d2).expect(<span class="string">&quot;to_borrowed_value&quot;</span>);
-            to_owned_value(<span class="kw-2">&amp;mut </span>d3).expect(<span class="string">&quot;to_owned_value&quot;</span>);
+            <span class="kw">let </span>d3 = <span class="kw">unsafe</span>{ d3.as_bytes_mut()};
+            from_slice::&lt;serde_json::Value&gt;(d1).expect(<span class="string">&quot;from_slice&quot;</span>);
+            to_borrowed_value(d2).expect(<span class="string">&quot;to_borrowed_value&quot;</span>);
+            to_owned_value(d3).expect(<span class="string">&quot;to_owned_value&quot;</span>);
 
         }
     }

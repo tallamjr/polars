@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/chunked_array/upstream_traits.rs`."><title>upstream_traits.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_core/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/chunked_array/upstream_traits.rs`."><title>upstream_traits.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_core/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -578,7 +578,261 @@
 <a href="#578" id="578">578</a>
 <a href="#579" id="579">579</a>
 <a href="#580" id="580">580</a>
-</pre><pre class="rust"><code><span class="doccomment">//! Implementations of upstream traits for ChunkedArray&lt;T&gt;
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
+<a href="#616" id="616">616</a>
+<a href="#617" id="617">617</a>
+<a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a>
+<a href="#622" id="622">622</a>
+<a href="#623" id="623">623</a>
+<a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
+<a href="#626" id="626">626</a>
+<a href="#627" id="627">627</a>
+<a href="#628" id="628">628</a>
+<a href="#629" id="629">629</a>
+<a href="#630" id="630">630</a>
+<a href="#631" id="631">631</a>
+<a href="#632" id="632">632</a>
+<a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
+<a href="#635" id="635">635</a>
+<a href="#636" id="636">636</a>
+<a href="#637" id="637">637</a>
+<a href="#638" id="638">638</a>
+<a href="#639" id="639">639</a>
+<a href="#640" id="640">640</a>
+<a href="#641" id="641">641</a>
+<a href="#642" id="642">642</a>
+<a href="#643" id="643">643</a>
+<a href="#644" id="644">644</a>
+<a href="#645" id="645">645</a>
+<a href="#646" id="646">646</a>
+<a href="#647" id="647">647</a>
+<a href="#648" id="648">648</a>
+<a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
+<a href="#652" id="652">652</a>
+<a href="#653" id="653">653</a>
+<a href="#654" id="654">654</a>
+<a href="#655" id="655">655</a>
+<a href="#656" id="656">656</a>
+<a href="#657" id="657">657</a>
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a>
+<a href="#660" id="660">660</a>
+<a href="#661" id="661">661</a>
+<a href="#662" id="662">662</a>
+<a href="#663" id="663">663</a>
+<a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
+<a href="#666" id="666">666</a>
+<a href="#667" id="667">667</a>
+<a href="#668" id="668">668</a>
+<a href="#669" id="669">669</a>
+<a href="#670" id="670">670</a>
+<a href="#671" id="671">671</a>
+<a href="#672" id="672">672</a>
+<a href="#673" id="673">673</a>
+<a href="#674" id="674">674</a>
+<a href="#675" id="675">675</a>
+<a href="#676" id="676">676</a>
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
+<a href="#687" id="687">687</a>
+<a href="#688" id="688">688</a>
+<a href="#689" id="689">689</a>
+<a href="#690" id="690">690</a>
+<a href="#691" id="691">691</a>
+<a href="#692" id="692">692</a>
+<a href="#693" id="693">693</a>
+<a href="#694" id="694">694</a>
+<a href="#695" id="695">695</a>
+<a href="#696" id="696">696</a>
+<a href="#697" id="697">697</a>
+<a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
+<a href="#700" id="700">700</a>
+<a href="#701" id="701">701</a>
+<a href="#702" id="702">702</a>
+<a href="#703" id="703">703</a>
+<a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a>
+<a href="#708" id="708">708</a>
+<a href="#709" id="709">709</a>
+<a href="#710" id="710">710</a>
+<a href="#711" id="711">711</a>
+<a href="#712" id="712">712</a>
+<a href="#713" id="713">713</a>
+<a href="#714" id="714">714</a>
+<a href="#715" id="715">715</a>
+<a href="#716" id="716">716</a>
+<a href="#717" id="717">717</a>
+<a href="#718" id="718">718</a>
+<a href="#719" id="719">719</a>
+<a href="#720" id="720">720</a>
+<a href="#721" id="721">721</a>
+<a href="#722" id="722">722</a>
+<a href="#723" id="723">723</a>
+<a href="#724" id="724">724</a>
+<a href="#725" id="725">725</a>
+<a href="#726" id="726">726</a>
+<a href="#727" id="727">727</a>
+<a href="#728" id="728">728</a>
+<a href="#729" id="729">729</a>
+<a href="#730" id="730">730</a>
+<a href="#731" id="731">731</a>
+<a href="#732" id="732">732</a>
+<a href="#733" id="733">733</a>
+<a href="#734" id="734">734</a>
+<a href="#735" id="735">735</a>
+<a href="#736" id="736">736</a>
+<a href="#737" id="737">737</a>
+<a href="#738" id="738">738</a>
+<a href="#739" id="739">739</a>
+<a href="#740" id="740">740</a>
+<a href="#741" id="741">741</a>
+<a href="#742" id="742">742</a>
+<a href="#743" id="743">743</a>
+<a href="#744" id="744">744</a>
+<a href="#745" id="745">745</a>
+<a href="#746" id="746">746</a>
+<a href="#747" id="747">747</a>
+<a href="#748" id="748">748</a>
+<a href="#749" id="749">749</a>
+<a href="#750" id="750">750</a>
+<a href="#751" id="751">751</a>
+<a href="#752" id="752">752</a>
+<a href="#753" id="753">753</a>
+<a href="#754" id="754">754</a>
+<a href="#755" id="755">755</a>
+<a href="#756" id="756">756</a>
+<a href="#757" id="757">757</a>
+<a href="#758" id="758">758</a>
+<a href="#759" id="759">759</a>
+<a href="#760" id="760">760</a>
+<a href="#761" id="761">761</a>
+<a href="#762" id="762">762</a>
+<a href="#763" id="763">763</a>
+<a href="#764" id="764">764</a>
+<a href="#765" id="765">765</a>
+<a href="#766" id="766">766</a>
+<a href="#767" id="767">767</a>
+<a href="#768" id="768">768</a>
+<a href="#769" id="769">769</a>
+<a href="#770" id="770">770</a>
+<a href="#771" id="771">771</a>
+<a href="#772" id="772">772</a>
+<a href="#773" id="773">773</a>
+<a href="#774" id="774">774</a>
+<a href="#775" id="775">775</a>
+<a href="#776" id="776">776</a>
+<a href="#777" id="777">777</a>
+<a href="#778" id="778">778</a>
+<a href="#779" id="779">779</a>
+<a href="#780" id="780">780</a>
+<a href="#781" id="781">781</a>
+<a href="#782" id="782">782</a>
+<a href="#783" id="783">783</a>
+<a href="#784" id="784">784</a>
+<a href="#785" id="785">785</a>
+<a href="#786" id="786">786</a>
+<a href="#787" id="787">787</a>
+<a href="#788" id="788">788</a>
+<a href="#789" id="789">789</a>
+<a href="#790" id="790">790</a>
+<a href="#791" id="791">791</a>
+<a href="#792" id="792">792</a>
+<a href="#793" id="793">793</a>
+<a href="#794" id="794">794</a>
+<a href="#795" id="795">795</a>
+<a href="#796" id="796">796</a>
+<a href="#797" id="797">797</a>
+<a href="#798" id="798">798</a>
+<a href="#799" id="799">799</a>
+<a href="#800" id="800">800</a>
+<a href="#801" id="801">801</a>
+<a href="#802" id="802">802</a>
+<a href="#803" id="803">803</a>
+<a href="#804" id="804">804</a>
+<a href="#805" id="805">805</a>
+<a href="#806" id="806">806</a>
+<a href="#807" id="807">807</a>
+<a href="#808" id="808">808</a>
+<a href="#809" id="809">809</a>
+<a href="#810" id="810">810</a>
+<a href="#811" id="811">811</a>
+<a href="#812" id="812">812</a>
+<a href="#813" id="813">813</a>
+<a href="#814" id="814">814</a>
+<a href="#815" id="815">815</a>
+<a href="#816" id="816">816</a>
+<a href="#817" id="817">817</a>
+<a href="#818" id="818">818</a>
+<a href="#819" id="819">819</a>
+<a href="#820" id="820">820</a>
+<a href="#821" id="821">821</a>
+<a href="#822" id="822">822</a>
+<a href="#823" id="823">823</a>
+<a href="#824" id="824">824</a>
+<a href="#825" id="825">825</a>
+<a href="#826" id="826">826</a>
+<a href="#827" id="827">827</a>
+<a href="#828" id="828">828</a>
+<a href="#829" id="829">829</a>
+<a href="#830" id="830">830</a>
+<a href="#831" id="831">831</a>
+<a href="#832" id="832">832</a>
+<a href="#833" id="833">833</a>
+<a href="#834" id="834">834</a>
+</pre></div><pre class="rust"><code><span class="doccomment">//! Implementations of upstream traits for ChunkedArray&lt;T&gt;
 </span><span class="kw">use </span>std::borrow::{Borrow, Cow};
 <span class="kw">use </span>std::collections::LinkedList;
 <span class="kw">use </span>std::iter::FromIterator;
@@ -586,7 +840,9 @@
 <span class="kw">use </span>std::sync::Arc;
 
 <span class="kw">use </span>arrow::array::{BooleanArray, PrimitiveArray, Utf8Array};
-<span class="kw">use </span>polars_arrow::utils::TrustMyLength;
+<span class="kw">use </span>arrow::bitmap::{Bitmap, MutableBitmap};
+<span class="kw">use </span>polars_arrow::bit_util::{set_bit_raw, unset_bit_raw};
+<span class="kw">use </span>polars_utils::sync::SyncPtr;
 <span class="kw">use </span>rayon::iter::{FromParallelIterator, IntoParallelIterator};
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 
@@ -784,7 +1040,7 @@
                 <span class="prelude-val">Some</span>(<span class="prelude-val">None</span>) =&gt; {
                     init_null_count += <span class="number">1</span>;
                 }
-                <span class="prelude-val">None </span>=&gt; <span class="kw">return </span>ListChunked::full_null(<span class="string">&quot;&quot;</span>, <span class="number">0</span>),
+                <span class="prelude-val">None </span>=&gt; <span class="kw">return </span>ListChunked::full_null(<span class="string">&quot;&quot;</span>, init_null_count),
             }
         }
 
@@ -881,8 +1137,6 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]
 </span><span class="kw">impl</span>&lt;T: PolarsObject&gt; FromIterator&lt;<span class="prelude-ty">Option</span>&lt;T&gt;&gt; <span class="kw">for </span>ObjectChunked&lt;T&gt; {
     <span class="kw">fn </span>from_iter&lt;I: IntoIterator&lt;Item = <span class="prelude-ty">Option</span>&lt;T&gt;&gt;&gt;(iter: I) -&gt; <span class="self">Self </span>{
-        <span class="kw">use </span>arrow::bitmap::{Bitmap, MutableBitmap};
-
         <span class="kw">let </span>iter = iter.into_iter();
         <span class="kw">let </span>size = iter.size_hint().<span class="number">0</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>null_mask_builder = MutableBitmap::with_capacity(size);
@@ -958,6 +1212,19 @@
     ll.iter().map(|list| list.len()).sum()
 }
 
+<span class="kw">fn </span>get_capacity_from_par_results_slice&lt;T&gt;(bufs: <span class="kw-2">&amp;</span>[Vec&lt;T&gt;]) -&gt; usize {
+    bufs.iter().map(|list| list.len()).sum()
+}
+<span class="kw">fn </span>get_offsets&lt;T&gt;(bufs: <span class="kw-2">&amp;</span>[Vec&lt;T&gt;]) -&gt; Vec&lt;usize&gt; {
+    bufs.iter()
+        .scan(<span class="number">0usize</span>, |acc, buf| {
+            <span class="kw">let </span>out = <span class="kw-2">*</span>acc;
+            <span class="kw-2">*</span>acc += buf.len();
+            <span class="prelude-val">Some</span>(out)
+        })
+        .collect()
+}
+
 <span class="kw">impl</span>&lt;T&gt; FromParallelIterator&lt;T::Native&gt; <span class="kw">for </span>NoNull&lt;ChunkedArray&lt;T&gt;&gt;
 <span class="kw">where
     </span>T: PolarsNumericType,
@@ -976,6 +1243,22 @@
     }
 }
 
+<span class="kw">fn </span>finish_validities(validities: Vec&lt;(<span class="prelude-ty">Option</span>&lt;Bitmap&gt;, usize)&gt;, capacity: usize) -&gt; <span class="prelude-ty">Option</span>&lt;Bitmap&gt; {
+    <span class="kw">if </span>validities.iter().any(|(v, <span class="kw">_</span>)| v.is_some()) {
+        <span class="kw">let </span><span class="kw-2">mut </span>bitmap = MutableBitmap::with_capacity(capacity);
+        <span class="kw">for </span>(valids, len) <span class="kw">in </span>validities {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(valids) = valids {
+                bitmap.extend_from_bitmap(<span class="kw-2">&amp;</span>(valids))
+            } <span class="kw">else </span>{
+                bitmap.extend_constant(len, <span class="bool-val">true</span>)
+            }
+        }
+        <span class="prelude-val">Some</span>(bitmap.into())
+    } <span class="kw">else </span>{
+        <span class="prelude-val">None
+    </span>}
+}
+
 <span class="kw">impl</span>&lt;T&gt; FromParallelIterator&lt;<span class="prelude-ty">Option</span>&lt;T::Native&gt;&gt; <span class="kw">for </span>ChunkedArray&lt;T&gt;
 <span class="kw">where
     </span>T: PolarsNumericType,
@@ -984,11 +1267,57 @@
         <span class="comment">// Get linkedlist filled with different vec result from different threads
         </span><span class="kw">let </span>vectors = collect_into_linked_list(iter);
 
-        <span class="kw">let </span>capacity: usize = get_capacity_from_par_results(<span class="kw-2">&amp;</span>vectors);
+        <span class="kw">let </span>vectors = vectors.into_iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        <span class="kw">let </span>capacity: usize = get_capacity_from_par_results_slice(<span class="kw-2">&amp;</span>vectors);
+        <span class="kw">let </span>offsets = get_offsets(<span class="kw-2">&amp;</span>vectors);
 
-        <span class="kw">let </span>iter = TrustMyLength::new(vectors.into_iter().flatten(), capacity);
-        <span class="kw">let </span>arr =
-            PrimitiveArray::&lt;T::Native&gt;::from_trusted_len_iter(iter).to(T::get_dtype().to_arrow());
+        <span class="kw">let </span><span class="kw-2">mut </span>values_buf: Vec&lt;T::Native&gt; = Vec::with_capacity(capacity);
+        <span class="kw">let </span>values_buf_ptr = <span class="kw">unsafe </span>{ SyncPtr::new(values_buf.as_mut_ptr()) };
+
+        <span class="kw">let </span>validities = offsets
+            .into_par_iter()
+            .zip(vectors)
+            .map(|(offset, vector)| {
+                <span class="kw">let </span><span class="kw-2">mut </span>local_validity = <span class="prelude-val">None</span>;
+                <span class="kw">let </span>local_len = vector.len();
+                <span class="kw">let </span><span class="kw-2">mut </span>latest_validy_written = <span class="number">0</span>;
+                <span class="kw">unsafe </span>{
+                    <span class="kw">let </span>values_buf_ptr = values_buf_ptr.get().add(offset);
+
+                    <span class="kw">for </span>(i, opt_v) <span class="kw">in </span>vector.into_iter().enumerate() {
+                        <span class="kw">match </span>opt_v {
+                            <span class="prelude-val">Some</span>(v) =&gt; {
+                                std::ptr::write(values_buf_ptr.add(i), v);
+                            }
+                            <span class="prelude-val">None </span>=&gt; {
+                                <span class="kw">let </span>validity = <span class="kw">match </span><span class="kw-2">&amp;mut </span>local_validity {
+                                    <span class="prelude-val">None </span>=&gt; {
+                                        <span class="kw">let </span>validity = MutableBitmap::with_capacity(local_len);
+                                        local_validity = <span class="prelude-val">Some</span>(validity);
+                                        local_validity.as_mut().unwrap_unchecked()
+                                    }
+                                    <span class="prelude-val">Some</span>(validity) =&gt; validity,
+                                };
+                                validity.extend_constant(i - latest_validy_written, <span class="bool-val">true</span>);
+                                latest_validy_written = i + <span class="number">1</span>;
+                                validity.push_unchecked(<span class="bool-val">false</span>);
+                                <span class="comment">// initialize value
+                                </span>std::ptr::write(values_buf_ptr.add(i), T::Native::default());
+                            }
+                        }
+                    }
+                }
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(validity) = <span class="kw-2">&amp;mut </span>local_validity {
+                    validity.extend_constant(local_len - latest_validy_written, <span class="bool-val">true</span>);
+                }
+                (local_validity.map(|b| b.into()), local_len)
+            })
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        <span class="kw">unsafe </span>{ values_buf.set_len(capacity) };
+
+        <span class="kw">let </span>validity = finish_validities(validities, capacity);
+
+        <span class="kw">let </span>arr = PrimitiveArray::from_data_default(values_buf.into(), validity);
         <span class="kw">unsafe </span>{ <span class="self">Self</span>::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[Box::new(arr)]) }
     }
 }
@@ -1010,15 +1339,95 @@
 
 <span class="kw">impl </span>FromParallelIterator&lt;<span class="prelude-ty">Option</span>&lt;bool&gt;&gt; <span class="kw">for </span>BooleanChunked {
     <span class="kw">fn </span>from_par_iter&lt;I: IntoParallelIterator&lt;Item = <span class="prelude-ty">Option</span>&lt;bool&gt;&gt;&gt;(iter: I) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span>vectors = collect_into_linked_list(iter);
+        <span class="comment">// Get linkedlist filled with different vec result from different threads
+        </span><span class="kw">let </span>vectors = collect_into_linked_list(iter);
 
-        <span class="kw">let </span>capacity: usize = get_capacity_from_par_results(<span class="kw-2">&amp;</span>vectors);
+        <span class="kw">let </span>vectors = vectors.into_iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        <span class="kw">let </span>capacity: usize = get_capacity_from_par_results_slice(<span class="kw-2">&amp;</span>vectors);
+        <span class="kw">let </span>offsets = get_offsets(<span class="kw-2">&amp;</span>vectors);
 
-        <span class="kw">let </span>arr = <span class="kw">unsafe </span>{
-            BooleanArray::from_trusted_len_iter(
-                vectors.into_iter().flatten().trust_my_length(capacity),
-            )
-        };
+        <span class="comment">// We initialize the vec, as setting bits only doesn&#39;t seem to initialize the memory
+        </span><span class="kw">let </span><span class="kw-2">mut </span>values_buf: Vec&lt;u8&gt; = <span class="macro">vec!</span>[<span class="number">0</span>; capacity.saturating_add(<span class="number">7</span>) / <span class="number">8</span>];
+        <span class="kw">let </span>values_buf_ptr = <span class="kw">unsafe </span>{ SyncPtr::new(values_buf.as_mut_ptr()) };
+
+        <span class="kw">let </span>validities = offsets
+            .par_iter()
+            .zip(vectors.par_iter())
+            .map(|(<span class="kw-2">&amp;</span>offset, vector)| {
+                <span class="kw">let </span><span class="kw-2">mut </span>local_validity = <span class="prelude-val">None</span>;
+                <span class="kw">let </span>local_len = vector.len();
+                <span class="kw">let </span><span class="kw-2">mut </span>latest_validy_written = <span class="number">0</span>;
+                <span class="kw">unsafe </span>{
+                    <span class="comment">// don&#39;t add the offset here, we set bits, not bytes!
+                    </span><span class="kw">let </span>values_buf_ptr = values_buf_ptr.get();
+
+                    <span class="comment">// this may/will race on the leading and trailing bits
+                    // we allow this racing and set the bits to the correct value in a second
+                    // single threaded pass
+                    </span><span class="kw">for </span>(i, opt_v) <span class="kw">in </span>vector.iter().enumerate() {
+                        <span class="kw">match </span>opt_v {
+                            <span class="prelude-val">Some</span>(v) =&gt; {
+                                <span class="kw">if </span><span class="kw-2">*</span>v {
+                                    set_bit_raw(values_buf_ptr, i + offset);
+                                };
+                            }
+                            <span class="prelude-val">None </span>=&gt; {
+                                <span class="kw">let </span>validity = <span class="kw">match </span><span class="kw-2">&amp;mut </span>local_validity {
+                                    <span class="prelude-val">None </span>=&gt; {
+                                        <span class="kw">let </span>validity = MutableBitmap::with_capacity(local_len);
+                                        local_validity = <span class="prelude-val">Some</span>(validity);
+                                        local_validity.as_mut().unwrap_unchecked()
+                                    }
+                                    <span class="prelude-val">Some</span>(validity) =&gt; validity,
+                                };
+                                validity.extend_constant(i - latest_validy_written, <span class="bool-val">true</span>);
+                                latest_validy_written = i + <span class="number">1</span>;
+                                validity.push_unchecked(<span class="bool-val">false</span>);
+                            }
+                        }
+                    }
+                }
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(validity) = <span class="kw-2">&amp;mut </span>local_validity {
+                    validity.extend_constant(local_len - latest_validy_written, <span class="bool-val">true</span>);
+                }
+                (local_validity.map(|b| b.into()), local_len)
+            })
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        <span class="kw">unsafe </span>{ values_buf.set_len(capacity.saturating_add(<span class="number">7</span>) / <span class="number">8</span>) };
+
+        <span class="comment">// set the leading and trailing bits
+        // those can be in an invalid state due to racing threads
+        </span><span class="kw">let </span>ptr = values_buf_ptr.get();
+        <span class="kw">for </span>(vector, offset) <span class="kw">in </span>vectors.into_iter().zip(offsets) {
+            <span class="comment">// set leading bits
+            </span><span class="kw">for </span>(i, opt_v) <span class="kw">in </span>vector.iter().enumerate().take(<span class="number">8</span>) {
+                <span class="kw">unsafe </span>{
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(v) = opt_v {
+                        <span class="kw">if </span><span class="kw-2">*</span>v {
+                            set_bit_raw(ptr, i + offset)
+                        } <span class="kw">else </span>{
+                            unset_bit_raw(ptr, i + offset)
+                        }
+                    }
+                }
+            }
+            <span class="comment">// set trailing bits
+            </span><span class="kw">for </span>(i, opt_v) <span class="kw">in </span>vector.iter().enumerate().rev().take(<span class="number">8</span>) {
+                <span class="kw">unsafe </span>{
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(v) = opt_v {
+                        <span class="kw">if </span><span class="kw-2">*</span>v {
+                            set_bit_raw(ptr, i + offset)
+                        } <span class="kw">else </span>{
+                            unset_bit_raw(ptr, i + offset)
+                        }
+                    }
+                }
+            }
+        }
+
+        <span class="kw">let </span>validity = finish_validities(validities, capacity);
+        <span class="kw">let </span>values = Bitmap::from_u8_vec(values_buf, capacity);
+        <span class="kw">let </span>arr = BooleanArray::from_data_default(values, validity);
         <span class="kw">unsafe </span>{ <span class="self">Self</span>::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[Box::new(arr)]) }
     }
 }
@@ -1029,9 +1438,45 @@
 {
     <span class="kw">fn </span>from_par_iter&lt;I: IntoParallelIterator&lt;Item = Ptr&gt;&gt;(iter: I) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>vectors = collect_into_linked_list(iter);
-        <span class="kw">let </span>arr = LargeStringArray::from_iter_values(vectors.into_iter().flatten());
+        <span class="kw">let </span>cap = get_capacity_from_par_results(<span class="kw-2">&amp;</span>vectors);
+        <span class="kw">let </span><span class="kw-2">mut </span>builder = MutableUtf8ValuesArray::with_capacities(cap, cap * <span class="number">10</span>);
+        <span class="kw">for </span>vec <span class="kw">in </span>vectors {
+            <span class="kw">for </span>val <span class="kw">in </span>vec {
+                builder.push(val.as_ref())
+            }
+        }
+        <span class="kw">let </span>arr: LargeStringArray = builder.into();
         <span class="kw">unsafe </span>{ <span class="self">Self</span>::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[Box::new(arr)]) }
     }
+}
+
+<span class="kw">pub fn </span>flatten_par&lt;T: Send + Sync + Copy&gt;(bufs: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>[T]]) -&gt; Vec&lt;T&gt; {
+    <span class="kw">let </span>len = bufs.iter().map(|b| b.as_ref().len()).sum();
+    <span class="kw">let </span>offsets = bufs
+        .iter()
+        .scan(<span class="number">0usize</span>, |acc, buf| {
+            <span class="kw">let </span>out = <span class="kw-2">*</span>acc;
+            <span class="kw-2">*</span>acc += buf.len();
+            <span class="prelude-val">Some</span>(out)
+        })
+        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+
+    <span class="kw">let </span><span class="kw-2">mut </span>out = Vec::with_capacity(len);
+    <span class="kw">let </span>out_ptr = <span class="kw">unsafe </span>{ SyncPtr::new(out.as_mut_ptr()) };
+
+    offsets.into_par_iter().enumerate().for_each(|(i, offset)| {
+        <span class="kw">let </span>buf = bufs[i];
+        <span class="kw">let </span>ptr: <span class="kw-2">*mut </span>T = out_ptr.get();
+        <span class="kw">unsafe </span>{
+            <span class="kw">let </span>dst = ptr.add(offset);
+            <span class="kw">let </span>src = buf.as_ptr();
+            std::ptr::copy_nonoverlapping(src, dst, buf.len())
+        }
+    });
+    <span class="kw">unsafe </span>{
+        out.set_len(len);
+    }
+    out
 }
 
 <span class="kw">impl</span>&lt;Ptr&gt; FromParallelIterator&lt;<span class="prelude-ty">Option</span>&lt;Ptr&gt;&gt; <span class="kw">for </span>Utf8Chunked
@@ -1040,8 +1485,71 @@
 {
     <span class="kw">fn </span>from_par_iter&lt;I: IntoParallelIterator&lt;Item = <span class="prelude-ty">Option</span>&lt;Ptr&gt;&gt;&gt;(iter: I) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>vectors = collect_into_linked_list(iter);
-        <span class="kw">let </span>arr = LargeStringArray::from_iter(vectors.into_iter().flatten());
-        <span class="kw">unsafe </span>{ <span class="self">Self</span>::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[Box::new(arr)]) }
+        <span class="kw">let </span>vectors = vectors.into_iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+
+        <span class="kw">let </span>arrays = vectors
+            .into_par_iter()
+            .map(|vector| {
+                <span class="kw">let </span>cap = vector.len();
+                <span class="kw">let </span><span class="kw-2">mut </span>builder = MutableUtf8Array::with_capacities(cap, cap * <span class="number">10</span>);
+                <span class="kw">for </span>opt_val <span class="kw">in </span>vector {
+                    builder.push(opt_val)
+                }
+                <span class="kw">let </span>arr: LargeStringArray = builder.into();
+                arr
+            })
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+
+        <span class="kw">let </span><span class="kw-2">mut </span>len = <span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>thread_offsets = Vec::with_capacity(arrays.len());
+        <span class="kw">let </span>values = arrays
+            .iter()
+            .map(|arr| {
+                thread_offsets.push(len);
+                len += arr.len();
+                arr.values().as_slice()
+            })
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        <span class="kw">let </span>values = flatten_par(<span class="kw-2">&amp;</span>values);
+
+        <span class="kw">let </span>validity = finish_validities(
+            arrays
+                .iter()
+                .map(|arr| {
+                    <span class="kw">let </span>local_len = arr.len();
+                    (arr.validity().cloned(), local_len)
+                })
+                .collect(),
+            len,
+        );
+
+        <span class="comment">// concat the offsets
+        // this is single threaded as the values depend on previous ones
+        // if this proves to slow we could try parallel reduce
+        </span><span class="kw">let </span><span class="kw-2">mut </span>offsets = Vec::with_capacity(len + <span class="number">1</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>offsets_so_far = <span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>first = <span class="bool-val">true</span>;
+        <span class="kw">for </span>array <span class="kw">in </span><span class="kw-2">&amp;</span>arrays {
+            <span class="kw">let </span>local_offsets = array.offsets().as_slice();
+            <span class="kw">if </span>first {
+                offsets.extend_from_slice(local_offsets);
+                first = <span class="bool-val">false</span>;
+            } <span class="kw">else </span>{
+                <span class="comment">// offset lengths must be updated
+                </span>offsets.extend(local_offsets[<span class="number">1</span>..].iter().map(|v| <span class="kw-2">*</span>v + offsets_so_far))
+            }
+            offsets_so_far = <span class="kw-2">*</span>local_offsets.last().unwrap();
+        }
+
+        <span class="kw">unsafe </span>{
+            offsets.set_len(len + <span class="number">1</span>);
+            <span class="kw">let </span>arr = Utf8Array::&lt;i64&gt;::from_data_unchecked_default(
+                offsets.into(),
+                values.into(),
+                validity,
+            );
+            <span class="self">Self</span>::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[Box::new(arr)])
+        }
     }
 }
 
@@ -1153,7 +1661,7 @@
         <span class="kw">let </span>ll: ListChunked = [<span class="kw-2">&amp;</span>s1, <span class="kw-2">&amp;</span>s2].iter().copied().collect();
         <span class="macro">assert_eq!</span>(ll.len(), <span class="number">2</span>);
         <span class="macro">assert_eq!</span>(ll.null_count(), <span class="number">0</span>);
-        <span class="kw">let </span>ll: ListChunked = [<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(s2)].iter().map(|opt| opt.clone()).collect();
+        <span class="kw">let </span>ll: ListChunked = [<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(s2)].into_iter().collect();
         <span class="macro">assert_eq!</span>(ll.len(), <span class="number">2</span>);
         <span class="macro">assert_eq!</span>(ll.null_count(), <span class="number">1</span>);
     }

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/frame/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (a266f1199 2023-03-22)" data-search-js="search-a6dd7f063a44c279.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-9184409068f70b79.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f5a2577c5297a973.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_core/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-core/src/frame/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_core/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -3643,7 +3643,19 @@
 <a href="#3643" id="3643">3643</a>
 <a href="#3644" id="3644">3644</a>
 <a href="#3645" id="3645">3645</a>
-</pre><pre class="rust"><code><span class="doccomment">//! DataFrame module.
+<a href="#3646" id="3646">3646</a>
+<a href="#3647" id="3647">3647</a>
+<a href="#3648" id="3648">3648</a>
+<a href="#3649" id="3649">3649</a>
+<a href="#3650" id="3650">3650</a>
+<a href="#3651" id="3651">3651</a>
+<a href="#3652" id="3652">3652</a>
+<a href="#3653" id="3653">3653</a>
+<a href="#3654" id="3654">3654</a>
+<a href="#3655" id="3655">3655</a>
+<a href="#3656" id="3656">3656</a>
+<a href="#3657" id="3657">3657</a>
+</pre></div><pre class="rust"><code><span class="doccomment">//! DataFrame module.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::iter::{FromIterator, Iterator};
 <span class="kw">use </span>std::{mem, ops};
@@ -3681,7 +3693,7 @@
 
 <span class="kw">use </span><span class="kw">crate</span>::frame::groupby::GroupsIndicator;
 <span class="attr">#[cfg(feature = <span class="string">&quot;row_hash&quot;</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::hashing::df_rows_to_hashes_threaded;
+</span><span class="kw">use </span><span class="kw">crate</span>::hashing::df_rows_to_hashes_threaded_vertical;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::sort::{argsort_multiple_row_fmt, prepare_arg_sort};
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
@@ -5447,6 +5459,15 @@
             <span class="kw">return </span><span class="self">self</span>.top_k_impl(k, descending, by_column, nulls_last);
         }
 
+        <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
+        </span><span class="kw">let </span>has_struct = by_column
+            .iter()
+            .any(|s| <span class="macro">matches!</span>(s.dtype(), DataType::Struct(<span class="kw">_</span>)));
+
+        <span class="attr">#[cfg(not(feature = <span class="string">&quot;dtype-struct&quot;</span>))]
+        #[allow(non_upper_case_globals)]
+        </span><span class="kw">const </span>has_struct: bool = <span class="bool-val">false</span>;
+
         <span class="comment">// a lot of indirection in both sorting and take
         </span><span class="kw">let </span><span class="kw-2">mut </span>df = <span class="self">self</span>.clone();
         <span class="kw">let </span>df = df.as_single_chunk_par();
@@ -5457,8 +5478,8 @@
         // as expressions are not present (they are renamed to _POLARS_SORT_COLUMN_i.
         </span><span class="kw">let </span>first_descending = descending[<span class="number">0</span>];
         <span class="kw">let </span>first_by_column = by_column[<span class="number">0</span>].name().to_string();
-        <span class="kw">let </span><span class="kw-2">mut </span>take = <span class="kw">match </span>by_column.len() {
-            <span class="number">1 </span>=&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>take = <span class="kw">match </span>(by_column.len(), has_struct) {
+            (<span class="number">1</span>, <span class="bool-val">false</span>) =&gt; {
                 <span class="kw">let </span>s = <span class="kw-2">&amp;</span>by_column[<span class="number">0</span>];
                 <span class="kw">let </span>options = SortOptions {
                     descending: descending[<span class="number">0</span>],
@@ -5479,7 +5500,7 @@
                 s.arg_sort(options)
             }
             <span class="kw">_ </span>=&gt; {
-                <span class="kw">if </span>nulls_last || std::env::var(<span class="string">&quot;POLARS_ROW_FMT_SORT&quot;</span>).is_ok() {
+                <span class="kw">if </span>nulls_last || has_struct || std::env::var(<span class="string">&quot;POLARS_ROW_FMT_SORT&quot;</span>).is_ok() {
                     argsort_multiple_row_fmt(<span class="kw-2">&amp;</span>by_column, descending, nulls_last, parallel)<span class="question-mark">?
                 </span>} <span class="kw">else </span>{
                     <span class="kw">let </span>(first, by_column, descending) = prepare_arg_sort(by_column, descending)<span class="question-mark">?</span>;
@@ -6650,19 +6671,22 @@
             <span class="prelude-val">Some</span>(s) =&gt; s.iter().map(|s| <span class="kw-2">&amp;**</span>s).collect(),
             <span class="prelude-val">None </span>=&gt; <span class="self">self</span>.get_column_names(),
         };
+        <span class="kw">let </span><span class="kw-2">mut </span>df = <span class="self">self</span>.clone();
+        <span class="comment">// take on multiple chunks is terrible
+        </span>df.as_single_chunk_par();
 
         <span class="kw">let </span>columns = <span class="kw">match </span>(keep, maintain_order) {
             (UniqueKeepStrategy::First | UniqueKeepStrategy::Any, <span class="bool-val">true</span>) =&gt; {
-                <span class="kw">let </span>gb = <span class="self">self</span>.groupby_stable(names)<span class="question-mark">?</span>;
+                <span class="kw">let </span>gb = df.groupby_stable(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>groups = gb.get_groups();
                 <span class="kw">let </span>(offset, len) = slice.unwrap_or((<span class="number">0</span>, groups.len()));
                 <span class="kw">let </span>groups = groups.slice(offset, len);
-                <span class="self">self</span>.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_first(<span class="kw-2">&amp;</span>groups) })
+                df.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_first(<span class="kw-2">&amp;</span>groups) })
             }
             (UniqueKeepStrategy::Last, <span class="bool-val">true</span>) =&gt; {
                 <span class="comment">// maintain order by last values, so the sorted groups are not correct as they
                 // are sorted by the first value
-                </span><span class="kw">let </span>gb = <span class="self">self</span>.groupby(names)<span class="question-mark">?</span>;
+                </span><span class="kw">let </span>gb = df.groupby(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>groups = gb.get_groups();
 
                 <span class="kw">let </span>func = |g: GroupsIndicator| <span class="kw">match </span>g {
@@ -6679,30 +6703,30 @@
                 };
 
                 <span class="kw">let </span>last_idx = last_idx.sort(<span class="bool-val">false</span>);
-                <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ <span class="self">self</span>.take_unchecked(<span class="kw-2">&amp;</span>last_idx) });
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ df.take_unchecked(<span class="kw-2">&amp;</span>last_idx) });
             }
             (UniqueKeepStrategy::First | UniqueKeepStrategy::Any, <span class="bool-val">false</span>) =&gt; {
-                <span class="kw">let </span>gb = <span class="self">self</span>.groupby(names)<span class="question-mark">?</span>;
+                <span class="kw">let </span>gb = df.groupby(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>groups = gb.get_groups();
                 <span class="kw">let </span>(offset, len) = slice.unwrap_or((<span class="number">0</span>, groups.len()));
                 <span class="kw">let </span>groups = groups.slice(offset, len);
-                <span class="self">self</span>.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_first(<span class="kw-2">&amp;</span>groups) })
+                df.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_first(<span class="kw-2">&amp;</span>groups) })
             }
             (UniqueKeepStrategy::Last, <span class="bool-val">false</span>) =&gt; {
-                <span class="kw">let </span>gb = <span class="self">self</span>.groupby(names)<span class="question-mark">?</span>;
+                <span class="kw">let </span>gb = df.groupby(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>groups = gb.get_groups();
                 <span class="kw">let </span>(offset, len) = slice.unwrap_or((<span class="number">0</span>, groups.len()));
                 <span class="kw">let </span>groups = groups.slice(offset, len);
-                <span class="self">self</span>.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_last(<span class="kw-2">&amp;</span>groups) })
+                df.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_last(<span class="kw-2">&amp;</span>groups) })
             }
             (UniqueKeepStrategy::None, <span class="kw">_</span>) =&gt; {
-                <span class="kw">let </span>df_part = <span class="self">self</span>.select(names)<span class="question-mark">?</span>;
+                <span class="kw">let </span>df_part = df.select(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>mask = df_part.is_unique()<span class="question-mark">?</span>;
                 <span class="kw">let </span>mask = <span class="kw">match </span>slice {
                     <span class="prelude-val">None </span>=&gt; mask,
                     <span class="prelude-val">Some</span>((offset, len)) =&gt; mask.slice(offset, len),
                 };
-                <span class="kw">return </span><span class="self">self</span>.filter(<span class="kw-2">&amp;</span>mask);
+                <span class="kw">return </span>df.filter(<span class="kw-2">&amp;</span>mask);
             }
         };
         <span class="prelude-val">Ok</span>(DataFrame::new_no_checks(columns))
@@ -6774,7 +6798,7 @@
         hasher_builder: <span class="prelude-ty">Option</span>&lt;ahash::RandomState&gt;,
     ) -&gt; PolarsResult&lt;UInt64Chunked&gt; {
         <span class="kw">let </span>dfs = split_df(<span class="self">self</span>, POOL.current_num_threads())<span class="question-mark">?</span>;
-        <span class="kw">let </span>(cas, <span class="kw">_</span>) = df_rows_to_hashes_threaded(<span class="kw-2">&amp;</span>dfs, hasher_builder)<span class="question-mark">?</span>;
+        <span class="kw">let </span>(cas, <span class="kw">_</span>) = df_rows_to_hashes_threaded_vertical(<span class="kw-2">&amp;</span>dfs, hasher_builder)<span class="question-mark">?</span>;
 
         <span class="kw">let </span><span class="kw-2">mut </span>iter = cas.into_iter();
         <span class="kw">let </span><span class="kw-2">mut </span>acc_ca = iter.next().unwrap();
