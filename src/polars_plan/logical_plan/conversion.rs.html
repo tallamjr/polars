@@ -977,7 +977,7 @@
                 AggExpr::First(expr) =&gt; AAggExpr::First(to_aexpr(<span class="kw-2">*</span>expr, arena)),
                 AggExpr::Last(expr) =&gt; AAggExpr::Last(to_aexpr(<span class="kw-2">*</span>expr, arena)),
                 AggExpr::Mean(expr) =&gt; AAggExpr::Mean(to_aexpr(<span class="kw-2">*</span>expr, arena)),
-                AggExpr::List(expr) =&gt; AAggExpr::List(to_aexpr(<span class="kw-2">*</span>expr, arena)),
+                AggExpr::Implode(expr) =&gt; AAggExpr::Implode(to_aexpr(<span class="kw-2">*</span>expr, arena)),
                 AggExpr::Count(expr) =&gt; AAggExpr::Count(to_aexpr(<span class="kw-2">*</span>expr, arena)),
                 AggExpr::Quantile {
                     expr,
@@ -1427,9 +1427,9 @@
                 <span class="kw">let </span>exp = node_to_expr(expr, expr_arena);
                 AggExpr::Mean(Box::new(exp)).into()
             }
-            AAggExpr::List(expr) =&gt; {
+            AAggExpr::Implode(expr) =&gt; {
                 <span class="kw">let </span>exp = node_to_expr(expr, expr_arena);
-                AggExpr::List(Box::new(exp)).into()
+                AggExpr::Implode(Box::new(exp)).into()
             }
             AAggExpr::Quantile {
                 expr,

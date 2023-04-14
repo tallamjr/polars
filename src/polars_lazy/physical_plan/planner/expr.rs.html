@@ -1014,7 +1014,7 @@
                         }
                     }
                 }
-                AAggExpr::List(expr) =&gt; {
+                AAggExpr::Implode(expr) =&gt; {
                     <span class="kw">let </span>input = create_physical_expr(expr, ctxt, expr_arena, schema)<span class="question-mark">?</span>;
                     <span class="kw">match </span>ctxt {
                         Context::Aggregation =&gt; {

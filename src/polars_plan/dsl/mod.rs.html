@@ -2394,8 +2394,8 @@
     }
 
     <span class="doccomment">/// Aggregate the group to a Series
-    </span><span class="kw">pub fn </span>list(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        AggExpr::List(Box::new(<span class="self">self</span>)).into()
+    </span><span class="kw">pub fn </span>implode(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        AggExpr::Implode(Box::new(<span class="self">self</span>)).into()
     }
 
     <span class="doccomment">/// Compute the quantile per group.

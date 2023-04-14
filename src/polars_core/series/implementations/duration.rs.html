@@ -484,6 +484,14 @@
 <a href="#484" id="484">484</a>
 <a href="#485" id="485">485</a>
 <a href="#486" id="486">486</a>
+<a href="#487" id="487">487</a>
+<a href="#488" id="488">488</a>
+<a href="#489" id="489">489</a>
+<a href="#490" id="490">490</a>
+<a href="#491" id="491">491</a>
+<a href="#492" id="492">492</a>
+<a href="#493" id="493">493</a>
+<a href="#494" id="494">494</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::ops::{Deref, DerefMut};
 
@@ -636,7 +644,7 @@
     <span class="kw">fn </span>subtract(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
         <span class="kw">match </span>(<span class="self">self</span>.dtype(), rhs.dtype()) {
             (DataType::Duration(tu), DataType::Duration(tur)) =&gt; {
-                <span class="macro">assert_eq!</span>(tu, tur);
+                <span class="macro">polars_ensure!</span>(tu == tur, InvalidOperation: <span class="string">&quot;units are different&quot;</span>);
                 <span class="kw">let </span>lhs = <span class="self">self</span>.cast(<span class="kw-2">&amp;</span>DataType::Int64).unwrap();
                 <span class="kw">let </span>rhs = rhs.cast(<span class="kw-2">&amp;</span>DataType::Int64).unwrap();
                 <span class="prelude-val">Ok</span>(lhs.subtract(<span class="kw-2">&amp;</span>rhs)<span class="question-mark">?</span>.into_duration(<span class="kw-2">*</span>tu).into_series())
@@ -647,13 +655,13 @@
     <span class="kw">fn </span>add_to(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
         <span class="kw">match </span>(<span class="self">self</span>.dtype(), rhs.dtype()) {
             (DataType::Duration(tu), DataType::Duration(tur)) =&gt; {
-                <span class="macro">assert_eq!</span>(tu, tur);
+                <span class="macro">polars_ensure!</span>(tu == tur, InvalidOperation: <span class="string">&quot;units are different&quot;</span>);
                 <span class="kw">let </span>lhs = <span class="self">self</span>.cast(<span class="kw-2">&amp;</span>DataType::Int64).unwrap();
                 <span class="kw">let </span>rhs = rhs.cast(<span class="kw-2">&amp;</span>DataType::Int64).unwrap();
                 <span class="prelude-val">Ok</span>(lhs.add_to(<span class="kw-2">&amp;</span>rhs)<span class="question-mark">?</span>.into_duration(<span class="kw-2">*</span>tu).into_series())
             }
             (DataType::Duration(tu), DataType::Datetime(tur, tz)) =&gt; {
-                <span class="macro">assert_eq!</span>(tu, tur);
+                <span class="macro">polars_ensure!</span>(tu == tur, InvalidOperation: <span class="string">&quot;units are different&quot;</span>);
                 <span class="kw">let </span>lhs = <span class="self">self</span>.cast(<span class="kw-2">&amp;</span>DataType::Int64).unwrap();
                 <span class="kw">let </span>rhs = rhs.cast(<span class="kw-2">&amp;</span>DataType::Int64).unwrap();
                 <span class="prelude-val">Ok</span>(lhs
@@ -665,13 +673,21 @@
         }
     }
     <span class="kw">fn </span>multiply(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="macro">polars_bail!</span>(opq = mul, <span class="self">self</span>.dtype(), rhs.dtype());
+        <span class="comment">// dependent on units, doesn&#39;t make sense
+        </span><span class="macro">polars_bail!</span>(opq = mul, <span class="self">self</span>.dtype(), rhs.dtype());
     }
     <span class="kw">fn </span>divide(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="macro">polars_bail!</span>(opq = div, <span class="self">self</span>.dtype(), rhs.dtype());
+        <span class="comment">// dependent on units, doesn&#39;t make sense
+        </span><span class="macro">polars_bail!</span>(opq = div, <span class="self">self</span>.dtype(), rhs.dtype());
     }
     <span class="kw">fn </span>remainder(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="macro">polars_bail!</span>(opq = rem, <span class="self">self</span>.dtype(), rhs.dtype());
+        <span class="macro">polars_ensure!</span>(<span class="self">self</span>.dtype() == rhs.dtype(), InvalidOperation: <span class="string">&quot;dtypes and units must be equal in duration arithmetic&quot;</span>);
+        <span class="kw">let </span>lhs = <span class="self">self</span>.cast(<span class="kw-2">&amp;</span>DataType::Int64).unwrap();
+        <span class="kw">let </span>rhs = rhs.cast(<span class="kw-2">&amp;</span>DataType::Int64).unwrap();
+        <span class="prelude-val">Ok</span>(lhs
+            .remainder(<span class="kw-2">&amp;</span>rhs)<span class="question-mark">?
+            </span>.into_duration(<span class="self">self</span>.<span class="number">0</span>.time_unit())
+            .into_series())
     }
     <span class="kw">fn </span>group_tuples(<span class="kw-2">&amp;</span><span class="self">self</span>, multithreaded: bool, sorted: bool) -&gt; PolarsResult&lt;GroupsProxy&gt; {
         <span class="self">self</span>.<span class="number">0</span>.group_tuples(multithreaded, sorted)

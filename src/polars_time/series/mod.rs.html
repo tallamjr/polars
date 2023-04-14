@@ -640,18 +640,18 @@
         }
     }
 
-    <span class="doccomment">/// Format Date/Datetimewith a `fmt` rule. See [chrono strftime/strptime](https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html).
-    </span><span class="kw">fn </span>strftime(<span class="kw-2">&amp;</span><span class="self">self</span>, fmt: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="doccomment">/// Format Date/Datetimewith a `format` rule. See [chrono strftime/strptime](https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html).
+    </span><span class="kw">fn </span>strftime(<span class="kw-2">&amp;</span><span class="self">self</span>, format: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Series&gt; {
         <span class="kw">let </span>s = <span class="self">self</span>.as_series();
         <span class="kw">match </span>s.dtype() {
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
-            </span>DataType::Date =&gt; s.date().map(|ca| ca.strftime(fmt).into_series()),
+            </span>DataType::Date =&gt; s.date().map(|ca| ca.strftime(format).into_series()),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
-            </span>DataType::Datetime(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; {
-                s.datetime().map(|ca| <span class="prelude-val">Ok</span>(ca.strftime(fmt)<span class="question-mark">?</span>.into_series()))<span class="question-mark">?
-            </span>}
+            </span>DataType::Datetime(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; s
+                .datetime()
+                .map(|ca| <span class="prelude-val">Ok</span>(ca.strftime(format)<span class="question-mark">?</span>.into_series()))<span class="question-mark">?</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-time&quot;</span>)]
-            </span>DataType::Time =&gt; s.time().map(|ca| ca.strftime(fmt).into_series()),
+            </span>DataType::Time =&gt; s.time().map(|ca| ca.strftime(format).into_series()),
             dt =&gt; <span class="macro">polars_bail!</span>(opq = strftime, dt),
         }
     }

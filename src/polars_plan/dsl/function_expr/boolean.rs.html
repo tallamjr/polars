@@ -187,8 +187,8 @@
 }
 
 <span class="kw">impl </span>BooleanFunction {
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>dtype_out(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DataType {
-        DataType::Boolean
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>get_field(<span class="kw-2">&amp;</span><span class="self">self</span>, mapper: FieldsMapper) -&gt; PolarsResult&lt;Field&gt; {
+        mapper.with_dtype(DataType::Boolean)
     }
 }
 

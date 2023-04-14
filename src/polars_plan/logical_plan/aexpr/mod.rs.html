@@ -291,7 +291,7 @@
     First(Node),
     Last(Node),
     Mean(Node),
-    List(Node),
+    Implode(Node),
     Quantile {
         expr: Node,
         quantile: Node,
@@ -498,7 +498,7 @@
             First(input) =&gt; Single(<span class="kw-2">*</span>input),
             Last(input) =&gt; Single(<span class="kw-2">*</span>input),
             Mean(input) =&gt; Single(<span class="kw-2">*</span>input),
-            List(input) =&gt; Single(<span class="kw-2">*</span>input),
+            Implode(input) =&gt; Single(<span class="kw-2">*</span>input),
             Quantile { expr, .. } =&gt; Single(<span class="kw-2">*</span>expr),
             Sum(input) =&gt; Single(<span class="kw-2">*</span>input),
             Count(input) =&gt; Single(<span class="kw-2">*</span>input),

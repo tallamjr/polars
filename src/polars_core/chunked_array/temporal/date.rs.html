@@ -100,10 +100,10 @@
         Int32Chunked::from_vec(name, unit).into()
     }
 
-    <span class="doccomment">/// Format Date with a `fmt` rule. See [chrono strftime/strptime](https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html).
-    </span><span class="kw">pub fn </span>strftime(<span class="kw-2">&amp;</span><span class="self">self</span>, fmt: <span class="kw-2">&amp;</span>str) -&gt; Utf8Chunked {
+    <span class="doccomment">/// Format Date with a `format` rule. See [chrono strftime/strptime](https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html).
+    </span><span class="kw">pub fn </span>strftime(<span class="kw-2">&amp;</span><span class="self">self</span>, format: <span class="kw-2">&amp;</span>str) -&gt; Utf8Chunked {
         <span class="kw">let </span>date = NaiveDate::from_ymd_opt(<span class="number">2001</span>, <span class="number">1</span>, <span class="number">1</span>).unwrap();
-        <span class="kw">let </span>fmted = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, date.format(fmt));
+        <span class="kw">let </span>fmted = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, date.format(format));
 
         <span class="kw">let </span><span class="kw-2">mut </span>ca: Utf8Chunked = <span class="self">self</span>.apply_kernel_cast(<span class="kw-2">&amp;</span>|arr| {
             <span class="kw">let </span><span class="kw-2">mut </span>buf = String::new();
@@ -115,7 +115,7 @@
                     <span class="prelude-val">None </span>=&gt; mutarr.push_null(),
                     <span class="prelude-val">Some</span>(v) =&gt; {
                         buf.clear();
-                        <span class="kw">let </span>datefmt = date32_to_date(<span class="kw-2">*</span>v).format(fmt);
+                        <span class="kw">let </span>datefmt = date32_to_date(<span class="kw-2">*</span>v).format(format);
                         <span class="macro">write!</span>(buf, <span class="string">&quot;{datefmt}&quot;</span>).unwrap();
                         mutarr.push(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>buf))
                     }

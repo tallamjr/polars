@@ -270,9 +270,9 @@
 <span class="kw">impl </span>DateLikeNameSpace {
     <span class="doccomment">/// Format Date/datetime with a formatting rule
     /// See [chrono strftime/strptime](https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html).
-    </span><span class="kw">pub fn </span>strftime(<span class="self">self</span>, fmt: <span class="kw-2">&amp;</span>str) -&gt; Expr {
-        <span class="kw">let </span>fmt = fmt.to_string();
-        <span class="kw">let </span>function = <span class="kw">move </span>|s: Series| s.strftime(<span class="kw-2">&amp;</span>fmt).map(<span class="prelude-val">Some</span>);
+    </span><span class="kw">pub fn </span>strftime(<span class="self">self</span>, format: <span class="kw-2">&amp;</span>str) -&gt; Expr {
+        <span class="kw">let </span>format = format.to_string();
+        <span class="kw">let </span>function = <span class="kw">move </span>|s: Series| s.strftime(<span class="kw-2">&amp;</span>format).map(<span class="prelude-val">Some</span>);
         <span class="self">self</span>.<span class="number">0
             </span>.map(function, GetOutput::from_type(DataType::Utf8))
             .with_fmt(<span class="string">&quot;strftime&quot;</span>)

@@ -555,6 +555,16 @@
 <a href="#555" id="555">555</a>
 <a href="#556" id="556">556</a>
 <a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>memchr::memchr2_iter;
 <span class="kw">use </span>num_traits::Pow;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
@@ -605,8 +615,18 @@
             }
             count += <span class="number">1</span>;
         }
-        count == expected_fields
-    }
+
+        <span class="comment">// if the latest field is missing
+        // e.g.:
+        // a,b,c
+        // vala,valb,
+        // SplitFields returns a count that is 1 less
+        // There fore we accept:
+        // expected == count
+        // and
+        // expected == count - 1
+        </span>expected_fields.wrapping_sub(count) &lt;= <span class="number">1
+    </span>}
 
     <span class="comment">// we check 3 subsequent lines for `accept_line` before we accept
     // if 3 groups are rejected we reject completely

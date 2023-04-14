@@ -777,7 +777,7 @@
     First(Box&lt;Expr&gt;),
     Last(Box&lt;Expr&gt;),
     Mean(Box&lt;Expr&gt;),
-    List(Box&lt;Expr&gt;),
+    Implode(Box&lt;Expr&gt;),
     Count(Box&lt;Expr&gt;),
     Quantile {
         expr: Box&lt;Expr&gt;,
@@ -801,7 +801,7 @@
             First(e) =&gt; e,
             Last(e) =&gt; e,
             Mean(e) =&gt; e,
-            List(e) =&gt; e,
+            Implode(e) =&gt; e,
             Count(e) =&gt; e,
             Quantile { expr, .. } =&gt; expr,
             Sum(e) =&gt; e,

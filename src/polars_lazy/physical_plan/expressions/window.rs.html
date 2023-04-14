@@ -1047,13 +1047,13 @@
     }
 
     <span class="kw">fn </span>is_explicit_list_agg(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="comment">// col(&quot;foo&quot;).list()
-        // col(&quot;foo&quot;).list().alias()
+        <span class="comment">// col(&quot;foo&quot;).implode()
+        // col(&quot;foo&quot;).implode().alias()
         // ..
-        // col(&quot;foo&quot;).list().alias().alias()
+        // col(&quot;foo&quot;).implode().alias().alias()
         //
         // but not:
-        // col(&quot;foo&quot;).list().sum().alias()
+        // col(&quot;foo&quot;).implode().sum().alias()
         // ..
         // col(&quot;foo&quot;).min()
         </span><span class="kw">let </span><span class="kw-2">mut </span>explicit_list = <span class="bool-val">false</span>;
@@ -1063,7 +1063,7 @@
                 </span><span class="kw">let </span><span class="kw-2">mut </span>finishes_list = <span class="bool-val">false</span>;
                 <span class="kw">for </span>e <span class="kw">in </span><span class="kw-2">&amp;**</span>function {
                     <span class="kw">match </span>e {
-                        Expr::Agg(AggExpr::List(<span class="kw">_</span>)) =&gt; {
+                        Expr::Agg(AggExpr::Implode(<span class="kw">_</span>)) =&gt; {
                             finishes_list = <span class="bool-val">true</span>;
                         }
                         Expr::Alias(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; {}

@@ -60,18 +60,6 @@
 <a href="#60" id="60">60</a>
 <a href="#61" id="61">61</a>
 <a href="#62" id="62">62</a>
-<a href="#63" id="63">63</a>
-<a href="#64" id="64">64</a>
-<a href="#65" id="65">65</a>
-<a href="#66" id="66">66</a>
-<a href="#67" id="67">67</a>
-<a href="#68" id="68">68</a>
-<a href="#69" id="69">69</a>
-<a href="#70" id="70">70</a>
-<a href="#71" id="71">71</a>
-<a href="#72" id="72">72</a>
-<a href="#73" id="73">73</a>
-<a href="#74" id="74">74</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -93,11 +81,7 @@
             date_offset(s, offset).and_then(|s| s.cast(<span class="kw-2">&amp;</span>DataType::Date))
         }
         DataType::Datetime(tu, tz) =&gt; {
-            <span class="comment">// drop series, so that we might modify in place
-            </span><span class="kw">let </span><span class="kw-2">mut </span>ca = {
-                <span class="kw">let </span>me = std::mem::ManuallyDrop::new(s);
-                me.datetime().unwrap().clone()
-            };
+            <span class="kw">let </span>ca = s.datetime().unwrap();
 
             <span class="kw">fn </span>adder&lt;T: PolarsTimeZone&gt;(
                 tu: TimeUnit,
@@ -109,26 +93,18 @@
                 }
             }
 
-            <span class="kw">match </span>tz {
+            <span class="kw">let </span>out = <span class="kw">match </span>tz {
                 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-                </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="kw">match </span>tz.parse::&lt;Tz&gt;() {
-                    <span class="comment">// TODO write `try_apply_mut` and use that instead of `apply_mut`,
-                    // then remove `unwrap`.
-                    </span><span class="prelude-val">Ok</span>(tz) =&gt; {
-                        ca.<span class="number">0</span>.apply_mut(|v| adder(tu)(<span class="kw-2">&amp;</span>offset, v, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>tz)).unwrap())
-                    }
-                    <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(<span class="kw-2">&amp;</span>tz) {
-                        <span class="prelude-val">Ok</span>(tz) =&gt; {
-                            ca.<span class="number">0</span>.apply_mut(|v| adder(tu)(<span class="kw-2">&amp;</span>offset, v, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>tz)).unwrap())
-                        }
+                </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>tz) =&gt; <span class="kw">match </span>tz.parse::&lt;Tz&gt;() {
+                    <span class="prelude-val">Ok</span>(tz) =&gt; ca.<span class="number">0</span>.try_apply(|v| adder(tu)(<span class="kw-2">&amp;</span>offset, v, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>tz))),
+                    <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(tz) {
+                        <span class="prelude-val">Ok</span>(tz) =&gt; ca.<span class="number">0</span>.try_apply(|v| adder(tu)(<span class="kw-2">&amp;</span>offset, v, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>tz))),
                         <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(),
                     },
                 },
-                <span class="kw">_ </span>=&gt; {
-                    ca.<span class="number">0</span>.apply_mut(|v| adder(tu)(<span class="kw-2">&amp;</span>offset, v, NO_TIMEZONE).unwrap())
-                }
-            };
-            <span class="prelude-val">Ok</span>(ca.into_series())
+                <span class="kw">_ </span>=&gt; ca.<span class="number">0</span>.try_apply(|v| adder(tu)(<span class="kw-2">&amp;</span>offset, v, NO_TIMEZONE)),
+            }<span class="question-mark">?</span>;
+            out.cast(<span class="kw-2">&amp;</span>DataType::Datetime(tu, tz))
         }
         dt =&gt; <span class="macro">polars_bail!</span>(
             ComputeError: <span class="string">&quot;cannot use &#39;date_offset&#39; on Series of datatype {}&quot;</span>, dt,

@@ -131,8 +131,8 @@
 }
 
 <span class="kw">pub trait </span>TimeMethods {
-    <span class="doccomment">/// Format Date with a `fmt` rule. See [chrono strftime/strptime](https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html).
-    </span><span class="kw">fn </span>strftime(<span class="kw-2">&amp;</span><span class="self">self</span>, fmt: <span class="kw-2">&amp;</span>str) -&gt; Utf8Chunked;
+    <span class="doccomment">/// Format Date with a `format` rule. See [chrono strftime/strptime](https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html).
+    </span><span class="kw">fn </span>strftime(<span class="kw-2">&amp;</span><span class="self">self</span>, format: <span class="kw-2">&amp;</span>str) -&gt; Utf8Chunked;
 
     <span class="doccomment">/// Extract hour from underlying NaiveDateTime representation.
     /// Returns the hour number from 0 to 23.
@@ -155,10 +155,10 @@
 }
 
 <span class="kw">impl </span>TimeMethods <span class="kw">for </span>TimeChunked {
-    <span class="doccomment">/// Format Date with a `fmt` rule. See [chrono strftime/strptime](https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html).
-    </span><span class="kw">fn </span>strftime(<span class="kw-2">&amp;</span><span class="self">self</span>, fmt: <span class="kw-2">&amp;</span>str) -&gt; Utf8Chunked {
+    <span class="doccomment">/// Format Date with a `format` rule. See [chrono strftime/strptime](https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html).
+    </span><span class="kw">fn </span>strftime(<span class="kw-2">&amp;</span><span class="self">self</span>, format: <span class="kw-2">&amp;</span>str) -&gt; Utf8Chunked {
         <span class="kw">let </span>time = NaiveTime::from_hms_opt(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>).unwrap();
-        <span class="kw">let </span>fmted = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, time.format(fmt));
+        <span class="kw">let </span>fmted = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, time.format(format));
 
         <span class="kw">let </span><span class="kw-2">mut </span>ca: Utf8Chunked = <span class="self">self</span>.apply_kernel_cast(<span class="kw-2">&amp;</span>|arr| {
             <span class="kw">let </span><span class="kw-2">mut </span>buf = String::new();
@@ -170,7 +170,7 @@
                     <span class="prelude-val">None </span>=&gt; mutarr.push_null(),
                     <span class="prelude-val">Some</span>(v) =&gt; {
                         buf.clear();
-                        <span class="kw">let </span>timefmt = time64ns_to_time(<span class="kw-2">*</span>v).format(fmt);
+                        <span class="kw">let </span>timefmt = time64ns_to_time(<span class="kw-2">*</span>v).format(format);
                         <span class="macro">write!</span>(buf, <span class="string">&quot;{timefmt}&quot;</span>).unwrap();
                         mutarr.push(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>buf))
                     }

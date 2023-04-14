@@ -392,8 +392,6 @@
 <a href="#392" id="392">392</a>
 <a href="#393" id="393">393</a>
 <a href="#394" id="394">394</a>
-<a href="#395" id="395">395</a>
-<a href="#396" id="396">396</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! # Polars: *&lt;small&gt;DataFrames in Rust&lt;/small&gt;*
 //!
 //! Polars is a DataFrame library for Rust. It is based on [Apache Arrow](https://arrow.apache.org/)&#39;s memory model.
@@ -420,7 +418,7 @@
 //!         // every expression runs in parallel
 //!         col(&quot;foo&quot;).cummin(false).alias(&quot;cumulative_min_per_group&quot;),
 //!         // every expression runs in parallel
-//!         col(&quot;foo&quot;).reverse().list().alias(&quot;reverse_group&quot;),
+//!         col(&quot;foo&quot;).reverse().implode().alias(&quot;reverse_group&quot;),
 //!     ]);
 //!
 //! let lf2 = LazyFrame::scan_parquet(&quot;myfile_2.parquet&quot;, Default::default())?
@@ -720,7 +718,7 @@
 //! ## Config with ENV vars
 //!
 //! * `POLARS_FMT_TABLE_FORMATTING` -&gt; define styling of tables using any of the following options (default = UTF8_FULL_CONDENSED):
-//!     
+//!
 //!                                    ASCII_FULL
 //!                                    ASCII_FULL_CONDENSED
 //!                                    ASCII_NO_BORDERS
@@ -734,7 +732,7 @@
 //!                                    UTF8_BORDERS_ONLY
 //!                                    UTF8_HORIZONTAL_ONLY
 //!                                    NOTHING
-//!                                     
+//!
 //!                                    These options are defined by comfy-table which provides examples for each at:
 //!                                    https://github.com/Nukesor/comfy-table/blob/main/src/style/presets.rs
 //! * `POLARS_FMT_TABLE_CELL_ALIGNMENT` -&gt; define cell alignment using any of the following options (default = LEFT):
@@ -756,8 +754,6 @@
 //! * `POLARS_VERBOSE` -&gt; print logging info to stderr.
 //! * `POLARS_NO_PARTITION` -&gt; polars may choose to partition the groupby operation, based on data
 //!                            cardinality. Setting this env var will turn partitioned groupby&#39;s off.
-//! * `POLARS_PARTITION_SAMPLE_FRAC` -&gt; how large chunk of the dataset to sample to determine cardinality,
-//!                                     defaults to `0.001`.
 //! * `POLARS_PARTITION_UNIQUE_COUNT` -&gt; at which (estimated) key count a partitioned groupby should run.
 //!                                          defaults to `1000`, any higher cardinality will run default groupby.
 //! * `POLARS_FORCE_PARTITION` -&gt; force partitioned groupby if the keys and aggregations allow it.
