@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>polars.Expr.list &#8212; Polars  documentation</title>
+    <title>polars.Expr.implode &#8212; Polars  documentation</title>
   
   
   
@@ -49,11 +49,11 @@
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
     <script src="../../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/expressions/api/polars.Expr.list';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/expressions/api/polars.Expr.implode';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="polars.Expr.max" href="polars.Expr.max.html" />
-    <link rel="prev" title="polars.Expr.len" href="polars.Expr.len.html" />
+    <link rel="next" title="polars.Expr.last" href="polars.Expr.last.html" />
+    <link rel="prev" title="polars.Expr.first" href="polars.Expr.first.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -965,9 +965,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.arg_min.html">polars.Expr.arg_min</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.count.html">polars.Expr.count</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.first.html">polars.Expr.first</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Expr.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.last.html">polars.Expr.last</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.len.html">polars.Expr.len</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Expr.list</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.max.html">polars.Expr.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.mean.html">polars.Expr.mean</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.median.html">polars.Expr.median</a></li>
@@ -1135,7 +1135,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.exclude.html">polars.Expr.exclude</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.first.html">polars.Expr.first</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.head.html">polars.Expr.head</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Expr.list</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Expr.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.map.html">polars.Expr.map</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.max.html">polars.Expr.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.mean.html">polars.Expr.mean</a></li>
@@ -1512,7 +1512,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../aggregation.html" class="nav-link">Aggregation</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">polars.Expr.list</li>
+    <li class="breadcrumb-item active" aria-current="page">polars.Expr.implode</li>
   </ul>
 </nav>
 </div>
@@ -1529,12 +1529,12 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="polars-expr-list">
-<h1>polars.Expr.list<a class="headerlink" href="#polars-expr-list" title="Permalink to this heading">#</a></h1>
+  <section id="polars-expr-implode">
+<h1>polars.Expr.implode<a class="headerlink" href="#polars-expr-implode" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
-<dt class="sig sig-object py" id="polars.Expr.list">
-<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6832-L6855"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.list" title="Permalink to this definition">#</a></dt>
-<dd><p>Aggregate to list.</p>
+<dt class="sig sig-object py" id="polars.Expr.implode">
+<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">implode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L3469-L3492"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.implode" title="Permalink to this definition">#</a></dt>
+<dd><p>Aggregate all column values into a list.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="p">{</span>
@@ -1542,7 +1542,7 @@ document.write(`
 <span class="gp">... </span>        <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
 <span class="gp">... </span>    <span class="p">}</span>
 <span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">implode</span><span class="p">())</span>
 <span class="go">shape: (1, 2)</span>
 <span class="go">┌───────────┬───────────┐</span>
 <span class="go">│ a         ┆ b         │</span>
@@ -1566,20 +1566,20 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.Expr.len.html"
+       href="polars.Expr.first.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.Expr.len</p>
+        <p class="prev-next-title">polars.Expr.first</p>
       </div>
     </a>
     <a class="right-next"
-       href="polars.Expr.max.html"
+       href="polars.Expr.last.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.Expr.max</p>
+        <p class="prev-next-title">polars.Expr.last</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1598,7 +1598,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.Expr.list"><code class="docutils literal notranslate"><span class="pre">Expr.list()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.Expr.implode"><code class="docutils literal notranslate"><span class="pre">Expr.implode()</span></code></a></li>
 </ul>
   </nav></div>
 

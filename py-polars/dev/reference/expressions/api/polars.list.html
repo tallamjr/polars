@@ -965,9 +965,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.arg_min.html">polars.Expr.arg_min</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.count.html">polars.Expr.count</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.first.html">polars.Expr.first</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.implode.html">polars.Expr.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.last.html">polars.Expr.last</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.len.html">polars.Expr.len</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polars.Expr.list.html">polars.Expr.list</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.max.html">polars.Expr.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.mean.html">polars.Expr.mean</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.median.html">polars.Expr.median</a></li>
@@ -1135,7 +1135,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.exclude.html">polars.Expr.exclude</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.first.html">polars.Expr.first</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.head.html">polars.Expr.head</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polars.Expr.list.html">polars.Expr.list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.implode.html">polars.Expr.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.map.html">polars.Expr.map</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.max.html">polars.Expr.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.mean.html">polars.Expr.mean</a></li>
@@ -1533,8 +1533,11 @@ document.write(`
 <h1>polars.list<a class="headerlink" href="#polars-list" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="polars.list">
-<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/functions/lazy.py#L365-L375"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.list" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/functions/lazy.py#L378-L396"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.list" title="Permalink to this definition">#</a></dt>
 <dd><p>Aggregate to list.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.17.3: </span><code class="docutils literal notranslate"><span class="pre">list</span></code> will be removed in favor of <code class="docutils literal notranslate"><span class="pre">implode</span></code>.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">

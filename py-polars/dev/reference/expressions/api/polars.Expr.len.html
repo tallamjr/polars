@@ -52,7 +52,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/expressions/api/polars.Expr.len';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="polars.Expr.list" href="polars.Expr.list.html" />
+    <link rel="next" title="polars.Expr.max" href="polars.Expr.max.html" />
     <link rel="prev" title="polars.Expr.last" href="polars.Expr.last.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -965,9 +965,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.arg_min.html">polars.Expr.arg_min</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.count.html">polars.Expr.count</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.first.html">polars.Expr.first</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.implode.html">polars.Expr.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.last.html">polars.Expr.last</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Expr.len</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polars.Expr.list.html">polars.Expr.list</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.max.html">polars.Expr.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.mean.html">polars.Expr.mean</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.median.html">polars.Expr.median</a></li>
@@ -1135,7 +1135,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.exclude.html">polars.Expr.exclude</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.first.html">polars.Expr.first</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.head.html">polars.Expr.head</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polars.Expr.list.html">polars.Expr.list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.implode.html">polars.Expr.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.map.html">polars.Expr.map</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.max.html">polars.Expr.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.mean.html">polars.Expr.mean</a></li>
@@ -1533,7 +1533,7 @@ document.write(`
 <h1>polars.Expr.len<a class="headerlink" href="#polars-expr-len" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.len">
-<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">len</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L1099-L1124"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.len" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">len</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L1100-L1125"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.len" title="Permalink to this definition">#</a></dt>
 <dd><p>Count the number of values in this expression.</p>
 <p>Alias for <a class="reference internal" href="polars.count.html#polars.count" title="polars.count"><code class="xref py py-func docutils literal notranslate"><span class="pre">count()</span></code></a>.</p>
 <p class="rubric">Examples</p>
@@ -1576,11 +1576,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="polars.Expr.list.html"
+       href="polars.Expr.max.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.Expr.list</p>
+        <p class="prev-next-title">polars.Expr.max</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

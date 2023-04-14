@@ -52,7 +52,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/expressions/api/polars.Expr.first';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="polars.Expr.last" href="polars.Expr.last.html" />
+    <link rel="next" title="polars.Expr.implode" href="polars.Expr.implode.html" />
     <link rel="prev" title="polars.Expr.count" href="polars.Expr.count.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -965,9 +965,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.arg_min.html">polars.Expr.arg_min</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.count.html">polars.Expr.count</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Expr.first</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.implode.html">polars.Expr.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.last.html">polars.Expr.last</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.len.html">polars.Expr.len</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polars.Expr.list.html">polars.Expr.list</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.max.html">polars.Expr.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.mean.html">polars.Expr.mean</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.median.html">polars.Expr.median</a></li>
@@ -1135,7 +1135,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.exclude.html">polars.Expr.exclude</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Expr.first</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.head.html">polars.Expr.head</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polars.Expr.list.html">polars.Expr.list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.implode.html">polars.Expr.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.map.html">polars.Expr.map</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.max.html">polars.Expr.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.mean.html">polars.Expr.mean</a></li>
@@ -1533,7 +1533,7 @@ document.write(`
 <h1>polars.Expr.first<a class="headerlink" href="#polars-expr-first" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.first">
-<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">first</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L2834-L2852"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.first" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">first</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L2835-L2853"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.first" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the first value.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]})</span>
@@ -1570,11 +1570,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="polars.Expr.last.html"
+       href="polars.Expr.implode.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.Expr.last</p>
+        <p class="prev-next-title">polars.Expr.implode</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
