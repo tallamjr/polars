@@ -308,6 +308,16 @@
 <a href="#308" id="308">308</a>
 <a href="#309" id="309">309</a>
 <a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;performant&quot;</span>)]
 </span><span class="kw">use </span>polars_arrow::kernels::sorted_join;
 <span class="attr">#[cfg(feature = <span class="string">&quot;performant&quot;</span>)]
@@ -420,7 +430,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;performant&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>par_sorted_merge_inner(
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>par_sorted_merge_inner_no_nulls(
     s_left: <span class="kw-2">&amp;</span>Series,
     s_right: <span class="kw-2">&amp;</span>Series,
 ) -&gt; (Vec&lt;IdxSize&gt;, Vec&lt;IdxSize&gt;) {
@@ -508,14 +518,18 @@
         .map(|s| s.parse::&lt;f32&gt;().unwrap())
         .unwrap_or(<span class="number">1.0</span>);
     <span class="kw">let </span>is_numeric = s_left.dtype().to_physical().is_numeric();
-    <span class="kw">match </span>(s_left.is_sorted_flag(), s_right.is_sorted_flag()) {
-        (IsSorted::Ascending, IsSorted::Ascending) <span class="kw">if </span>is_numeric =&gt; {
+
+    <span class="kw">let </span>no_nulls = s_left.null_count() == <span class="number">0 </span>&amp;&amp; s_right.null_count() == <span class="number">0</span>;
+    <span class="kw">match </span>(s_left.is_sorted_flag(), s_right.is_sorted_flag(), no_nulls) {
+        (IsSorted::Ascending, IsSorted::Ascending, <span class="bool-val">true</span>) <span class="kw">if </span>is_numeric =&gt; {
             <span class="kw">if </span>verbose {
                 <span class="macro">eprintln!</span>(<span class="string">&quot;inner join: keys are sorted: use sorted merge join&quot;</span>);
             }
-            (par_sorted_merge_inner(s_left, s_right), <span class="bool-val">true</span>)
+            (par_sorted_merge_inner_no_nulls(s_left, s_right), <span class="bool-val">true</span>)
         }
-        (IsSorted::Ascending, <span class="kw">_</span>) <span class="kw">if </span>is_numeric &amp;&amp; size_factor_rhs &lt; size_factor_acceptable =&gt; {
+        (IsSorted::Ascending, <span class="kw">_</span>, <span class="bool-val">true</span>)
+            <span class="kw">if </span>is_numeric &amp;&amp; size_factor_rhs &lt; size_factor_acceptable =&gt;
+        {
             <span class="kw">if </span>verbose {
                 <span class="macro">eprintln!</span>(<span class="string">&quot;right key will be descending sorted in inner join operation.&quot;</span>)
             }
@@ -526,7 +540,7 @@
                 multithreaded: <span class="bool-val">true</span>,
             });
             <span class="kw">let </span>s_right = <span class="kw">unsafe </span>{ s_right.take_unchecked(<span class="kw-2">&amp;</span>sort_idx).unwrap() };
-            <span class="kw">let </span>ids = par_sorted_merge_inner(s_left, <span class="kw-2">&amp;</span>s_right);
+            <span class="kw">let </span>ids = par_sorted_merge_inner_no_nulls(s_left, <span class="kw-2">&amp;</span>s_right);
             <span class="kw">let </span>reverse_idx_map = create_reverse_map_from_arg_sort(sort_idx);
 
             <span class="kw">let </span>(left, <span class="kw-2">mut </span>right) = ids;
@@ -539,7 +553,9 @@
 
             ((left, right), <span class="bool-val">true</span>)
         }
-        (<span class="kw">_</span>, IsSorted::Ascending) <span class="kw">if </span>is_numeric &amp;&amp; size_factor_lhs &lt; size_factor_acceptable =&gt; {
+        (<span class="kw">_</span>, IsSorted::Ascending, <span class="bool-val">true</span>)
+            <span class="kw">if </span>is_numeric &amp;&amp; size_factor_lhs &lt; size_factor_acceptable =&gt;
+        {
             <span class="kw">if </span>verbose {
                 <span class="macro">eprintln!</span>(<span class="string">&quot;left key will be descending sorted in inner join operation.&quot;</span>)
             }
@@ -550,7 +566,7 @@
                 multithreaded: <span class="bool-val">true</span>,
             });
             <span class="kw">let </span>s_left = <span class="kw">unsafe </span>{ s_left.take_unchecked(<span class="kw-2">&amp;</span>sort_idx).unwrap() };
-            <span class="kw">let </span>ids = par_sorted_merge_inner(<span class="kw-2">&amp;</span>s_left, s_right);
+            <span class="kw">let </span>ids = par_sorted_merge_inner_no_nulls(<span class="kw-2">&amp;</span>s_left, s_right);
             <span class="kw">let </span>reverse_idx_map = create_reverse_map_from_arg_sort(sort_idx);
 
             <span class="kw">let </span>(<span class="kw-2">mut </span>left, right) = ids;
@@ -581,15 +597,19 @@
         .unwrap_or(<span class="number">1.0</span>);
     <span class="kw">let </span>is_numeric = s_left.dtype().to_physical().is_numeric();
 
-    <span class="kw">match </span>(s_left.is_sorted_flag(), s_right.is_sorted_flag()) {
-        (IsSorted::Ascending, IsSorted::Ascending) <span class="kw">if </span>is_numeric =&gt; {
+    <span class="kw">let </span>no_nulls = s_left.null_count() == <span class="number">0 </span>&amp;&amp; s_right.null_count() == <span class="number">0</span>;
+
+    <span class="kw">match </span>(s_left.is_sorted_flag(), s_right.is_sorted_flag(), no_nulls) {
+        (IsSorted::Ascending, IsSorted::Ascending, <span class="bool-val">true</span>) <span class="kw">if </span>is_numeric =&gt; {
             <span class="kw">if </span>verbose {
                 <span class="macro">eprintln!</span>(<span class="string">&quot;left join: keys are sorted: use sorted merge join&quot;</span>);
             }
             <span class="kw">let </span>(left_idx, right_idx) = par_sorted_merge_left(s_left, s_right);
             to_left_join_ids(left_idx, right_idx)
         }
-        (IsSorted::Ascending, <span class="kw">_</span>) <span class="kw">if </span>is_numeric &amp;&amp; size_factor_rhs &lt; size_factor_acceptable =&gt; {
+        (IsSorted::Ascending, <span class="kw">_</span>, <span class="bool-val">true</span>)
+            <span class="kw">if </span>is_numeric &amp;&amp; size_factor_rhs &lt; size_factor_acceptable =&gt;
+        {
             <span class="kw">if </span>verbose {
                 <span class="macro">eprintln!</span>(<span class="string">&quot;right key will be reverse sorted in left join operation.&quot;</span>)
             }

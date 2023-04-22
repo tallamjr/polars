@@ -266,6 +266,11 @@
 <a href="#266" id="266">266</a>
 <a href="#267" id="267">267</a>
 <a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::any::Any;
 <span class="kw">use </span>std::borrow::Cow;
 
@@ -273,7 +278,6 @@
 
 <span class="kw">use </span><span class="kw">crate</span>::chunked_array::object::compare_inner::{IntoPartialEqInner, PartialEqInner};
 <span class="kw">use </span><span class="kw">crate</span>::chunked_array::object::PolarsObjectSafe;
-<span class="kw">use </span><span class="kw">crate</span>::fmt::FmtList;
 <span class="kw">use </span><span class="kw">crate</span>::frame::groupby::{GroupsProxy, IntoGroupsProxy};
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::series::implementations::SeriesWrap;
@@ -293,6 +297,10 @@
         _list_capacity: usize,
     ) -&gt; Box&lt;<span class="kw">dyn </span>ListBuilderTrait&gt; {
         ObjectChunked::&lt;T&gt;::get_list_builder(_name, _values_capacity, _list_capacity)
+    }
+
+    <span class="kw">fn </span>compute_len(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="self">self</span>.<span class="number">0</span>.compute_len()
     }
 
     <span class="kw">fn </span>_field(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;Field&gt; {
@@ -432,8 +440,14 @@
         ChunkExpandAtIndex::new_from_index(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, index, length).into_series()
     }
 
-    <span class="kw">fn </span>cast(<span class="kw-2">&amp;</span><span class="self">self</span>, _data_type: <span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="macro">polars_bail!</span>(opq = cast, <span class="self">self</span>.dtype());
+    <span class="kw">fn </span>cast(<span class="kw-2">&amp;</span><span class="self">self</span>, data_type: <span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;Series&gt; {
+        <span class="kw">if </span><span class="macro">matches!</span>(data_type, DataType::Object(<span class="kw">_</span>)) {
+            <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="number">0</span>.clone().into_series())
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Err</span>(PolarsError::ComputeError(
+                <span class="string">&quot;cannot cast &#39;Object&#39; type&quot;</span>.into(),
+            ))
+        }
     }
 
     <span class="kw">fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; PolarsResult&lt;AnyValue&gt; {
@@ -473,10 +487,6 @@
 
     <span class="kw">fn </span>shift(<span class="kw-2">&amp;</span><span class="self">self</span>, periods: i64) -&gt; Series {
         ChunkShift::shift(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, periods).into_series()
-    }
-
-    <span class="kw">fn </span>fmt_list(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
-        FmtList::fmt_list(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>)
     }
 
     <span class="kw">fn </span>clone_inner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Arc&lt;<span class="kw">dyn </span>SeriesTrait&gt; {

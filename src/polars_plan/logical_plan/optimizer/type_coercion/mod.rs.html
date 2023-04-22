@@ -1051,7 +1051,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_categorical_utf8() {
         <span class="kw">let </span><span class="kw-2">mut </span>rules: Vec&lt;Box&lt;<span class="kw">dyn </span>OptimizationRule&gt;&gt; = <span class="macro">vec!</span>[Box::new(TypeCoercionRule {})];
-        <span class="kw">let </span>schema = Schema::from(<span class="macro">vec!</span>[Field::new(<span class="string">&quot;fruits&quot;</span>, DataType::Categorical(<span class="prelude-val">None</span>))]);
+        <span class="kw">let </span>schema = Schema::from_iter([Field::new(<span class="string">&quot;fruits&quot;</span>, DataType::Categorical(<span class="prelude-val">None</span>))]);
 
         <span class="kw">let </span>expr = col(<span class="string">&quot;fruits&quot;</span>).eq(lit(<span class="string">&quot;somestr&quot;</span>));
         <span class="kw">let </span>out = optimize_expr(expr.clone(), schema.clone(), <span class="kw-2">&amp;mut </span>rules);

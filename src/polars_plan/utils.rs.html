@@ -391,8 +391,6 @@
 <a href="#391" id="391">391</a>
 <a href="#392" id="392">392</a>
 <a href="#393" id="393">393</a>
-<a href="#394" id="394">394</a>
-<a href="#395" id="395">395</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::Formatter;
 <span class="kw">use </span>std::iter::FlatMap;
 <span class="kw">use </span>std::sync::Arc;
@@ -466,7 +464,7 @@
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_scan(plan: <span class="kw-2">&amp;</span>ALogicalPlan) -&gt; bool {
     <span class="kw">match </span>plan {
-        <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+        <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
         </span>ALogicalPlan::CsvScan { .. } =&gt; <span class="bool-val">true</span>,
         ALogicalPlan::DataFrameScan { .. } =&gt; <span class="bool-val">true</span>,
         <span class="attr">#[cfg(feature = <span class="string">&quot;parquet&quot;</span>)]
@@ -709,10 +707,9 @@
     ctxt: Context,
 ) -&gt; PolarsResult&lt;Schema&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>expr_arena = Arena::with_capacity(<span class="number">4 </span>* expr.len());
-    <span class="kw">let </span>fields = expr
-        .iter()
-        .map(|expr| expr.to_field_amortized(schema, ctxt, <span class="kw-2">&amp;mut </span>expr_arena));
-    Schema::try_from_fallible(fields)
+    expr.iter()
+        .map(|expr| expr.to_field_amortized(schema, ctxt, <span class="kw-2">&amp;mut </span>expr_arena))
+        .collect()
 }
 
 <span class="kw">pub fn </span>aexpr_to_leaf_names_iter(
@@ -752,10 +749,9 @@
     ctxt: Context,
     arena: <span class="kw-2">&amp;</span>Arena&lt;AExpr&gt;,
 ) -&gt; Schema {
-    <span class="kw">let </span>fields = expr
-        .iter()
-        .map(|expr| arena.get(<span class="kw-2">*</span>expr).to_field(schema, ctxt, arena).unwrap());
-    Schema::from(fields)
+    expr.iter()
+        .map(|expr| arena.get(<span class="kw-2">*</span>expr).to_field(schema, ctxt, arena).unwrap())
+        .collect()
 }
 
 <span class="kw">pub fn </span>combine_predicates_expr&lt;I&gt;(iter: I) -&gt; Expr

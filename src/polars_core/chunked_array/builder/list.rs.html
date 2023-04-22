@@ -707,7 +707,6 @@
 <a href="#707" id="707">707</a>
 <a href="#708" id="708">708</a>
 <a href="#709" id="709">709</a>
-<a href="#710" id="710">710</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_arrow::array::list::AnonymousBuilder;
 <span class="kw">use </span>polars_arrow::array::null::MutableNullArray;
 <span class="kw">use </span>polars_arrow::prelude::<span class="kw-2">*</span>;
@@ -1155,12 +1154,12 @@
 }
 
 <span class="kw">pub fn </span>get_list_builder(
-    dt: <span class="kw-2">&amp;</span>DataType,
+    inner_type_logical: <span class="kw-2">&amp;</span>DataType,
     value_capacity: usize,
     list_capacity: usize,
     name: <span class="kw-2">&amp;</span>str,
 ) -&gt; PolarsResult&lt;Box&lt;<span class="kw">dyn </span>ListBuilderTrait&gt;&gt; {
-    <span class="kw">let </span>physical_type = dt.to_physical();
+    <span class="kw">let </span>physical_type = inner_type_logical.to_physical();
 
     <span class="kw">match </span><span class="kw-2">&amp;</span>physical_type {
         <span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]
@@ -1169,13 +1168,13 @@
         </span>DataType::Struct(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(Box::new(AnonymousOwnedListBuilder::new(
             name,
             list_capacity,
-            <span class="prelude-val">Some</span>(physical_type),
+            <span class="prelude-val">Some</span>(inner_type_logical.clone()),
         ))),
         DataType::Null =&gt; <span class="prelude-val">Ok</span>(Box::new(LargeListNullBuilder::with_capacity(list_capacity))),
         DataType::List(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(Box::new(AnonymousOwnedListBuilder::new(
             name,
             list_capacity,
-            <span class="prelude-val">Some</span>(physical_type),
+            <span class="prelude-val">Some</span>(inner_type_logical.clone()),
         ))),
         <span class="kw">_ </span>=&gt; {
             <span class="macro">macro_rules! </span>get_primitive_builder {
@@ -1184,7 +1183,7 @@
                         name,
                         list_capacity,
                         value_capacity,
-                        dt.clone(),
+                        inner_type_logical.clone(),
                     );
                     Box::new(builder)
                 }};
@@ -1225,7 +1224,7 @@
     name: String,
     builder: AnonymousBuilder&lt;<span class="lifetime">&#39;a</span>&gt;,
     fast_explode: bool,
-    <span class="kw">pub </span>dtype: <span class="prelude-ty">Option</span>&lt;DataType&gt;,
+    inner_dtype: <span class="prelude-ty">Option</span>&lt;DataType&gt;,
 }
 
 <span class="kw">impl </span>Default <span class="kw">for </span>AnonymousListBuilder&lt;<span class="lifetime">&#39;_</span>&gt; {
@@ -1240,7 +1239,7 @@
             name: name.into(),
             builder: AnonymousBuilder::new(capacity),
             fast_explode: <span class="bool-val">true</span>,
-            dtype: inner_dtype,
+            inner_dtype,
         }
     }
 
@@ -1301,18 +1300,29 @@
         <span class="comment">// don&#39;t use self from here on one
         </span><span class="kw">let </span>slf = std::mem::take(<span class="self">self</span>);
         <span class="kw">if </span>slf.builder.is_empty() {
-            ListChunked::full_null_with_dtype(<span class="kw-2">&amp;</span>slf.name, <span class="number">0</span>, <span class="kw-2">&amp;</span>slf.dtype.unwrap_or(DataType::Null))
+            ListChunked::full_null_with_dtype(
+                <span class="kw-2">&amp;</span>slf.name,
+                <span class="number">0</span>,
+                <span class="kw-2">&amp;</span>slf.inner_dtype.unwrap_or(DataType::Null),
+            )
         } <span class="kw">else </span>{
-            <span class="kw">let </span>dtype = slf.dtype.map(|dt| dt.to_physical().to_arrow());
-            <span class="kw">let </span>arr = slf.builder.finish(dtype.as_ref()).unwrap();
-            <span class="kw">let </span>dtype = DataType::from(arr.data_type());
+            <span class="kw">let </span>inner_dtype_physical = slf
+                .inner_dtype
+                .as_ref()
+                .map(|dt| dt.to_physical().to_arrow());
+            <span class="kw">let </span>arr = slf.builder.finish(inner_dtype_physical.as_ref()).unwrap();
+
+            <span class="kw">let </span>list_dtype_logical = <span class="kw">match </span>slf.inner_dtype {
+                <span class="prelude-val">None </span>=&gt; DataType::from(arr.data_type()),
+                <span class="prelude-val">Some</span>(dt) =&gt; DataType::List(Box::new(dt)),
+            };
             <span class="kw">let </span><span class="kw-2">mut </span>ca = <span class="kw">unsafe </span>{ ListChunked::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[Box::new(arr)]) };
 
             <span class="kw">if </span>slf.fast_explode {
                 ca.set_fast_explode();
             }
 
-            ca.field = Arc::new(Field::new(<span class="kw-2">&amp;</span>slf.name, dtype));
+            ca.field = Arc::new(Field::new(<span class="kw-2">&amp;</span>slf.name, list_dtype_logical));
             ca
         }
     }
@@ -1367,37 +1377,25 @@
     <span class="kw">fn </span>finish(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; ListChunked {
         <span class="comment">// don&#39;t use self from here on one
         </span><span class="kw">let </span>slf = std::mem::take(<span class="self">self</span>);
-        <span class="kw">if </span>slf.builder.is_empty() {
-            <span class="comment">// not really empty, there were empty null list added probably e.g. []
-            </span><span class="kw">let </span>real_length = slf.builder.offsets().len() - <span class="number">1</span>;
-            <span class="kw">if </span>real_length &gt; <span class="number">0 </span>{
-                <span class="kw">let </span>dtype = slf.inner_dtype.unwrap_or(NULL_DTYPE).to_arrow();
-                <span class="kw">let </span>array = new_null_array(dtype.clone(), real_length);
-                <span class="kw">let </span>dtype = ListArray::&lt;i64&gt;::default_datatype(dtype);
-                <span class="kw">let </span>array = ListArray::new(dtype, slf.builder.take_offsets().into(), array, <span class="prelude-val">None</span>);
-                <span class="comment">// safety: same type
-                </span><span class="kw">unsafe </span>{ ListChunked::from_chunks(<span class="kw-2">&amp;</span>slf.name, <span class="macro">vec!</span>[Box::new(array)]) }
-            } <span class="kw">else </span>{
-                ListChunked::full_null_with_dtype(
-                    <span class="kw-2">&amp;</span>slf.name,
-                    <span class="number">0</span>,
-                    <span class="kw-2">&amp;</span>slf.inner_dtype.unwrap_or(DataType::Null),
-                )
-            }
-        } <span class="kw">else </span>{
-            <span class="kw">let </span>inner_dtype = slf.inner_dtype.map(|dt| dt.to_physical().to_arrow());
-            <span class="kw">let </span>arr = slf.builder.finish(inner_dtype.as_ref()).unwrap();
-            <span class="kw">let </span>dtype = DataType::from(arr.data_type());
-            <span class="comment">// safety: same type
-            </span><span class="kw">let </span><span class="kw-2">mut </span>ca = <span class="kw">unsafe </span>{ ListChunked::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[Box::new(arr)]) };
+        <span class="kw">let </span>inner_dtype_physical = slf
+            .inner_dtype
+            .as_ref()
+            .map(|dt| dt.to_physical().to_arrow());
+        <span class="kw">let </span>arr = slf.builder.finish(inner_dtype_physical.as_ref()).unwrap();
 
-            <span class="kw">if </span>slf.fast_explode {
-                ca.set_fast_explode();
-            }
+        <span class="kw">let </span>list_dtype_logical = <span class="kw">match </span>slf.inner_dtype {
+            <span class="prelude-val">None </span>=&gt; DataType::from(arr.data_type()),
+            <span class="prelude-val">Some</span>(dt) =&gt; DataType::List(Box::new(dt)),
+        };
+        <span class="comment">// safety: same type
+        </span><span class="kw">let </span><span class="kw-2">mut </span>ca = <span class="kw">unsafe </span>{ ListChunked::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[Box::new(arr)]) };
 
-            ca.field = Arc::new(Field::new(<span class="kw-2">&amp;</span>slf.name, dtype));
-            ca
+        <span class="kw">if </span>slf.fast_explode {
+            ca.set_fast_explode();
         }
+
+        ca.field = Arc::new(Field::new(<span class="kw-2">&amp;</span>slf.name, list_dtype_logical));
+        ca
     }
 }
 

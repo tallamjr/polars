@@ -462,9 +462,6 @@
 <a href="#462" id="462">462</a>
 <a href="#463" id="463">463</a>
 <a href="#464" id="464">464</a>
-<a href="#465" id="465">465</a>
-<a href="#466" id="466">466</a>
-<a href="#467" id="467">467</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-duration&quot;</span>)]
@@ -617,13 +614,10 @@
         <span class="kw">let </span>values_cap = series_slice.iter().fold(<span class="number">0</span>, |acc, opt_s| {
             acc + opt_s.as_ref().map(|s| s.len()).unwrap_or(<span class="number">0</span>)
         });
-
-        <span class="kw">let </span>dt = series_slice
-            .iter()
-            .filter_map(|opt| opt.as_ref())
-            .next()
-            .expect(<span class="string">&quot;cannot create List Series from a slice of nulls&quot;</span>)
-            .dtype();
+        <span class="kw">let </span>dt = <span class="kw">match </span>series_slice.iter().filter_map(|opt| opt.as_ref()).next() {
+            <span class="prelude-val">Some</span>(series) =&gt; series.dtype(),
+            <span class="prelude-val">None </span>=&gt; <span class="kw-2">&amp;</span>DataType::Null,
+        };
 
         <span class="kw">let </span><span class="kw-2">mut </span>builder = get_list_builder(dt, values_cap, series_slice.len(), name).unwrap();
         <span class="kw">for </span>series <span class="kw">in </span>series_slice {

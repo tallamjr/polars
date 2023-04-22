@@ -85,6 +85,8 @@
 <a href="#85" id="85">85</a>
 <a href="#86" id="86">86</a>
 <a href="#87" id="87">87</a>
+<a href="#88" id="88">88</a>
+<a href="#89" id="89">89</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>boolean;
 <span class="kw">mod </span>push_unchecked;
 <span class="kw">mod </span>rev;
@@ -151,6 +153,8 @@
 
 <span class="kw">unsafe impl</span>&lt;I: Iterator&lt;Item = J&gt;, J&gt; TrustedLen <span class="kw">for </span>TrustMyLength&lt;I, J&gt; {}
 <span class="kw">unsafe impl</span>&lt;T&gt; TrustedLen <span class="kw">for </span>std::ops::Range&lt;T&gt; <span class="kw">where </span>std::ops::Range&lt;T&gt;: Iterator {}
+<span class="kw">unsafe impl</span>&lt;T&gt; TrustedLen <span class="kw">for </span>std::ops::RangeInclusive&lt;T&gt; <span class="kw">where </span>std::ops::RangeInclusive&lt;T&gt;: Iterator
+{}
 <span class="kw">unsafe impl </span>TrustedLen <span class="kw">for </span>arrow::array::Utf8ValuesIter&lt;<span class="lifetime">&#39;_</span>, i64&gt; {}
 <span class="kw">unsafe impl </span>TrustedLen <span class="kw">for </span>arrow::array::BinaryValueIter&lt;<span class="lifetime">&#39;_</span>, i64&gt; {}
 <span class="kw">unsafe impl</span>&lt;T, I: TrustedLen + Iterator&lt;Item = T&gt;, V: TrustedLen + Iterator&lt;Item = bool&gt;&gt; TrustedLen

@@ -75,47 +75,8 @@
 <a href="#75" id="75">75</a>
 <a href="#76" id="76">76</a>
 <a href="#77" id="77">77</a>
-<a href="#78" id="78">78</a>
-<a href="#79" id="79">79</a>
-<a href="#80" id="80">80</a>
-<a href="#81" id="81">81</a>
-<a href="#82" id="82">82</a>
-<a href="#83" id="83">83</a>
-<a href="#84" id="84">84</a>
-<a href="#85" id="85">85</a>
-<a href="#86" id="86">86</a>
-<a href="#87" id="87">87</a>
-<a href="#88" id="88">88</a>
-<a href="#89" id="89">89</a>
-<a href="#90" id="90">90</a>
-<a href="#91" id="91">91</a>
-<a href="#92" id="92">92</a>
-<a href="#93" id="93">93</a>
-<a href="#94" id="94">94</a>
-<a href="#95" id="95">95</a>
-<a href="#96" id="96">96</a>
-<a href="#97" id="97">97</a>
-<a href="#98" id="98">98</a>
-<a href="#99" id="99">99</a>
-<a href="#100" id="100">100</a>
-<a href="#101" id="101">101</a>
-<a href="#102" id="102">102</a>
-<a href="#103" id="103">103</a>
-<a href="#104" id="104">104</a>
-<a href="#105" id="105">105</a>
-<a href="#106" id="106">106</a>
-<a href="#107" id="107">107</a>
-<a href="#108" id="108">108</a>
-<a href="#109" id="109">109</a>
-<a href="#110" id="110">110</a>
-<a href="#111" id="111">111</a>
-<a href="#112" id="112">112</a>
-<a href="#113" id="113">113</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::Write;
-
-<span class="kw">use </span>chrono::Timelike;
-<span class="kw">use </span>polars_arrow::export::arrow::array::{MutableArray, MutableUtf8Array, Utf8Array};
-<span class="kw">use </span>polars_arrow::export::arrow::temporal_conversions::{time64ns_to_time, NANOSECONDS};
+</pre></div><pre class="rust"><code><span class="kw">use </span>chrono::Timelike;
+<span class="kw">use </span>polars_arrow::export::arrow::temporal_conversions::NANOSECONDS;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
@@ -131,9 +92,6 @@
 }
 
 <span class="kw">pub trait </span>TimeMethods {
-    <span class="doccomment">/// Format Date with a `format` rule. See [chrono strftime/strptime](https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html).
-    </span><span class="kw">fn </span>strftime(<span class="kw-2">&amp;</span><span class="self">self</span>, format: <span class="kw-2">&amp;</span>str) -&gt; Utf8Chunked;
-
     <span class="doccomment">/// Extract hour from underlying NaiveDateTime representation.
     /// Returns the hour number from 0 to 23.
     </span><span class="kw">fn </span>hour(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; UInt32Chunked;
@@ -155,36 +113,6 @@
 }
 
 <span class="kw">impl </span>TimeMethods <span class="kw">for </span>TimeChunked {
-    <span class="doccomment">/// Format Date with a `format` rule. See [chrono strftime/strptime](https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html).
-    </span><span class="kw">fn </span>strftime(<span class="kw-2">&amp;</span><span class="self">self</span>, format: <span class="kw-2">&amp;</span>str) -&gt; Utf8Chunked {
-        <span class="kw">let </span>time = NaiveTime::from_hms_opt(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>).unwrap();
-        <span class="kw">let </span>fmted = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, time.format(format));
-
-        <span class="kw">let </span><span class="kw-2">mut </span>ca: Utf8Chunked = <span class="self">self</span>.apply_kernel_cast(<span class="kw-2">&amp;</span>|arr| {
-            <span class="kw">let </span><span class="kw-2">mut </span>buf = String::new();
-            <span class="kw">let </span><span class="kw-2">mut </span>mutarr =
-                MutableUtf8Array::with_capacities(arr.len(), arr.len() * fmted.len() + <span class="number">1</span>);
-
-            <span class="kw">for </span>opt <span class="kw">in </span>arr.into_iter() {
-                <span class="kw">match </span>opt {
-                    <span class="prelude-val">None </span>=&gt; mutarr.push_null(),
-                    <span class="prelude-val">Some</span>(v) =&gt; {
-                        buf.clear();
-                        <span class="kw">let </span>timefmt = time64ns_to_time(<span class="kw-2">*</span>v).format(format);
-                        <span class="macro">write!</span>(buf, <span class="string">&quot;{timefmt}&quot;</span>).unwrap();
-                        mutarr.push(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>buf))
-                    }
-                }
-            }
-
-            <span class="kw">let </span>arr: Utf8Array&lt;i64&gt; = mutarr.into();
-            Box::new(arr)
-        });
-
-        ca.rename(<span class="self">self</span>.name());
-        ca
-    }
-
     <span class="doccomment">/// Extract hour from underlying NaiveDateTime representation.
     /// Returns the hour number from 0 to 23.
     </span><span class="kw">fn </span>hour(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; UInt32Chunked {

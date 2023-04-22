@@ -1108,6 +1108,16 @@
 <a href="#1108" id="1108">1108</a>
 <a href="#1109" id="1109">1109</a>
 <a href="#1110" id="1110">1110</a>
+<a href="#1111" id="1111">1111</a>
+<a href="#1112" id="1112">1112</a>
+<a href="#1113" id="1113">1113</a>
+<a href="#1114" id="1114">1114</a>
+<a href="#1115" id="1115">1115</a>
+<a href="#1116" id="1116">1116</a>
+<a href="#1117" id="1117">1117</a>
+<a href="#1118" id="1118">1118</a>
+<a href="#1119" id="1119">1119</a>
+<a href="#1120" id="1120">1120</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::temporal_conversions::{
     timestamp_ms_to_datetime, timestamp_ns_to_datetime, timestamp_us_to_datetime,
 };
@@ -1805,6 +1815,16 @@
                 <span class="prelude-val">Some</span>(s)
             }
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="kw">pub fn </span>is_nested_null(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="kw">match </span><span class="self">self </span>{
+            AnyValue::Null =&gt; <span class="bool-val">true</span>,
+            AnyValue::List(s) =&gt; s.dtype().is_nested_null(),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
+            </span>AnyValue::Struct(<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="self">self</span>._iter_struct_av().all(|av| av.is_nested_null()),
+            <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
         }
     }
 }

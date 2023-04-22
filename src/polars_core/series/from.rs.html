@@ -582,6 +582,29 @@
 <a href="#582" id="582">582</a>
 <a href="#583" id="583">583</a>
 <a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::convert::TryFrom;
 
 <span class="kw">use </span>arrow::compute::cast::utf8_to_large_utf8;
@@ -592,7 +615,7 @@
 </span>))]
 </span><span class="kw">use </span>arrow::temporal_conversions::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_arrow::compute::cast::cast;
-<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
+<span class="attr">#[cfg(any(feature = <span class="string">&quot;dtype-struct&quot;</span>, feature = <span class="string">&quot;dtype-categorical&quot;</span>))]
 </span><span class="kw">use </span>polars_arrow::kernels::concatenate::concatenate_owned_unchecked;
 
 <span class="kw">use </span><span class="kw">crate</span>::chunked_array::cast::cast_chunks;
@@ -600,7 +623,7 @@
 </span><span class="kw">use </span><span class="kw">crate</span>::chunked_array::object::extension::polars_extension::PolarsExtension;
 <span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::chunked_array::object::extension::EXTENSION_NAME;
-<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
+<span class="attr">#[cfg(all(feature = <span class="string">&quot;dtype-decimal&quot;</span>, feature = <span class="string">&quot;python&quot;</span>))]
 </span><span class="kw">use </span><span class="kw">crate</span>::config::decimal_is_active;
 <span class="kw">use </span><span class="kw">crate</span>::config::verbose;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -671,7 +694,23 @@
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
             </span>Struct(<span class="kw">_</span>) =&gt; Series::try_from_arrow_unchecked(name, chunks, <span class="kw-2">&amp;</span>dtype.to_arrow()).unwrap(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]
-            </span>Object(<span class="kw">_</span>) =&gt; <span class="macro">todo!</span>(),
+            </span>Object(<span class="kw">_</span>) =&gt; {
+                <span class="macro">assert_eq!</span>(chunks.len(), <span class="number">1</span>);
+                <span class="kw">let </span>arr = chunks[<span class="number">0</span>]
+                    .as_any()
+                    .downcast_ref::&lt;FixedSizeBinaryArray&gt;()
+                    .unwrap();
+                <span class="comment">// Safety:
+                // this is highly unsafe. it will dereference a raw ptr on the heap
+                // make sure the ptr is allocated and from this pid
+                // (the pid is checked before dereference)
+                </span>{
+                    <span class="kw">let </span>pe = PolarsExtension::new(arr.clone());
+                    <span class="kw">let </span>s = pe.get_series(name);
+                    pe.take_and_forget();
+                    s
+                }
+            }
             Null =&gt; new_null(name, <span class="kw-2">&amp;</span>chunks),
             Unknown =&gt; <span class="macro">panic!</span>(<span class="string">&quot;uh oh, somehow we don&#39;t know the dtype?&quot;</span>),
             <span class="attr">#[allow(unreachable_patterns)]
@@ -794,8 +833,7 @@
                 <span class="kw">use </span>arrow::datatypes::IntegerType;
                 <span class="comment">// don&#39;t spuriously call this; triggers a read on mmapped data
                 </span><span class="kw">let </span>arr = <span class="kw">if </span>chunks.len() &gt; <span class="number">1 </span>{
-                    <span class="kw">let </span>chunks = chunks.iter().map(|arr| <span class="kw-2">&amp;**</span>arr).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-                    arrow::compute::concatenate::concatenate(<span class="kw-2">&amp;</span>chunks)<span class="question-mark">?
+                    concatenate_owned_unchecked(<span class="kw-2">&amp;</span>chunks)<span class="question-mark">?
                 </span>} <span class="kw">else </span>{
                     chunks[<span class="number">0</span>].clone()
                 };
@@ -873,7 +911,7 @@
                 <span class="prelude-val">Ok</span>(s)
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
-            </span>ArrowDataType::Struct(<span class="kw">_</span>) =&gt; {
+            </span>ArrowDataType::Struct(logical_fields) =&gt; {
                 <span class="kw">let </span>arr = <span class="kw">if </span>chunks.len() &gt; <span class="number">1 </span>{
                     <span class="comment">// don&#39;t spuriously call this. This triggers a read on memmapped data
                     </span>concatenate_owned_unchecked(<span class="kw-2">&amp;</span>chunks).unwrap() <span class="kw">as </span>ArrayRef
@@ -905,10 +943,18 @@
                         <span class="prelude-val">None</span>,
                     ));
                 }
+
+                <span class="comment">// ensure we maintain logical types if proved by the caller
+                </span><span class="kw">let </span>dtype_fields = <span class="kw">if </span>logical_fields.is_empty() {
+                    struct_arr.fields()
+                } <span class="kw">else </span>{
+                    logical_fields
+                };
+
                 <span class="kw">let </span>fields = struct_arr
                     .values()
                     .iter()
-                    .zip(struct_arr.fields())
+                    .zip(dtype_fields)
                     .map(|(arr, field)| {
                         Series::try_from_arrow_unchecked(
                             <span class="kw-2">&amp;</span>field.name,

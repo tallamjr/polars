@@ -137,7 +137,7 @@
                             input_node = <span class="prelude-val">Some</span>(node);
                             <span class="kw">break</span>;
                         }
-                        <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+                        <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
                         </span>CsvScan { .. } =&gt; {
                             input_node = <span class="prelude-val">Some</span>(node);
                             <span class="kw">break</span>;
@@ -157,7 +157,7 @@
 
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(node) = input_node {
                     <span class="kw">match </span>lp_arena.get_mut(node) {
-                        <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+                        <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
                         </span>CsvScan { options, .. } =&gt; {
                             options.rechunk = <span class="bool-val">false</span>;
                         }

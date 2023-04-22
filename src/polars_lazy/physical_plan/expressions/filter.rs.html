@@ -198,7 +198,7 @@
         <span class="kw">let </span>(<span class="kw-2">mut </span>ac_s, <span class="kw-2">mut </span>ac_predicate) = (ac_s<span class="question-mark">?</span>, ac_predicate<span class="question-mark">?</span>);
 
         <span class="kw">if </span>ac_predicate.is_aggregated() || ac_s.is_aggregated() {
-            <span class="kw">let </span>preds = ac_predicate.iter_groups();
+            <span class="kw">let </span>preds = ac_predicate.iter_groups(<span class="bool-val">false</span>);
             <span class="kw">let </span>s = ac_s.aggregated();
             <span class="kw">let </span>ca = s.list()<span class="question-mark">?</span>;
             <span class="kw">let </span><span class="kw-2">mut </span>out = ca

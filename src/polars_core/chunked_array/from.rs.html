@@ -153,7 +153,6 @@
 <a href="#153" id="153">153</a>
 <a href="#154" id="154">154</a>
 <a href="#155" id="155">155</a>
-<a href="#156" id="156">156</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="attr">#[allow(clippy::ptr_arg)]
@@ -171,7 +170,6 @@
         // change the list-value array to the keys and store the dictionary values in the datatype.
         // if a global string cache is set, we also must modify the keys.
         </span>DataType::List(inner) <span class="kw">if </span><span class="kw-2">*</span>inner == DataType::Categorical(<span class="prelude-val">None</span>) =&gt; {
-            <span class="kw">use </span>polars_arrow::kernels::concatenate::concatenate_owned_unchecked;
             <span class="kw">let </span>array = concatenate_owned_unchecked(chunks).unwrap();
             <span class="kw">let </span>list_arr = array.as_any().downcast_ref::&lt;ListArray&lt;i64&gt;&gt;().unwrap();
             <span class="kw">let </span>values_arr = list_arr.values();

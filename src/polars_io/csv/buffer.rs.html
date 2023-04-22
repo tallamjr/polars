@@ -1333,7 +1333,7 @@
     projection
         .iter()
         .map(|<span class="kw-2">&amp;</span>i| {
-            <span class="kw">let </span>(name, dtype) = schema.get_index(i).unwrap();
+            <span class="kw">let </span>(name, dtype) = schema.get_at_index(i).unwrap();
             <span class="kw">let </span><span class="kw-2">mut </span>str_capacity = <span class="number">0</span>;
             <span class="comment">// determine the needed capacity for this column
             </span><span class="kw">if </span>dtype == <span class="kw-2">&amp;</span>DataType::Utf8 {

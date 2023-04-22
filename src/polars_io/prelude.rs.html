@@ -22,7 +22,7 @@
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(test)]
 </span><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
 </span><span class="kw">pub use </span><span class="kw">crate</span>::csv::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;ipc_streaming&quot;</span>))]
 </span><span class="kw">pub use </span><span class="kw">crate</span>::ipc::<span class="kw-2">*</span>;

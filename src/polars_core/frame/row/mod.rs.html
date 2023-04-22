@@ -198,6 +198,8 @@
 <a href="#198" id="198">198</a>
 <a href="#199" id="199">199</a>
 <a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>av_buffer;
 <span class="kw">mod </span>dataframe;
 <span class="kw">mod </span>transpose;
@@ -238,7 +240,7 @@
             add_or_insert(<span class="kw-2">&amp;mut </span>values, <span class="kw-2">&amp;</span>key, value.into());
         }
     }
-    Schema::from(resolve_fields(values).into_iter())
+    Schema::from_iter(resolve_fields(values))
 }
 
 <span class="kw">fn </span>add_or_insert(values: <span class="kw-2">&amp;mut </span>Tracker, key: <span class="kw-2">&amp;</span>str, data_type: DataType) {
@@ -374,7 +376,7 @@
 
                 <span class="kw">if </span>!is_nested_null(val) {
                     <span class="kw">let </span>dtype = val.into();
-                    schema.coerce_by_index(i, dtype).unwrap();
+                    schema.set_dtype_at_index(i, dtype).unwrap();
                 }
             }
         }
@@ -390,12 +392,14 @@
 
 <span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Row&lt;<span class="lifetime">&#39;_</span>&gt;&gt; <span class="kw">for </span>Schema {
     <span class="kw">fn </span>from(row: <span class="kw-2">&amp;</span>Row) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span>fields = row.<span class="number">0</span>.iter().enumerate().map(|(i, av)| {
-            <span class="kw">let </span>dtype = av.into();
-            Field::new(<span class="macro">format!</span>(<span class="string">&quot;column_{i}&quot;</span>).as_ref(), dtype)
-        });
-
-        Schema::from(fields)
+        row.<span class="number">0
+            </span>.iter()
+            .enumerate()
+            .map(|(i, av)| {
+                <span class="kw">let </span>dtype = av.into();
+                Field::new(<span class="macro">format!</span>(<span class="string">&quot;column_{i}&quot;</span>).as_ref(), dtype)
+            })
+            .collect()
     }
 }
 </code></pre></div></section></main></body></html>

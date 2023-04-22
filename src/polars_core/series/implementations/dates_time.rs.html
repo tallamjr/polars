@@ -498,6 +498,9 @@
 <a href="#498" id="498">498</a>
 <a href="#499" id="499">499</a>
 <a href="#500" id="500">500</a>
+<a href="#501" id="501">501</a>
+<a href="#502" id="502">502</a>
+<a href="#503" id="503">503</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! This module exists to reduce compilation times.
 //!
 //! All the data types are backed by a physical type in memory e.g. Date -&gt; i32, Datetime-&gt; i64.
@@ -517,7 +520,6 @@
 <span class="kw">use </span><span class="kw">crate</span>::chunked_array::ops::explode::ExplodeByOffsets;
 <span class="kw">use </span><span class="kw">crate</span>::chunked_array::ops::ToBitRepr;
 <span class="kw">use </span><span class="kw">crate</span>::chunked_array::AsSinglePtr;
-<span class="kw">use </span><span class="kw">crate</span>::fmt::FmtList;
 <span class="kw">use </span><span class="kw">crate</span>::frame::groupby::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::frame::hash_join::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -810,6 +812,14 @@
                         .unwrap()
                         .strftime(<span class="string">&quot;%Y-%m-%d&quot;</span>)
                         .into_series()),
+                    (DataType::Time, DataType::Utf8) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self
+                        </span>.<span class="number">0
+                        </span>.clone()
+                        .into_series()
+                        .time()
+                        .unwrap()
+                        .strftime(<span class="string">&quot;%T&quot;</span>)
+                        .into_series()),
                     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
                     </span>(DataType::Time, DataType::Datetime(<span class="kw">_</span>, <span class="kw">_</span>)) =&gt; {
                         <span class="macro">polars_bail!</span>(
@@ -918,10 +928,6 @@
                     .cast(<span class="self">self</span>.dtype())
                     .unwrap()
                     .into())
-            }
-
-            <span class="kw">fn </span>fmt_list(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
-                FmtList::fmt_list(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>)
             }
 
             <span class="kw">fn </span>clone_inner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Arc&lt;<span class="kw">dyn </span>SeriesTrait&gt; {

@@ -806,7 +806,7 @@
 <a href="#806" id="806">806</a>
 <a href="#807" id="807">807</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
-<span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;csv-file&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>))]
+<span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;csv&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>))]
 </span><span class="kw">use </span>std::path::PathBuf;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -817,7 +817,7 @@
 
 <span class="kw">use </span><span class="kw">crate</span>::logical_plan::functions::FunctionNode;
 <span class="kw">use </span><span class="kw">crate</span>::logical_plan::schema::{det_join_schema, FileInfo};
-<span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::logical_plan::CsvParserOptions;
 <span class="attr">#[cfg(feature = <span class="string">&quot;ipc&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::logical_plan::IpcScanOptionsInner;
@@ -850,7 +850,7 @@
         input: Node,
         predicate: Node,
     },
-    <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
     </span>CsvScan {
         path: PathBuf,
         file_info: FileInfo,
@@ -970,7 +970,7 @@
         <span class="kw">match </span><span class="self">self </span>{
             <span class="attr">#[cfg(feature = <span class="string">&quot;python&quot;</span>)]
             </span>PythonScan { options, .. } =&gt; <span class="kw-2">&amp;</span>options.schema,
-            <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+            <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
             </span>CsvScan { file_info, .. } =&gt; <span class="kw-2">&amp;</span>file_info.schema,
             <span class="attr">#[cfg(feature = <span class="string">&quot;parquet&quot;</span>)]
             </span>ParquetScan { file_info, .. } =&gt; <span class="kw-2">&amp;</span>file_info.schema,
@@ -989,7 +989,7 @@
             </span>PythonScan { .. } =&gt; <span class="string">&quot;python_scan&quot;</span>,
             Slice { .. } =&gt; <span class="string">&quot;slice&quot;</span>,
             Selection { .. } =&gt; <span class="string">&quot;selection&quot;</span>,
-            <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+            <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
             </span>CsvScan { .. } =&gt; <span class="string">&quot;csv_scan&quot;</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;ipc&quot;</span>)]
             </span>IpcScan { .. } =&gt; <span class="string">&quot;ipc_scan&quot;</span>,
@@ -1043,7 +1043,7 @@
                 ..
             } =&gt; output_schema.as_ref().unwrap_or(<span class="kw-2">&amp;</span>file_info.schema),
             Selection { input, .. } =&gt; <span class="kw">return </span>arena.get(<span class="kw-2">*</span>input).schema(arena),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+            <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
             </span>CsvScan {
                 file_info,
                 output_schema,
@@ -1209,7 +1209,7 @@
                     cloud_options: cloud_options.clone(),
                 }
             }
-            <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+            <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
             </span>CsvScan {
                 path,
                 file_info,
@@ -1318,7 +1318,7 @@
                     container.push(<span class="kw-2">*</span>node)
                 }
             }
-            <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+            <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
             </span>CsvScan { predicate, .. } =&gt; {
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(node) = predicate {
                     container.push(<span class="kw-2">*</span>node)
@@ -1394,7 +1394,7 @@
             </span>ParquetScan { .. } =&gt; <span class="kw">return</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;ipc&quot;</span>)]
             </span>IpcScan { .. } =&gt; <span class="kw">return</span>,
-            <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+            <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
             </span>CsvScan { .. } =&gt; <span class="kw">return</span>,
             DataFrameScan { .. } =&gt; <span class="kw">return</span>,
             AnonymousScan { .. } =&gt; <span class="kw">return</span>,

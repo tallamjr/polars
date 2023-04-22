@@ -1106,7 +1106,7 @@
             <span class="kw">let </span>input = to_alp(<span class="kw-2">*</span>input, expr_arena, lp_arena)<span class="question-mark">?</span>;
             ALogicalPlan::Slice { input, offset, len }
         }
-        <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+        <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
         </span>LogicalPlan::CsvScan {
             path,
             file_info,
@@ -1588,7 +1588,7 @@
                     predicate: p,
                 }
             }
-            <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+            <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
             </span>ALogicalPlan::CsvScan {
                 path,
                 file_info,

@@ -320,7 +320,7 @@
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::path::PathBuf;
 
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
-<span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
 </span><span class="kw">use </span>polars_io::csv::{CsvEncoding, NullValues};
 <span class="attr">#[cfg(feature = <span class="string">&quot;ipc&quot;</span>)]
 </span><span class="kw">use </span>polars_io::ipc::IpcCompression;
@@ -336,7 +336,7 @@
 
 <span class="kw">pub type </span>FileCount = u32;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 </span><span class="kw">pub struct </span>CsvParserOptions {

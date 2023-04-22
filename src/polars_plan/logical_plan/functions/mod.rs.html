@@ -337,8 +337,6 @@
 <a href="#337" id="337">337</a>
 <a href="#338" id="338">338</a>
 <a href="#339" id="339">339</a>
-<a href="#340" id="340">340</a>
-<a href="#341" id="341">341</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>drop;
 <span class="attr">#[cfg(feature = <span class="string">&quot;merge_sorted&quot;</span>)]
 </span><span class="kw">mod </span>merge_sorted;
@@ -495,9 +493,7 @@
                     .iter()
                     .map(|name| {
                         <span class="kw">let </span>name = name.as_ref();
-                        input_schema
-                            .get_field(name)
-                            .ok_or_else(|| <span class="macro">polars_err!</span>(SchemaFieldNotFound: <span class="string">&quot;{}&quot;</span>, name))
+                        input_schema.try_get_field(name)
                     })
                     .collect::&lt;PolarsResult&lt;Schema&gt;&gt;()<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(Cow::Owned(Arc::new(schema)))

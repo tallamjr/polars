@@ -612,6 +612,7 @@
 <a href="#612" id="612">612</a>
 <a href="#613" id="613">613</a>
 <a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::frame::groupby::GroupByMethod;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::series::IsSorted;
@@ -1017,13 +1018,14 @@
                 AAggExpr::Implode(expr) =&gt; {
                     <span class="kw">let </span>input = create_physical_expr(expr, ctxt, expr_arena, schema)<span class="question-mark">?</span>;
                     <span class="kw">match </span>ctxt {
-                        Context::Aggregation =&gt; {
-                            <span class="prelude-val">Ok</span>(Arc::new(AggregationExpr::new(input, GroupByMethod::List)))
-                        }
+                        Context::Aggregation =&gt; <span class="prelude-val">Ok</span>(Arc::new(AggregationExpr::new(
+                            input,
+                            GroupByMethod::Implode,
+                        ))),
                         Context::Default =&gt; {
                             <span class="kw">let </span>function = SpecialEq::new(Arc::new(<span class="kw">move </span>|s: <span class="kw-2">&amp;mut </span>[Series]| {
                                 <span class="kw">let </span>s = <span class="kw-2">&amp;</span>s[<span class="number">0</span>];
-                                s.to_list().map(|ca| <span class="prelude-val">Some</span>(ca.into_series()))
+                                s.implode().map(|ca| <span class="prelude-val">Some</span>(ca.into_series()))
                             })
                                 <span class="kw">as </span>Arc&lt;<span class="kw">dyn </span>SeriesUdf&gt;);
                             <span class="prelude-val">Ok</span>(Arc::new(ApplyExpr::new_minimal(

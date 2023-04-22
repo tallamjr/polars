@@ -575,10 +575,14 @@
 <a href="#575" id="575">575</a>
 <a href="#576" id="576">576</a>
 <a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::mem::ManuallyDrop;
 <span class="kw">use </span>std::ops::Deref;
 
 <span class="kw">use </span>polars_arrow::utils::CustomIterTools;
+<span class="kw">use </span>polars_utils::sync::SyncPtr;
 <span class="kw">use </span>rayon::iter::plumbing::UnindexedConsumer;
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 
@@ -621,52 +625,54 @@
     }
 }
 
-<span class="kw">impl </span>From&lt;Vec&lt;Vec&lt;IdxItem&gt;&gt;&gt; <span class="kw">for </span>GroupsIdx {
-    <span class="kw">fn </span>from(v: Vec&lt;Vec&lt;IdxItem&gt;&gt;) -&gt; <span class="self">Self </span>{
-        <span class="comment">// single threaded flatten: 10% faster than `iter().flatten().collect()
-        // this is the multi-threaded impl of that
-        </span><span class="kw">let </span>cap = v.iter().map(|v| v.len()).sum::&lt;usize&gt;();
+<span class="kw">impl </span>From&lt;Vec&lt;(Vec&lt;IdxSize&gt;, Vec&lt;Vec&lt;IdxSize&gt;&gt;)&gt;&gt; <span class="kw">for </span>GroupsIdx {
+    <span class="kw">fn </span>from(v: Vec&lt;(Vec&lt;IdxSize&gt;, Vec&lt;Vec&lt;IdxSize&gt;&gt;)&gt;) -&gt; <span class="self">Self </span>{
+        <span class="comment">// we have got the hash tables so we can determine the final
+        </span><span class="kw">let </span>cap = v.iter().map(|v| v.<span class="number">0</span>.len()).sum::&lt;usize&gt;();
         <span class="kw">let </span>offsets = v
             .iter()
             .scan(<span class="number">0_usize</span>, |acc, v| {
                 <span class="kw">let </span>out = <span class="kw-2">*</span>acc;
-                <span class="kw-2">*</span>acc += v.len();
+                <span class="kw-2">*</span>acc += v.<span class="number">0</span>.len();
                 <span class="prelude-val">Some</span>(out)
             })
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-        <span class="kw">let </span><span class="kw-2">mut </span>first = Vec::with_capacity(cap);
-        <span class="kw">let </span>first_ptr = first.as_ptr() <span class="kw">as </span>usize;
-        <span class="kw">let </span><span class="kw-2">mut </span>all = Vec::with_capacity(cap);
-        <span class="kw">let </span>all_ptr = all.as_ptr() <span class="kw">as </span>usize;
+        <span class="kw">let </span><span class="kw-2">mut </span>global_first = Vec::with_capacity(cap);
+        <span class="kw">let </span>global_first_ptr = <span class="kw">unsafe </span>{ SyncPtr::new(global_first.as_mut_ptr()) };
+        <span class="kw">let </span><span class="kw-2">mut </span>global_all = Vec::with_capacity(cap);
+        <span class="kw">let </span>global_all_ptr = <span class="kw">unsafe </span>{ SyncPtr::new(global_all.as_mut_ptr()) };
 
         POOL.install(|| {
-            v.into_par_iter()
-                .zip(offsets)
-                .for_each(|(<span class="kw-2">mut </span>inner, offset)| {
-                    <span class="kw">unsafe </span>{
-                        <span class="kw">let </span>first = (first_ptr <span class="kw">as </span><span class="kw-2">*const </span>IdxSize <span class="kw">as </span><span class="kw-2">*mut </span>IdxSize).add(offset);
-                        <span class="kw">let </span>all = (all_ptr <span class="kw">as </span><span class="kw-2">*const </span>Vec&lt;IdxSize&gt; <span class="kw">as </span><span class="kw-2">*mut </span>Vec&lt;IdxSize&gt;).add(offset);
+            v.into_par_iter().zip(offsets).for_each(
+                |((local_first_vals, local_all_vals), offset)| <span class="kw">unsafe </span>{
+                    <span class="kw">let </span>global_first: <span class="kw-2">*mut </span>IdxSize = global_first_ptr.get();
+                    <span class="kw">let </span>global_all: <span class="kw-2">*mut </span>Vec&lt;IdxSize&gt; = global_all_ptr.get();
+                    <span class="kw">let </span>global_first = global_first.add(offset);
+                    <span class="kw">let </span>global_all = global_all.add(offset);
 
-                        <span class="kw">let </span>inner_ptr = inner.as_mut_ptr();
-                        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..inner.len() {
-                            <span class="kw">let </span>(first_val, vals) = std::ptr::read(inner_ptr.add(i));
-                            std::ptr::write(first.add(i), first_val);
-                            std::ptr::write(all.add(i), vals);
-                        }
-                        <span class="comment">// set len to 0 so that the contents will not get dropped
-                        // they are moved to `first` and `all`
-                        </span>inner.set_len(<span class="number">0</span>);
-                    }
-                });
+                    std::ptr::copy_nonoverlapping(
+                        local_first_vals.as_ptr(),
+                        global_first,
+                        local_first_vals.len(),
+                    );
+                    std::ptr::copy_nonoverlapping(
+                        local_all_vals.as_ptr(),
+                        global_all,
+                        local_all_vals.len(),
+                    );
+                    <span class="comment">// ensure the vecs don&#39;t get dropped
+                    </span>std::mem::forget(local_all_vals);
+                },
+            );
         });
         <span class="kw">unsafe </span>{
-            all.set_len(cap);
-            first.set_len(cap);
+            global_all.set_len(cap);
+            global_first.set_len(cap);
         }
         GroupsIdx {
             sorted: <span class="bool-val">false</span>,
-            first,
-            all,
+            first: global_first,
+            all: global_all,
         }
     }
 }

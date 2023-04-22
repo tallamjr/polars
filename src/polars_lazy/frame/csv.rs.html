@@ -322,7 +322,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
 <span class="attr">#[derive(Clone)]
-#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
 </span><span class="kw">pub struct </span>LazyCsvReader&lt;<span class="lifetime">&#39;a</span>&gt; {
     path: PathBuf,
     delimiter: u8,
@@ -347,7 +347,7 @@
     try_parse_dates: bool,
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
 </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; LazyCsvReader&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="kw">pub fn </span>new(path: <span class="kw">impl </span>AsRef&lt;Path&gt;) -&gt; <span class="self">Self </span>{
         LazyCsvReader {

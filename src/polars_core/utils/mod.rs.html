@@ -969,47 +969,14 @@
 <a href="#969" id="969">969</a>
 <a href="#970" id="970">970</a>
 <a href="#971" id="971">971</a>
-<a href="#972" id="972">972</a>
-<a href="#973" id="973">973</a>
-<a href="#974" id="974">974</a>
-<a href="#975" id="975">975</a>
-<a href="#976" id="976">976</a>
-<a href="#977" id="977">977</a>
-<a href="#978" id="978">978</a>
-<a href="#979" id="979">979</a>
-<a href="#980" id="980">980</a>
-<a href="#981" id="981">981</a>
-<a href="#982" id="982">982</a>
-<a href="#983" id="983">983</a>
-<a href="#984" id="984">984</a>
-<a href="#985" id="985">985</a>
-<a href="#986" id="986">986</a>
-<a href="#987" id="987">987</a>
-<a href="#988" id="988">988</a>
-<a href="#989" id="989">989</a>
-<a href="#990" id="990">990</a>
-<a href="#991" id="991">991</a>
-<a href="#992" id="992">992</a>
-<a href="#993" id="993">993</a>
-<a href="#994" id="994">994</a>
-<a href="#995" id="995">995</a>
-<a href="#996" id="996">996</a>
-<a href="#997" id="997">997</a>
-<a href="#998" id="998">998</a>
-<a href="#999" id="999">999</a>
-<a href="#1000" id="1000">1000</a>
-<a href="#1001" id="1001">1001</a>
-<a href="#1002" id="1002">1002</a>
-<a href="#1003" id="1003">1003</a>
-<a href="#1004" id="1004">1004</a>
-<a href="#1005" id="1005">1005</a>
-</pre></div><pre class="rust"><code><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>series;
+</pre></div><pre class="rust"><code><span class="kw">pub mod </span>flatten;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>series;
 <span class="kw">mod </span>supertype;
-
 <span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::ops::{Deref, DerefMut};
 
 <span class="kw">use </span>arrow::bitmap::Bitmap;
+<span class="kw">use </span>flatten::<span class="kw-2">*</span>;
 <span class="kw">use </span>num_traits::{One, Zero};
 <span class="kw">pub use </span>polars_arrow::utils::{TrustMyLength, <span class="kw-2">*</span>};
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
@@ -1145,41 +1112,6 @@
 #[doc(hidden)]
 </span><span class="kw">pub fn </span>split_series(s: <span class="kw-2">&amp;</span>Series, n: usize) -&gt; PolarsResult&lt;Vec&lt;Series&gt;&gt; {
     <span class="macro">split_array!</span>(s, n, i64)
-}
-
-<span class="kw">fn </span>flatten_df(df: <span class="kw-2">&amp;</span>DataFrame) -&gt; <span class="kw">impl </span>Iterator&lt;Item = DataFrame&gt; + <span class="lifetime">&#39;_ </span>{
-    df.iter_chunks_physical().flat_map(|chunk| {
-        <span class="kw">let </span>df = DataFrame::new_no_checks(
-            df.iter()
-                .zip(chunk.into_arrays())
-                .map(|(s, arr)| {
-                    <span class="comment">// Safety:
-                    // datatypes are correct
-                    </span><span class="kw">let </span><span class="kw-2">mut </span>out = <span class="kw">unsafe </span>{
-                        Series::from_chunks_and_dtype_unchecked(s.name(), <span class="macro">vec!</span>[arr], s.dtype())
-                    };
-                    out.set_sorted_flag(s.is_sorted_flag());
-                    out
-                })
-                .collect(),
-        );
-        <span class="kw">if </span>df.height() == <span class="number">0 </span>{
-            <span class="prelude-val">None
-        </span>} <span class="kw">else </span>{
-            <span class="prelude-val">Some</span>(df)
-        }
-    })
-}
-
-<span class="kw">pub fn </span>flatten_series(s: <span class="kw-2">&amp;</span>Series) -&gt; Vec&lt;Series&gt; {
-    <span class="kw">let </span>name = s.name();
-    <span class="kw">let </span>dtype = s.dtype();
-    <span class="kw">unsafe </span>{
-        s.chunks()
-            .iter()
-            .map(|arr| Series::from_chunks_and_dtype_unchecked(name, <span class="macro">vec!</span>[arr.clone()], dtype))
-            .collect()
-    }
 }
 
 <span class="kw">pub fn </span>split_df_as_ref(df: <span class="kw-2">&amp;</span>DataFrame, n: usize) -&gt; PolarsResult&lt;Vec&lt;DataFrame&gt;&gt; {

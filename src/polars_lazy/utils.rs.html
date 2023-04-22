@@ -47,7 +47,7 @@
     lp_arena.iter(root_lp).for_each(|(<span class="kw">_</span>, lp)| {
         <span class="kw">use </span>ALogicalPlan::<span class="kw-2">*</span>;
         <span class="kw">match </span>lp {
-            <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+            <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
             </span>CsvScan { path, .. } =&gt; {
                 paths.insert(path.clone());
             }

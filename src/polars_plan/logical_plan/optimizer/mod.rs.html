@@ -187,16 +187,6 @@
 <a href="#187" id="187">187</a>
 <a href="#188" id="188">188</a>
 <a href="#189" id="189">189</a>
-<a href="#190" id="190">190</a>
-<a href="#191" id="191">191</a>
-<a href="#192" id="192">192</a>
-<a href="#193" id="193">193</a>
-<a href="#194" id="194">194</a>
-<a href="#195" id="195">195</a>
-<a href="#196" id="196">196</a>
-<a href="#197" id="197">197</a>
-<a href="#198" id="198">198</a>
-<a href="#199" id="199">199</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::datatypes::PlHashMap;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
@@ -208,12 +198,7 @@
 <span class="kw">mod </span>delay_rechunk;
 <span class="kw">mod </span>drop_nulls;
 <span class="kw">mod </span>fast_projection;
-<span class="attr">#[cfg(any(
-    feature = <span class="string">&quot;ipc&quot;</span>,
-    feature = <span class="string">&quot;parquet&quot;</span>,
-    feature = <span class="string">&quot;csv-file&quot;</span>,
-    feature = <span class="string">&quot;cse&quot;
-</span>))]
+<span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>, feature = <span class="string">&quot;csv&quot;</span>, feature = <span class="string">&quot;cse&quot;</span>))]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>file_caching;
 <span class="kw">mod </span>flatten_union;
 <span class="kw">mod </span>predicate_pushdown;
@@ -227,7 +212,7 @@
 <span class="kw">use </span>delay_rechunk::DelayRechunk;
 <span class="kw">use </span>drop_nulls::ReplaceDropNulls;
 <span class="kw">use </span>fast_projection::FastProjectionAndCollapse;
-<span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>, feature = <span class="string">&quot;csv-file&quot;</span>))]
+<span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>, feature = <span class="string">&quot;csv&quot;</span>))]
 </span><span class="kw">use </span>file_caching::{find_column_union_and_fingerprints, FileCacher};
 <span class="kw">pub use </span>predicate_pushdown::PredicatePushDown;
 <span class="kw">pub use </span>projection_pushdown::ProjectionPushDown;
@@ -342,12 +327,7 @@
     <span class="comment">// make sure that we do that once slice pushdown
     // and predicate pushdown are done. At that moment
     // the file fingerprints are finished.
-    </span><span class="attr">#[cfg(any(
-        feature = <span class="string">&quot;cse&quot;</span>,
-        feature = <span class="string">&quot;parquet&quot;</span>,
-        feature = <span class="string">&quot;ipc&quot;</span>,
-        feature = <span class="string">&quot;csv-file&quot;
-    </span>))]
+    </span><span class="attr">#[cfg(any(feature = <span class="string">&quot;cse&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>, feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;csv&quot;</span>))]
     </span><span class="kw">if </span>agg_scan_projection || cse_changed {
         <span class="comment">// we do this so that expressions are simplified created by the pushdown optimizations
         // we must clean up the predicates, because the agg_scan_projection

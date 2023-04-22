@@ -346,6 +346,17 @@
 <a href="#346" id="346">346</a>
 <a href="#347" id="347">347</a>
 <a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::io::Write;
 
 <span class="attr">#[cfg(any(
@@ -677,17 +688,28 @@
 
         n_rows_finished += total_rows_per_pool_iter;
     }
-
     <span class="prelude-val">Ok</span>(())
 }
+
 <span class="doccomment">/// Writes a CSV header to `writer`
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>write_header&lt;W: Write&gt;(
     writer: <span class="kw-2">&amp;mut </span>W,
     names: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str],
     options: <span class="kw-2">&amp;</span>SerializeOptions,
 ) -&gt; PolarsResult&lt;()&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>escaped_names: Vec&lt;String&gt; = Vec::with_capacity(names.len());
+    <span class="kw">let </span><span class="kw-2">mut </span>nm: Vec&lt;u8&gt; = <span class="macro">vec!</span>[];
+
+    <span class="kw">for </span>name <span class="kw">in </span>names {
+        fmt_and_escape_str(<span class="kw-2">&amp;mut </span>nm, name, options)<span class="question-mark">?</span>;
+        <span class="kw">unsafe </span>{
+            <span class="comment">// Safety: we know headers will be valid utf8 at this point
+            </span>escaped_names.push(std::str::from_utf8_unchecked(<span class="kw-2">&amp;</span>nm).to_string());
+        }
+        nm.clear();
+    }
     writer.write_all(
-        names
+        escaped_names
             .join(std::str::from_utf8(<span class="kw-2">&amp;</span>[options.delimiter]).unwrap())
             .as_bytes(),
     )<span class="question-mark">?</span>;

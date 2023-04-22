@@ -338,7 +338,7 @@
             DataFrameScan { schema, .. } =&gt; <span class="prelude-val">Ok</span>(Cow::Borrowed(schema)),
             AnonymousScan { file_info, .. } =&gt; <span class="prelude-val">Ok</span>(Cow::Borrowed(<span class="kw-2">&amp;</span>file_info.schema)),
             Selection { input, .. } =&gt; input.schema(),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+            <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
             </span>CsvScan { file_info, .. } =&gt; <span class="prelude-val">Ok</span>(Cow::Borrowed(<span class="kw-2">&amp;</span>file_info.schema)),
             Projection { schema, .. } =&gt; <span class="prelude-val">Ok</span>(Cow::Borrowed(schema)),
             LocalProjection { schema, .. } =&gt; <span class="prelude-val">Ok</span>(Cow::Borrowed(schema)),
@@ -504,7 +504,7 @@
             <span class="kw">let </span>len = df.height();
             (<span class="prelude-val">Some</span>(len), len, _filter_count)
         }
-        <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+        <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
         </span>CsvScan { file_info, .. } =&gt; {
             <span class="kw">let </span>(known_size, estimated_size) = file_info.row_estimation;
             (known_size, estimated_size, _filter_count)

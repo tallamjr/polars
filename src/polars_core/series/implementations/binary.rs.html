@@ -301,10 +301,6 @@
 <a href="#301" id="301">301</a>
 <a href="#302" id="302">302</a>
 <a href="#303" id="303">303</a>
-<a href="#304" id="304">304</a>
-<a href="#305" id="305">305</a>
-<a href="#306" id="306">306</a>
-<a href="#307" id="307">307</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="kw">use </span>ahash::RandomState;
@@ -316,7 +312,6 @@
 };
 <span class="kw">use </span><span class="kw">crate</span>::chunked_array::ops::explode::ExplodeByOffsets;
 <span class="kw">use </span><span class="kw">crate</span>::chunked_array::AsSinglePtr;
-<span class="kw">use </span><span class="kw">crate</span>::fmt::FmtList;
 <span class="kw">use </span><span class="kw">crate</span>::frame::groupby::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::frame::hash_join::ZipOuterJoinColumn;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -590,9 +585,6 @@
     }
     <span class="kw">fn </span>min_as_series(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Series {
         ChunkAggSeries::min_as_series(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>)
-    }
-    <span class="kw">fn </span>fmt_list(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
-        FmtList::fmt_list(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>)
     }
     <span class="kw">fn </span>clone_inner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Arc&lt;<span class="kw">dyn </span>SeriesTrait&gt; {
         Arc::new(SeriesWrap(Clone::clone(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>)))

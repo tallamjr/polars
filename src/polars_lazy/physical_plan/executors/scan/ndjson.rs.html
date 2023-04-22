@@ -60,7 +60,7 @@
 
         <span class="kw">let </span>data_type =
             arrow_ndjson::read::infer(<span class="kw-2">&amp;mut </span>reader, infer_schema_length).map_err(to_compute_err)<span class="question-mark">?</span>;
-        <span class="kw">let </span>schema: Schema = StructArray::get_fields(<span class="kw-2">&amp;</span>data_type).iter().into();
+        <span class="kw">let </span>schema = Schema::from_iter(StructArray::get_fields(<span class="kw-2">&amp;</span>data_type));
 
         <span class="prelude-val">Ok</span>(schema)
     }

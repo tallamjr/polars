@@ -863,6 +863,9 @@
 <a href="#863" id="863">863</a>
 <a href="#864" id="864">864</a>
 <a href="#865" id="865">865</a>
+<a href="#866" id="866">866</a>
+<a href="#867" id="867">867</a>
+<a href="#868" id="868">868</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -873,6 +876,7 @@
 <span class="kw">use </span>polars_core::frame::groupby::GroupsProxy;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::series::IsSorted;
+<span class="kw">use </span>polars_core::utils::ensure_sorted_arg;
 <span class="kw">use </span>polars_core::POOL;
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
@@ -1103,6 +1107,7 @@
         <span class="kw">if </span>dt.is_empty() {
             <span class="kw">return </span>dt.cast(time_type).map(|s| (s, by, GroupsProxy::default()));
         }
+        ensure_sorted_arg(<span class="kw-2">&amp;</span>dt);
 
         <span class="kw">let </span>sorted_set = <span class="macro">matches!</span>(dt.is_sorted_flag(), IsSorted::Ascending);
         <span class="comment">// a requirement for the index
@@ -1326,6 +1331,7 @@
         tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone&gt;,
         time_type: <span class="kw-2">&amp;</span>DataType,
     ) -&gt; PolarsResult&lt;(Series, Vec&lt;Series&gt;, GroupsProxy)&gt; {
+        ensure_sorted_arg(<span class="kw-2">&amp;</span>dt);
         <span class="kw">let </span><span class="kw-2">mut </span>dt = dt.rechunk();
         <span class="comment">// a requirement for the index
         // so we can set this such that downstream code has this info

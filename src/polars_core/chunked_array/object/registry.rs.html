@@ -80,6 +80,12 @@
 <a href="#80" id="80">80</a>
 <a href="#81" id="81">81</a>
 <a href="#82" id="82">82</a>
+<a href="#83" id="83">83</a>
+<a href="#84" id="84">84</a>
+<a href="#85" id="85">85</a>
+<a href="#86" id="86">86</a>
+<a href="#87" id="87">87</a>
+<a href="#88" id="88">88</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! This is a heap allocated utility that can be used to register an object type.
 //! That object type will know its own generic type parameter `T` and callers can simply
 //! send `&amp;Any` values and don&#39;t have to know the generic type themselves.
@@ -108,12 +114,18 @@
 <span class="kw">static </span>GLOBAL_OBJECT_REGISTRY: Lazy&lt;RwLock&lt;<span class="prelude-ty">Option</span>&lt;GlobalObjectRegistry&gt;&gt;&gt; =
     Lazy::new(Default::default);
 
-<span class="kw">pub trait </span>AnonymousObjectBuilder {
-    <span class="kw">fn </span>append_null(<span class="kw-2">&amp;mut </span><span class="self">self</span>);
+<span class="doccomment">/// This trait can be registers and then that global registration
+/// can be used to materialize object types
+</span><span class="kw">pub trait </span>AnonymousObjectBuilder {
+    <span class="doccomment">/// Append a `null` value.
+    </span><span class="kw">fn </span>append_null(<span class="kw-2">&amp;mut </span><span class="self">self</span>);
 
-    <span class="kw">fn </span>append_value(<span class="kw-2">&amp;mut </span><span class="self">self</span>, value: <span class="kw-2">&amp;</span><span class="kw">dyn </span>Any);
+    <span class="doccomment">/// Append a `T` of [`ObjectChunked&lt;T&gt;`] made generic via the [`Any`] trait.
+    </span><span class="kw">fn </span>append_value(<span class="kw-2">&amp;mut </span><span class="self">self</span>, value: <span class="kw-2">&amp;</span><span class="kw">dyn </span>Any);
 
-    <span class="kw">fn </span>to_series(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; Series;
+    <span class="doccomment">/// Take the current state and materialize as a [`Series`]
+    /// the builder should not be used after that.
+    </span><span class="kw">fn </span>to_series(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; Series;
 }
 
 <span class="kw">impl</span>&lt;T: PolarsObject&gt; AnonymousObjectBuilder <span class="kw">for </span>ObjectChunkedBuilder&lt;T&gt; {

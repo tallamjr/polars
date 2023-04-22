@@ -378,6 +378,11 @@
 <a href="#378" id="378">378</a>
 <a href="#379" id="379">379</a>
 <a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>chrono_tz::Tz;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -413,7 +418,7 @@
     Truncate(String, String),
     Round(String, String),
     <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-    </span>CastTimezone(<span class="prelude-ty">Option</span>&lt;TimeZone&gt;),
+    </span>CastTimezone(<span class="prelude-ty">Option</span>&lt;TimeZone&gt;, <span class="prelude-ty">Option</span>&lt;bool&gt;),
     <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
     </span>TzLocalize(TimeZone),
     DateRange {
@@ -451,7 +456,7 @@
             Truncate(..) =&gt; <span class="string">&quot;truncate&quot;</span>,
             Round(..) =&gt; <span class="string">&quot;round&quot;</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-            </span>CastTimezone(<span class="kw">_</span>) =&gt; <span class="string">&quot;replace_timezone&quot;</span>,
+            </span>CastTimezone(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="string">&quot;replace_timezone&quot;</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
             </span>TzLocalize(<span class="kw">_</span>) =&gt; <span class="string">&quot;tz_localize&quot;</span>,
             DateRange { .. } =&gt; <span class="kw">return </span><span class="macro">write!</span>(f, <span class="string">&quot;date_range&quot;</span>),
@@ -494,7 +499,7 @@
         </span>DataType::Datetime(<span class="kw">_</span>, <span class="prelude-val">Some</span>(<span class="kw">_</span>)) =&gt; s
             .datetime()
             .unwrap()
-            .replace_time_zone(<span class="prelude-val">None</span>)<span class="question-mark">?
+            .replace_time_zone(<span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?
             </span>.cast(<span class="kw-2">&amp;</span>DataType::Time),
         DataType::Datetime(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; s.datetime().unwrap().cast(<span class="kw-2">&amp;</span>DataType::Time),
         DataType::Date =&gt; s.datetime().unwrap().cast(<span class="kw-2">&amp;</span>DataType::Time),
@@ -508,7 +513,7 @@
         </span>DataType::Datetime(<span class="kw">_</span>, <span class="prelude-val">Some</span>(<span class="kw">_</span>)) =&gt; s
             .datetime()
             .unwrap()
-            .replace_time_zone(<span class="prelude-val">None</span>)<span class="question-mark">?
+            .replace_time_zone(<span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?
             </span>.cast(<span class="kw-2">&amp;</span>DataType::Date),
         DataType::Datetime(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; s.datetime().unwrap().cast(<span class="kw-2">&amp;</span>DataType::Date),
         DataType::Date =&gt; <span class="prelude-val">Ok</span>(s.clone()),
@@ -521,7 +526,7 @@
         </span>DataType::Datetime(tu, <span class="prelude-val">Some</span>(<span class="kw">_</span>)) =&gt; s
             .datetime()
             .unwrap()
-            .replace_time_zone(<span class="prelude-val">None</span>)<span class="question-mark">?
+            .replace_time_zone(<span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?
             </span>.cast(<span class="kw-2">&amp;</span>DataType::Datetime(<span class="kw-2">*</span>tu, <span class="prelude-val">None</span>)),
         DataType::Datetime(tu, <span class="kw">_</span>) =&gt; s.datetime().unwrap().cast(<span class="kw-2">&amp;</span>DataType::Datetime(<span class="kw-2">*</span>tu, <span class="prelude-val">None</span>)),
         dtype =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;expected Datetime, got {}&quot;</span>, dtype),
@@ -622,9 +627,14 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>replace_timezone(s: <span class="kw-2">&amp;</span>Series, time_zone: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;) -&gt; PolarsResult&lt;Series&gt; {
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>replace_timezone(
+    s: <span class="kw-2">&amp;</span>Series,
+    time_zone: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;,
+    use_earliest: <span class="prelude-ty">Option</span>&lt;bool&gt;,
+) -&gt; PolarsResult&lt;Series&gt; {
     <span class="kw">let </span>ca = s.datetime()<span class="question-mark">?</span>;
-    ca.replace_time_zone(time_zone).map(|ca| ca.into_series())
+    ca.replace_time_zone(time_zone, use_earliest)
+        .map(|ca| ca.into_series())
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -637,7 +647,7 @@
         <span class="string">&quot;cannot localize a tz-aware datetime \
         (consider using &#39;dt.convert_time_zone&#39; or &#39;dt.replace_time_zone&#39;)&quot;
     </span>);
-    <span class="prelude-val">Ok</span>(ca.replace_time_zone(<span class="prelude-val">Some</span>(tz))<span class="question-mark">?</span>.into_series())
+    <span class="prelude-val">Ok</span>(ca.replace_time_zone(<span class="prelude-val">Some</span>(tz), <span class="prelude-val">None</span>)<span class="question-mark">?</span>.into_series())
 }
 
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>date_range_dispatch(

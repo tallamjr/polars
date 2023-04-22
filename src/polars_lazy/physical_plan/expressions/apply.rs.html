@@ -685,7 +685,7 @@
         // then unpack the lists and finally create iterators from this list chunked arrays.
         </span><span class="kw">let </span><span class="kw-2">mut </span>iters = acs
             .iter_mut()
-            .map(|ac| ac.iter_groups())
+            .map(|ac| ac.iter_groups(<span class="self">self</span>.pass_name_to_apply))
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
         <span class="comment">// length of the items to iterate over

@@ -410,9 +410,9 @@
     <span class="kw-2">mut </span>ac_mask: AggregationContext&lt;<span class="lifetime">&#39;a</span>&gt;,
 ) -&gt; PolarsResult&lt;AggregationContext&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>ca: ListChunked = ac_truthy
-        .iter_groups()
-        .zip(ac_falsy.iter_groups())
-        .zip(ac_mask.iter_groups())
+        .iter_groups(<span class="bool-val">false</span>)
+        .zip(ac_falsy.iter_groups(<span class="bool-val">false</span>))
+        .zip(ac_mask.iter_groups(<span class="bool-val">false</span>))
         .map(|((truthy, falsy), mask)| {
             <span class="kw">match </span>(truthy, falsy, mask) {
                 (<span class="prelude-val">Some</span>(truthy), <span class="prelude-val">Some</span>(falsy), <span class="prelude-val">Some</span>(mask)) =&gt; <span class="prelude-val">Some</span>(

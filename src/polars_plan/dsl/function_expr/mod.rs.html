@@ -585,6 +585,9 @@
 <a href="#585" id="585">585</a>
 <a href="#586" id="586">586</a>
 <a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
 </span><span class="kw">mod </span>abs;
 <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
@@ -1102,6 +1105,7 @@
             RStrip(matches) =&gt; <span class="macro">map!</span>(strings::rstrip, matches.as_deref()),
             <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
             </span>FromRadix(radix, strict) =&gt; <span class="macro">map!</span>(strings::from_radix, radix, strict),
+            Slice(start, length) =&gt; <span class="macro">map!</span>(strings::str_slice, start, length),
         }
     }
 }
@@ -1151,7 +1155,9 @@
             Truncate(every, offset) =&gt; <span class="macro">map!</span>(datetime::truncate, <span class="kw-2">&amp;</span>every, <span class="kw-2">&amp;</span>offset),
             Round(every, offset) =&gt; <span class="macro">map!</span>(datetime::round, <span class="kw-2">&amp;</span>every, <span class="kw-2">&amp;</span>offset),
             <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-            </span>CastTimezone(tz) =&gt; <span class="macro">map!</span>(datetime::replace_timezone, tz.as_deref()),
+            </span>CastTimezone(tz, use_earliest) =&gt; {
+                <span class="macro">map!</span>(datetime::replace_timezone, tz.as_deref(), use_earliest)
+            }
             <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
             </span>TzLocalize(tz) =&gt; <span class="macro">map!</span>(datetime::tz_localize, <span class="kw-2">&amp;</span>tz),
             Combine(tu) =&gt; <span class="macro">map_as_slice!</span>(temporal::combine, tu),

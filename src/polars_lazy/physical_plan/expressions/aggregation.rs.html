@@ -724,7 +724,7 @@
                     <span class="kw">let </span>agg_s = ac.flat_naive().into_owned().agg_n_unique(ac.groups());
                     rename_series(agg_s, <span class="kw-2">&amp;</span>keep_name)
                 }
-                GroupByMethod::List =&gt; {
+                GroupByMethod::Implode =&gt; {
                     <span class="kw">if </span>state.unset_finalize_window_as_list() {
                         <span class="kw">let </span>agg = ac.aggregated();
                         rename_series(agg, <span class="kw-2">&amp;</span>keep_name)
@@ -868,7 +868,7 @@
                             .into_series())
                     }
                 }
-                GroupByMethod::List =&gt; {
+                GroupByMethod::Implode =&gt; {
                     <span class="kw">let </span>new_name = series.name();
                     <span class="kw">let </span><span class="kw-2">mut </span>agg = series.agg_list(groups);
                     agg.rename(new_name);
@@ -943,7 +943,7 @@
                     )),
                 }
             }
-            GroupByMethod::List =&gt; {
+            GroupByMethod::Implode =&gt; {
                 <span class="comment">// the groups are scattered over multiple groups/sub dataframes.
                 // we now must collect them into a single group
                 </span><span class="kw">let </span>ca = partitioned.list().unwrap();

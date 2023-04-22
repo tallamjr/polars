@@ -1172,8 +1172,6 @@
 <a href="#1172" id="1172">1172</a>
 <a href="#1173" id="1173">1173</a>
 <a href="#1174" id="1174">1174</a>
-<a href="#1175" id="1175">1175</a>
-<a href="#1176" id="1176">1176</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::{Debug, Display, Formatter};
 <span class="kw">use </span>std::hash::Hash;
 
@@ -1937,7 +1935,7 @@
     </span><span class="kw">pub fn </span>agg_list(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;DataFrame&gt; {
         <span class="kw">let </span>(<span class="kw-2">mut </span>cols, agg_cols) = <span class="self">self</span>.prepare_agg()<span class="question-mark">?</span>;
         <span class="kw">for </span>agg_col <span class="kw">in </span>agg_cols {
-            <span class="kw">let </span>new_name = fmt_groupby_column(agg_col.name(), GroupByMethod::List);
+            <span class="kw">let </span>new_name = fmt_groupby_column(agg_col.name(), GroupByMethod::Implode);
             <span class="kw">let </span><span class="kw-2">mut </span>agg = <span class="kw">unsafe </span>{ agg_col.agg_list(<span class="kw-2">&amp;</span><span class="self">self</span>.groups) };
             agg.rename(<span class="kw-2">&amp;</span>new_name);
             cols.push(agg);
@@ -2029,7 +2027,7 @@
     NUnique,
     Quantile(f64, QuantileInterpolOptions),
     Count,
-    List,
+    Implode,
     Std(u8),
     Var(u8),
 }
@@ -2051,7 +2049,7 @@
             NUnique =&gt; <span class="string">&quot;n_unique&quot;</span>,
             Quantile(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="string">&quot;quantile&quot;</span>,
             Count =&gt; <span class="string">&quot;count&quot;</span>,
-            List =&gt; <span class="string">&quot;list&quot;</span>,
+            Implode =&gt; <span class="string">&quot;list&quot;</span>,
             Std(<span class="kw">_</span>) =&gt; <span class="string">&quot;std&quot;</span>,
             Var(<span class="kw">_</span>) =&gt; <span class="string">&quot;var&quot;</span>,
         };
@@ -2075,7 +2073,7 @@
         Groups =&gt; <span class="string">&quot;groups&quot;</span>.to_string(),
         NUnique =&gt; <span class="macro">format!</span>(<span class="string">&quot;{name}_n_unique&quot;</span>),
         Count =&gt; <span class="macro">format!</span>(<span class="string">&quot;{name}_count&quot;</span>),
-        List =&gt; <span class="macro">format!</span>(<span class="string">&quot;{name}_agg_list&quot;</span>),
+        Implode =&gt; <span class="macro">format!</span>(<span class="string">&quot;{name}_agg_list&quot;</span>),
         Quantile(quantile, _interpol) =&gt; <span class="macro">format!</span>(<span class="string">&quot;{name}_quantile_{quantile:.2}&quot;</span>),
         Std(<span class="kw">_</span>) =&gt; <span class="macro">format!</span>(<span class="string">&quot;{name}_agg_std&quot;</span>),
         Var(<span class="kw">_</span>) =&gt; <span class="macro">format!</span>(<span class="string">&quot;{name}_agg_var&quot;</span>),
@@ -2086,9 +2084,7 @@
 </span><span class="kw">mod </span>test {
     <span class="kw">use </span>num_traits::FloatConst;
 
-    <span class="kw">use </span><span class="kw">crate</span>::frame::groupby::groupby;
     <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
-    <span class="kw">use </span><span class="kw">crate</span>::utils::split_ca;
 
     <span class="attr">#[test]
     #[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]

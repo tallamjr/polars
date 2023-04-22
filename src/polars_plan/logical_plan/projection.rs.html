@@ -514,7 +514,7 @@
                     <span class="kw-2">*</span>e = Expr::Column(Arc::from(name));
                 }
                 <span class="prelude-val">Some</span>(idx) =&gt; {
-                    <span class="kw">let </span>(name, _dtype) = schema.get_index(idx).unwrap();
+                    <span class="kw">let </span>(name, _dtype) = schema.get_at_index(idx).unwrap();
                     <span class="kw-2">*</span>e = Expr::Column(Arc::from(<span class="kw-2">&amp;**</span>name))
                 }
             }

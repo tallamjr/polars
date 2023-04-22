@@ -4153,13 +4153,13 @@
     ///
     /// let f1: Field = Field::new(&quot;Thing&quot;, DataType::Utf8);
     /// let f2: Field = Field::new(&quot;Diameter (m)&quot;, DataType::Float64);
-    /// let sc: Schema = Schema::from(vec![f1, f2].into_iter());
+    /// let sc: Schema = Schema::from_iter(vec![f1, f2]);
     ///
     /// assert_eq!(df.schema(), sc);
     /// # Ok::&lt;(), PolarsError&gt;(())
     /// ```
     </span><span class="kw">pub fn </span>schema(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Schema {
-        Schema::from(<span class="self">self</span>.iter().map(|s| s.field().into_owned()))
+        <span class="self">self</span>.iter().map(|s| s.field().into_owned()).collect()
     }
 
     <span class="doccomment">/// Get a reference to the `DataFrame` columns.
@@ -6818,8 +6818,8 @@
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;chunked_ids&quot;</span>)]
     #[doc(hidden)]
-    </span><span class="comment">//// Take elements by a slice of [`ChunkId`]s.
-    </span><span class="doccomment">/// # Safety
+    </span><span class="doccomment">/// Take elements by a slice of [`ChunkId`]s.
+    /// # Safety
     /// Does not do any bound checks.
     /// `sorted` indicates if the chunks are sorted.
     </span><span class="attr">#[doc(hidden)]
@@ -6829,8 +6829,8 @@
         DataFrame::new_no_checks(cols)
     }
     <span class="attr">#[cfg(feature = <span class="string">&quot;chunked_ids&quot;</span>)]
-    </span><span class="comment">//// Take elements by a slice of optional [`ChunkId`]s.
-    </span><span class="doccomment">/// # Safety
+    </span><span class="doccomment">/// Take elements by a slice of optional [`ChunkId`]s.
+    /// # Safety
     /// Does not do any bound checks.
     </span><span class="attr">#[doc(hidden)]
     </span><span class="kw">pub unsafe fn </span>_take_opt_chunked_unchecked_seq(<span class="kw-2">&amp;</span><span class="self">self</span>, idx: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span>&lt;ChunkId&gt;]) -&gt; <span class="self">Self </span>{

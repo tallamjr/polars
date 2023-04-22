@@ -595,6 +595,13 @@
 <a href="#595" id="595">595</a>
 <a href="#596" id="596">596</a>
 <a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -659,6 +666,7 @@
     LStrip(<span class="prelude-ty">Option</span>&lt;String&gt;),
     <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
     </span>FromRadix(u32, bool),
+    Slice(i64, <span class="prelude-ty">Option</span>&lt;u64&gt;),
 }
 
 <span class="kw">impl </span>StringFunction {
@@ -679,7 +687,7 @@
             </span>ConcatVertical(<span class="kw">_</span>) | ConcatHorizontal(<span class="kw">_</span>) =&gt; mapper.with_dtype(DataType::Utf8),
             <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
             </span>Replace { .. } =&gt; mapper.with_dtype(DataType::Utf8),
-            Uppercase | Lowercase | Strip(<span class="kw">_</span>) | LStrip(<span class="kw">_</span>) | RStrip(<span class="kw">_</span>) =&gt; {
+            Uppercase | Lowercase | Strip(<span class="kw">_</span>) | LStrip(<span class="kw">_</span>) | RStrip(<span class="kw">_</span>) | Slice(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; {
                 mapper.with_dtype(DataType::Utf8)
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
@@ -720,6 +728,7 @@
             StringFunction::RStrip(<span class="kw">_</span>) =&gt; <span class="string">&quot;rstrip&quot;</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
             </span>StringFunction::FromRadix { .. } =&gt; <span class="string">&quot;from_radix&quot;</span>,
+            StringFunction::Slice(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="string">&quot;str_slice&quot;</span>,
         };
 
         <span class="macro">write!</span>(f, <span class="string">&quot;str.{s}&quot;</span>)
@@ -940,14 +949,14 @@
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
 </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>strptime(s: <span class="kw-2">&amp;</span>Series, options: <span class="kw-2">&amp;</span>StrpTimeOptions) -&gt; PolarsResult&lt;Series&gt; {
-    <span class="kw">let </span>tz_aware = <span class="kw">match </span>(options.tz_aware, <span class="kw-2">&amp;</span>options.fmt) {
+    <span class="kw">let </span>tz_aware = <span class="kw">match </span>(options.tz_aware, <span class="kw-2">&amp;</span>options.format) {
         (<span class="bool-val">true</span>, <span class="prelude-val">Some</span>(<span class="kw">_</span>)) =&gt; <span class="bool-val">true</span>,
         (<span class="bool-val">true</span>, <span class="prelude-val">None</span>) =&gt; <span class="macro">polars_bail!</span>(
             ComputeError:
-            <span class="string">&quot;passing &#39;tz_aware=True&#39; without &#39;fmt&#39; is not yet supported, please specify &#39;fmt&#39;&quot;
+            <span class="string">&quot;passing &#39;tz_aware=True&#39; without &#39;format&#39; is not yet supported, please specify &#39;format&#39;&quot;
         </span>),
         <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-        </span>(<span class="bool-val">false</span>, <span class="prelude-val">Some</span>(fmt)) =&gt; TZ_AWARE_RE.is_match(fmt),
+        </span>(<span class="bool-val">false</span>, <span class="prelude-val">Some</span>(format)) =&gt; TZ_AWARE_RE.is_match(format),
         (<span class="bool-val">false</span>, <span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
     };
     <span class="kw">let </span>ca = s.utf8()<span class="question-mark">?</span>;
@@ -955,10 +964,11 @@
     <span class="kw">let </span>out = <span class="kw">match </span><span class="kw-2">&amp;</span>options.date_dtype {
         DataType::Date =&gt; {
             <span class="kw">if </span>options.exact {
-                ca.as_date(options.fmt.as_deref(), options.cache)<span class="question-mark">?
+                ca.as_date(options.format.as_deref(), options.cache)<span class="question-mark">?
                     </span>.into_series()
             } <span class="kw">else </span>{
-                ca.as_date_not_exact(options.fmt.as_deref())<span class="question-mark">?</span>.into_series()
+                ca.as_date_not_exact(options.format.as_deref())<span class="question-mark">?
+                    </span>.into_series()
             }
         }
         DataType::Datetime(tu, tz) =&gt; {
@@ -977,7 +987,7 @@
             };
             <span class="kw">if </span>options.exact {
                 ca.as_datetime(
-                    options.fmt.as_deref(),
+                    options.format.as_deref(),
                     <span class="kw-2">*</span>tu,
                     options.cache,
                     tz_aware,
@@ -986,7 +996,7 @@
                 )<span class="question-mark">?
                 </span>.into_series()
             } <span class="kw">else </span>{
-                ca.as_datetime_not_exact(options.fmt.as_deref(), <span class="kw-2">*</span>tu, tz.as_ref())<span class="question-mark">?
+                ca.as_datetime_not_exact(options.format.as_deref(), <span class="kw-2">*</span>tu, tz.as_ref())<span class="question-mark">?
                     </span>.into_series()
             }
         }
@@ -994,7 +1004,7 @@
             <span class="macro">polars_ensure!</span>(
                 options.exact, ComputeError: <span class="string">&quot;non-exact not implemented for datatype {}&quot;</span>, dt,
             );
-            ca.as_time(options.fmt.as_deref(), options.cache)<span class="question-mark">?
+            ca.as_time(options.format.as_deref(), options.cache)<span class="question-mark">?
                 </span>.into_series()
         }
         dt =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;not implemented for dtype {}&quot;</span>, dt),
@@ -1007,8 +1017,8 @@
             \n\
             You might want to try:\n\
             - setting `strict=False`,\n\
-            - explicitly specifying a `fmt`,\n\
-            - setting `utf=True` (if you are parsing datetimes with multiple offsets).&quot;
+            - explicitly specifying a `format`,\n\
+            - setting `utc=True` (if you are parsing datetimes with multiple offsets).&quot;
         </span>);
     }
     <span class="prelude-val">Ok</span>(out.into_series())
@@ -1191,5 +1201,9 @@
 </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>from_radix(s: <span class="kw-2">&amp;</span>Series, radix: u32, strict: bool) -&gt; PolarsResult&lt;Series&gt; {
     <span class="kw">let </span>ca = s.utf8()<span class="question-mark">?</span>;
     ca.parse_int(radix, strict).map(|ok| ok.into_series())
+}
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>str_slice(s: <span class="kw-2">&amp;</span>Series, start: i64, length: <span class="prelude-ty">Option</span>&lt;u64&gt;) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">let </span>ca = s.utf8()<span class="question-mark">?</span>;
+    ca.str_slice(start, length).map(|ca| ca.into_series())
 }
 </code></pre></div></section></main></body></html>

@@ -298,6 +298,9 @@
 <a href="#298" id="298">298</a>
 <a href="#299" id="299">299</a>
 <a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Much more opinionated, but also much faster strptrime than the one given in Chrono.
 //!
 </span><span class="kw">use </span>atoi::FromRadix10;
@@ -404,6 +407,9 @@
                     }
                     <span class="string">b&#39;m&#39; </span>=&gt; {
                         (month, offset) = update_and_parse(<span class="number">2</span>, offset, val)<span class="question-mark">?</span>;
+                        <span class="kw">if </span>month &gt; <span class="number">12 </span>{
+                            <span class="kw">return </span><span class="prelude-val">None</span>;
+                        }
                     }
                     <span class="string">b&#39;b&#39; </span>=&gt; {
                         (month, offset) = parse_month_abbrev(val, offset)<span class="question-mark">?</span>;

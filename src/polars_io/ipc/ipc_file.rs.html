@@ -349,7 +349,7 @@
     <span class="doccomment">/// Get schema of the Ipc File
     </span><span class="kw">pub fn </span>schema(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; PolarsResult&lt;Schema&gt; {
         <span class="kw">let </span>metadata = <span class="self">self</span>.get_metadata()<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(metadata.schema.fields.iter().into())
+        <span class="prelude-val">Ok</span>(Schema::from_iter(<span class="kw-2">&amp;</span>metadata.schema.fields))
     }
 
     <span class="doccomment">/// Get arrow schema of the Ipc File, this is faster than creating a polars schema.

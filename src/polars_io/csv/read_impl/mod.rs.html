@@ -1127,7 +1127,7 @@
         <span class="kw">if let </span><span class="prelude-val">Some</span>(dtypes) = dtype_overwrite {
             <span class="kw">let </span>s = Arc::make_mut(<span class="kw-2">&amp;mut </span>schema);
             <span class="kw">for </span>(index, dt) <span class="kw">in </span>dtypes.iter().enumerate() {
-                s.coerce_by_index(index, dt.clone()).unwrap();
+                s.set_dtype_at_index(index, dt.clone()).unwrap();
             }
         }
 
@@ -1371,7 +1371,7 @@
         </span><span class="kw">let </span><span class="kw-2">mut </span>new_projection = Vec::with_capacity(projection.len());
 
         <span class="kw">for </span>i <span class="kw">in </span>projection {
-            <span class="kw">let </span>(<span class="kw">_</span>, dtype) = <span class="self">self</span>.schema.get_index(<span class="kw-2">*</span>i).ok_or_else(|| {
+            <span class="kw">let </span>(<span class="kw">_</span>, dtype) = <span class="self">self</span>.schema.get_at_index(<span class="kw-2">*</span>i).ok_or_else(|| {
                 <span class="macro">polars_err!</span>(
                     ComputeError:
                     <span class="string">&quot;projection index {} is out of bounds for CSV schema with {} columns&quot;</span>,
@@ -1765,7 +1765,7 @@
 
     <span class="kw">fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>str&gt; {
         <span class="self">self</span>.fields.iter().map(|schema_i| {
-            <span class="kw">let </span>(name, <span class="kw">_</span>) = <span class="self">self</span>.schema.get_index(<span class="kw-2">*</span>schema_i).unwrap();
+            <span class="kw">let </span>(name, <span class="kw">_</span>) = <span class="self">self</span>.schema.get_at_index(<span class="kw-2">*</span>schema_i).unwrap();
             name.as_str()
         })
     }

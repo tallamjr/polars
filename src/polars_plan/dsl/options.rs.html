@@ -79,7 +79,7 @@
     <span class="doccomment">/// DataType to parse in. One of {Date, Datetime}
     </span><span class="kw">pub </span>date_dtype: DataType,
     <span class="doccomment">/// Formatting string
-    </span><span class="kw">pub </span>fmt: <span class="prelude-ty">Option</span>&lt;String&gt;,
+    </span><span class="kw">pub </span>format: <span class="prelude-ty">Option</span>&lt;String&gt;,
     <span class="doccomment">/// If set then polars will return an error if any date parsing fails
     </span><span class="kw">pub </span>strict: bool,
     <span class="doccomment">/// If polars may parse matches that not contain the whole string
@@ -97,7 +97,7 @@
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         StrpTimeOptions {
             date_dtype: DataType::Datetime(TimeUnit::Microseconds, <span class="prelude-val">None</span>),
-            fmt: <span class="prelude-val">None</span>,
+            format: <span class="prelude-val">None</span>,
             strict: <span class="bool-val">false</span>,
             exact: <span class="bool-val">false</span>,
             cache: <span class="bool-val">true</span>,

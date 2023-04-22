@@ -126,6 +126,16 @@
 <a href="#126" id="126">126</a>
 <a href="#127" id="127">127</a>
 <a href="#128" id="128">128</a>
+<a href="#129" id="129">129</a>
+<a href="#130" id="130">130</a>
+<a href="#131" id="131">131</a>
+<a href="#132" id="132">132</a>
+<a href="#133" id="133">133</a>
+<a href="#134" id="134">134</a>
+<a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::pin::Pin;
 
 <span class="kw">use </span>polars_core::series::unstable::UnstableSeries;
@@ -135,33 +145,43 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; AggregationContext&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>iter_groups(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        keep_names: bool,
     ) -&gt; Box&lt;<span class="kw">dyn </span>Iterator&lt;Item = <span class="prelude-ty">Option</span>&lt;UnstableSeries&lt;<span class="lifetime">&#39;_</span>&gt;&gt;&gt; + <span class="lifetime">&#39;_</span>&gt; {
         <span class="kw">match </span><span class="self">self</span>.agg_state() {
             AggState::Literal(<span class="kw">_</span>) =&gt; {
                 <span class="self">self</span>.groups();
                 <span class="kw">let </span>s = <span class="self">self</span>.series().rechunk();
-                Box::new(LitIter::new(s.array_ref(<span class="number">0</span>).clone(), <span class="self">self</span>.groups.len()))
+                <span class="kw">let </span>name = <span class="kw">if </span>keep_names { s.name() } <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>};
+                Box::new(LitIter::new(
+                    s.array_ref(<span class="number">0</span>).clone(),
+                    <span class="self">self</span>.groups.len(),
+                    name,
+                ))
             }
             AggState::AggregatedFlat(<span class="kw">_</span>) =&gt; {
                 <span class="self">self</span>.groups();
                 <span class="kw">let </span>s = <span class="self">self</span>.series();
+                <span class="kw">let </span>name = <span class="kw">if </span>keep_names { s.name() } <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>};
                 Box::new(FlatIter::new(
                     s.array_ref(<span class="number">0</span>).clone(),
                     <span class="self">self</span>.groups.len(),
                     s.dtype(),
+                    name,
                 ))
             }
             AggState::AggregatedList(<span class="kw">_</span>) =&gt; {
                 <span class="kw">let </span>s = <span class="self">self</span>.series();
                 <span class="kw">let </span>list = s.list().unwrap();
-                Box::new(list.amortized_iter())
+                <span class="kw">let </span>name = <span class="kw">if </span>keep_names { s.name() } <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>};
+                Box::new(list.amortized_iter_with_name(name))
             }
             AggState::NotAggregated(<span class="kw">_</span>) =&gt; {
                 <span class="comment">// we don&#39;t take the owned series as we want a reference
                 </span><span class="kw">let _ </span>= <span class="self">self</span>.aggregated();
                 <span class="kw">let </span>s = <span class="self">self</span>.series();
                 <span class="kw">let </span>list = s.list().unwrap();
-                Box::new(list.amortized_iter())
+                <span class="kw">let </span>name = <span class="kw">if </span>keep_names { s.name() } <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>};
+                Box::new(list.amortized_iter_with_name(name))
             }
         }
     }
@@ -177,8 +197,8 @@
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; LitIter&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>new(array: ArrayRef, len: usize) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span><span class="kw-2">mut </span>series_container = Box::pin(Series::try_from((<span class="string">&quot;&quot;</span>, array.clone())).unwrap());
+    <span class="kw">fn </span>new(array: ArrayRef, len: usize, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span><span class="kw-2">mut </span>series_container = Box::pin(Series::try_from((name, array.clone())).unwrap());
         <span class="kw">let </span>ref_s = <span class="kw-2">&amp;mut *</span>series_container <span class="kw">as </span><span class="kw-2">*mut </span>Series;
         <span class="self">Self </span>{
             offset: <span class="number">0</span>,
@@ -218,9 +238,9 @@
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; FlatIter&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>new(array: ArrayRef, len: usize, logical: <span class="kw-2">&amp;</span>DataType) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>new(array: ArrayRef, len: usize, logical: <span class="kw-2">&amp;</span>DataType, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>series_container = Box::pin(
-            Series::try_from((<span class="string">&quot;&quot;</span>, array.clone()))
+            Series::try_from((name, array.clone()))
                 .unwrap()
                 .cast(logical)
                 .unwrap(),

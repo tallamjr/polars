@@ -493,6 +493,8 @@
 <a href="#493" id="493">493</a>
 <a href="#494" id="494">494</a>
 <a href="#495" id="495">495</a>
+<a href="#496" id="496">496</a>
+<a href="#497" id="497">497</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>num_traits::NumCast;
 
 <span class="kw">use </span><span class="kw">super</span>::single_keys_inner::hash_join_tuples_inner;
@@ -658,10 +660,12 @@
 <span class="kw">where
     </span>T: PolarsNumericType,
 {
-    splitted
-        .iter()
-        .map(|ca| ca.into_iter().collect_trusted::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;())
-        .collect()
+    POOL.install(|| {
+        splitted
+            .par_iter()
+            .map(|ca| ca.into_iter().collect_trusted::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;())
+            .collect()
+    })
 }
 
 <span class="comment">// returns the join tuples and whether or not the lhs tuples are sorted

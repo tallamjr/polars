@@ -259,6 +259,11 @@
 <a href="#259" id="259">259</a>
 <a href="#260" id="260">260</a>
 <a href="#261" id="261">261</a>
+<a href="#262" id="262">262</a>
+<a href="#263" id="263">263</a>
+<a href="#264" id="264">264</a>
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_time::prelude::TemporalMethods;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -505,10 +510,15 @@
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-    </span><span class="kw">pub fn </span>replace_time_zone(<span class="self">self</span>, time_zone: <span class="prelude-ty">Option</span>&lt;TimeZone&gt;) -&gt; Expr {
+    </span><span class="kw">pub fn </span>replace_time_zone(
+        <span class="self">self</span>,
+        time_zone: <span class="prelude-ty">Option</span>&lt;TimeZone&gt;,
+        use_earliest: <span class="prelude-ty">Option</span>&lt;bool&gt;,
+    ) -&gt; Expr {
         <span class="self">self</span>.<span class="number">0
             </span>.map_private(FunctionExpr::TemporalExpr(TemporalFunction::CastTimezone(
                 time_zone,
+                use_earliest,
             )))
     }
 

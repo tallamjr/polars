@@ -289,7 +289,7 @@
             </span><span class="prelude-val">Some</span>(rg) =&gt; deserialize(fld, <span class="kw-2">&amp;</span>md[rg..rg + <span class="number">1</span>])<span class="question-mark">?</span>,
         };
         schema.with_column((<span class="kw-2">&amp;</span>fld.name).into(), (<span class="kw-2">&amp;</span>fld.data_type).into());
-        stats.push(ColumnStats(st, Field::from(fld)));
+        stats.push(ColumnStats(st, fld.into()));
     }
 
     <span class="prelude-val">Ok</span>(<span class="kw">if </span>stats.is_empty() {

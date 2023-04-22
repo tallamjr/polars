@@ -735,6 +735,10 @@
 <a href="#735" id="735">735</a>
 <a href="#736" id="736">736</a>
 <a href="#737" id="737">737</a>
+<a href="#738" id="738">738</a>
+<a href="#739" id="739">739</a>
+<a href="#740" id="740">740</a>
+<a href="#741" id="741">741</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Traits for miscellaneous operations on ChunkedArray
 </span><span class="kw">use </span>arrow::offset::OffsetsBuffer;
 <span class="kw">use </span>polars_arrow::prelude::QuantileInterpolOptions;
@@ -1365,7 +1369,11 @@
     <span class="kw">fn </span>new_from_index(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize, length: usize) -&gt; ListChunked {
         <span class="kw">let </span>opt_val = <span class="self">self</span>.get(index);
         <span class="kw">match </span>opt_val {
-            <span class="prelude-val">Some</span>(val) =&gt; ListChunked::full(<span class="self">self</span>.name(), <span class="kw-2">&amp;</span>val, length),
+            <span class="prelude-val">Some</span>(val) =&gt; {
+                <span class="kw">let </span><span class="kw-2">mut </span>ca = ListChunked::full(<span class="self">self</span>.name(), <span class="kw-2">&amp;</span>val, length);
+                ca.to_logical(<span class="self">self</span>.inner_dtype());
+                ca
+            }
             <span class="prelude-val">None </span>=&gt; ListChunked::full_null_with_dtype(<span class="self">self</span>.name(), length, <span class="kw-2">&amp;</span><span class="self">self</span>.inner_dtype()),
         }
     }

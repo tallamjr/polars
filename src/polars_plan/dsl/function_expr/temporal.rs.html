@@ -60,6 +60,23 @@
 <a href="#60" id="60">60</a>
 <a href="#61" id="61">61</a>
 <a href="#62" id="62">62</a>
+<a href="#63" id="63">63</a>
+<a href="#64" id="64">64</a>
+<a href="#65" id="65">65</a>
+<a href="#66" id="66">66</a>
+<a href="#67" id="67">67</a>
+<a href="#68" id="68">68</a>
+<a href="#69" id="69">69</a>
+<a href="#70" id="70">70</a>
+<a href="#71" id="71">71</a>
+<a href="#72" id="72">72</a>
+<a href="#73" id="73">73</a>
+<a href="#74" id="74">74</a>
+<a href="#75" id="75">75</a>
+<a href="#76" id="76">76</a>
+<a href="#77" id="77">77</a>
+<a href="#78" id="78">78</a>
+<a href="#79" id="79">79</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -116,10 +133,27 @@
     <span class="kw">let </span>date = <span class="kw-2">&amp;</span>s[<span class="number">0</span>];
     <span class="kw">let </span>time = <span class="kw-2">&amp;</span>s[<span class="number">1</span>];
 
+    <span class="kw">let </span>tz = <span class="kw">match </span>date.dtype() {
+        DataType::Date =&gt; <span class="prelude-val">None</span>,
+        DataType::Datetime(<span class="kw">_</span>, tz) =&gt; tz.as_ref(),
+        _dtype =&gt; {
+            <span class="macro">polars_bail!</span>(ComputeError: <span class="macro">format!</span>(<span class="string">&quot;expected Date or Datetime, got {}&quot;</span>, _dtype))
+        }
+    };
+
     <span class="kw">let </span>date = date.cast(<span class="kw-2">&amp;</span>DataType::Date)<span class="question-mark">?</span>;
     <span class="kw">let </span>datetime = date.cast(<span class="kw-2">&amp;</span>DataType::Datetime(tu, <span class="prelude-val">None</span>)).unwrap();
 
     <span class="kw">let </span>duration = time.cast(<span class="kw-2">&amp;</span>DataType::Duration(tu))<span class="question-mark">?</span>;
-    <span class="prelude-val">Ok</span>(datetime + duration)
+    <span class="kw">let </span>result_naive = datetime + duration;
+    <span class="kw">match </span>tz {
+        <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+        </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="prelude-val">Ok</span>(result_naive
+            .datetime()
+            .unwrap()
+            .replace_time_zone(<span class="prelude-val">Some</span>(tz), <span class="prelude-val">None</span>)<span class="question-mark">?
+            </span>.into()),
+        <span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(result_naive),
+    }
 }
 </code></pre></div></section></main></body></html>

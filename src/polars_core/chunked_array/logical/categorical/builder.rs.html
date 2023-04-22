@@ -550,7 +550,22 @@
 <a href="#550" id="550">550</a>
 <a href="#551" id="551">551</a>
 <a href="#552" id="552">552</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span>std::hash::{Hash, Hasher};
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::{Debug, Formatter};
+<span class="kw">use </span>std::hash::{Hash, Hasher};
 
 <span class="kw">use </span>arrow::array::<span class="kw-2">*</span>;
 <span class="kw">use </span>hashbrown::hash_map::{Entry, RawEntryMut};
@@ -598,13 +613,26 @@
     }
 }
 
-<span class="attr">#[derive(Clone, Debug)]
+<span class="attr">#[derive(Clone)]
 </span><span class="kw">pub enum </span>RevMapping {
     <span class="doccomment">/// Hashmap: maps the indexes from the global cache/categorical array to indexes in the local Utf8Array
     /// Utf8Array: caches the string values
     </span>Global(PlHashMap&lt;u32, u32&gt;, Utf8Array&lt;i64&gt;, u128),
     <span class="doccomment">/// Utf8Array: caches the string values
     </span>Local(Utf8Array&lt;i64&gt;),
+}
+
+<span class="kw">impl </span>Debug <span class="kw">for </span>RevMapping {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
+        <span class="kw">match </span><span class="self">self </span>{
+            RevMapping::Global(<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>) =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">&quot;global&quot;</span>)
+            }
+            RevMapping::Local(<span class="kw">_</span>) =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">&quot;local&quot;</span>)
+            }
+        }
+    }
 }
 
 <span class="kw">impl </span>Default <span class="kw">for </span>RevMapping {

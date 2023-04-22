@@ -1116,6 +1116,22 @@
 <a href="#1116" id="1116">1116</a>
 <a href="#1117" id="1117">1117</a>
 <a href="#1118" id="1118">1118</a>
+<a href="#1119" id="1119">1119</a>
+<a href="#1120" id="1120">1120</a>
+<a href="#1121" id="1121">1121</a>
+<a href="#1122" id="1122">1122</a>
+<a href="#1123" id="1123">1123</a>
+<a href="#1124" id="1124">1124</a>
+<a href="#1125" id="1125">1125</a>
+<a href="#1126" id="1126">1126</a>
+<a href="#1127" id="1127">1127</a>
+<a href="#1128" id="1128">1128</a>
+<a href="#1129" id="1129">1129</a>
+<a href="#1130" id="1130">1130</a>
+<a href="#1131" id="1131">1131</a>
+<a href="#1132" id="1132">1132</a>
+<a href="#1133" id="1133">1133</a>
+<a href="#1134" id="1134">1134</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Type agnostic columnar data structure.
 </span><span class="kw">pub use </span><span class="kw">crate</span>::prelude::ChunkCompare;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -1385,6 +1401,15 @@
     /// This can lead to invalid memory access in downstream code.
     </span><span class="kw">pub unsafe fn </span>cast_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, dtype: <span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
         <span class="kw">match </span><span class="self">self</span>.dtype() {
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
+            </span>DataType::Struct(<span class="kw">_</span>) =&gt; {
+                <span class="kw">let </span>ca = <span class="self">self</span>.struct_().unwrap();
+                ca.cast_unchecked(dtype)
+            }
+            DataType::List(<span class="kw">_</span>) =&gt; {
+                <span class="kw">let </span>ca = <span class="self">self</span>.list().unwrap();
+                ca.cast_unchecked(dtype)
+            }
             dt <span class="kw">if </span>dt.is_numeric() =&gt; {
                 <span class="macro">with_match_physical_numeric_polars_type!</span>(dt, |<span class="macro-nonterminal">$T</span>| {
                     <span class="kw">let </span>ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;<span class="macro-nonterminal">$T</span>&gt; = <span class="self">self</span>.as_ref().as_ref().as_ref();
@@ -1662,7 +1687,7 @@
         <span class="kw">if </span><span class="self">self</span>.is_empty()
             &amp;&amp; (<span class="self">self</span>.dtype().is_numeric() || <span class="macro">matches!</span>(<span class="self">self</span>.dtype(), DataType::Boolean))
         {
-            <span class="kw">return </span>Series::new(<span class="string">&quot;&quot;</span>, [<span class="number">0</span>])
+            <span class="kw">return </span>Series::new(<span class="self">self</span>.name(), [<span class="number">0</span>])
                 .cast(<span class="self">self</span>.dtype())
                 .unwrap()
                 .sum_as_series();
@@ -1839,8 +1864,15 @@
     </span><span class="kw">pub fn </span>strict_cast(<span class="kw-2">&amp;</span><span class="self">self</span>, dtype: <span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;Series&gt; {
         <span class="kw">let </span>null_count = <span class="self">self</span>.null_count();
         <span class="kw">let </span>len = <span class="self">self</span>.len();
-        <span class="kw">if </span>null_count == len {
-            <span class="kw">return </span><span class="prelude-val">Ok</span>(Series::full_null(<span class="self">self</span>.name(), len, dtype));
+
+        <span class="kw">match </span><span class="self">self</span>.dtype() {
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
+            </span>DataType::Struct(<span class="kw">_</span>) =&gt; {}
+            <span class="kw">_ </span>=&gt; {
+                <span class="kw">if </span>null_count == len {
+                    <span class="kw">return </span><span class="prelude-val">Ok</span>(Series::full_null(<span class="self">self</span>.name(), len, dtype));
+                }
+            }
         }
         <span class="kw">let </span>s = <span class="self">self</span>.<span class="number">0</span>.cast(dtype)<span class="question-mark">?</span>;
         <span class="kw">if </span>null_count != s.null_count() {

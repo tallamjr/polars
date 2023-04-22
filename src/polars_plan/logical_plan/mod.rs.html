@@ -290,13 +290,8 @@
 <a href="#290" id="290">290</a>
 <a href="#291" id="291">291</a>
 <a href="#292" id="292">292</a>
-<a href="#293" id="293">293</a>
-<a href="#294" id="294">294</a>
-<a href="#295" id="295">295</a>
-<a href="#296" id="296">296</a>
-<a href="#297" id="297">297</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::Debug;
-<span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;csv-file&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>))]
+<span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;csv&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>))]
 </span><span class="kw">use </span>std::path::PathBuf;
 <span class="kw">use </span>std::sync::{Arc, Mutex};
 
@@ -342,12 +337,7 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
 
-<span class="attr">#[cfg(any(
-    feature = <span class="string">&quot;ipc&quot;</span>,
-    feature = <span class="string">&quot;parquet&quot;</span>,
-    feature = <span class="string">&quot;csv-file&quot;</span>,
-    feature = <span class="string">&quot;cse&quot;
-</span>))]
+<span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>, feature = <span class="string">&quot;csv&quot;</span>, feature = <span class="string">&quot;cse&quot;</span>))]
 </span><span class="kw">pub use </span><span class="kw">crate</span>::logical_plan::optimizer::file_caching::{
     collect_fingerprints, find_column_union_and_fingerprints, FileCacher, FileFingerPrint,
 };
@@ -456,7 +446,7 @@
         count: usize,
     },
     <span class="doccomment">/// Scan a CSV file
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+    </span><span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
     </span>CsvScan {
         path: PathBuf,
         file_info: FileInfo,

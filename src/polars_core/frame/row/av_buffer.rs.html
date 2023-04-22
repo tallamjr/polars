@@ -617,6 +617,9 @@
 <a href="#617" id="617">617</a>
 <a href="#618" id="618">618</a>
 <a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a>
+<a href="#622" id="622">622</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">use </span>polars_utils::slice::GetSaferUnchecked;
 <span class="kw">use </span>polars_utils::unreachable_unchecked_release;
@@ -910,7 +913,7 @@
     }
 }
 
-<span class="comment">//// An `AnyValyeBuffer` that should be used when we trust the builder
+<span class="doccomment">/// An `AnyValyeBuffer` that should be used when we trust the builder
 </span><span class="attr">#[derive(Clone)]
 </span><span class="kw">pub enum </span>AnyValueBufferTrusted&lt;<span class="lifetime">&#39;a</span>&gt; {
     Boolean(BooleanChunkedBuilder),
@@ -1083,7 +1086,6 @@
                     }
                     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
                     </span>Struct(builders) =&gt; {
-                        <span class="macro">dbg!</span>(<span class="kw-2">&amp;</span>val);
                         <span class="kw">let </span>AnyValue::Struct(idx, arr, fields) = val <span class="kw">else </span>{ <span class="macro">unreachable_unchecked_release!</span>() };
                         <span class="kw">let </span>arrays = arr.values();
                         <span class="comment">// amortize loop counter
@@ -1189,7 +1191,11 @@
                     .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
                 StructChunked::new(<span class="string">&quot;&quot;</span>, <span class="kw-2">&amp;</span>v).unwrap().into_series()
             }
-            All(dtype, vals) =&gt; Series::from_any_values_and_dtype(<span class="string">&quot;&quot;</span>, vals, dtype, <span class="bool-val">false</span>).unwrap(),
+            All(dtype, vals) =&gt; {
+                <span class="kw">let </span><span class="kw-2">mut </span>swap_vals = Vec::with_capacity(capacity);
+                std::mem::swap(vals, <span class="kw-2">&amp;mut </span>swap_vals);
+                Series::from_any_values_and_dtype(<span class="string">&quot;&quot;</span>, <span class="kw-2">&amp;</span>swap_vals, dtype, <span class="bool-val">false</span>).unwrap()
+            }
         }
     }
 

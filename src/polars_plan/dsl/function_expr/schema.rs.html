@@ -308,6 +308,14 @@
 <a href="#308" id="308">308</a>
 <a href="#309" id="309">309</a>
 <a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">impl </span>FunctionExpr {
@@ -325,7 +333,7 @@
             </span>Abs =&gt; mapper.with_same_dtype(),
             NullCount =&gt; mapper.with_dtype(IDX_DTYPE),
             Pow =&gt; mapper.map_to_float_dtype(),
-            Coalesce =&gt; mapper.map_to_list_supertype(),
+            Coalesce =&gt; mapper.map_to_supertype(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;row_hash&quot;</span>)]
             </span>Hash(..) =&gt; mapper.with_dtype(DataType::UInt64),
             <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
@@ -360,11 +368,19 @@
                     Truncate(..) =&gt; mapper.with_same_dtype().unwrap().dtype,
                     Round(..) =&gt; mapper.with_same_dtype().unwrap().dtype,
                     <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-                    </span>CastTimezone(tz) =&gt; <span class="kw">return </span>mapper.map_datetime_dtype_timezone(tz.as_ref()),
+                    </span>CastTimezone(tz, _use_earliest) =&gt; {
+                        <span class="kw">return </span>mapper.map_datetime_dtype_timezone(tz.as_ref())
+                    }
                     <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
                     </span>TzLocalize(tz) =&gt; <span class="kw">return </span>mapper.map_datetime_dtype_timezone(<span class="prelude-val">Some</span>(tz)),
                     DateRange { .. } =&gt; <span class="kw">return </span>mapper.map_to_supertype(),
-                    Combine(tu) =&gt; DataType::Datetime(<span class="kw-2">*</span>tu, <span class="prelude-val">None</span>),
+                    Combine(tu) =&gt; <span class="kw">match </span>mapper.with_same_dtype().unwrap().dtype {
+                        DataType::Datetime(<span class="kw">_</span>, tz) =&gt; DataType::Datetime(<span class="kw-2">*</span>tu, tz),
+                        DataType::Date =&gt; DataType::Datetime(<span class="kw-2">*</span>tu, <span class="prelude-val">None</span>),
+                        dtype =&gt; {
+                            <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;expected Date or Datetime, got {}&quot;</span>, dtype)
+                        }
+                    },
                 };
                 mapper.with_dtype(dtype)
             }

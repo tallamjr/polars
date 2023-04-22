@@ -777,12 +777,7 @@
 <a href="#777" id="777">777</a>
 <a href="#778" id="778">778</a>
 <a href="#779" id="779">779</a>
-<a href="#780" id="780">780</a>
-<a href="#781" id="781">781</a>
-<a href="#782" id="782">782</a>
-<a href="#783" id="783">783</a>
-<a href="#784" id="784">784</a>
-</pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+</pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
 </span><span class="kw">use </span>std::io::{Read, Seek};
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;parquet&quot;</span>)]
@@ -796,9 +791,9 @@
 </span><span class="kw">use </span>polars_io::parquet::ParquetAsyncReader;
 <span class="attr">#[cfg(feature = <span class="string">&quot;parquet&quot;</span>)]
 </span><span class="kw">use </span>polars_io::parquet::ParquetReader;
-<span class="attr">#[cfg(any(feature = <span class="string">&quot;parquet&quot;</span>, feature = <span class="string">&quot;parquet_async&quot;</span>, feature = <span class="string">&quot;csv-file&quot;</span>))]
+<span class="attr">#[cfg(any(feature = <span class="string">&quot;parquet&quot;</span>, feature = <span class="string">&quot;parquet_async&quot;</span>, feature = <span class="string">&quot;csv&quot;</span>))]
 </span><span class="kw">use </span>polars_io::RowCount;
-<span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
 </span><span class="kw">use </span>polars_io::{
     csv::utils::{get_reader_bytes, infer_file_schema, is_compressed},
     csv::CsvEncoding,
@@ -984,7 +979,7 @@
     }
 
     <span class="attr">#[allow(clippy::too_many_arguments)]
-    #[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
+    #[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
     </span><span class="kw">pub fn </span>scan_csv&lt;P: Into&lt;std::path::PathBuf&gt;&gt;(
         path: P,
         delimiter: u8,
@@ -1119,12 +1114,7 @@
         <span class="kw">let </span>schema = <span class="macro">try_delayed!</span>(<span class="self">self</span>.<span class="number">0</span>.schema(), <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, into);
         <span class="kw">let </span>exprs = schema
             .iter_names()
-            .map(|name| {
-                when(col(name).is_null())
-                    .then(fill_value.clone())
-                    .otherwise(col(name))
-                    .alias(name)
-            })
+            .map(|name| col(name).fill_null(fill_value.clone()))
             .collect();
         <span class="self">self</span>.project_local(exprs)
     }
@@ -1522,11 +1512,11 @@
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>det_melt_schema(args: <span class="kw-2">&amp;</span>MeltArgs, input_schema: <span class="kw-2">&amp;</span>Schema) -&gt; SchemaRef {
-    <span class="kw">let </span><span class="kw-2">mut </span>new_schema = Schema::from(
-        args.id_vars
-            .iter()
-            .map(|id| Field::new(id, input_schema.get(id).unwrap().clone())),
-    );
+    <span class="kw">let </span><span class="kw-2">mut </span>new_schema = args
+        .id_vars
+        .iter()
+        .map(|id| Field::new(id, input_schema.get(id).unwrap().clone()))
+        .collect::&lt;Schema&gt;();
     <span class="kw">let </span>variable_name = args
         .variable_name
         .as_ref()

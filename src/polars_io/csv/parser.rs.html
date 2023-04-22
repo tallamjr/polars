@@ -1034,7 +1034,7 @@
                                 .map_err(|<span class="kw">_</span>| {
                                     <span class="kw">let </span>bytes_offset = offset + field.as_ptr() <span class="kw">as </span>usize - start;
                                     <span class="kw">let </span>unparsable = String::from_utf8_lossy(field);
-                                    <span class="kw">let </span>column_name = schema.get_index(idx <span class="kw">as </span>usize).unwrap().<span class="number">0</span>;
+                                    <span class="kw">let </span>column_name = schema.get_at_index(idx <span class="kw">as </span>usize).unwrap().<span class="number">0</span>;
                                     <span class="macro">polars_err!</span>(
                                         ComputeError:
                                         <span class="string">&quot;Could not parse `{}` as dtype `{}` at column &#39;{}&#39; (column number {}).\n\

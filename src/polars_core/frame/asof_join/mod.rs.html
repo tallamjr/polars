@@ -199,6 +199,8 @@
 <a href="#199" id="199">199</a>
 <a href="#200" id="200">200</a>
 <a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>asof;
 <span class="kw">mod </span>groups;
 <span class="kw">use </span>std::borrow::Cow;
@@ -210,7 +212,7 @@
 <span class="kw">use </span>smartstring::alias::String <span class="kw">as </span>SmartString;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">crate</span>::utils::slice_slice;
+<span class="kw">use </span><span class="kw">crate</span>::utils::{ensure_sorted_arg, slice_slice};
 
 <span class="attr">#[derive(Clone, Debug, PartialEq, Eq, Default)]
 #[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
@@ -240,6 +242,8 @@
         a.null_count() == <span class="number">0 </span>&amp;&amp; b.null_count() == <span class="number">0</span>,
         ComputeError: <span class="string">&quot;asof join must not have null values in &#39;on&#39; arguments&quot;
     </span>);
+    ensure_sorted_arg(a);
+    ensure_sorted_arg(b);
     <span class="prelude-val">Ok</span>(())
 }
 

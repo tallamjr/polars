@@ -309,16 +309,16 @@
             })
             .collect_trusted()
     };
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(err) = err {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(err);
+    }
 
     ca.rename(s.name());
 
     <span class="kw">if </span>ca.dtype() != output_field.data_type() {
         ca.cast(output_field.data_type()).map(<span class="prelude-val">Some</span>)
     } <span class="kw">else </span>{
-        <span class="kw">match </span>err {
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(ca.into_series())),
-            <span class="prelude-val">Some</span>(e) =&gt; <span class="prelude-val">Err</span>(e),
-        }
+        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(ca.into_series()))
     }
 }
 

@@ -757,7 +757,6 @@
 <a href="#757" id="757">757</a>
 <a href="#758" id="758">758</a>
 <a href="#759" id="759">759</a>
-<a href="#760" id="760">760</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! The typed heart of every Series column.
 </span><span class="kw">use </span>std::iter::Map;
 <span class="kw">use </span>std::marker::PhantomData;
@@ -805,6 +804,7 @@
 <span class="kw">use </span>std::slice::Iter;
 
 <span class="kw">use </span>bitflags::bitflags;
+<span class="kw">use </span>polars_arrow::kernels::concatenate::concatenate_owned_unchecked;
 <span class="kw">use </span>polars_arrow::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
@@ -996,14 +996,7 @@
 
     <span class="doccomment">/// Shrink the capacity of this array to fit its length.
     </span><span class="kw">pub fn </span>shrink_to_fit(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="self">self</span>.chunks = <span class="macro">vec!</span>[arrow::compute::concatenate::concatenate(
-            <span class="self">self</span>.chunks
-                .iter()
-                .map(|a| <span class="kw-2">&amp;**</span>a)
-                .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
-                .as_slice(),
-        )
-        .unwrap()];
+        <span class="self">self</span>.chunks = <span class="macro">vec!</span>[concatenate_owned_unchecked(<span class="self">self</span>.chunks.as_slice()).unwrap()];
     }
 
     <span class="doccomment">/// Unpack a Series to the same physical type.
@@ -1105,6 +1098,11 @@
     <span class="doccomment">/// Get data type of ChunkedArray.
     </span><span class="kw">pub fn </span>dtype(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>DataType {
         <span class="self">self</span>.field.data_type()
+    }
+
+    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>set_dtype(<span class="kw-2">&amp;mut </span><span class="self">self</span>, dtype: DataType) {
+        <span class="self">self</span>.field = Arc::new(Field::new(<span class="self">self</span>.name(), dtype))
     }
 
     <span class="doccomment">/// Name of the ChunkedArray.
