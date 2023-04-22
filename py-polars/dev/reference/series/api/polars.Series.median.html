@@ -401,6 +401,7 @@ document.write(`
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../aggregation.html">Aggregation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.arg_max.html">polars.Series.arg_max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.arg_min.html">polars.Series.arg_min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Series.implode.html">polars.Series.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.max.html">polars.Series.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.mean.html">polars.Series.mean</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Series.median</a></li>
@@ -513,6 +514,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.is_float.html">polars.Series.is_float</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.is_in.html">polars.Series.is_in</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.is_infinite.html">polars.Series.is_infinite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Series.is_integer.html">polars.Series.is_integer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.is_nan.html">polars.Series.is_nan</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.is_not_nan.html">polars.Series.is_not_nan</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.is_not_null.html">polars.Series.is_not_null</a></li>
@@ -1533,7 +1535,7 @@ document.write(`
 <h1>polars.Series.median<a class="headerlink" href="#polars-series-median" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.median">
-<span class="sig-prename descclassname"><span class="pre">Series.</span></span><span class="sig-name descname"><span class="pre">median</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/series.py#L1453-L1464"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.median" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.</span></span><span class="sig-name descname"><span class="pre">median</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/series.py#L1455-L1466"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.median" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the median of this Series.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>

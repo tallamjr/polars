@@ -401,6 +401,7 @@ document.write(`
 <li class="toctree-l2 has-children"><a class="reference internal" href="../aggregation.html">Aggregation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.arg_max.html">polars.Series.arg_max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.arg_min.html">polars.Series.arg_min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Series.implode.html">polars.Series.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.max.html">polars.Series.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.mean.html">polars.Series.mean</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.median.html">polars.Series.median</a></li>
@@ -513,6 +514,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.is_float.html">polars.Series.is_float</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.is_in.html">polars.Series.is_in</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.is_infinite.html">polars.Series.is_infinite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Series.is_integer.html">polars.Series.is_integer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.is_nan.html">polars.Series.is_nan</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.is_not_nan.html">polars.Series.is_not_nan</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.is_not_null.html">polars.Series.is_not_null</a></li>
@@ -1533,7 +1535,7 @@ document.write(`
 <h1>polars.Series.dt.replace_time_zone<a class="headerlink" href="#polars-series-dt-replace-time-zone" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.dt.replace_time_zone">
-<span class="sig-prename descclassname"><span class="pre">Series.dt.</span></span><span class="sig-name descname"><span class="pre">replace_time_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_zone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/datetime.py#L1088-L1159"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.dt.replace_time_zone" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.dt.</span></span><span class="sig-name descname"><span class="pre">replace_time_zone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_zone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_earliest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/datetime.py#L1095-L1188"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.dt.replace_time_zone" title="Permalink to this definition">#</a></dt>
 <dd><p>Replace time zone for a Series of type Datetime.</p>
 <p>Different from <code class="docutils literal notranslate"><span class="pre">convert_time_zone</span></code>, this will also modify
 the underlying timestamp and will ignore the original time zone.</p>
@@ -1542,66 +1544,86 @@ the underlying timestamp and will ignore the original time zone.</p>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>time_zone</strong></dt><dd><p>Time zone for the <cite>Datetime</cite> Series. Pass <cite>None</cite> to unset time zone.</p>
 </dd>
+<dt><strong>use_earliest</strong></dt><dd><p>If localizing an ambiguous datetime (say, due to daylight saving time),
+determine whether to localize to the earliest datetime or not.
+If None (the default), then ambiguous datetimes will raise.</p>
+</dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">stop</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="s2">&quot;1mo&quot;</span><span class="p">,</span> <span class="n">time_zone</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span>
-<span class="go">shape: (3,)</span>
-<span class="go">Series: &#39;&#39; [datetime[μs, UTC]]</span>
-<span class="go">[</span>
-<span class="go">        2020-03-01 00:00:00 UTC</span>
-<span class="go">        2020-04-01 00:00:00 UTC</span>
-<span class="go">        2020-05-01 00:00:00 UTC</span>
-<span class="go">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">epoch</span><span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
-<span class="go">shape: (3,)</span>
-<span class="go">Series: &#39;&#39; [i64]</span>
-<span class="go">[</span>
-<span class="go">        1583020800</span>
-<span class="go">        1585699200</span>
-<span class="go">        1588291200</span>
-<span class="go">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">convert_time_zone</span><span class="p">(</span><span class="n">time_zone</span><span class="o">=</span><span class="s2">&quot;Europe/London&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;London&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span>
-<span class="go">shape: (3,)</span>
-<span class="go">Series: &#39;London&#39; [datetime[μs, Europe/London]]</span>
-<span class="go">[</span>
-<span class="go">    2020-03-01 00:00:00 GMT</span>
-<span class="go">    2020-04-01 01:00:00 BST</span>
-<span class="go">    2020-05-01 01:00:00 BST</span>
-<span class="go">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Timestamps have not changed after convert_time_zone</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">epoch</span><span class="p">(</span><span class="n">time_unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
-<span class="go">shape: (3,)</span>
-<span class="go">Series: &#39;London&#39; [i64]</span>
-<span class="go">[</span>
-<span class="go">        1583020800</span>
-<span class="go">        1585699200</span>
-<span class="go">        1588291200</span>
-<span class="go">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">replace_time_zone</span><span class="p">(</span><span class="n">time_zone</span><span class="o">=</span><span class="s2">&quot;America/New_York&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;NYC&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span>
-<span class="go">shape: (3,)</span>
-<span class="go">Series: &#39;NYC&#39; [datetime[μs, America/New_York]]</span>
-<span class="go">[</span>
-<span class="go">    2020-03-01 00:00:00 EST</span>
-<span class="go">    2020-04-01 01:00:00 EDT</span>
-<span class="go">    2020-05-01 01:00:00 EDT</span>
-<span class="go">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Timestamps have changed after replace_time_zone</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">epoch</span><span class="p">(</span><span class="n">time_unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
-<span class="go">shape: (3,)</span>
-<span class="go">Series: &#39;NYC&#39; [i64]</span>
-<span class="go">[</span>
-<span class="go">    1583038800</span>
-<span class="go">    1585717200</span>
-<span class="go">    1588309200</span>
-<span class="go">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">&quot;london_timezone&quot;</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span>
+<span class="gp">... </span>            <span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="s2">&quot;1mo&quot;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">time_zone</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">convert_time_zone</span><span class="p">(</span><span class="n">time_zone</span><span class="o">=</span><span class="s2">&quot;Europe/London&quot;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">}</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[</span>
+<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;london_timezone&quot;</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;london_timezone&quot;</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">replace_time_zone</span><span class="p">(</span><span class="n">time_zone</span><span class="o">=</span><span class="s2">&quot;Europe/Amsterdam&quot;</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;London_to_Amsterdam&quot;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">]</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">shape: (5, 2)</span>
+<span class="go">┌─────────────────────────────┬────────────────────────────────┐</span>
+<span class="go">│ london_timezone             ┆ London_to_Amsterdam            │</span>
+<span class="go">│ ---                         ┆ ---                            │</span>
+<span class="go">│ datetime[μs, Europe/London] ┆ datetime[μs, Europe/Amsterdam] │</span>
+<span class="go">╞═════════════════════════════╪════════════════════════════════╡</span>
+<span class="go">│ 2020-03-01 00:00:00 GMT     ┆ 2020-03-01 00:00:00 CET        │</span>
+<span class="go">│ 2020-04-01 01:00:00 BST     ┆ 2020-04-01 01:00:00 CEST       │</span>
+<span class="go">│ 2020-05-01 01:00:00 BST     ┆ 2020-05-01 01:00:00 CEST       │</span>
+<span class="go">│ 2020-06-01 01:00:00 BST     ┆ 2020-06-01 01:00:00 CEST       │</span>
+<span class="go">│ 2020-07-01 01:00:00 BST     ┆ 2020-07-01 01:00:00 CEST       │</span>
+<span class="go">└─────────────────────────────┴────────────────────────────────┘</span>
+</pre></div>
+</div>
+<p>You can use <cite>use_earliest</cite> to deal with ambiguous datetimes:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="s2">&quot;2018-10-28 01:30&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;2018-10-28 02:00&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;2018-10-28 02:30&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;2018-10-28 02:00&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;2018-10-28 02:30&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">&quot;ts&quot;</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Datetime</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="s2">&quot;DST&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">}</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">ts_localized</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;DST&quot;</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">then</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;ts&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">replace_time_zone</span><span class="p">(</span>
+<span class="gp">... </span>            <span class="s2">&quot;Europe/Brussels&quot;</span><span class="p">,</span> <span class="n">use_earliest</span><span class="o">=</span><span class="kc">True</span>
+<span class="gp">... </span>        <span class="p">)</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">otherwise</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;ts&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">replace_time_zone</span><span class="p">(</span>
+<span class="gp">... </span>            <span class="s2">&quot;Europe/Brussels&quot;</span><span class="p">,</span> <span class="n">use_earliest</span><span class="o">=</span><span class="kc">False</span>
+<span class="gp">... </span>        <span class="p">)</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">shape: (5, 3)</span>
+<span class="go">┌─────────────────────┬───────┬───────────────────────────────┐</span>
+<span class="go">│ ts                  ┆ DST   ┆ ts_localized                  │</span>
+<span class="go">│ ---                 ┆ ---   ┆ ---                           │</span>
+<span class="go">│ datetime[μs]        ┆ bool  ┆ datetime[μs, Europe/Brussels] │</span>
+<span class="go">╞═════════════════════╪═══════╪═══════════════════════════════╡</span>
+<span class="go">│ 2018-10-28 01:30:00 ┆ true  ┆ 2018-10-28 01:30:00 CEST      │</span>
+<span class="go">│ 2018-10-28 02:00:00 ┆ true  ┆ 2018-10-28 02:00:00 CEST      │</span>
+<span class="go">│ 2018-10-28 02:30:00 ┆ true  ┆ 2018-10-28 02:30:00 CEST      │</span>
+<span class="go">│ 2018-10-28 02:00:00 ┆ false ┆ 2018-10-28 02:00:00 CET       │</span>
+<span class="go">│ 2018-10-28 02:30:00 ┆ false ┆ 2018-10-28 02:30:00 CET       │</span>
+<span class="go">└─────────────────────┴───────┴───────────────────────────────┘</span>
 </pre></div>
 </div>
 </dd></dl>

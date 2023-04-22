@@ -401,6 +401,7 @@ document.write(`
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../series/aggregation.html">Aggregation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.arg_max.html">polars.Series.arg_max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.arg_min.html">polars.Series.arg_min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.implode.html">polars.Series.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.max.html">polars.Series.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.mean.html">polars.Series.mean</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.median.html">polars.Series.median</a></li>
@@ -513,6 +514,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.is_float.html">polars.Series.is_float</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.is_in.html">polars.Series.is_in</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.is_infinite.html">polars.Series.is_infinite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.is_integer.html">polars.Series.is_integer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.is_nan.html">polars.Series.is_nan</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.is_not_nan.html">polars.Series.is_not_nan</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.is_not_null.html">polars.Series.is_not_null</a></li>
@@ -1533,7 +1535,7 @@ document.write(`
 <h1>polars.Expr.dt.offset_by<a class="headerlink" href="#polars-expr-dt-offset-by" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.dt.offset_by">
-<span class="sig-prename descclassname"><span class="pre">Expr.dt.</span></span><span class="sig-name descname"><span class="pre">offset_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/datetime.py#L1604-L1664"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.dt.offset_by" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.dt.</span></span><span class="sig-name descname"><span class="pre">offset_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/datetime.py#L1651-L1732"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.dt.offset_by" title="Permalink to this definition">#</a></dt>
 <dd><p>Offset this date by a relative time offset.</p>
 <p>This differs from <code class="docutils literal notranslate"><span class="pre">pl.col(&quot;foo&quot;)</span> <span class="pre">+</span> <span class="pre">timedelta</span></code> in that it can
 take months and leap years into account. Note that only a single minus
@@ -1592,6 +1594,28 @@ sign is allowed in the <code class="docutils literal notranslate"><span class="p
 <span class="go">│ 2005-01-01 00:00:00 ┆ 2002-11-01 00:00:00 │</span>
 <span class="go">│ 2006-01-01 00:00:00 ┆ 2003-11-01 00:00:00 │</span>
 <span class="go">└─────────────────────┴─────────────────────┘</span>
+</pre></div>
+</div>
+<p>To get to the end of each month, combine with <cite>truncate</cite>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;dates&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">truncate</span><span class="p">(</span><span class="s2">&quot;1mo&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">offset_by</span><span class="p">(</span><span class="s2">&quot;1mo&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">offset_by</span><span class="p">(</span><span class="s2">&quot;-1d&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">shape: (6, 1)</span>
+<span class="go">┌─────────────────────┐</span>
+<span class="go">│ dates               │</span>
+<span class="go">│ ---                 │</span>
+<span class="go">│ datetime[μs]        │</span>
+<span class="go">╞═════════════════════╡</span>
+<span class="go">│ 2000-01-31 00:00:00 │</span>
+<span class="go">│ 2001-01-31 00:00:00 │</span>
+<span class="go">│ 2002-01-31 00:00:00 │</span>
+<span class="go">│ 2003-01-31 00:00:00 │</span>
+<span class="go">│ 2004-01-31 00:00:00 │</span>
+<span class="go">│ 2005-01-31 00:00:00 │</span>
+<span class="go">└─────────────────────┘</span>
 </pre></div>
 </div>
 </dd></dl>

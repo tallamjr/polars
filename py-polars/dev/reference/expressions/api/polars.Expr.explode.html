@@ -401,6 +401,7 @@ document.write(`
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../series/aggregation.html">Aggregation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.arg_max.html">polars.Series.arg_max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.arg_min.html">polars.Series.arg_min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.implode.html">polars.Series.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.max.html">polars.Series.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.mean.html">polars.Series.mean</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.median.html">polars.Series.median</a></li>
@@ -513,6 +514,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.is_float.html">polars.Series.is_float</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.is_in.html">polars.Series.is_in</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.is_infinite.html">polars.Series.is_infinite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.is_integer.html">polars.Series.is_integer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.is_nan.html">polars.Series.is_nan</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.is_not_nan.html">polars.Series.is_not_nan</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.is_not_null.html">polars.Series.is_not_null</a></li>
@@ -1533,13 +1535,9 @@ document.write(`
 <h1>polars.Expr.explode<a class="headerlink" href="#polars-expr-explode" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.explode">
-<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">explode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L3440-L3467"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.explode" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">explode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L3439-L3455"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.explode" title="Permalink to this definition">#</a></dt>
 <dd><p>Explode a list or utf8 Series.</p>
 <p>This means that every item is expanded to a new row.</p>
-<div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 0.15.16: </span><cite>Expr.explode</cite> will be removed in favour of <cite>Expr.arr.explode</cite> and
-<cite>Expr.str.explode</cite>.</p>
-</div>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
