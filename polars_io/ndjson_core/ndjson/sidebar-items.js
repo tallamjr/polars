@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["arrow_ndjson"],"struct":["JsonLineReader","StructArray"]};

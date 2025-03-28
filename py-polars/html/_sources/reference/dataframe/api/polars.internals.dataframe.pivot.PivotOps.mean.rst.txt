@@ -1,0 +1,6 @@
+﻿polars.internals.dataframe.pivot.PivotOps.mean
+==============================================
+
+.. currentmodule:: polars.internals.dataframe.pivot
+
+.. automethod:: PivotOps.mean

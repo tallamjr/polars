@@ -1,0 +1,6 @@
+﻿polars.internals.dataframe.groupby.GroupBy.sum
+==============================================
+
+.. currentmodule:: polars.internals.dataframe.groupby
+
+.. automethod:: GroupBy.sum

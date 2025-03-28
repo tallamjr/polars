@@ -1,0 +1,6 @@
+﻿polars.Expr.arr.concat
+======================
+
+.. currentmodule:: polars
+
+.. autoaccessormethod:: Expr.arr.concat

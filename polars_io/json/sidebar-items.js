@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["JsonFormat"],"mod":["json"],"struct":["JsonReader","JsonWriter"],"type":["ArrowResult"]};

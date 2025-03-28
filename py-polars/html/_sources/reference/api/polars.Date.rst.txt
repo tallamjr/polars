@@ -1,0 +1,23 @@
+﻿polars.Date
+===========
+
+.. currentmodule:: polars
+
+.. autoclass:: Date
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Date.__init__
+      ~Date.string_repr
+   
+   
+
+   
+   
+   

@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"simd_json":[["impl&lt;'value&gt; <a class=\"trait\" href=\"simd_json/value/trait.Writable.html\" title=\"trait simd_json::value::Writable\">Writable</a> for <a class=\"enum\" href=\"simd_json/value/borrowed/enum.Value.html\" title=\"enum simd_json::value::borrowed::Value\">Value</a>&lt;'value&gt;"],["impl <a class=\"trait\" href=\"simd_json/value/trait.Writable.html\" title=\"trait simd_json::value::Writable\">Writable</a> for <a class=\"enum\" href=\"simd_json/value/owned/enum.Value.html\" title=\"enum simd_json::value::owned::Value\">Value</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

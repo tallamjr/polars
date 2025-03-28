@@ -1,0 +1,6 @@
+﻿polars.get\_idx\_type
+=====================
+
+.. currentmodule:: polars
+
+.. autofunction:: get_idx_type

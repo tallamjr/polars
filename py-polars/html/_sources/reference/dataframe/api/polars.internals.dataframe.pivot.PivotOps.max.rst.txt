@@ -1,0 +1,6 @@
+﻿polars.internals.dataframe.pivot.PivotOps.max
+=============================================
+
+.. currentmodule:: polars.internals.dataframe.pivot
+
+.. automethod:: PivotOps.max
