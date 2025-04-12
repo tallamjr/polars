@@ -1,0 +1,6 @@
+﻿polars.Expr.dt.tz_localize
+==========================
+
+.. currentmodule:: polars
+
+.. autoaccessormethod:: Expr.dt.tz_localize

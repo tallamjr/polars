@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["fmt","write","write_to_ptr","write_to_string","write_to_vec"],"trait":["Integer"]};

@@ -1,0 +1,6 @@
+﻿polars.cut
+==========
+
+.. currentmodule:: polars
+
+.. autofunction:: cut

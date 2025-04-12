@@ -1,0 +1,6 @@
+﻿polars.LazyFrame.cleared
+========================
+
+.. currentmodule:: polars
+
+.. automethod:: LazyFrame.cleared
